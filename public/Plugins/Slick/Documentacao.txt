@@ -1,0 +1,52 @@
+################################################
+## Fonte: http://kenwheeler.github.io/slick   ##
+
+
+################################################
+## Parâmetros disponíveis					  ##
+
+accessibility:		true			// Enables tabbing and arrow key navigation
+adaptiveHeight:		false			// Enables adaptive height for single slide horizontal carousels.
+autoplay:			false			// Enables Autoplay
+autoplaySpeed:		3000			// Autoplay Speed in milliseconds
+arrows:				true			// Prev/Next Arrows
+asNavFor:			null			// Set the slider to be the navigation of other slider (Class or ID Name)
+appendArrows:		$(element)		// Change where the navigation arrows are attached (Selector, htmlString, Array, Element, jQuery object)
+centerMode:			false			// Enables centered view with partial prev/next slides. Use with odd numbered slidesToShow counts.
+centerPadding:		'50px'			// Side padding when in center mode (px or %)
+cssEase:			'ease'			// CSS3 Animation Easing
+customPaging:		n/a				// Custom paging templates. See source for use example.
+dots:				false			// Show dot indicators
+draggable:			true			// Enable mouse dragging
+fade:				false			// Enable fade
+focusOnSelect:		false			// Enable focus on selected element (click)
+easing:				'linear'		// Add easing for jQuery animate. Use with easing libraries or default easing methods
+edgeFriction:		0.15			// Resistance when swiping edges of non-infinite carousels
+infinite:			true			// Infinite loop sliding
+initialSlide:		0				// Slide to start on
+lazyLoad:			'ondemand'		// Set lazy loading technique. Accepts 'ondemand' or 'progressive'
+mobileFirst:		false			// Responsive settings use mobile first calculation
+pauseOnHover:		true			// Pause Autoplay On Hover
+pauseOnDotsHover:	false			// Pause Autoplay when a dot is hovered
+respondTo:			'window'		// Width that responsive object responds to. Can be 'window', 'slider' or 'min' (the smaller of the two)
+responsive:			none			// Object containing breakpoints and settings objects (see demo). Enables settings sets at given screen width. Set settings to "unslick" instead of an object to disable slick at a given breakpoint.
+rows:				1				// Setting this to more than 1 initializes grid mode. Use slidesPerRow to set how many slides should be in each row.
+slide:				''				// Element query to use as slide
+slidesPerRow:		1				// With grid mode intialized via the rows option, this sets how many slides are in each grid row. dver
+slidesToShow:		1				// Number of slides to show
+slidesToScroll:		1				// Number of slides to scroll
+speed:				300				// Slide/Fade animation speed
+swipe:				true			// Enable swiping
+swipeToSlide:		false			// Allow users to drag or swipe directly to a slide irrespective of slidesToScroll
+touchMove:			true			// Enable slide motion with touch
+touchThreshold:		5				// To advance slides, the user must swipe a length of (1/touchThreshold) * the width of the slider
+useCSS:				true			// Enable/Disable CSS Transitions
+variableWidth:		false			// Variable width slides
+vertical:			false			// Vertical slide mode
+verticalSwiping:	false			// Vertical swipe mode
+rtl:				false			// Change the slider's direction to become right-to-left
+
+prevArrow:			'<button type="button" class="slick-prev">Previous</button>'		// Allows you to select a node or customize the HTML for the "Previous" arrow.
+nextArrow:			'<button type="button" class="slick-next">Next</button>'			// Allows you to select a node or customize the HTML for the "Next" arrow.
+
+################################################

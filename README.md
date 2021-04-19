@@ -1,19 +1,3 @@
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## TELO5-Project
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-* This project is being developed and led by me in my internship.  This project will be a bag of tools and functionalities within the irrigation world. 
-
-![image](https://user-images.githubusercontent.com/63386178/115254183-7aac0600-a103-11eb-9b88-dea03fcbe0ac.png)
-
-![image](https://user-images.githubusercontent.com/63386178/115254203-80095080-a103-11eb-98f6-dab7f4ad1193.png)
-
-![image](https://user-images.githubusercontent.com/63386178/115254212-84356e00-a103-11eb-90fa-ea41e6f42079.png)
-
-![image](https://user-images.githubusercontent.com/63386178/115254226-87305e80-a103-11eb-8bf5-7d14ee3d6679.png)
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-## About Laravel Framework
-
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
@@ -38,7 +22,10 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
 ## Learning Laravel
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
 ## Laravel Sponsors
 
@@ -80,6 +67,6 @@ Thank you for considering contributing to the Laravel framework! The contributio
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-### License
+## License
 
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

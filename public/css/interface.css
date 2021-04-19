@@ -1,0 +1,209 @@
+/* ********************************** ************** ******************************** */
+/* ************************** INTERFACE DO IRRIGER CONNECT ************************** */
+
+/* --------------------------------------- BASE ------------------------------------- */
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+
+	margin: 0px;
+	padding: 0px;
+	
+	overflow-x: hidden;
+}
+
+.irriger-system {}
+.irriger-system #wrapper { width: 100%; }
+/* ---------------------------------------------------------------------------------- */
+
+
+
+/* -------------------------------------- HEADER ------------------------------------ */
+.irriger-system header { position: fixed; top: 0px; left: 0px; right: 0px; z-index: 1000; font-family: 'Roboto Condensed', sans-serif !important; }
+
+.irriger-system header .navbar-default { border: none; }
+.irriger-system header .navbar-default .header .nav {}
+.irriger-system header .navbar-default .header .nav li { vertical-align: top; }
+.irriger-system header .navbar-default .header .nav > li > a { padding: 18px 15px 15px 15px; height: 53px; box-sizing: border-box; display: block; cursor: pointer; }
+.irriger-system header .navbar-default .header .nav > li > a:hover, .irriger-system header .navbar-default .header .nav > li > a:focus {}
+.irriger-system header .navbar-default .header .nav > li.open > a:hover, .irriger-system header .navbar-default .header .nav > li.open > a {}
+
+.irriger-system header .navbar { margin-bottom: 0px; }
+.irriger-system header .navbar-right { margin-right: 0; }
+.irriger-system header .navbar-right li { display: inline-block; }
+.irriger-system header .navbar-right li:last-child { margin-right: 15px; }
+.irriger-system header .navbar-right li a { padding: 10px; min-height: 45px; }
+.irriger-system header .navbar-right .dropdown-menu li { display: block; }
+.irriger-system header .navbar-right .dropdown-menu li:last-child { margin-right: 0; }
+.irriger-system header .navbar-right .dropdown-menu li a { padding: 3px 7px; min-height: 0; }
+.irriger-system header .navbar-right .dropdown-menu li a div { white-space: normal; }
+
+.irriger-system header .header-menu-completo {}
+.irriger-system header .header-menu-completo i { font-size: 1.4em; padding-left: 3px; padding-right: 3px; }
+.irriger-system header .header-menu-completo > div { border-radius: 0px; border: none; padding-bottom: 0px; }
+
+.irriger-system header .header-menu-completo .menu { padding: 4px 0px 0px 0px; width: 352px; }
+.irriger-system header .header-menu-completo .menu > ul { display: block; margin: 0px; padding: 0px; list-style: none; }
+.irriger-system header .header-menu-completo .menu > ul > li { display: block; position: relative; }
+.irriger-system header .header-menu-completo .menu > ul > li > a { display: block; font-size: 1.1em; border-bottom: 1px #FFF solid; padding: 4px 15px 7px 15px; text-decoration: none; cursor: pointer; margin-bottom: 4px; transition: 0.3s; }
+.irriger-system header .header-menu-completo .menu > ul > li > a > img { display: inline-block; margin-right: 10px; width: 22px; opacity: 0.4; transition: 0.3s; }
+.irriger-system header .header-menu-completo .menu > ul > li:last-child > a { border-bottom: none; margin-bottom: 0px; }
+.irriger-system header .header-menu-completo .menu > ul > li:hover > a { color: #FFF; transition: 0.3s; }
+.irriger-system header .header-menu-completo .menu > ul > li:hover > a > img { opacity: 1.0; transition: 0.3s; }
+.irriger-system header .header-menu-completo .menu > ul > li > a > i { float: right; font-size: 1.0em; margin-top: 2px; }
+.irriger-system header .header-menu-completo .menu > ul > li.open > a { background: transparent; border: none; margin-bottom: 0px; color: #FFF; transition: 0.3s; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul { display: none; min-width: 100%; margin: 3px 0px 5px 0px; padding: 5px 15px 5px 15px; list-style: none; }
+.irriger-system header .header-menu-completo .menu > ul > li:last-child > ul { margin-bottom: 0px; }
+
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li { display: block; padding: 2px 0px 2px 0px; border-bottom: 1px rgba(255,255,255,0.15) solid; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li:last-child { border-bottom: none; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > a { display: block; padding: 2px 0px; font-size: 1.1em; color: #FFF; opacity: 0.5; text-decoration: none; cursor: pointer; transition: 0.3s; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > a > img { display: inline-block; margin-right: 10px; width: 22px; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > a > span { display: inline-block; vertical-align: middle; padding-top: 3px; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > a > i { display: inline-block; float: right; margin: 5px 0px 0px 0px; font-size: 1.0em; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > a:hover { opacity: 1.0; transition: 0.3s; }
+
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > ul { display: none; margin: 0px; padding: 0px 0px 10px 32px; list-style: none; min-width: 100%; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > ul > li { display: block; font-size: 0.95em; color: #FFF; opacity: 0.4; transition: 0.3s; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > ul > li::before { content: "\25CF"; margin-right: 6px; font-size: 1.2em; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > ul > li:hover { opacity: 1.0; transition: 0.3s; }
+.irriger-system header .header-menu-completo .menu > ul > li > ul > li > ul > li > a { text-decoration: none; color: #FFF; }
+
+
+.irriger-system header .header-fazendas { margin-right: 10px; }
+.irriger-system header .header-fazendas .fazenda { margin: -10px 0px 0px -5px; }
+.irriger-system header .header-fazendas .fazenda > img { display: block; width: 36px; float: left; margin-right: 8px; }
+.irriger-system header .header-fazendas .fazenda > span { display: inline-block; padding: 9px 0px 8px 3px; font-weight: lighter; width: 230px; }
+.irriger-system header .header-fazendas .fazenda > span > i { float: right; margin: 1px 3px 0px 0px; }
+.irriger-system header .header-fazendas .lista-fazendas { width: 299px; border-radius: 0px; border: none; padding-bottom: 0px; }
+.irriger-system header .header-fazendas .lista-fazendas .form-group { margin: 0px 0px 0px 0px; padding: 2px 15px 0px 15px; position: relative; }
+.irriger-system header .header-fazendas .lista-fazendas .form-group i { position: absolute; right: 15px; top: 12px; color: rgba(255,255,255,0.6); }
+.irriger-system header .header-fazendas .lista-fazendas .form-group input { border-radius: 0px; outline-style: none; box-shadow: none; border-color: transparent; background: transparent; border-bottom: 1px rgba(255,255,255,0.4) solid; padding: 1px 30px 1px 0px; font-weight: lighter; color: #FFF; font-size: 1.15em; } 
+.irriger-system header .header-fazendas .lista-fazendas .form-group ::-webkit-input-placeholder { color: rgba(255,255,255,0.7); }
+.irriger-system header .header-fazendas .lista-fazendas .form-group ::-moz-placeholder { color: rgba(255,255,255,0.7); }
+.irriger-system header .header-fazendas .lista-fazendas .form-group :-ms-input-placeholder { color: rgba(255,255,255,0.7); }
+.irriger-system header .header-fazendas .lista-fazendas .form-group :-moz-placeholder { color: rgba(255,255,255,0.7); }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas { margin-top: 15px; padding: 5px; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas .dropdown-header { padding: 5px 10px 0px 10px; font-size: 1.2em; text-transform: uppercase; font-weight: bold; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul { margin: 0px; padding: 0px 15px 0px 10px; list-style: none; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li { padding: 2px 5px 2px 5px; font-size: 0.95em; color: #FFF; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li a { text-decoration: none; display: block; color: #FFF; opacity: 0.5; font-weight: lighter; transition: 0.3s; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li:hover > a { opacity: 1.0; transition: 0.3s; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li.active > a { opacity: 1.0; font-weight: bold; transition: 0.3s; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li.sementeira-regiao {}
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li.sementeira-tecnico { padding: 2px 5px 2px 10px; font-size: 0.9em; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li.sementeira-tecnico a { text-decoration: none; display: block; }
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li.sementeira-tecnico:hover a {}
+.irriger-system header .header-fazendas .lista-fazendas .fazendas ul li.sementeira-tecnico.active a {}
+.irriger-system header .header-fazendas.header-segundo-seletor { margin-left: -8px; }
+
+.irriger-system header .header-fazendas.drop-sementeira .fazenda > span { width: 190px; }
+
+.irriger-system header .header-menu-rapido { position: relative; z-index: 200; }
+.irriger-system header .header-menu-rapido > a { padding-top: 12px !important; padding-left: 12px !important; padding-right: 12px !important; }
+.irriger-system header .header-menu-rapido > a > img { display: block; width: 28px; }
+.irriger-system header .header-menu-rapido > a > span { display: none; }
+
+.irriger-system header .header-usuario { font-size: 0px; position: relative; }
+.irriger-system header .header-usuario .header-logo { position: absolute; top: 0px; left: 0px; }
+
+.irriger-system header .header-usuario > li { font-size: 14px; font-weight: lighter; }
+.irriger-system header .header-usuario > li > a { padding-left: 7px !important; padding-right: 7px !important; }
+.irriger-system header .header-usuario > li:first-child > a { padding-left: 15px !important; }
+.irriger-system header .header-usuario > li:last-child > a { padding-right: 15px !important; }
+.irriger-system header .header-usuario > li > a > img { display: block; width: 32px; float: left; margin: -8px 8px 0px 0px; }
+.irriger-system header .header-usuario > li > a > i { margin-left: 5px; }
+
+.irriger-system header .header-usuario .usuario-perfil {}
+.irriger-system header .header-usuario .usuario-perfil li { padding: 2px 5px; font-size: 0.95em; }
+.irriger-system header .header-usuario .usuario-perfil li a { background: transparent !important; text-decoration: none; display: block; }
+.irriger-system header .header-usuario .usuario-perfil li:hover {}
+.irriger-system header .header-usuario .usuario-perfil li.active {}
+.irriger-system header .header-usuario .usuario-perfil li.dropdown-header { padding: 0px 10px 3px 10px; background: transparent !important; font-size: 0.85em; }
+.irriger-system header .header-usuario .usuario-perfil li.divider { padding: 0px; }
+.irriger-system header .header-usuario .usuario-perfil li.idioma {}
+.irriger-system header .header-usuario .usuario-perfil li.idioma img { display: block; float: left; width: 20px; margin: 3px 5px 0px 0px; }
+
+.irriger-system header .header-usuario .usuario-preferencias { width: 250px; border: none; border-radius: 0px; margin-top: 0px; }
+.irriger-system header .header-usuario .usuario-preferencias li.dropdown-header { padding: 0px 10px 3px 10px; background: transparent !important; font-size: 0.85em; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao { margin-bottom: 15px; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao:last-child { margin-bottom: -5px; -webkit-border-radius: 0 0 2px 2px; border-radius: 0 0 2px 2px; overflow: hidden; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao label { margin: 0px; padding: 5px 10px; display: block; cursor: pointer; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao label i { float: right; font-size: 1.3em; margin-top: 2px; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao label img { width: 22px; float: left; margin: 2px 5px 0px 0px; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao div { padding: 5px 5px; min-width: 100%; display: none; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao div a { display: block; text-decoration: none; font-weight: normal; opacity: 0.85; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao div a:hover { opacity: 1; }
+.irriger-system header .header-usuario .usuario-preferencias .configuracao div a img { width: 24px; float: left; margin: 2px 5px 0px 0px; }
+
+.irriger-system header .header-usuario .sair { margin-right: -15px; }
+.irriger-system header .header-usuario .sair:hover {}
+.irriger-system header .header-usuario .sair > img { margin-right: 0px; }
+
+
+
+@media all and (max-width: 1300px)
+{
+	.irriger-system header .header-menu-rapido {}
+	.irriger-system header .header-menu-rapido > a { padding-top: 16px !important; padding-left: 9px !important; padding-right: 9px !important; }
+	.irriger-system header .header-menu-rapido > a > img { width: 20px !important; }
+
+	.irriger-system header .header-usuario .header-logo { background-size: 70% !important; background-position: right !important; }
+}
+
+
+
+/* ************************************************************ */
+/* *****          ADAPTAÇÕES MOBILE PARA TABLETS          ***** */
+@media all and (max-width: 1200px)
+{
+	.irriger-system header .header-usuario .header-logo { background-size: 55% !important; background-position: right !important; }
+	.irriger-system header .header-usuario > li > a > span { display: none; }
+	.irriger-system header .header-usuario > li > a > i { display: none; }
+
+	.irriger-system .header .nav > .header-fazendas { width: 55px; overflow: hidden; }
+	.irriger-system .header .nav > .header-fazendas.open { overflow: visible; }
+	.irriger-system .header .nav > .header-fazendas .fazenda span { display: none; } 
+}
+/* ************************************************************ */
+/* ---------------------------------------------------------------------------------- */
+
+
+
+/* ------------------------------------- CONTENT ------------------------------------ */
+.irriger-system #page-wrapper { position: inherit; padding: 60px 35px 1px 15px; margin: 0 0 0 0; }
+
+.irriger-system #page-wrapper.whapper-mobile { margin: 0px; }
+
+.irriger-system .content {}
+
+.irriger-system .content .content-box {}
+.irriger-system .content .content-box.white { background: #FFFFFF; margin: 0px -35px 0px -15px; padding: 10px 35px 10px 15px; }
+
+.irriger-system .col-float-right { float: right; }
+
+.selectize-input{ border-radius: 0px !important; font-weight: bold !important; min-height: 36px; max-height: 36px; }
+.selectize-dropdown-content{ max-height: 250px !important; }
+
+
+/* ************************************************************ */
+/* *****          ADAPTAÇÕES MOBILE PARA TABLETS          ***** */
+@media all and (max-width: 1100px)
+{
+	.irriger-system #page-wrapper { position: inherit; padding: 60px 15px 1px 15px; }
+	.irriger-system .content .content-box.white { margin: 0px -15px 0px -15px; padding: 10px 15px 10px 15px; }
+}
+/* ************************************************************ */
+/* ---------------------------------------------------------------------------------- */
+
+
+
+
+/* -------------------------------------- FOOTER ------------------------------------ */
+.irriger-system footer {}
+
+.irriger-system footer#footer-wrapper { position: inherit; padding: 30px 30px 30px 30px; min-height: 50px; margin: 0 0 0 0; }
+
+.irriger-system footer .footer-copyright { float: right; }
+.irriger-system footer .footer-copyright span { font-size: 0.85em; }
+/* ---------------------------------------------------------------------------------- */

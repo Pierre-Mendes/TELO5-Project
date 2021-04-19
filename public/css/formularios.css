@@ -1,0 +1,221 @@
+.formulario {
+    display: grid;
+    /* justify-content: center; */
+    grid-template-columns: 310px 310px 310px 310px;
+    grid-template-rows: 90px;
+    grid-column-gap: 20px;
+    align-content: center;
+}
+
+.form-group {
+    display: inline-block;
+}
+
+.formulario label {
+    color: #005C99;
+    font-size: 0.95em;
+}
+
+#tipodepessoa {
+    width: 300px;
+    height: 30px;
+}
+
+.delete_form button {
+    width: 40px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.delete_form>button>i {
+    color: #9BB4C3;
+    margin-left: -2px!important;
+}
+
+.delete_form>a>button>i {
+    color: #9BB4C3;
+    margin-left: 0px!important;
+}
+
+.formulario {
+    margin-left: 30px;
+}
+
+
+/* Formulario de cadastro de usuario */
+
+.formdados form {
+    display: grid;
+    grid-template-columns: 290px 600px 400px;
+    grid-template-rows: 300px;
+    justify-content: space-around;
+}
+
+form label {
+    font-size: 0.95em;
+    font-weight: normal;
+    color: #005C99;
+}
+
+form select {
+    padding: 5px 7px 6px 7px;
+    width: 200px;
+    border-radius: .25rem;
+    border: 1px solid #D1D1D1;
+}
+
+
+/* Formulario de dados pessoais */
+
+.dadospessoais h3 {
+    margin: 10px;
+    font-size: 2.4em;
+    color: #005C99;
+}
+
+.dadospessoais div input {
+    width: 270px;
+}
+
+
+/* Fomulario de endereço */
+
+.endereco h3 {
+    margin: 10px;
+    font-size: 2.4em;
+    color: #005C99;
+}
+
+.rua {
+    width: 350px;
+    margin-right: 20px;
+}
+
+.cep {
+    width: 200px;
+}
+
+.cidade {
+    width: 200px;
+}
+
+.estado {
+    width: 150px;
+}
+
+.pais {
+    width: 205px;
+}
+
+
+/* Formulario de dados de acesso */
+
+.cadastro h3 {
+    margin: 10px;
+    font-size: 2.4em;
+    color: #005C99;
+}
+
+.email {
+    width: 350px;
+}
+
+.senha {
+    width: 170px;
+}
+
+.idioma select {
+    width: 170px;
+}
+
+.tipousuario select {
+    width: 170px;
+}
+
+
+/* Formulario cadastro de fazendas */
+
+.formfazenda form {
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+    justify-content: center;
+}
+
+.formfazenda h3 {
+    margin: 10px;
+    font-size: 2.4em;
+    color: #005C99;
+}
+
+.formfazenda label {
+    color: #005C99;
+}
+
+.formfazenda input {
+    width: 300px;
+}
+
+.formfazenda select {
+    width: 300px;
+}
+
+
+/* Formlario centro de custo */
+
+.formcdc form {
+    display: grid;
+    grid-template-columns: 400px;
+    justify-content: start;
+    padding-left: 20px;
+}
+
+.formcdc h3 {
+    width: 300px;
+    margin: 10px;
+    font-size: 2.4em;
+    color: #005C99;
+}
+
+
+/* Formulario Proprietarios */
+
+.formproprietarios {
+    display: grid;
+    grid-template-columns: 400px 400px;
+    justify-content: start;
+    padding-left: 20px;
+}
+
+
+/* Formulario pivos */
+
+.formpivos form {
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+    justify-content: center;
+}
+
+.formpivos h3 {
+    margin: 10px;
+    font-size: 2.4em;
+    color: #005C99;
+}
+
+.formpivos label {
+    width: 550px;
+    color: #005C99;
+}
+
+.formpivos input {
+    width: 300px;
+}
+
+.formpivos select {
+    width: 300px;
+}
+
+
+/* Formulario pivo central */

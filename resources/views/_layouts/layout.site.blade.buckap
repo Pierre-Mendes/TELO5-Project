@@ -1,0 +1,40 @@
+<html lang="{{ app()->getLocale() }}">
+    <head>
+        @include('_layouts._includes._head')
+        @yield('head')
+    </head>
+
+    <body class="body-dashboard" id='body'>
+        <div id="app" class="div-dashboard">           
+            <div class="d-flex" id="wrapper">
+                
+                <div id="page-content-wrapper" style="width: 100%">
+                    @include('_layouts._includes._navbar3')
+                    <div class="container-fluid h1dashboard">
+                        <div id="" class='' style="padding-top: 2%; padding-bottom: 2%; overflow-y: auto; overflow-x:auto">
+                            <div class="">
+                                <div class='col-12 h1dashboard'>                                    
+                                    <h1  style="color: #1B6B9A" class="text-left text-uppercase" >@yield('titulo')</h1>
+                                    
+                                </div>
+                            </div> 
+                            <div class='col-12'>
+                            @include('_layouts._includes._alert')                            
+                            </div>
+                        </div>
+                    </div>
+                        <!-- tabela -->
+                        <div class='col-12'>
+                            @yield('conteudo')
+                        </div>
+                </div>   
+            </div>
+        </div>
+    </body>
+
+    @include('_layouts._includes._footer')
+    @include('_layouts._includes._scripts')
+    @yield('scripts')	
+    @include('_layouts._includes._modal')
+    
+</html>

@@ -1,0 +1,287 @@
+<html lang="{{ app()->getLocale() }}">
+
+<head>
+    @include('_layouts._includes._head3')
+    @include('_layouts._includes._scripts')
+    @yield('head')
+</head>
+
+<body>
+    <div id="app">
+        <div id="wrapper" class="telo5teste">
+            <header >
+                <!-- MENU HAMBURGUER -->
+                <div class="menuhamburguer">
+                    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                        <div class="header">
+                            <ul class="nav navbar-nav">
+                                <li class="header-menu-completo dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-navicon"></i>
+                                    </a>
+    
+                                    <div class="dropdown-menu" onClick="event.stopPropagation();">
+    
+                                        <div class="menu">
+                                            <ul>
+                                                <li>
+                                                    <a>Organização Global <i class="fa fa-caret-right"></i></a>
+    
+                                                    <ul>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=estacoes_gerenciar_lista"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-estacoes.png" /><span>Estações
+                                                                    Meteorológicas</span></a></li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=estacoes_climas_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-clima.png" /><span>Histórico
+                                                                    Climático / Rede de Estações</span></a></li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=pontos_previsao_gerenciar_lista"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-clima.png" /><span>Pontos
+                                                                    de Previsão</span></a></li>
+                                                    </ul>
+                                                </li>
+    
+                                                <li>
+                                                    <a>Organização da Fazenda <i class="fa fa-caret-right"></i></a>
+    
+                                                    <ul>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=fazendas_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-fazendas.png" /><span>Fazenda</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=aguas_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-aguas.png" /><span>Água</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=solos_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-solos.png" /><span>Solos</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=culturas_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-culturas.png" /><span>Culturas</span></a>
+                                                        </li>
+    
+                                                        <li class="submenu">
+                                                            <a><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-equipamentos.png" /><span>Equipamentos</span><i
+                                                                    class="fa fa-caret-right"></i></a>
+    
+                                                            <ul>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=equipamentos_aspersor_gerenciar">Aspersor</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=equipamentos_microaspersor_gerenciar">Microaspersor</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=equipamentos_gotejador_gerenciar">Gotejador</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=equipamentos_pivocentral_gerenciar">Pivô
+                                                                        Central</a></li>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=equipamentos_linear_gerenciar">Linear</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=equipamentos_autopropelido_gerenciar">Autopropelido</a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+    
+                                                        <li class="submenu">
+                                                            <a><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-custos.png" /><span>Custos</span><i
+                                                                    class="fa fa-caret-right"></i></a>
+    
+                                                            <ul>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=custos_gerenciar_concessionarias">Concessionárias</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=custos_energia_gerenciar_contas">Contas</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=custos_energia_gerenciar_leituras">Leituras</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="https://qa.scheduling.valleyirrigation.com/home.php?area=custos_gerenciar_diesel">Consumo
+                                                                        de Diesel</a></li>
+                                                            </ul>
+                                                        </li>
+    
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=parcelas_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-parcelas.png" /><span>Parcelas</span></a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+    
+                                                <li>
+                                                    <a>Lançamentos Diários <i class="fa fa-caret-right"></i></a>
+    
+                                                    <ul>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=lancamentos_diarios"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-simplificado.png" /><span>Cadastro
+                                                                    Simplificado</span></a></li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=irrigacoes_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-irrigacao.png" /><span>Irrigação</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=precipitacoes_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-precipitacao.png" /><span>Precipitação</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=umidades_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-umidade.png" /><span>Umidade</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=umidades_imageamento_gerenciar_ndvi"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-umidade-imageamento.png" /><span>Imageamento</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=umidades_sensor_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-umidade-sensor.png" /><span>Umidade
+                                                                    - Sensor de Solo</span></a></li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=climas_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-clima.png" /><span>Clima
+                                                                    da Fazenda</span></a></li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=ciclos_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-ciclo.png" /><span>Ciclo</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=flags_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-flags.png" /><span>Flags</span></a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+    
+                                                <li>
+                                                    <a>Gestão da Irrigação <i class="fa fa-caret-right"></i></a>
+    
+                                                    <ul>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=decisao_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-irrigacao-decisao.png" /><span>Decisão</span></a>
+                                                        </li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=previsoes_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-irrigacao-previsao.png" /><span>Programação
+                                                                    de Irrigação</span></a></li>
+                                                    </ul>
+                                                </li>
+    
+                                                <li>
+                                                    <a>Relatórios <i class="fa fa-caret-right"></i></a>
+    
+                                                    <ul>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=relatorios_visitas_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-relatorios-visitas.png" /><span>Relatórios
+                                                                    de Visita</span></a></li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=relatorios_irrigacao_gerenciar_mensais"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-relatorios-irrigacao.png" /><span>Relatórios
+                                                                    de Irrigação</span></a></li>
+    
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=relatorios_energia_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-relatorios-energia.png" /><span>Relatórios
+                                                                    de Energia</span></a></li>
+    
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=relatorios_safra_gerenciar"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-relatorios-safra.png" /><span>Relatórios
+                                                                    de Safra</span></a></li>
+                                                        <li><a
+                                                                href="https://qa.scheduling.valleyirrigation.com/home.php?area=relatorios_sementeira_gerenciar_mensais"><img
+                                                                    src="https://qa.scheduling.valleyirrigation.com/CSS/Valmont/Imagens/modulo-relatorios-sementeira.png" /><span>Relatórios
+                                                                    da Corporação</span></a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                        </div>
+                    </nav>
+                </div>
+
+
+                <!-- BOTAO SAIR -->
+                <div>
+                    <img src="{{ asset('img/ico_sair.png') }}" alt="" class="icosair">
+                </div>
+
+                <!-- MENU DE CONFIGURAÇÕES -->
+                <div class="dropdown">
+                    <button class="dropbtn"><img src="{{ asset('img/ico_config.png') }}" class="teste"><i
+                            class="fas fa-caret-down"></i>
+
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </div>
+
+
+
+                <!-- MENU DE USUARIO -->
+                <div class="dropdown2">
+                    <button class="dropbtn2"><input type=image src="{{ asset('img/ico_user.png') }}"
+                            class="teste"><span>Lucas Steinbach <i class="fas fa-caret-down"></i></span></button>
+                    <div class="dropdown-content2">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </div>
+
+                <!-- NOME SERA LIMITADO -->
+                <!-- MENU SELECIONAR FAZENDA -->
+                <div class="dropdown3">
+
+                    <button class="dropbtn3"><input type=image src="{{ asset('img/ico_fazenda.png') }}"
+                            class="teste"><span>Select Farm <i class="fas fa-caret-down"></i></span></button>
+
+                    <div class="dropdown-content3">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </div>
+
+                <!-- MENU E IMG CENTRAL -->
+                <div class="imgs">
+                    <img src="{{ asset('img/ico_dashboard.png') }}" alt="" class="icodash">
+                    <img src="{{ asset('img/ico_afericao.png') }}" alt="" class="icoafer">
+                    <img src="{{ asset('img/logo_header.png') }}" alt="" class="icoheader">
+                </div>
+
+
+            </header>
+
+            <div id="page-wrapper">
+                <h1 style="color: #1B6B9A" class="text-left text-uppercase">teste</h1>
+                <div class="content">
+                </div>
+            </div>
+
+            <div class="rodape">
+                <footer>
+                    <span id="rodape"> TELO 5 © 2020</span>
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+.afericao {
+    padding: 0 !important;
+    margin-left: 15px;
+}
+
+.afericao h3 {
+    background-color: #E2EFF7;
+    margin: 0 !important;
+    padding: 5px;
+    color: #162E3C;
+    font-weight: 500;
+}
+
+.afericao a {
+    color: #fff;
+    font-size: 12pt;
+}
+
+/*.afericao a:hover {
+    color: #fff;
+}
+*/
+.afericao a .editar {
+    font-weight: 500;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
