@@ -1,13 +1,18 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## TELO5-Project
-This project is being developed and led by me in my internship.  This project will be a bag of tools and functionalities within the irrigation world. 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* This project is being developed and led by me in my internship.  This project will be a bag of tools and functionalities within the irrigation world. 
+
+![image](https://user-images.githubusercontent.com/63386178/115254183-7aac0600-a103-11eb-9b88-dea03fcbe0ac.png)
+
+![image](https://user-images.githubusercontent.com/63386178/115254203-80095080-a103-11eb-98f6-dab7f4ad1193.png)
+
+![image](https://user-images.githubusercontent.com/63386178/115254212-84356e00-a103-11eb-90fa-ea41e6f42079.png)
+
+![image](https://user-images.githubusercontent.com/63386178/115254226-87305e80-a103-11eb-8bf5-7d14ee3d6679.png)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-
+## About Laravel Framework
 
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
