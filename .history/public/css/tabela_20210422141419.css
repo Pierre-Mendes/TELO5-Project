@@ -1,0 +1,109 @@
+/* filtrar */
+
+.buscar {
+    background-color: #E2EFF7;
+    float: right;
+    margin-top: -35px;
+}
+
+
+/* tabelas em geral */
+
+.table {
+    font-size: 12pt !important;
+    font-weight: bold;
+    color: #162E3C !important;
+}
+
+.tabela {
+    width: 100%;
+    margin-top: -40px!important;
+    text-align: center;
+    background-color: #E2EFF7;
+    color: #162E3C;
+    padding: 0!important;
+    position: static !important;
+}
+
+tfoot {
+    background-color: #C1D5DE;
+    height: 10px;
+    opacity: 1;
+}
+
+.abc {
+    height: 5px;
+}
+
+tbody>tr>td {
+    border-right: #C1D5DE 1px solid;
+}
+
+tbody>tr>td:nth-last-child(1) {
+    border-right: none;
+}
+
+table thead {
+    width: 100%;
+}
+
+.table-striped>tbody>tr:nth-child(even)>td {
+    background-color: #ffffff;
+}
+
+.table-striped>thead {
+    background-color: #C1D5DE;
+}
+
+.acoes {
+    width: 100px;
+}
+
+.acoes form {
+    width: 90px;
+}
+
+.acoes button {
+    background-color: #ffffff00;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: #9BB4C3;
+    padding-left: 10px;
+}
+
+.addtablerow {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+}
+
+.addtablerow i {
+    margin-left: 0px;
+    color: #3c8dbc impor !important;
+}
+
+.removetablerow {
+    padding-top: 2px;
+    width: 40px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.removetablerow i {
+    color: #9BB4C3;
+}
+
+/* CSS DE PAGINACAO DAS TABELAS */
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #1B6B9A;
+    border-color: #1B6B9A;
+}

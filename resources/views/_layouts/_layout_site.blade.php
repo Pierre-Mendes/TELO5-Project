@@ -178,6 +178,7 @@
                                 <li><a href="{{ route('fazendas.gerenciar') }}">@lang('sidenav.fazendas')</a></li>
                                 <li><a href="{{ route('proprietarios.gerenciar') }}">@lang('sidenav.proprietarios')</a></li>
                                 <li><a href="{{ route('fabricantes.gerenciar') }}">@lang('sidenav.bocais')</a></li>
+                                <li><a href="{{ route('fabricantes.cadastrar') }}">Fabricantes</a></li>
                                 <li><a href="{{ route('pivos.gerenciar') }}">@lang('sidenav.pivos')</a></li>
                             </ul>
                         </li>
