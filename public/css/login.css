@@ -1,0 +1,97 @@
+body {
+    background-color: #26546F;
+}
+
+.form {
+    width: 400px;
+    margin: auto;
+    padding-top: 40px;
+}
+
+.background {
+    background-color: #26546F;
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.backgroundloginimg {
+    text-align: center;
+}
+
+.imglogin {
+    border-radius: 10px;
+    padding: 50px;
+}
+
+.login#label {
+    width: 100%;
+    margin: auto;
+    display: block;
+}
+
+.login {
+    text-align: center;
+}
+
+.password {
+    text-align: center;
+}
+
+.login>input {
+    top: 481px;
+    left: 792px;
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
+    outline: 0;
+    margin-bottom: 10px;
+    border: 0px;
+}
+
+.password>input {
+    top: 481px;
+    left: 792px;
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
+    outline: 0;
+    border: 0px;
+}
+
+.entrar {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.entrar>button {
+    background-color: #162E3C;
+    width: 205px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    border: 0px;
+    outline: 0;
+}
+
+.forgot {
+    text-align: center;
+    color: white;
+    padding-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+}
+
+.rodape {
+    padding-top: 150px;
+    text-align: center;
+    color: white;
+    font-size: 7pt;
+    font-family: sans-serif;
+}

@@ -1,0 +1,14 @@
+.footer {
+    position: absolute;
+    padding: 30px 30px 30px 30px;
+    min-height: 50px;
+    margin: 0 0 0 0;
+    background: #003A5D;
+    color: #FFF;
+    width: 100%;
+    /* bottom: 0; */
+}
+
+.footer div {
+    float: right;
+}

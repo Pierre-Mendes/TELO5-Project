@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "telo5_db2",
+            "driver": "MySQL",
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "name": "telo5_db2",
+            "port": 3306,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "root",
+            "password": ""
+        }
+    ]
+}

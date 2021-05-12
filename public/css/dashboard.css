@@ -1,0 +1,224 @@
+/* CABECALHO DO BODY */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+main {
+    width: 100%;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.topo {
+    padding-top: 10px;
+    background-color: #E2EFF7 !important;
+    color: #1B6B9A;
+    height: 100px;
+}
+
+.subtitleTop {
+    margin: 0 !important;
+}
+
+.topo h1 {
+    margin-bottom: 2.5px !important;
+}
+
+#select1 {
+    margin-right: 10px;
+}
+
+select:invalid {
+    color: #9BB4C3;
+}
+
+
+/* CADASTRO E EDITAR CENTRO DE CUSTO */
+
+.position {
+    position: static !important;
+}
+
+.nav-tabs {
+    margin-top: -124px;
+    margin-left: 20px;
+    font-size: 1.1em;
+}
+
+.nav-tabs a {
+    color: #1B6B9A !important;
+    font-size: 20px;
+}
+
+.nav-item {
+    text-align: center;
+}
+
+.botoes button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: #E2EFF7 !important;
+    color: #3c8dbc;
+}
+
+.botaosalvar5 {
+    cursor: pointer;
+}
+
+thead>tr>th:last-child(2) {
+    width: 150px;
+}
+
+.menubotoes {
+    margin-top: -57px;
+}
+
+.conteudo {
+    position: relative;
+    padding: 10px;
+    width: 100vw;
+    display: inline-block;
+    justify-content: center;
+    align-content: center;
+    height: 80px;
+    padding-top: 80px;
+    font-size: 1.5rem;
+}
+
+
+/* LAYOUTS DE INPUTS PARA CADASTROS E EDIÇÕES DE TELAS */
+
+.telo5ce label {
+    font-family: 'Roboto', sans-serif;
+    color: #162E3C !important;
+    font-size: 14px;
+}
+
+.telo5ce input {
+    outline: 0px !important;
+    -webkit-appearance: none;
+    box-shadow: none !important;
+    background-color: #e2eff773 !important;
+    border: none;
+    border-radius: 0px;
+    color: #162E3C;
+    font-size: 14px;
+}
+
+.telo5ce select {
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    outline: 0px !important;
+    box-shadow: none !important;
+    background-color: #e2eff773 !important;
+    color: #162E3C;
+    font-size: 14px;
+}
+
+
+/* INPUT DE FILTRO DE BUSCA TOPO DETALHE */
+
+.telo5inputfiltro input {
+    outline: 0px !important;
+    -webkit-appearance: none;
+    box-shadow: none !important;
+    border: none;
+    border-radius: 0px;
+}
+
+.telo5inputfiltro .search {
+    position: relative;
+    padding-right: 15px;
+    margin-top: -20px;
+    float: right;
+}
+
+
+/* STATUS DA AFERIÇÃO */
+
+.hoverstatusafericao a:hover {
+    color: #fff;
+}
+
+.subnavbar label a:hover {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+
+/* VALIDAÇÕES DE INPUTS */
+
+input.error {
+    border: 1px solid #EBCCD1;
+}
+
+label.error {
+    margin-top: 5px;
+    font-size: 12px;
+    width: 100%;
+    margin-bottom: 3px;
+    padding: 3px;
+    font-weight: normal;
+    color: #A94442 !important;
+    background-color: #F2DEDE;
+}
+
+label.error strong {
+    font-weight: bold;
+    color: #A94442 !important;
+}
+
+
+/* BOTOES DE PROXIMO E VOLTAR NO CADASTRO AFERIÇÃO */
+
+.voltar {
+    padding: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background-color: #1B6B9A;
+    color: #fff;
+    font-size: 20px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.proximo {
+    padding: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background-color: #26546F;
+    color: #fff;
+    font-size: 20px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.botaoAfericao button {
+    outline: none;
+}
+
+.botaoAfericao a {
+    color: #fff !important;
+}
+
+.botaoAfericao button a {
+    color: #fff !important;
+}
+
+.botaoAfericao {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: end;
+}
+
+
+/* BOTOES MAPA DE BOCAIS */
+
+.mapadebocais {
+    margin-top: 400px;
+}
+
+
+/* ALERT MAPA DE BOCAIS */
