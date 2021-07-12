@@ -16,10 +16,10 @@
     font-size: 12pt;
 }
 
-/*.afericao a:hover {
+.afericao a:hover {
     color: #fff;
 }
-*/
+
 .afericao a .editar {
     font-weight: 500;
     display: inline-block;

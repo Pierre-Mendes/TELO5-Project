@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'redimensionamento' => 'Redimensionamento',
+    'menuRedimensionamento' => 'Redimensionamento',
+    'redimensionamento' => 'GERENCIAR REDIMENSIONAMENTO',
     'redim' => 'Redim.',
     'afericao' => 'Afericao',
     'etapa' => 'Etapa',

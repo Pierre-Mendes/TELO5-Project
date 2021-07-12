@@ -16,121 +16,115 @@ use App\Classes\Constantes\Notificacao;
 
 class UsuarioController extends Controller
 {
-    /**
-     * This functions is deprecated
-     * @deprecated
-     */
-    public function cadastrarUsuario()
-    {
-        return view('sistema.usuarios.cadastrar');
-    }
 
-    public function salvarUsuario(Request $req)
-    {
-        $dados = $req->all();
-        $dados['email_verified_at'] = time();
-        $verifica =  DB::table('users')->where('email', $dados['email'])->first();
-        if (!empty($verifica)) {
-            Notificacao::gerarAlert("notificacao.erro", "notificacao.falhaEmail", "danger");
-            return redirect()->back();
-        }
-        $dados['password'] = bcrypt($dados['password']);
-        // dd($dados);
-        // die();
-        $id_user = User::create($dados);
-        // if ($dados['tipo_usuario'] == 2) {
-        //     UserSuperior::inserirSuperior($id_user['id'], $dados['superior_s']);
-        // } else if ($dados['tipo_usuario'] == 3) {
-        //     UserSuperior::inserirSuperior($id_user['id'], $dados['superior_c']);
-        // } else if ($dados['tipo_usuario'] == 4) {
-        //     UserSuperior::inserirSuperior($id_user['id'], $dados['superior_a']);
-        // }
-        // if ($dados['tipo_usuario'] != 0) {
-        //     CdcUsuario::inserirRelacionamentosCdcUsuario($id_user['id'], $dados['cdcs']);
-        // }
-        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.cadastroSucesso", "success");
-        return redirect()->route('usuarios.listar')->with('Notificacao');
-    }
-
-    public function listarUsuarios(Request $req)
+    public function managerUsuarios(Request $req)
     {
         $filtro = $req->all();
         $usar_filtro = False;
-        // if(isset($filtro['filtro'])){
-        //     $usar_filtro = True;
-        // }
+        if(isset($filtro['filtro'])){
+            $usar_filtro = True;
+        }
 
         $listaUsuarios = [];
         $listaPapeis = User::getListaDePapeis();
         $idiomas = User::getListaDeIdiomas();
         $papeis = User::getListaDePapeis();
-        // if(Auth::User()->tipo_usuario != 0){
-        //     unset( $papeis[0]);
-        //     unset( $papeis[1]);
-        //     if($usar_filtro){
-        //         $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')
-        //         ->where('tipo_usuario', '!=', 0)->where('tipo_usuario', '!=', 1)->orderBy('created_at')
-        //         ->where(function ($query) use ($filtro){
-        //             //Busca pelo nome
-        //             if(!empty($filtro['nome'])){
-        //                 $query->where('nome', 'like', '%'.$filtro['nome'].'%');
-        //             }
-        //             //Busca pelo tipo de usuário
-        //             if(!empty($filtro['tipo_usuario'])){
-        //                 $query->where('tipo_usuario', ($filtro['tipo_usuario'] - 100));
-        //             }
-        //             //Busca apenas ativos
-        //             if(!empty($filtro['ativo']) && empty($filtro['inativo'])){
-        //                 $query->where('situacao', 1);
-        //             }
-        //             //Busca apenas inativos
-        //             if(empty($filtro['ativo']) && !empty($filtro['inativo'])){
-        //                 $query->where('situacao',  0);
-        //             }
-        //         })
-        //         ->paginate(30);
+        if(Auth::User()->tipo_usuario != 0){
+            unset( $papeis[0]);
+            unset( $papeis[1]);
+            if($usar_filtro){
+                $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')
+                ->where('tipo_usuario', '!=', 0)->where('tipo_usuario', '!=', 1)->orderBy('created_at')
+                ->where(function ($query) use ($filtro){
+                    //Busca pelo nome
+                    if(!empty($filtro['nome'])){
+                        $query->where('nome', 'like', '%'.$filtro['nome'].'%');
+                    }
+                    //Busca pelo tipo de usuário
+                    if(!empty($filtro['tipo_usuario'])){
+                        $query->where('tipo_usuario', ($filtro['tipo_usuario'] - 100));
+                    }
+                    //Busca apenas ativos
+                    if(!empty($filtro['ativo']) && empty($filtro['inativo'])){
+                        $query->where('situacao', 1);
+                    }
+                    //Busca apenas inativos
+                    if(empty($filtro['ativo']) && !empty($filtro['inativo'])){
+                        $query->where('situacao',  0);
+                    }
+                })
+                ->paginate(10);
 
-        //     }else{
-        //         $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')
-        //         ->where('tipo_usuario', '!=', 0)->where('tipo_usuario', '!=', 1)->orderBy('created_at')->paginate(30);
-        //     }
-        // }else{
-        //     if($usar_filtro){
-        //         $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')->orderBy('created_at')
-        //         ->where(function ($query) use ($filtro){
-        //             //Busca pelo nome
-        //             if(!empty($filtro['nome'])){
-        //                 $query->where('nome', 'like', '%'.$filtro['nome'].'%');
-        //             }
-        //             //Busca pelo tipo de usuário
-        //             if(!empty($filtro['tipo_usuario'])){
-        //                 $query->where('tipo_usuario', ($filtro['tipo_usuario'] - 100));
-        //             }
-        //             //Busca apenas ativos
-        //             if(!empty($filtro['ativo']) && empty($filtro['inativo'])){
-        //                 $query->where('situacao', 1);
-        //             }
-        //             //Busca apenas inativos
-        //             if(empty($filtro['ativo']) && !empty($filtro['inativo'])){
-        //                 $query->where('situacao',  0);
-        //             }
-        //         })
-        //         ->paginate(30);
-        //     }else{
-        //         $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')->orderBy('created_at')->paginate(30);
-        //     }
-        // }
-        $listaUsuarios = User::select('id', 'nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')->orderBy('created_at')->paginate(10);
-        $cdcs = CentroDeCusto::all();
-        foreach ($cdcs as $cdc) {
-            $cdc['nome'] = ($cdc['codigo'] . " - " . $cdc['nome']);
+            }else{
+                $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')
+                ->where('tipo_usuario', '!=', 0)->where('tipo_usuario', '!=', 1)->orderBy('created_at')->paginate(10);
+            }
+        }else{
+            if($usar_filtro){
+                $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')->orderBy('created_at')
+                ->where(function ($query) use ($filtro){
+                    //Busca pelo nome
+                    if(!empty($filtro['nome'])){
+                        $query->where('nome', 'like', '%'.$filtro['nome'].'%');
+                    }
+                    //Busca pelo tipo de usuário
+                    if(!empty($filtro['tipo_usuario'])){
+                        $query->where('tipo_usuario', ($filtro['tipo_usuario'] - 100));
+                    }
+                    //Busca apenas ativos
+                    if(!empty($filtro['ativo']) && empty($filtro['inativo'])){
+                        $query->where('situacao', 1);
+                    }
+                    //Busca apenas inativos
+                    if(empty($filtro['ativo']) && !empty($filtro['inativo'])){
+                        $query->where('situacao',  0);
+                    }
+                })
+                ->paginate(10);
+            }else{
+                $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')->orderBy('created_at')->paginate(10);
+            }
         }
-
+        $cdcs = CentroDeCusto::all();
+        foreach($cdcs as $cdc){
+            $cdc['nome'] =( $cdc['codigo'] . " - " . $cdc['nome']);
+        }
+        
         // Usuários para o field de superior no cadastro/edição de usuários
         $usuarios_superiores = User::select('nome', 'id', 'tipo_usuario')
             ->where('situacao', '1')->where('tipo_usuario', '!=', '0')->where('tipo_usuario', '!=', '4')
             ->orderBy('nome', 'asc')->get();
 
+        //Alterando as chaves de idioma e papel para strings
+        foreach($listaUsuarios as $user){
+            $user->tipo_usuario = __($listaPapeis[$user->tipo_usuario]['valor']);
+            if($user->situacao == 0){
+                $user->situacao = __('usuarios.inativo');
+            }else{
+                $user->situacao = __('usuarios.ativo');
+            }
+        }
+        Session::put('nome_usuario', $listaUsuarios['nome']);
+        return view('sistema.usuarios.gerenciar', compact('listaUsuarios', 'idiomas', 'papeis', 'usuarios_superiores', 'cdcs', 'filtro'));
+    }
+
+    public function createUsuario()
+    {
+        //Obtendo a lista de papéis do sistema
+        $papeis = User::getListaDePapeis();
+        $idiomas = User::getListaDeIdiomas();
+        $cdcs = CentroDeCusto::all();
+        foreach ($cdcs as $cdc) {
+            $cdc['nome'] = ($cdc['codigo'] . " - " . $cdc['nome']);
+        }
+
+        $listaPapeis = User::getListaDePapeis();
+        $listaUsuarios = User::select('id', 'nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')
+            ->where('tipo_usuario', '!=', 0)->where('tipo_usuario', '!=', 1)->orderBy('created_at');
+        // Usuários para o field de superior no cadastro/edição de usuários
+        $usuarios_superiores = User::select('nome', 'id', 'tipo_usuario')
+            ->where('situacao', '1')->where('tipo_usuario', '!=', '0')->where('tipo_usuario', '!=', '4')
+            ->orderBy('nome', 'asc')->get();
         //Alterando as chaves de idioma e papel para strings
         foreach ($listaUsuarios as $user) {
             $user->tipo_usuario = __($listaPapeis[$user->tipo_usuario]['valor']);
@@ -140,9 +134,107 @@ class UsuarioController extends Controller
                 $user->situacao = __('usuarios.ativo');
             }
         }
-        return view('sistema.usuarios.gerenciar', compact('listaUsuarios', 'idiomas', 'papeis', 'usuarios_superiores', 'cdcs', 'filtro'));
+        return view('sistema.usuarios.cadastrar', compact('papeis', 'idiomas', 'cdcs', 'usuarios_superiores'));
     }
 
+    public function saveUsuario(Request $req)
+    {
+        $dados = $req->all();
+
+        //Medida provisória para flag de pendência de -email
+        $dados['email_verified_at'] = time();
+        $verifica =  DB::table('users')->where('email', $dados['email'])->first();
+        if (!empty($verifica)) {
+            Notificacao::gerarAlert("notificacao.erro", "notificacao.falhaEmail", "danger");
+            return redirect()->back();
+        }
+        $dados['password'] = bcrypt($dados['password']);
+
+        $id_user = User::create($dados);
+
+        if ($dados['tipo_usuario'] == 2) {
+            UserSuperior::inserirSuperior($id_user['id'], $dados['superior_s']);
+        } else if ($dados['tipo_usuario'] == 3) {
+            UserSuperior::inserirSuperior($id_user['id'], $dados['superior_c']);
+        } else if ($dados['tipo_usuario'] == 4) {
+            UserSuperior::inserirSuperior($id_user['id'], $dados['superior_a']);
+        }
+        if ($dados['tipo_usuario'] != 0) {
+            CdcUsuario::inserirRelacionamentosCdcUsuario($id_user['id'], $dados['cdcs']);
+        }
+        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.cadastroSucesso", "success");
+        return redirect()->route('usuarios_manager')->with('Notificacao');
+    }
+
+    public function editUsuarios($id)
+    {
+        //Obtendo a lista de papéis do sistema
+        $papeis = User::getListaDePapeis();
+        $idiomas = User::getListaDeIdiomas();
+        $cdcs = CentroDeCusto::all();
+        $usuarios = user::find($id);
+
+        foreach ($cdcs as $cdc) {
+            $cdc['nome'] = ($cdc['codigo'] . " - " . $cdc['nome']);
+        }
+
+        $listaPapeis = User::getListaDePapeis();
+        $listaUsuarios = User::select('id', 'nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')
+            ->where('tipo_usuario', '!=', 0)->where('tipo_usuario', '!=', 1)->orderBy('created_at');
+        // Usuários para o field de superior no cadastro/edição de usuários
+        $usuarios_superiores = User::select('nome', 'id', 'tipo_usuario')
+            ->where('situacao', '1')->where('tipo_usuario', '!=', '0')->where('tipo_usuario', '!=', '4')
+            ->orderBy('nome', 'asc')->get();
+        //Alterando as chaves de idioma e papel para strings
+        foreach ($listaUsuarios as $user) {
+            $user->tipo_usuario = __($listaPapeis[$user->tipo_usuario]['valor']);
+            if ($user->situacao == 0) {
+                $user->situacao = __('usuarios.inativo');
+            } else {
+                $user->situacao = __('usuarios.ativo');
+            }
+        }
+        return view('sistema.usuarios.editar', compact('usuarios', 'papeis', 'idiomas', 'cdcs', 'usuarios_superiores'));
+    }
+
+    public function updateUsuarios(Request $req)
+    {
+        $dados = $req->all();
+        if (User::validaEmail($dados['email'], $dados['id'])) {
+            if (!isset($dados['password']) || empty($dados['password'])) {
+                unset($dados['password']);
+            } else {
+                $dados['password'] = bcrypt($dados['password']);
+            }
+
+            User::find($dados['id'])->update($dados);
+
+            if ($dados['tipo_usuario'] == 2) {
+                UserSuperior::inserirSuperior($dados['id'], $dados['superior_s']);
+            }
+
+            if ($dados['tipo_usuario'] == 3) {
+                UserSuperior::inserirSuperior($dados['id'], $dados['superior_c']);
+            }
+
+            if ($dados['tipo_usuario'] == 4) {
+                UserSuperior::inserirSuperior($dados['id'], $dados['superior_a']);
+            }
+
+            if ($dados['tipo_usuario'] != 0) {
+                CdcUsuario::alterarCdcUsuario($dados['cdcs'], $dados['id']);
+            }
+            Notificacao::gerarAlert("notificacao.sucesso", "notificacao.edicaoSucesso", "success");
+            return redirect()->route('usuarios_manager');
+        } else {
+            Notificacao::gerarAlert("notificacao.erro", "notificacao.falhaEmail", "danger");
+            return redirect()->route('usuarios_manager');
+        }
+        User::find($dados['id'])->update($dados);
+
+        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.edicaoSucesso", "success");
+        return redirect()->route('usuarios_manager');
+    }
 
     public function getUsuario($id)
     {
@@ -158,55 +250,6 @@ class UsuarioController extends Controller
         return $user;
     }
 
-    public function editarUsuarios($id)
-    {
-        $usuarios = user::find($id);
-        return view('sistema.usuarios.editar', compact('usuarios'));
-    }
-
-    public function editaUsuarios(Request $req)
-    {
-        $dados = $req->all();
-        User::find($dados['id'])->update($dados);
-        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.edicaoSucesso", "success");
-        return redirect()->route('usuarios.listar');
-    }
-    // public function editaUsuario(Request $req)
-    // {
-
-    //     $dados  = $req->all();
-    //     if (User::validaEmail($dados['email'], $dados['id'])) {
-    //         if (!isset($dados['password']) || empty($dados['password'])) {
-    //             unset($dados['password']);
-    //         } else {
-    //             $dados['password'] = bcrypt($dados['password']);
-    //         }
-
-    //         User::find($dados['id'])->update($dados);
-
-    //         if ($dados['tipo_usuario'] == 2) {
-    //             UserSuperior::inserirSuperior($dados['id'], $dados['superior_s']);
-    //         }
-
-    //         if ($dados['tipo_usuario'] == 3) {
-    //             UserSuperior::inserirSuperior($dados['id'], $dados['superior_c']);
-    //         }
-
-    //         if ($dados['tipo_usuario'] == 4) {
-    //             UserSuperior::inserirSuperior($dados['id'], $dados['superior_a']);
-    //         }
-
-    //         if ($dados['tipo_usuario'] != 0) {
-    //             CdcUsuario::alterarCdcUsuario($dados['cdcs'], $dados['id']);
-    //         }
-    //         Notificacao::gerarAlert("notificacao.sucesso", "notificacao.edicaoSucesso", "success");
-    //         return redirect()->back();
-    //     } else {
-    //         Notificacao::gerarAlert("notificacao.erro", "notificacao.falhaEmail", "danger");
-    //         return redirect()->back();
-    //     }
-    // }
-
     public function removerUsuario($id)
     {
         $cont = UserSuperior::where('id_superior', $id)->count();
@@ -217,9 +260,8 @@ class UsuarioController extends Controller
         UserSuperior::where('id_usuario', $id)->delete();
         User::find($id)->delete();
         Notificacao::gerarAlert("notificacao.sucesso", "notificacao.remocaoSucesso", "success");
-        return redirect()->route('usuarios.listar');
+        return redirect()->route('usuarios_manager');
     }
-
 
     public function validarEmailUsuario($id_usuario)
     {
@@ -229,13 +271,14 @@ class UsuarioController extends Controller
                 ->where('id', $id_usuario)
                 ->update(['email_verified_at' => DB::raw('now()'), 'updated_at' => DB::raw('now()')]);
         }
-        return redirect()->route('usuarios.listar');
+        return redirect()->route('usuarios_manager');
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $delete = User::find($id);
         $delete->delete();
-        return redirect()->route('usuarios.listar')->with('Sucesso', 'Foi deletado');
+        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.remocaoSucesso", "success");
+        return redirect()->route('usuarios_manager');
     }
 }

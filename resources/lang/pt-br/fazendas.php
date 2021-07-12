@@ -36,7 +36,8 @@ return [
     'aviso'=>'Aviso',
 
     'fazendas'=>'Fazendas',
-    'fazenda'=>'Fazendas',
+    'fazendasDisponiveis' => 'FAZENDAS DISPONÍVEIS',
+    'pesquisarFazenda' => 'Pesquise uma fazenda',
 
     'assistente_removido_sucesso'=>'Assistente removido da fazenda com sucesso !',
 

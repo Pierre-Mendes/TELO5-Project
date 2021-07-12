@@ -1,56 +1,64 @@
-* {
-    margin: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
-.login-background {
-    display: grid;
+body {
     background-color: #26546F;
-    height: 100vh;
     font-family: 'Roboto Condensed', sans-serif;
 }
 
-form {
-    display: grid;
-    justify-content: center;
+.box {
+    width: 300px;
+    padding: 40px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    align-content: center;
-    color: #fff;
 }
 
-.imglogin {
-    padding: 35px;
-}
-
-input {
-    padding: 8px;
+.box input[type="email"],
+.box input[type="password"] {
+    padding: 12px;
+    font-size: 16px;
     outline: none;
     width: 200px;
     border-radius: 5px;
     border: none;
+    margin: 20px auto;
+    display: block;
 }
 
-button {
-    width: 200px;
-    height: 30px;
+.box input[type="submit"] {
+    font-weight: bold;
+    padding: 12px;
+    font-size: 16px;
+    width: 75%;
     border-radius: 5px;
     outline: 0;
     margin-bottom: 10px;
-    margin-top: 20px;
     border: 0px;
     cursor: pointer;
     background-color: #162E3C;
     color: #fff;
 }
 
-.mensagemlogin {
-    bottom: 0;
-    display: block;
+.text {
     position: absolute;
-    right: 0;
-    left: 0;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
 }
 
-.centerlogin {
-    margin-bottom: 150px;
+.box a {
+    text-align: center;
+    margin: 10px auto;
+    width: 200px;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+}
+
+.box a:hover {
+    color: #fff;
+    opacity: 0.8;
 }

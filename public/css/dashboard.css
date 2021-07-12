@@ -2,9 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
 main {
-    height: 100%;
     width: 100%;
     font-family: 'Roboto Condensed', sans-serif;
 }
@@ -13,7 +11,7 @@ main {
     padding-top: 10px;
     background-color: #E2EFF7 !important;
     color: #1B6B9A;
-    height: 100px;
+    height: 120px;
 }
 
 .subtitleTop {
@@ -33,240 +31,6 @@ select:invalid {
 }
 
 
-/* PARTE 1 DO BODY */
-
-.b2 {
-    padding: 20px;
-    width: 100vw;
-    display: grid;
-    grid-template-columns: 310px 310px 310px 310px;
-    grid-template-rows: 90px;
-    grid-column-gap: 25px;
-    justify-content: center;
-    align-content: center;
-}
-
-.b2>div {
-    background-color: #E2EFF7;
-}
-
-.b2-1>h1 {
-    display: grid;
-    justify-content: center;
-    padding-top: 10px;
-    font-size: 15pt;
-    font-weight: 500;
-    color: #162E3C;
-}
-
-.b2-1 h2 {
-    display: grid;
-    justify-content: center;
-    font-size: 25pt;
-    font-weight: 600;
-    color: #162E3C;
-}
-
-.b2-2>h1 {
-    display: grid;
-    justify-content: center;
-    padding-top: 10px;
-    font-size: 15pt;
-    font-weight: 500;
-    color: #162E3C;
-}
-
-.b2-2 h2 {
-    display: grid;
-    justify-content: center;
-    font-size: 25pt;
-    font-weight: 600;
-    color: #162E3C;
-}
-
-.b2-3>h1 {
-    display: grid;
-    justify-content: center;
-    padding-top: 10px;
-    font-size: 15pt;
-    font-weight: 500;
-    color: #162E3C;
-}
-
-.b2-3 h2 {
-    display: grid;
-    justify-content: center;
-    font-size: 25pt;
-    font-weight: 600;
-    color: #162E3C;
-}
-
-.b2-4>h1 {
-    display: grid;
-    justify-content: center;
-    padding-top: 10px;
-    font-size: 15pt;
-    font-weight: 500;
-    color: #162E3C;
-}
-
-.b2-4 h2 {
-    display: grid;
-    justify-content: center;
-    font-size: 25pt;
-    font-weight: 600;
-    color: #162E3C;
-}
-
-
-/* PARTE 2 DO BODY */
-
-.b3 {
-    padding: 20px;
-    width: 100vw;
-    display: grid;
-    grid-template-columns: 645px 645px;
-    grid-template-rows: 300px;
-    grid-gap: 25px;
-    justify-content: center;
-    align-content: center;
-}
-
-.b3>div {
-    display: grid;
-    background-color: #E2EFF7;
-    justify-content: center;
-}
-
-.b3-1 {
-    display: block;
-    background-color: #E2EFF7;
-}
-
-.b3-1>div {
-    height: 150px;
-    margin-top: -80px;
-}
-
-.b31 {
-    display: grid;
-    grid-template-columns: 645px;
-    grid-template-rows: 300px;
-    grid-gap: 25px;
-    justify-content: center;
-    align-content: center;
-}
-
-.b31>div {
-    display: grid;
-    background-color: #E2EFF7;
-    justify-content: center;
-}
-
-.b3-1 {
-    display: block;
-    background-color: #E2EFF7;
-}
-
-.b3-1>div {
-    height: 150px;
-    margin-top: -80px;
-}
-
-
-/* TEXTOS DA PRIMEIRA E SEGUNDA DIV */
-
-.b3-21 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
-    width: 650px;
-    text-align: center;
-    padding-top: 100px;
-}
-
-.b3-21 h1 {
-    font-size: 22pt;
-    font-weight: 600;
-}
-
-.b3-21 h2 {
-    font-size: 22pt;
-    font-weight: 600;
-}
-
-.b3-21 h3 {
-    font-size: 18pt;
-    font-weight: 500;
-}
-
-.b3-21>.p1,
-.p3 {
-    margin-top: 40px;
-}
-
-
-/* TEXTOS DA TERCEIRA DIV */
-
-.b3-23 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
-    width: 650px;
-    text-align: center;
-    padding-top: 110px;
-}
-
-.b3-23 h1 {
-    font-size: 22pt;
-    font-weight: 600;
-}
-
-.b3-23 h2 {
-    font-size: 22pt;
-    font-weight: 600;
-}
-
-.b3-23 h3 {
-    font-size: 18pt;
-    font-weight: 500;
-}
-
-.b3-23>.p1,
-.p3 {
-    margin-top: 40px;
-}
-
-.p4 h3 {
-    display: block;
-    width: 150px;
-    padding-left: 280px;
-    font-size: 18pt;
-    font-weight: 500;
-}
-
-.p4 h2 {
-    display: block;
-    width: 150px;
-    padding-left: 320px;
-    font-size: 22pt;
-    font-weight: 600;
-}
-
-.p5 {
-    display: block;
-    padding-left: 520px;
-    font-size: 13pt;
-}
-
-.p6 {
-    float: right;
-    padding-left: 140px;
-    margin-top: -30px;
-    font-size: 13pt;
-}
-
-
 /* CADASTRO E EDITAR CENTRO DE CUSTO */
 
 .position {
@@ -274,9 +38,13 @@ select:invalid {
 }
 
 .nav-tabs {
-    margin-top: -124px;
+    margin-top: -74px;
     margin-left: 20px;
     font-size: 1.1em;
+}
+
+small.required {
+    color:#f00;
 }
 
 .nav-tabs a {
@@ -308,15 +76,18 @@ thead>tr>th:last-child(2) {
     margin-top: -57px;
 }
 
-.content-alert {
+.conteudo {
+    position: relative;
     padding: 10px;
     width: 100vw;
     display: inline-block;
     justify-content: center;
     align-content: center;
     height: 80px;
-    padding-top: 5px;
+    padding-top: 30px;
+    font-size: 1.5rem;
 }
+
 
 /* LAYOUTS DE INPUTS PARA CADASTROS E EDIÇÕES DE TELAS */
 
@@ -338,7 +109,7 @@ thead>tr>th:last-child(2) {
 }
 
 .telo5ce select {
-    border: none;
+    border: none !important;
     font-family: 'Roboto', sans-serif;
     outline: 0px !important;
     box-shadow: none !important;
@@ -347,6 +118,16 @@ thead>tr>th:last-child(2) {
     font-size: 14px;
 }
 
+
+.selectize-input {
+    border: none !important;
+    font-family: 'Roboto', sans-serif;
+    outline: 0px !important;
+    box-shadow: none !important;
+    background-color: #e2eff773 !important;
+    color: #162E3C;
+    font-size: 14px !important;
+}
 /* INPUT DE FILTRO DE BUSCA TOPO DETALHE */
 
 .telo5inputfiltro input {
@@ -364,12 +145,123 @@ thead>tr>th:last-child(2) {
     float: right;
 }
 
-/* STATUS DA AFERIÇÃO */
-
-.hoverstatusafericao a:hover{
-    color: #fff;
-}
-
 .subnavbar label a:hover {
     color: rgba(255, 255, 255, 0.7) !important;
+}
+
+
+/* VALIDAÇÕES DE INPUTS */
+
+input.error {
+    border: 1px solid #EBCCD1;
+}
+
+label.error {
+    margin-top: 5px;
+    font-size: 12px;
+    width: 100%;
+    margin-bottom: 3px;
+    padding: 3px;
+    font-weight: normal;
+    color: #A94442 !important;
+    background-color: #F2DEDE;
+}
+
+label.error strong {
+    font-weight: bold;
+    color: #A94442 !important;
+}
+
+
+/* BOTOES DE PROXIMO E VOLTAR NO CADASTRO AFERIÇÃO */
+
+.voltar {
+    padding: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background-color: #1B6B9A;
+    color: #fff;
+    font-size: 20px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.proximo {
+    padding: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background-color: #26546F;
+    color: #fff;
+    font-size: 20px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.botaoAfericao button {
+    outline: none;
+}
+
+.botaoAfericao a {
+    color: #fff !important;
+}
+
+.botaoAfericao button a {
+    color: #fff !important;
+}
+
+.botaoAfericao {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: end;
+}
+
+
+/* TOOLTIPS */
+
+.tooltip-inner {
+    background-color: transparent;
+    color: #162E3C;
+    padding: 10px;
+}
+
+.bs-tooltip-auto[x-placement^=bottom] .arrow::before,
+.bs-tooltip-bottom .arrow::before,
+.bs-tooltip-auto[x-placement^=left] .arrow::before,
+.bs-tooltip-left .arrow::before,
+.bs-tooltip-auto[x-placement^=right] .arrow::before,
+.bs-tooltip-right .arrow::before {
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.bs-tooltip-auto[x-placement^=left],
+.bs-tooltip-left {
+    margin-top: -15px;
+}
+
+/* BOOTSTRAP CSS */
+
+.form-row {
+    flex-wrap: nowrap;
+}
+
+.form-row-statusAfericao {
+    margin-left: -25px;
+}
+
+/* PRELOADER */
+
+.preloader{
+    text-align: center;
+    display: block;
+    position: absolute;
+    top:35vh;
+    left: 50%;
+    color: #3c8dbc;
+    z-index: 1;
 }

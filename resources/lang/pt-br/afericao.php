@@ -1,8 +1,10 @@
 <?php
 
 return [
-    'teste' => 'Teste',
-    'pivoCentral' => 'Pivo Central',
+    'informacoes_gerais' => 'Informações Gerais',
+    'consideracoes' => 'Considerações',
+    'parte_aerea' => 'Parte Aérea',
+    'pivoCentral' => 'Pivô Central',
     'informacoesGerais' => 'Informações Gerais',
     'dataAfericao' => 'Data de Aferição',
     'tempoFuncionamento' => 'Tempo de Funcionamento',
@@ -155,7 +157,7 @@ return [
     'potencia' => 'Potência (cv)',
     'vazao' => 'Vazão (m3/h)',
     'modelo' => 'Modelo',
-    'bomba' => 'Bomba',
+    'bomba' => 'Conj. MB ',
     'bocais' => 'Bocais',
     'alcanceCanhao' => 'Alcance canhão (m)',
     'motor' => 'Motor',
@@ -166,8 +168,9 @@ return [
     'voltar' => 'VOLTAR',
     'numLancesSemBalanco' => 'N° de lances (Sem o balanço)',
 
-
+    'afericoes' => 'Aferições',
     'afericao' => 'Aferição',
+    'cadastrar_lance' => 'REGISTER SPAN',
     'lance' => 'Lance ',
     'numeroTubos' => 'Numero de Tubos ',
     'numeroEmissores' => 'Número de Emissores',
@@ -175,7 +178,7 @@ return [
     'tipoValvula' => 'Tipo de Válvula',
     'motorredutor' => 'Motorredutor',
 
-    'emissores' => 'EMISSORES',
+    'emissores' => 'Emissores',
     'balanco' => 'Balanço',
     'emissor' => 'Emissor ',
     'saida1' => 'Saída 1',
@@ -229,6 +232,7 @@ return [
 
     //Velocidade Aferição
     'velocidadeAfericao' => 'Aferição da velocidade',
+    'velocidade100' => 'Velocidade 100%',
     'testeVelo100' => 'Teste de velocidade (100%)',
     'distanciaM' => 'Distância',
     'afericao01' => 'Aferição 01',
@@ -259,6 +263,7 @@ return [
     'movimentadoSegundos' => 'Movimentado',
     'paradoSegundos' => 'Parado',
     'percentimetro' => 'Percentímetro',
+    'afericaoPercentimetro' => 'Aferição do Percentímetro',
     'velocidadeProjeto' => 'Projeto',
     'velocidadeMedido' => 'Medido',
     'velocidadeVariacao' => 'Variação',
@@ -296,7 +301,6 @@ return [
 
     //Cadastro Adutora
     'cadastroAdutora' => 'CADASTRO DE ADUTORA',
-    'bombeamento' => 'Bombeamento',
     'tipoInstalacao' => 'Tipo de Instalação',
     'direta' => 'Direta',
     'afogada' => 'Afogada',
@@ -314,10 +318,10 @@ return [
     'lagoa' => 'Lagoa',
     'poco' => 'Poço',
     'trechos' => 'Trechos',
-    'tipoCano' => 'Tipo de Cano',
+    'tipoCano' => 'Tipo de Tubo',
     'diametro' => 'Diâmetro',
-    'hw' => 'HW',
-    'numeroCanos' => 'Número de Canos',
+    'hw' => 'Coef. Rugosidade',
+    'numeroCanos' => 'Quantidade de Tubos',
     'comprimento' => 'Comprimento',
     'desnivel' => 'Desnível',
     'altitude' => 'Altitude',
@@ -327,7 +331,6 @@ return [
     'aluminio' => 'Alumínio',
     'ferro' => 'Ferro',
     'aco' => 'Aço',
-    'tipoCano' => 'Tipo de Cano',
     'addTrecho' => 'Adicionar Trecho',
     'fechar' => 'Fechar',
     'altitudeNivelAgua' => 'Altitude Nível de Água',
@@ -337,7 +340,11 @@ return [
     'numero_canos' => 'Número de Canos',
 
     //BOMBEAMENTOS
-    'cadastroBombeamento' => 'Cadastro de bombeamento',
+    
+    'bombeamento' => 'Conjunto Motor Bomba',
+    'cadastroItemBombeamento' => 'CADASTRAR ITEM DE BOMBEAMENTO',
+    'editarItemBombeamento' => 'EDITAR ITEM DE BOMBEAMENTO',
+    'editarBomba' => 'Conj. MB',
     'materialSuccao' => 'Material de Sucção',
     'acoSac' => 'AÇO SAC',
     'AZ' => 'AZ',
@@ -386,13 +393,11 @@ return [
     'visualizar' => 'Visualizar',
     'realizeOperacoesMapaOriginal' => 'Para acessar este recurso é necessário ter completado o mapa de bocais',
     'realizeTodasAsEtapas' => 'Para acessar este recurso, todas as etapas anteriores devem ser concluídas',
-    'mapaBocais' => 'Mapa de Bocais',
+    'mapaBocais' => 'Mapa de Bocal',
     'mapaOriginal' => 'Mapa Original',
     'relatorioVelocidade' => 'Relatório Velocidade',
     'fichaTecnica' => 'Ficha Técnica',
 
-
-    'cadastrarAdutora' => 'Cadastrar Adutora',
     'ja_existe_adutora' => 'Já existe um cadastro de adutora para esta aferição !',
     'aviso' => 'Aviso',
     'erro_db' => 'Houve um problema na tentativa de gravar os dados, por favor, tente novamente mais tarde !',
@@ -404,8 +409,7 @@ return [
     'selecioneFazendaAfericao' => 'Esta aferição não pertence a fazenda selecionada !',
     'graficoUniformidade' => "Gráfico de Uniformidade",
     'atualizarMapa' => 'Atualizar Mapa',
-    'editarBombeamento' => 'EDITAR BOMBEAMENTO',
-    'statusAfericao' => 'STATUS DA AFERIÇÃO',
+    'statusAfericao' => 'Status da Aferição',
     'titulo_alerta_nome_pivo' => 'Este pivô já possui aferição !',
     'texto_alerta_nome_pivo' => 'Caso continue, a aferição anterior deste pivô será arquivada !',
 

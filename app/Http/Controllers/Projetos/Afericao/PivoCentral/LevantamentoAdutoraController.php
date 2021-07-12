@@ -12,31 +12,34 @@ use DB;
 use App\Classes\Projetos\Afericao\PivoCentral\CabecalhoBombeamento;
 use App\Classes\Projetos\Afericao\PivoCentral\Bombeamento;
 use App\Classes\Projetos\Afericao\PivoCentral\AfericaoPivoCentral;
+
 class LevantamentoAdutoraController extends Controller
 {
-    public function carregarTelaCadastroAdutora($id_afericao){
+    public function createAdductor($id_afericao)
+    {
 
-        if(!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)){
+        if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)) {
             Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
             return redirect()->route('dashboard');
         }
         $adutora = Adutora::where('id_afericao', $id_afericao)->get();
-        if($adutora->count() == 0){
+        if ($adutora->count() == 0) {
             return view('projetos.afericao.pivoCentral.cadastro.cadastroConjuntoMotorBomba', compact('id_afericao'));
-        }else{
+        } else {
             Notificacao::gerarAlert('afericao.aviso', 'afericao.ja_existe_adutora', 'info');
             return redirect()->back();
         }
     }
 
-    public function cadastraMotorBomba(Request $req){
+    public function saveAdductor(Request $req)
+    {
         $dados = $req->all();
         $dados['id_usuario'] = Auth::user()->id;
         $id_adutora = null;
         $listaTrechos = [];
         // Caso haja dados.
-        if(!empty($dados['tipo_cano'])){
-            foreach($dados['tipo_cano'] as $key => $elemento){
+        if (!empty($dados['tipo_cano'])) {
+            foreach ($dados['tipo_cano'] as $key => $elemento) {
                 $trecho = [];
                 $trecho['id_afericao'] = $dados['id_afericao'];
                 $trecho['tipo_cano'] = $dados['tipo_cano'][$key];
@@ -53,48 +56,52 @@ class LevantamentoAdutoraController extends Controller
             // Transição para banco de dados.
             $id_adutora = DB::transaction(function () use ($dados, $listaTrechos) {
                 AfericaoPivoCentral::find($dados['id_afericao'])->update(['adutora_pendente' => 0]);
-                foreach($listaTrechos as $trecho){
+                foreach ($listaTrechos as $trecho) {
                     Adutora::create($trecho);
                 }
                 return $dados['id_afericao'];
             });
 
             // Se a transição não ocorrer bem, retorna o modal com erro.
-            if(is_null($id_adutora)){
+            if (is_null($id_adutora)) {
                 Notificacao::gerarModal('afericao.erro', 'afericao.erro_db', 'danger');
-                return redirect()->route('afericoes.pivo.central');
+                return redirect()->route('gauging_manager');
             }
             // Se ocorrer tudo certo, retorna para status da aferição.
-            else{ return redirect()->route('status_afericao', $dados['id_afericao']); }
-        // Caso não haja dados e clique em salvar e sair, retorna um modal solicitando ao menos o cadastro de 1 trecho.
-        }else{
+            else {
+                return redirect()->route('gauging_status', $dados['id_afericao']);
+            }
+            // Caso não haja dados e clique em salvar e sair, retorna um modal solicitando ao menos o cadastro de 1 trecho.
+        } else {
             Notificacao::gerarModal('afericao.erro', 'afericao.adutora_vazia', 'danger');
             $id_afericao = $dados['id_afericao'];
             return view('projetos.afericao.pivoCentral.cadastro.cadastroConjuntoMotorBomba', compact('id_afericao'));
         }
-
-
     }
 
-    public function carregarTelaEditarAdutora($id_afericao){
-        if(!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)){
+    public function editAdductor($id_afericao)
+    {
+        if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)) {
             Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
             return redirect()->route('dashboard');
         }
         $adutora = Adutora::where('id_afericao', $id_afericao)->get();
-        if (empty($adutora)) return redirect()->route('status_afericao', 'id_afericao');
-        else return view('projetos.afericao.pivoCentral.cadastro.editarConjuntoMotorBomba', compact('id_afericao', 'adutora'));
+        if (empty($adutora)) 
+            return redirect()->route('gauging_status', 'id_afericao');
+        else 
+            return view('projetos.afericao.pivoCentral.cadastro.editarConjuntoMotorBomba', compact('id_afericao', 'adutora'));
     }
 
-    public function editaMotorBomba(Request $req){
+    public function updateAdductor(Request $req)
+    {
         //Requisitando os dados
         $dados = $req->all();
         $dados['id_usuario'] = Auth::user()->id;
 
         $listaTrechos = [];
         //Atribuindo a lista de 'trechos'
-        if(!empty($dados['tipo_cano'])){
-            foreach($dados['tipo_cano'] as $key => $elemento){
+        if (!empty($dados['tipo_cano'])) {
+            foreach ($dados['tipo_cano'] as $key => $elemento) {
                 $trecho = [];
                 $trecho['id_afericao'] = $dados['id_afericao'];
                 $trecho['tipo_cano'] = $dados['tipo_cano'][$key];
@@ -114,60 +121,61 @@ class LevantamentoAdutoraController extends Controller
                 Adutora::where('id_afericao', $dados['id_afericao'])->delete();
 
                 // Criando os trechos no DB.
-                foreach($listaTrechos as $trecho){
+                foreach ($listaTrechos as $trecho) {
                     Adutora::create($trecho);
                 }
                 Notificacao::gerarAlert('afericao.sucesso', 'afericao.edicaoSucesso', 'success');
                 return $dados['id_afericao'];
             });
 
-            if (is_null($transaction)){
+            if (is_null($transaction)) {
                 Notificacao::gerarModal('afericao.erro', 'afericao.erro_db', 'danger');
-                return redirect()->route('afericoes.pivo.central');
-            }else{
-                if ($dados['botao_form'] == "salvar"){
-                    //Salvamento das informações, mantendo na mesma página de edição.
-                    return redirect()->route('editarMotorBomba', $dados["id_afericao"]);
-                }else{
-                    return redirect()->route('status_afericao', $dados['id_afericao']);
-                }
+                return redirect()->route('gauging_manager');
+            } else {
+                // edição concluida com sucesso retornar para status aferição
+                return redirect()->route('gauging_status', $dados['id_afericao']);
             }
-        // Caso não haja dados e clique para salvar, retorna um modal solicitando ao menos o cadastro de 1 trecho.
-        }else{
+            // Caso não haja dados e clique para salvar, retorna um modal solicitando ao menos o cadastro de 1 trecho.
+        } else {
             Notificacao::gerarModal('afericao.erro', 'afericao.adutora_vazia', 'danger');
             $id_afericao = $dados['id_afericao'];
-            return redirect()->route('editarMotorBomba', $id_afericao);
+            return redirect()->route('adductor_edit', $id_afericao);
             return view('projetos.afericao.pivoCentral.cadastro.editarConjuntoMotorBomba', compact('id_afericao'));
         }
     }
 
-    public function carregarTelaCadastroBombeamentos($id_afericao){
-        if(!empty($id_afericao)){
-            if(!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)){
+    public function createPumping($id_afericao)
+    {
+        if (!empty($id_afericao)) {
+            if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)) {
                 Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
                 return redirect()->route('dashboard');
-            }else{
+            } else {
                 session()->put('id_afericao', $id_afericao);
                 return view('projetos.afericao.pivoCentral.cadastro.cadastrarBombeamentos');
             }
-        }else{
+        } else {
             return redirect()->back();
         }
     }
 
-    public function cadastraBombeamento(Request $req){
+    public function savePumping(Request $req){
         // Dados do formulário.
         $dados = $req->all();
-        $dados['id_usuario'] = Auth::user()->id;
 
-        // Inserindo os dados de cabeçalho no DB.
+        $dados['id_usuario'] = Auth::user()->id;
+        
+        // Inserindo os dados de cabeçalho no DB.        
         $cabecalho = CabecalhoBombeamento::create($dados);
-        dd($dados);
+        
         $dados['id_bombeamento'] = $cabecalho['id'];
+        
         $id_afericao  = $dados['id_afericao'];
+        
         $bombeamentos = [];
         for ($i = 0; $i < $dados['numero_bombas']; $i++) {
             $bombeamento = [];
+            
             $bombeamento['id_bombeamento'] = $dados['id_bombeamento'];
             $bombeamento['comprimento_succao'] = $dados['comprimento_succao'][$i];
             $bombeamento['diametro_succao'] = $dados['diametro_succao'][$i];
@@ -204,20 +212,21 @@ class LevantamentoAdutoraController extends Controller
             $bombeamento['tensao_leitura_2_fase_3'] = $dados['tensao_leitura_2_fase_3'][$i];
             array_push($bombeamentos, $bombeamento);
         }
-
         // Inserindo os dados de bombeamento no DB.
         $transaction = false;
         $transaction = DB::transaction(function () use ($bombeamentos, $id_afericao) {
+
             foreach ($bombeamentos as $key => $bombeamento) {
                 Bombeamento::create($bombeamento);
-            }
+            }            
             // Atualizando a flag de pendência na tabela de aferição
             AfericaoPivoCentral::find($id_afericao)->update(['bombeamento_pendente' => 0]);
             return true;
         });
-
+        
         // Inserção de dados no DB OK.
         if($transaction){
+            return redirect()->route('gauging_status', $dados['id_afericao']);
             Notificacao::gerarAlert('afericao.sucesso', 'afericao.edicaoSucesso', 'info');
         }
         // Problema para salvar no DB
@@ -225,17 +234,14 @@ class LevantamentoAdutoraController extends Controller
             Notificacao::gerarAlert('afericao.erro', 'afericao.erro_processamento', 'warning');
         }
 
-        if($dados['botao'] == "salvar_sair"){
-            return redirect()->route('status_afericao', $dados['id_afericao']);
-        }
     }
 
-    public function editarBombeamento($id_afericao){
-
+    public function editPumping($id_afericao)
+    {
         // Identificando o bombeamento.
-        $cabecalho_bombeamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();
+        $cabecalho_bombeamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();        
         $bombeamentos = Bombeamento::where('id_bombeamento', $cabecalho_bombeamento['id'])->get();
-
+        // dd($bombeamentos);
         // Se houver ao menos um bombeamento.
         if($bombeamentos->count() > 0){
             $completo = false;
@@ -244,11 +250,15 @@ class LevantamentoAdutoraController extends Controller
             }
             return view('projetos.afericao.pivoCentral.cadastro.editarBombeamento', compact('cabecalho_bombeamento', 'bombeamentos', 'id_afericao', 'completo'));
         }else{
+            // return view('projetos.afericao.pivoCentral.cadastro.editarBombeamento', compact('cabecalho_bombeamento', 'bombeamentos', 'id_afericao', 'completo'));
             return redirect()->back();
         }
+        // Identificando o bombeamento.
+        // $cabecalho_bombeamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();
+        // return view('projetos.afericao.pivoCentral.cadastro.editarBombeamento', compact('cabecalho_bombeamento', 'id_afericao'));
     }
 
-    public function editaBombeamento(Request $req){
+    public function updatePumping(Request $req){
         $dados = $req->all();
         $bombeamentos = [];
 
@@ -294,7 +304,7 @@ class LevantamentoAdutoraController extends Controller
             $bombeamento['tensao_leitura_2_fase_3'] = $dados['tensao_leitura_2_fase_3'][$key];
             array_push($bombeamentos, $bombeamento);
         }
-
+        
         $transaction = false;
         $transaction = DB::transaction(function () use ($bombeamentos, $dados) {
             // Faz update caso seja apenas edição dos campos antigos.
@@ -316,50 +326,44 @@ class LevantamentoAdutoraController extends Controller
 
         // Verificando a transação do banco de dados.
         if($transaction){
+            return redirect()->route('gauging_status', $dados['id_afericao']);
             Notificacao::gerarAlert('afericao.sucesso', 'afericao.edicaoSucesso', 'info');
         }else{
             Notificacao::gerarAlert('afericao.erro', 'afericao.erro_processamento', 'warning');
         }
-
-        // Retorno dos botões.
-        if($dados['botao'] == "salvar"){
-            return redirect()->back();
-        }else{
-            return redirect()->route('status_afericao', $dados['id_afericao']);
-        }
     }
 
-    public function calcularAdutora($id_adutora)
+    public function calculateAdductor($id_adutora)
     {
         $adutora = Adutora::find($id_adutora);
-        if(!empty($adutora) && $adutora['pendente'] == 0){
-            if(!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($adutora['id_afericao'])){
+        if (!empty($adutora) && $adutora['pendente'] == 0) {
+            if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($adutora['id_afericao'])) {
                 Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
                 return redirect()->route('dashboard');
             }
             $afericao = AfericaoPivoCentral::find($adutora['id_afericao']);
             $trechos_adutora = TrechoAdutora::where('id_adutora', $adutora['id'])->get();
             $bombeamentos = Bombeamento::where('id_adutora', $adutora['id'])->get();
-            $resultado = Adutora::calcularAdutora($adutora, $trechos_adutora, $afericao);
-        }else{
+            $resultado = Adutora::adductor_calculate($adutora, $trechos_adutora, $afericao);
+        } else {
             Notificacao::gerarAlert('afericao.erro', 'afericao.erroAdutora', 'warning');
             return redirect()->back();
         }
     }
 
-
-    public function continuarCadastroBombeamentos($id_adutora){
+    public function ContinuePumpingCreate($id_adutora)
+    {
         $adutora = Adutora::find($id_adutora);
-        if(empty($adutora)){
+        if (empty($adutora)) {
             return redirect()->back();
         }
         $qt_bombeamento = Bombeamento::where('id_Adutora', $id_adutora)->count();
-        if($qt_bombeamento >= $adutora['numero_bombas']){
+        if ($qt_bombeamento >= $adutora['numero_bombas']) {
             return redirect()->back();
         }
         session()->put('id_adutora', $id_adutora);
         session()->put('numero_bombeamentos', $adutora['numero_bombas']);
         session()->put('bomba_atual', $qt_bombeamento + 1);
-        return redirect()->route('cadastrarBombeamento');
+        return redirect()->route('pumping_create');
     }
 }

@@ -1,11 +1,13 @@
 body {
     background-color: #26546F;
 }
+
 .form {
     width: 400px;
     margin: auto;
     padding-top: 40px;
 }
+
 .background {
     background-color: #26546F;
     padding: 30px;
@@ -35,7 +37,7 @@ body {
     text-align: center;
 }
 
-.login > input {
+.login>input {
     top: 481px;
     left: 792px;
     width: 200px;
@@ -49,7 +51,7 @@ body {
     border: 0px;
 }
 
-.password > input {
+.password>input {
     top: 481px;
     left: 792px;
     width: 200px;
@@ -66,7 +68,8 @@ body {
     text-align: center;
     padding-top: 20px;
 }
-.entrar > button {
+
+.entrar>button {
     background-color: #162E3C;
     width: 205px;
     text-align: center;

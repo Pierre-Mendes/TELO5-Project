@@ -19,7 +19,7 @@ class Adutora extends Model
         'comprimento', 'desnivel', 'altitude', 'latitude', 'longitude'
     ];
 
-    public static function calcularAdutora($cabecalho_bombeamento, $trechos_adutora, $afericao){
+    public static function adductor_calculate($cabecalho_bombeamento, $trechos_adutora, $afericao){
         $somatorios = MapaOriginal::select( DB::raw('sum( vazao_aspersor) as vazao_total'))->where('id_afericao', $afericao['id'])->first();        
         $pressao_inicial = Bombeamento::select('pressao_bomba')->where('id_bombeamento', $cabecalho_bombeamento['id'])->first()['pressao_bomba'];
         $vazao_canhao_final  = CanhaoFinal::select('vazao_canhao_final')->where('id_afericao', $afericao['id'])->first()['vazao_canhao_final'];

@@ -4,128 +4,101 @@ namespace App\Http\Controllers\Sistema;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Classes\Sistema\FabricanteBocal;
 use App\Classes\Sistema\Bocal;
 use App\Classes\Constantes\Notificacao;
+use Illuminate\Support\Facades\DB;
 
 class BocalController extends Controller
 {
-    //********************************************************************************************************/
-    public function getListaDeFabricantes()
+    //APRESENTAÇÃO DA VIEW NA TELA DE BOCAIS
+    public function manageNozzles()
     {
+        $infoBocais = Bocal::select('id', 'fabricante', 'modelo', 'tipo', 'plug', DB::raw('count(*) as qt'))
+            ->groupBy('fabricante', 'modelo')
+            ->orderBy('fabricante', 'ASC')
+            ->orderBy('modelo', 'ASC')
+            ->paginate(10);
 
-        $fabricantes = FabricanteBocal::select('id', 'fabricante', 'modelo')->paginate(30);
-
-        return view('sistema.bocais.gerenciarBocais',  compact('fabricantes'));
+        return view('sistema.bocais.gerenciarBocais', compact('infoBocais'));
     }
 
-    public function cadastraFabricante(Request $req)
-    {
-        $dados= $req->all();
-        FabricanteBocal::create($dados);
-        Notificacao::gerarAlert('bocais.sucesso', 'bocais.fabricante_inserido_sucesso', 'success');
-        return redirect()->back();
-    }
-
-    public function editaFabricante(Request $req)
-    {
-        $dados = $req->all();
-        $id= $dados['id'];
-        FabricanteBocal::find($id)->update($dados);
-        Notificacao::gerarAlert('bocais.sucesso', 'bocais.editado_sucesso', 'info');
-        return redirect()->back();
-    }
-
-    public function destroy($id)
-    {
-        $delete = FabricanteBocal::find($id);
-        $delete->delete();
-        return redirect()->route('fabricantes.gerenciar')->with('Sucesso', 'Foi deletado');
-    }
-
-    //********************************************************************************************************/
-
-    public function cadastrarBocal()
+    public function createNozzle()
     {
         return view('sistema.bocais.cadastrarBocais');
     }
 
-    public function getListaDeBocais(Request $req){
-        $filtro = $req->all();
-        $bocais = array();
-        $fabricantes = Bocal::select('fabricante', 'id_fabricante')->distinct('fabricante')->get();
-
-        if(empty($filtro['filtro']))
-        {
-            $bocais = Bocal::select('id','fabricante', 'tipo', 'nome', 'vazao','vazao_10_psi', 'intervalo_trabalho', 'plug')->paginate(30);
-
-            foreach($bocais as $bocal)
-            {
-                if ($bocal['tipo'] == 0){ $bocal['tipo'] = \Lang::get('bocais.estatico');}
-                else{$bocal['tipo'] = \Lang::get('bocais.rotativo');}
-            }
-        }
-        else
-        {
-            $bocais = Bocal::select('id','fabricante', 'nome', 'vazao','vazao_10_psi', 'intervalo_trabalho')
-            ->where(function ($query) use ($filtro)
-            {
-                //Busca pelo fabricante
-                if(!empty($filtro['fabricante'])){
-                    $query->where('fabricante', 'like', '%'.($filtro['fabricante']).'%');
-                }
-
-                //Busca pela vazão
-                if(!empty($filtro['vazao_min'])){
-                    $query->where('vazao', '>=' ,($filtro['vazao_min']));
-                }
-
-                if(!empty($filtro['vazao_max'])){
-                    $query->where('vazao', '<=', ($filtro['vazao_max']));
-                }
-            })
-            ->paginate(30);
-        }
-
-        foreach($bocais as $bocal){
-            $bocal['nome'] = ($bocal['nome']);
-            $bocal['vazao'] = number_format($bocal['vazao'],6,",",".");
-            $bocal['vazao_10_psi'] = number_format($bocal['vazao_10_psi'],6,",",".");
-            $bocal['intervalo_trabalho'] = number_format($bocal['intervalo_trabalho'],6,",",".");
-        }
-        return view('sistema.bocais.editarBocais', compact('bocais', 'filtro', 'fabricantes'));
-    }
-
-    public function getInfosBocal($id){
-        $bocal = Bocal::find($id);
-        return $bocal;
-    }
-
-    public function cadastraBocal(Request $req){
-        $dados= $req->all();
-        Bocal::create($dados);
-        Notificacao::gerarAlert('bocais.sucesso', 'bocais.inserido_sucesso', 'success');
-        return redirect()->back();
-    }
-
-    public function editaBocal(Request $req){
+    public function saveNozzle(Request $req)
+    {
         $dados = $req->all();
-        $id= $dados['id'];
-        Bocal::find($id)->update($dados);
+        $token = $dados['_token'];
+        $fabricante = $dados['fabricante'];
+        $modelo = $dados['modelo'];
+        $plug = $dados['plug'];
+        $tipo = $dados['tipo'];
+        $vazao10Psi = $dados['vazao_10_psi'];
+
+        for ($i = 0; $i < count($dados['nome']); $i++) {
+            $createItem = array(
+                '_token' => $token,
+                'id_fabricante' => 1,
+                'fabricante' => $fabricante,
+                'modelo' => $modelo,
+                'nome' => $dados['nome'][$i],
+                'vazao_10_psi' => $vazao10Psi,
+                'vazao' => $dados['vazao'][$i],
+                'plug' => $plug,
+                'tipo' => $tipo,
+                'intervalo_trabalho' => $dados['intervalo_trabalho'][$i]
+            );
+            Bocal::create($createItem);
+            unset($createItem);
+        }
+        Notificacao::gerarAlert('Bocais.sucesso', 'bocais.inserido_sucesso', 'success');
+        return redirect()->route('manager_nozzles');
+    }
+
+    public function editNozzle($id)
+    {
+        $bocal = Bocal::find($id);
+        $bocais = Bocal::where('fabricante', $bocal['fabricante'])->where('modelo', $bocal['modelo'])->get();
+        return view('sistema.bocais.editarBocais', compact('bocais'));
+    }
+
+
+    public function updateNozzle(Request $req)
+    {
+        $dados = $req->all();
+        $token = $dados['_token'];
+        $fabricante = $dados['fabricante'];
+        $modelo = $dados['modelo'];
+        $plug = $dados['plug'];
+        $tipo = $dados['tipo'];
+        $vazao10Psi = $dados['vazao_10_psi'];
+
+        for ($i = 0; $i < count($dados['nome']); $i++) {
+            $updateItem = array(
+                '_token' => $token,
+                'id_fabricante' => 1,
+                'fabricante' => $fabricante,
+                'modelo' => $modelo,
+                'nome' => $dados['nome'][$i],
+                'vazao_10_psi' => $vazao10Psi,
+                'vazao' => $dados['vazao'][$i],
+                'plug' => $plug,
+                'tipo' => $tipo,
+                'intervalo_trabalho' => $dados['intervalo_trabalho'][$i]
+            );
+            Bocal::find($dados['id'][$i])->update($updateItem);
+            unset($updateItem);
+        }
         Notificacao::gerarAlert('bocais.sucesso', 'bocais.editado_sucesso', 'info');
-        return redirect()->back();
+        return redirect()->route('manager_nozzles');
     }
 
-    public function removerBocal($id){
-        //Validar Fazendas
+    public function delete($id)
+    {
         Bocal::find($id)->delete();
-        //Notificacao::gerarAlert('proprietarios.falha', 'proprietarios.remocao_falha', 'danger');
         Notificacao::gerarAlert('bocais.sucesso', 'bocais.remocao_sucesso', 'info');
-        return redirect()->back();
-    }
-
-    public function getlistSelectFabricante(){
-        $selectFabricante = FabricanteBocal::select('fabricante')->paginate(30);
-        return view('sistema.bocais.cadastrarBocais',  compact('selectFabricante'));
+        return redirect()->route('manager_nozzles')->with('Sucesso', 'Foi deletado');
     }
 }

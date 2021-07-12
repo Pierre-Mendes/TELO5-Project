@@ -14,7 +14,7 @@ return [
     'atualizar' => 'Update',
     
     'sucesso' => 'Success',
-    'proprietarios' => 'OWNERS',
+    'proprietarios' => 'Owners',
     'falha' => 'Ops, something went wrong!',
     'inserido_sucesso' => 'Owner successfully registered!',
     'editado_sucesso' => 'Owner information changed successfully !',

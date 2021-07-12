@@ -10,7 +10,6 @@ return [
     'assistente' => 'Assistente',
 
     'informacoes_pessoais' => 'Informações Pessoais',
-    'cadastro_usuario' => 'CADASTRO DE USUÁRIO',
     'nome' => 'Nome',
     'telefone' => 'Telefone',
     'informacoes_endereco' => 'Informações de Endereço',
@@ -39,7 +38,8 @@ return [
     'buscar' => 'Buscar',
     'atualizar' => 'Atualizar',
     'fechar' => 'Fechar', 
-    'editar_usuario' => 'Editar Usuário',
+
+    'usuarios' => 'Usuários',
     'informe_senha_alt' => 'Informe uma senha APENAS se for alterá-la',
     'centrodecustos' => 'Centro de Custos',
     'superior' => 'Superior',
@@ -49,6 +49,5 @@ return [
     'nao_filtrar' => 'Não filtrar',
     'opcional' => 'Opcional',
 
-    'usuarios' => 'Usúarios',
     'senhasNaoBatem' => 'As senhas informadas são diferentes !',
 ];

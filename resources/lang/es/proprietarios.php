@@ -14,7 +14,7 @@ return [
     'atualizar' => 'Actualizar',
     
     'sucesso' => 'Éxito',
-    'proprietarios' => 'PROPIETARIOS',
+    'proprietarios' => 'Proprietarios',
     'falha' => '¡Ops, algo salió mal!',
     'inserido_sucesso' => 'Propietario registrado con éxito!',
     'editado_sucesso' => 'La información del propietario cambió con éxito.',

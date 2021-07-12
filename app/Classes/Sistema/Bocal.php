@@ -12,7 +12,6 @@ class Bocal extends Model
     use SoftDeletes;
     protected $dates =  ['deleted_at'];
     protected $fillable = [
-        'fabricante' , 'nome', 'vazao', 'intervalo_trabalho', 'vazao_10_psi'
+        'id_fabricante', 'fabricante', 'modelo',  'nome', 'vazao', 'intervalo_trabalho', 'vazao_10_psi', 'plug', 'tipo'
     ];
-
 }

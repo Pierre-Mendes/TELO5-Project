@@ -36,7 +36,7 @@ return [
     'atualizar' => 'Update',
     'fechar' => 'Close', 
 
-    'editar_usuario' => 'Edit User',
+    'usuarios' => 'Users',
     'informe_senha_alt' => 'Enter a password ONLY if you change it',
     'ativo' => 'Active',
     'inativo' => 'Inactive',
@@ -48,7 +48,6 @@ return [
     'nao_filtrar' => 'Do not filter',
     'opcional' => 'Optional',
 
-    'usuarios' => 'USERS',
     'senhasNaoBatem' => 'Passwords entered are different!',
 
 ];

@@ -60,12 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $idiomas = [
             ['chave'=>'0','valor'=>'pt-br'],
             ['chave'=>'1','valor'=>'en'],
-            ['chave'=>'2','valor'=>'es'],
-            /*
-            ['chave'=>'3','valor'=>'ru'],
-            ['chave'=>'4','valor'=>'ar'],
-            ['chave'=>'4','valor'=>'tr']
-            */
+            ['chave'=>'2','valor'=>'es']
         ];
         return $idiomas;
     }

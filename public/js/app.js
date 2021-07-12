@@ -6751,11 +6751,11 @@ var formatComponentName = (noop);
   warn = function (msg, vm) {
     var trace = vm ? generateComponentTrace(vm) : '';
 
-    if (config.warnHandler) {
-      config.warnHandler.call(null, msg, vm, trace);
-    } else if (hasConsole && (!config.silent)) {
-      console.error(("[Vue warn]: " + msg + trace));
-    }
+    // if (config.warnHandler) {
+    //   config.warnHandler.call(null, msg, vm, trace);
+    // } else if (hasConsole && (!config.silent)) {
+    //   console.error(("[Vue warn]: " + msg + trace));
+    // }
   };
 
   tip = function (msg, vm) {
@@ -8016,11 +8016,11 @@ function logError (err, vm, info) {
     warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
   }
   /* istanbul ignore else */
-  if ((inBrowser || inWeex) && typeof console !== 'undefined') {
-    console.error(err);
-  } else {
-    throw err
-  }
+  // if ((inBrowser || inWeex) && typeof console !== 'undefined') {
+  //   console.error(err);
+  // } else {
+  //   throw err
+  // }
 }
 
 /*  */

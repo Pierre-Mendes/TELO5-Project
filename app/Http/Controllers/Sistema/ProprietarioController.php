@@ -9,11 +9,11 @@ use App\Classes\Constantes\Notificacao;
 
 class ProprietarioController extends Controller
 {
-    public function listarProprietarios(Request $req)
+    public function managerOwners(Request $req)
     {
         $filtro = $req->all();
         $proprietarios = array();
-        $proprietarios = Proprietario::select('id', 'nome', 'tipo_pessoa', 'documento', 'telefone', 'email')->paginate(30);
+        $proprietarios = Proprietario::select('id', 'nome', 'tipo_pessoa', 'documento', 'telefone', 'email')->paginate(10);
         foreach ($proprietarios as $proprietario) {
             if ($proprietario['tipo_pessoa'] == 'fisica') {
                 $proprietario['tipo_pessoa'] = __('proprietarios.pessoa_fisica');
@@ -24,29 +24,29 @@ class ProprietarioController extends Controller
         return view('sistema.proprietarios.gerenciar', compact('proprietarios', 'filtro'));
     }
 
-    public function cadastrarProprietario()
+    public function createOwner()
     {
         return view('sistema.proprietarios.cadastrar');
     }
 
-    public function salvarProprietario(Request $req)
+    public function saveOwner(Request $req)
     {
         // $dados = $req->all();
         Proprietario::create($req->all());
         Notificacao::gerarAlert('proprietarios.sucesso', 'proprietarios.inserido_sucesso', 'success');
-        return redirect()->route('proprietarios.gerenciar');
+        return redirect()->route('owner_manager');
     }
 
-    public function editarProprietario($id){
+    public function editOwner($id){
         $proprietarios = Proprietario::find($id);
         return view('sistema.proprietarios.editar', compact('proprietarios'));
     }
 
-    public function editaProprietario(Request $req){
+    public function updateOwner(Request $req){
         $dados = $req->all();
         Proprietario::find($dados['id'])->update($dados);
         Notificacao::gerarAlert('proprietarios.sucesso', 'proprietarios.editado_sucesso', 'info');
-        return redirect()->route('proprietarios.gerenciar');
+        return redirect()->route('owner_manager');
     }
 
     public function removerProprietario($id)
@@ -58,11 +58,11 @@ class ProprietarioController extends Controller
         return redirect()->back();
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $delete = Proprietario::find($id);
         $delete->delete();
-        return redirect()->route('proprietarios.gerenciar')->with('Sucesso', 'Foi deletado');
+        return redirect()->route('owner_manager')->with('Sucesso', 'Foi deletado');
     }
 
 }

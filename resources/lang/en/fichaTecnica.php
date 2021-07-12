@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'mapaBocal' => 'Original Nozzle Map',
     'ftPivoCentralDiagnostico' => 'CENTRAL PIVOT DATA SHEET - DIAGNOSTIC',
     'proprietario' => 'Owner',
     'propriedade' => 'Property',
@@ -138,4 +139,8 @@ return [
     'conclusao18' => 'With the completion of the recommended adjustments, the equipment will work with proper Uniformity, Pressurization and loading index. Therefore, all adjustments must strictly follow the recommendation of the Irriger Consultants. The nozzle exchange must follow the exact order, according to the attached list. If there is any doubt in this regard, contact our team to instruct the farm team in this process. After making the adjustments, we request that you contact our responsible Consultant to have a final check of the process.',
     'texto_uniformidade_7' => 'After adjustments, the center pivot blade will be :lamina mm/ :horas h ',
 
+    'bocais' => 'Nozz.',
+    'espacamento' => 'Spac.',
+    'valvula' => 'Valv.',
+    'numTubos' => 'Nº Tubes: '
 ];

@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'informacoes_gerais' => 'Informaciones generales',
+    'consideracoes' => 'Consideraciones',
+    'parte_aerea' => 'Aéreo',
     'teste' => 'Test',
     'pivoCentral' => 'Pivote Central',
     'informacoesGerais' => 'Información general',
@@ -165,7 +168,7 @@ return [
     'voltar' => 'ESPALDA',
     'numLancesSemBalanco' => 'Número de tramos (sin voladizo)',
 
-
+    'afericoes' => 'Mediciones',
     'afericao' => 'MEDICIÓN',
     'lance' => 'Lapso ',
     'numeroTubos' => 'Numero de tubos ',
@@ -174,6 +177,7 @@ return [
     'tipoValvula' => 'Tipo de válvula',
     'motorredutor' => 'Caja de cambios',
 
+    'cadastrar_emissores' => 'REGISTRAR EMISORES',
     'emissores' => 'EMISORES',
     'balanco' => 'Equilibrar',
     'emissor' => 'Editor ',
@@ -229,6 +233,7 @@ return [
 
     //Velocidade Aferição
     'velocidadeAfericao' => 'Medida de velocidad',
+    'velocidade100' => 'Velocidad 100%',
     'testeVelo100' => 'Prueba de velocidad (100%)',
     'distanciaM' => 'Distancia',
     'afericao01' => 'Medición 01',
@@ -297,6 +302,7 @@ return [
     //Cadastro Adutora
     'cadastroAdutora' => 'REGISTRO DEL ADDUCTOR',
     'bombeamento' => 'Bombeo',
+    'cadastroItemBombeamento' => 'Registrar artículo de bombeo',
     'tipoInstalacao' => 'Tipo de instalación',
     'direta' => 'Directo',
     'afogada' => 'Ahogado',
@@ -317,7 +323,7 @@ return [
     'tipoCano' => 'Tipo de tubería',
     'diametro' => 'Diámetro',
     'hw' => 'HW',
-    'numeroCanos' => 'Numero de tubos',
+    'numeroCanos' => 'Cantidad de tubo',
     'comprimento' => 'Longitud',
     'desnivel' => 'Brecha',
     'altitude' => 'Altitud',
@@ -337,7 +343,9 @@ return [
     'numero_canos' => 'Numero de tubos',
 
     //BOMBEAMENTOS
-    'cadastroBombeamento' => 'REGISTRO DE BOMBEO',
+    'cadastroItemBombeamento' => 'REGISTRAR EL ARTÍCULO DE BOMBEO',
+    'editarItemBombeamento' => 'EDITAR ELEMENTO DE BOMBA',
+    'editarBomba' => 'EDITAR BOMBA',
     'materialSuccao' => 'Material de succión',
     'acoSac' => 'AÇO SAC',
     'AZ' => 'AZ',
@@ -391,8 +399,6 @@ return [
     'relatorioVelocidade' => 'Informe de velocidad',
     'fichaTecnica' => 'Ficha Técnica',
 
-
-    'cadastrarAdutora' => 'Registrar aductor',
     'ja_existe_adutora' => '¡Ya existe un registro de aductores para esta medida!',
     'aviso' => 'Advertencia',
     'erro_db' => 'Se ha producido un problema al intentar escribir los datos. Vuelva a intentarlo más tarde.',
@@ -405,9 +411,8 @@ return [
     'graficoUniformidade' => "Tabla de uniformidad",
     'atualizarMapa' => 'Actualizar mapa',
     'editarBombeamento' => 'EDITAR BOMBEO',
-    'statusAfericao' => 'ESTADO DE EXPLORACIÓN',
+    'statusAfericao' => 'Estado de Medición',
 
-    'statusAfericao' => 'PERSONAL DE AFERICION',
     'titulo_alerta_nome_pivo' => '¡Este pivote ya tiene medidas!',
     'texto_alerta_nome_pivo' => 'Si continúa, la medición anterior de este pivote se archivará.',
 

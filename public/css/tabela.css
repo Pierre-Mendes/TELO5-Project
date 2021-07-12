@@ -1,13 +1,18 @@
 /* filtrar */
 
 .buscar {
-    background-color: #E2EFF7;
+    background-color: #E2EFF7 !important;
     float: right;
     margin-top: -35px;
 }
 
 
 /* tabelas em geral */
+
+table {
+    text-align: center;
+    text-align-last: center;
+}
 
 .table {
     font-size: 12pt !important;
@@ -16,17 +21,14 @@
 }
 
 .tabela {
-    width: 100%;
-    margin-top: -40px!important;
-    text-align: center;
-    background-color: #E2EFF7;
-    color: #162E3C;
+    width: 98% !important;
+    background-color: #E2EFF7 !important;
+    color: #162E3C !important;
     padding: 0!important;
-    position: static !important;
 }
 
 tfoot {
-    background-color: #C1D5DE;
+    background-color: #C1D5DE !important;
     height: 10px;
     opacity: 1;
 }
@@ -36,11 +38,11 @@ tfoot {
 }
 
 tbody>tr>td {
-    border-right: #C1D5DE 1px solid;
+    border-right: #C1D5DE 1px solid !important;
 }
 
 tbody>tr>td:nth-last-child(1) {
-    border-right: none;
+    border-right: none !important;
 }
 
 table thead {
@@ -48,23 +50,24 @@ table thead {
 }
 
 .table-striped>tbody>tr:nth-child(even)>td {
-    background-color: #ffffff;
+    background-color: #ffffff !important;
 }
 
 .table-striped>thead {
-    background-color: #C1D5DE;
+    background-color: #C1D5DE !important;
 }
 
 .acoes {
     width: 100px;
+    text-align: center;
 }
 
 .acoes form {
     width: 90px;
 }
 
-.acoes button {
-    background-color: #ffffff00;
+.acoes .botaoTabela {
+    background-color: #ffffff00 !important;
     outline: none;
     border: none;
     cursor: pointer;
@@ -73,15 +76,16 @@ table thead {
 }
 
 .addtablerow {
+    margin-left: -170px;
     width: 35px;
     height: 35px;
     border-radius: 50%;
     border: none;
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 .addtablerow i {
-    margin-left: 0px;
+    margin-left: 15px;
     color: #3c8dbc !important;
 }
 
@@ -89,7 +93,7 @@ table thead {
     padding-top: 2px;
     width: 40px;
     height: 20px;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0) !important;
     border: none;
     cursor: pointer;
     outline: none;
@@ -99,11 +103,12 @@ table thead {
     color: #9BB4C3;
 }
 
+
 /* CSS DE PAGINACAO DAS TABELAS */
 
 .page-item.active .page-link {
     z-index: 1;
     color: #fff;
-    background-color: #1B6B9A;
-    border-color: #1B6B9A;
+    background-color: #1B6B9A !important;
+    border-color: #1B6B9A !important;
 }

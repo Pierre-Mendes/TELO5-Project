@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'redimensionamento' => 'Redimensionamiento',
+    'menuRedimensionamento' => 'Redimensionamiento',
+    'redimensionamento' => 'ADMINISTRAR REDIMENSIONAMIENTO',
     'redim' => 'Redim.',
     'afericao' => 'Medida',
     'etapa' => 'Etapa',
@@ -39,7 +40,7 @@ return [
     'espacamentoMaximoPlug' => 'Espacio máximo para el ENCHUFE',
     'dataRedim' => 'Fecha del redimensionado',
     'redimensionamentos' => 'Redimensionados de granja: :fazenda',
-    'novoRedimensionamento' => 'Redimensionar',
+    'novoRedimensionamento' => 'Nuevo Redimensionamiento',
     'selecione_o_pivo' => 'Seleccionar pivote',
     'nenhum_selecionado' => 'Ninguno seleccionado',
     'selecioneUmPivo' => 'Seleccione un pivote para continuar',

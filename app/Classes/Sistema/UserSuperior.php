@@ -26,7 +26,7 @@ class UserSuperior extends Model
         }
     }
 
-    public static function getAssistentesDoUsuario($id_superior){
+    public static function userAssist($id_superior){
         $assistentes = User::select('users.nome', 'users.id')
             ->join('usuario_superiores as US', 'US.id_usuario', 'users.id')
             ->where('US.id_superior', $id_superior)->where('users.tipo_usuario', 4)->get();

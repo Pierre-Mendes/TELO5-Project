@@ -36,8 +36,9 @@ return [
     'fazenda_nao_encontrada'=>'¡Granja no encontrada!',
     'aviso'=>'Advertencia',
     
-    'fazendas'=>'GRANJAS',
-    'fazenda'=>'GRANJA',
+    'fazendas'=>'Granjas',
+    'fazendasDisponiveis' => 'GRANJAS DISPONIBLES',
+    'pesquisarFazenda' => 'Buscar una granja',
 
     'assistente_removido_sucesso'=>'Asistente eliminado de la granja con éxito!',
     

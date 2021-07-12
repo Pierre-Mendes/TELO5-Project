@@ -14,24 +14,25 @@ use Auth;
 use Illuminate\Foundation\Console\Presets\React;
 use Session;
 use URL;
+use DB;
 
 class FazendaController extends Controller
 {
-    public function cadastrarFazenda()
+    public function createFarm()
     {
         $proprietarios = Proprietario::select('nome', 'id')->get();
         $consultores = User::where('tipo_usuario', 3)->where('situacao', 1)->select('id', 'nome')->get();
         return view('sistema.fazendas.cadastrar', compact('proprietarios', 'consultores'));
     }
 
-    public function salvarFazenda(Request $req)
+    public function saveFarm(Request $req)
     {
         Fazenda::create($req->all());
         Notificacao::gerarAlert('fazendas.sucesso', 'fazendas.cadastro_sucesso');
-        return redirect()->route('fazendas.gerenciar');
+        return redirect()->route('farms_manager');
     }
 
-    public function listarFazendas(Request $req)
+    public function manageFarms(Request $req)
     {
 
         $fazendas = Fazenda::getFazendasUsuario(10);
@@ -47,12 +48,46 @@ class FazendaController extends Controller
         return view('sistema.fazendas.gerenciar', compact('fazendas', 'proprietarios', 'consultores'));
     }
 
-    public function listFazendas(){
-        $fazendas = Fazenda::getFazendasUsuario()->pluck('id', 'nome');
+    public function selectFarms()
+    {
+        // $fazendas = Fazenda::getFazendasUsuario()->pluck('id', 'nome');
+        // dd($fazendas);
+
+        $tipo_usuario = (Auth::user()->tipo_usuario);
+        $fazendas = array();
+        $id_usuario = Auth::user()->id;
+
+        switch ($tipo_usuario) {
+            case 0: { //Admin
+                    $fazendas = Fazenda::select('fazendas.id', 'fazendas.nome')->join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->where('fazendas.ativa', 1)->get();
+                    break;
+                }
+            case 1: { //Gerente
+                    $fazendas = Fazenda::select('fazendas.id', 'fazendas.nome')->join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->join('usuario_superiores as US', 'fazendas.id_consultor', 'US.id_usuario')->where('US.id_superior', $id_usuario)->where('fazendas.ativa', 1);
+                    break;
+                }
+            case 2: { //Supervisor
+                    $fazendas = Fazenda::select('fazendas.id', 'fazendas.nome')->join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->join('usuario_superiores as US', 'fazendas.id_consultor', 'US.id_usuario')->where('US.id_superior', $id_usuario)->where('fazendas.ativa', 1);
+                    break;
+                }
+            case 3: { //Consultor
+                    $fazendas = Fazenda::select('fazendas.id', 'fazendas.nome')->join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->where('fazendas.id_consultor', $id_usuario)->where('fazendas.ativa', 1);
+                    break;
+                }
+            case 4: { //Assistente
+                    $fazendas = Fazenda::select('fazendas.id', 'fazendas.nome')->join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->join('usuarios_fazendas as UF', 'fazendas.id', 'UF.id_fazenda')->where('UF.id_usuario', $id_usuario)->where('fazendas.ativa', 1);
+                    break;
+                }
+            default: {
+                    break;
+                }
+        }
+        $fazendas = $fazendas->pluck('id', 'nome');
         return json_encode($fazendas);
     }
 
-    public function setFazenda(Request $req){
+    public function setFarm(Request $req)
+    {
         $dados = $req->all();
         $fazenda = Fazenda::find($dados['id']);
 
@@ -74,7 +109,7 @@ class FazendaController extends Controller
         return view('sistema.fazendas.gerenciar', compact('fazendas', 'proprietarios', 'consultores', 'filtro'));
     }
 
-    public function editarFazenda($id)
+    public function editFarm($id)
     {
         $fazenda = Fazenda::find($id);
         $proprietarios = Proprietario::select('nome', 'id')->get();
@@ -82,15 +117,15 @@ class FazendaController extends Controller
         return view('sistema.fazendas.editar', compact('fazenda', 'proprietarios', 'consultores'));
     }
 
-    public function editaFazenda(Request $req)
+    public function updateFarm(Request $req)
     {
         $dados = $req->all();
         Fazenda::find($dados['id'])->update($dados);
         Notificacao::gerarAlert('fazendas.sucesso', 'fazendas.atualizada_sucesso');
-        return redirect()->route('fazendas.gerenciar');
+        return redirect()->route('farms_manager');
     }
 
-    public function removerFazenda($id)
+    public function deleteFarm($id)
     {
         //Verificar usos da fazenda
 
@@ -121,8 +156,6 @@ class FazendaController extends Controller
         return redirect()->back();
     }
 
-
-
     public function detalheFazenda()
     {
         if (session()->has('fazenda')) {
@@ -140,13 +173,14 @@ class FazendaController extends Controller
         }
     }
 
-    public function getAssistentesDoUsuario()
+    public function userAssist()
     {
         $assistentes = [];
-        $assistentes['assistentes'] = UserSuperior::getAssistentesDoUsuario(Auth::user()->id);
+        $assistentes['assistentes'] = UserSuperior::userAssist(Auth::user()->id);
         return $assistentes;
     }
-    public function adicionarAssistente(Request $req)
+
+    public function createAssist(Request $req)
     {
         if (session()->has('fazenda')) {
 
@@ -167,7 +201,7 @@ class FazendaController extends Controller
         }
     }
 
-    public function removerAssistente($id_assistente)
+    public function deleteAssist($id_assistente)
     {
         if (session()->has('fazenda')) {
             UsuariosFazendas::where('id_usuario', $id_assistente)->where('id_fazenda', Session::get('fazenda')['id'])->delete();
@@ -176,10 +210,5 @@ class FazendaController extends Controller
             Notificacao::gerarAlert('fazendas.erro', 'fazendas.fazenda_nao_encontrada', 'warning');
         }
         return redirect()->back();
-    }
-
-    public function teste()
-    {
-        dd(URL::previous());
     }
 }

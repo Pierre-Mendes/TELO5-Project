@@ -26,16 +26,17 @@ use Storage;
 
 class RedimensionamentoController extends Controller
 {
-    public function index(){
+    public function managerRedimensionamento(){
         if(session()->has('fazenda')){
             $fazenda = session()->get('fazenda');
-            $redimensionamentos = AfericaoPivoCentral::select('afericoes_pivos_centrais.id', 'afericoes_pivos_centrais.nome_pivo as nome__do_pivo', 'afericoes_pivos_centrais.data_afericao', 'P.nome as nome_pivo', 'afericoes_pivos_centrais.numero_lances', 'afericoes_pivos_centrais.tem_balanco')
+            $redimensionamentos = AfericaoPivoCentral::select('afericoes_pivos_centrais.id', 'afericoes_pivos_centrais.nome_pivo', 'afericoes_pivos_centrais.data_afericao', 'P.nome as pivo', 'afericoes_pivos_centrais.numero_lances', 'afericoes_pivos_centrais.tem_balanco')
                 ->join('pivos as P', 'P.id', 'afericoes_pivos_centrais.marca_modelo_pivo')
                 ->where('afericoes_pivos_centrais.id_fazenda', $fazenda['id'])
                 ->where('afericoes_pivos_centrais.ativa', 1)
                 ->where('afericoes_pivos_centrais.tipo_projeto', 'R')
                 ->orderBy('afericoes_pivos_centrais.data_afericao', 'desc')
                 ->paginate(20);
+                // dd($redimensionamentos);
             $pivos = AfericaoPivoCentral::
                 select('afericoes_pivos_centrais.id', 'nome_pivo', 'P.nome as marca_modelo_pivo')->
                 join('pivos as P', 'afericoes_pivos_centrais.marca_modelo_pivo', 'P.id')->
@@ -60,17 +61,18 @@ class RedimensionamentoController extends Controller
         }
     }
 
-    public function criarRedimensionamento(request $req){
+    public function createRedimensionamento(request $req){
         $id_afericao = $req->all()['id_afericao'];
         $novoId = InfoRedimensionamento::duplicarInformacoesAfericao($id_afericao);
+        
         if(empty($novoId)){
             Notificacao::gerarAlert('redimensionamento.erro', 'redimensionamento.falhaDuplicarDados', 'danger');
             return redirect()->back();
         }
-        return redirect()->route('configurarRedimensionamento', $novoId);
+        return redirect()->route('redimensionamento_setup_view', $novoId);
     }
 
-    public function carregarViewConfigurarRedimensionamento($id_redimensionamento){
+    public function setupViewRedimensionamento($id_redimensionamento){
         if(!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_redimensionamento)){
             Notificacao::gerarAlert('afericao.aviso', 'redimensionamento.selecioneFazendaAfericao', 'warning');
             return redirect()->route('dashboard');
@@ -85,12 +87,12 @@ class RedimensionamentoController extends Controller
         $afericao = MapaOriginal::gerarMapaOriginal($redimensionamento[0]['id_afericao_original'], true);
 
         $adutora_red = Adutora::where('id_afericao', $redimensionamento[0]['id_afericao'])->first();
-        $bombeamentos_red = Bombeamento::where('id_adutora', $adutora_red['id'])->get();
-        $trechos_red = TrechoAdutora::where('id_adutora', $adutora_red['id'])->get();
+        $bombeamentos_red = Bombeamento::where('id_bombeamento', $adutora_red['id'])->get();
+        // $trechos_red = Adutora::where('id_adutora', $adutora_red['id'])->get();
 
         $adutora_afe = Adutora::where('id_afericao', $redimensionamento[0]['id_afericao_original'])->first();
-        $trechos_afe = TrechoAdutora::where('id_adutora', $adutora_afe['id'])->get();
-        $bombeamentos_afe = Bombeamento::where('id_adutora', $adutora_afe['id'])->get();
+        // $trechos_afe = Adutora::where('id_adutora', $adutora_afe['id'])->get();
+        $bombeamentos_afe = Bombeamento::where('id_bombeamento', $adutora_afe['id'])->get();
 
         $afericao[0]['pressao_na_bomba'] = RedimensionamentoController::getPressaoNaBomba($adutora_afe, $bombeamentos_afe);
         $redimensionamento[0]['pressao_na_bomba'] = RedimensionamentoController::getPressaoNaBomba($adutora_red, $bombeamentos_red);
@@ -112,16 +114,16 @@ class RedimensionamentoController extends Controller
         $redimensionamento[0]['pressao_5_4_2'] = RedimensionamentoController::calcularPessao542($bombeamentos_red, $redimensionamento[0], $adutora_red);
         $redimensionamento[0]['id_adutora'] = $adutora_red['id'];
 
-        $imagens = [];
-        if(Storage::exists('public/projetos/redimensionamento/' . $redimensionamento[0]['id_afericao'])){
-            $imagens = File::allFiles(public_path('storage/projetos/redimensionamento/'. $redimensionamento[0]['id_afericao']));
-        }
+        // $imagens = [];
+        // if(Storage::exists('public/projetos/redimensionamento/' . $redimensionamento[0]['id_afericao'])){
+        //     $imagens = File::allFiles(public_path('storage/projetos/redimensionamento/'. $redimensionamento[0]['id_afericao']));
+        // }
         return view('projetos.redimensionamento.cadastro.cadastroRedimensionamento', compact('redimensionamento', 'afericao', 'imagens'));
+        // return view('projetos.redimensionamento.cadastro.createRedimensionamento', compact('redimensionamento', 'afericao', 'imagens'));
     }
 
     public function atualizarInformacoesRedimensionamento(Request $req){
         $dados = $req->all();
-
         //Salvando as imagens adicionadas 
         if($req->hasFile('images')){
             foreach ($req->file('images') as $key => $imagem) {
@@ -140,6 +142,7 @@ class RedimensionamentoController extends Controller
             }
             Storage::delete($vetorImagensDeletadas);
         }
+
         DB::beginTransaction();
 
         //afe
@@ -164,10 +167,10 @@ class RedimensionamentoController extends Controller
         }
 
         if(!empty($dados['rugosidade_adutora'])){
-            $trechos = TrechoAdutora::select('id', 'coeficiente_hw')->where('id_adutora', $dados['id_adutora'])->get();
+            $trechos = Adutora::select('id', 'coeficiente_hw')->where('id', $dados['id_adutora'])->get();
             foreach ($trechos as $key => $trecho) {
                 if($trecho['coeficiente_hw'] != $dados['rugosidade_adutora']){
-                    TrechoAdutora::find($trecho['id'])->update(['coeficiente_hw' => $dados['rugosidade_adutora']]);
+                    Adutora::find($trecho['id'])->update(['coeficiente_hw' => $dados['rugosidade_adutora']]);
                 }
             }
         }
@@ -233,7 +236,13 @@ class RedimensionamentoController extends Controller
         return redirect()->back();
     }
 
-
+    public function delete($id)
+    {
+        $delete = AfericaoPivoCentral::find($id);
+        $delete->delete();
+        return redirect()->route('resizing_manager')->with('Sucesso', 'Foi deletado');
+    }
+    
     /**
      * Funções estáticas da classe
      */
@@ -273,6 +282,7 @@ class RedimensionamentoController extends Controller
                 break;
         }
     }
+
     private static function getinfosTrechosAdutora($adutora, $trechos, $vazao_total, $vazao_canhao = 0){
         $hf_trechos = 0;
         $desnivel = 0;
@@ -286,6 +296,7 @@ class RedimensionamentoController extends Controller
         }
         return ['hf' => $hf_trechos, 'desnivel' => $desnivel, 'rugosidade' => $rugosidade_adutora];
     }
+
     private static function getPressaoNaBomba($adutora, $bombeamentos){
         if($adutora['tipo_instalacao'] == 2) { //Paralelo
             $adutora['pressao_na_bomba'] = $bombeamentos[0]['pressao_bomba'];

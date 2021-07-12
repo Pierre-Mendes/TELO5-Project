@@ -17,7 +17,7 @@ use Auth;
 
 class RelatorioVelocidadeController extends Controller
 {
-    public function getRelatorioVelocidade($id_afericao){
+    public function gaugingSpeedReport($id_afericao){
         $velocidade_afericao = RedimensionamentoPercentimetro::geraRedimensionamentoPercentimetro($id_afericao);
         //Arrays para o gráfico
         $projetada = [];
@@ -62,6 +62,6 @@ class RelatorioVelocidadeController extends Controller
         }
 
         //Retornando a view com os dados necessários
-        return view('projetos.afericao.pivoCentral.relatorio.relatorioVelocidade.gerenciarRelatorio', compact('velocidade_afericao', 'projetada', 'aferida', 'mapa_original', 'dados_custo_lamina', 'velocidade_pivo'));
+        return view('projetos.afericao.pivoCentral.relatorio.relatorioVelocidade.gerenciarRelatorio', compact('id_afericao', 'velocidade_afericao', 'projetada', 'aferida', 'mapa_original', 'dados_custo_lamina', 'velocidade_pivo'));
     }
 }

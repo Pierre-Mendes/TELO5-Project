@@ -24,15 +24,15 @@ use App\Classes\Constantes\Notificacao;
 
 class ImpressoesController extends Controller
 {
-    public function geranciaImpressoes($id_afericao){
+    public function manageImpressions($id_afericao){
         //return view('projetos.afericao.pivoCentral.relatorio.mapaBocais.mapaBocais');
     }
 
-    public function geranciaImpressaoMapaBocal($id_afericao){
+    public function nozzleMapsPrint($id_afericao){
         return view('projetos.afericao.pivoCentral.relatorio.mapaBocais.mapaBocais');
     }
 
-    public function geranciaImpressaoFuncionamentoPivo($id_afericao){
+    public function managePivotOperating($id_afericao){
         return view('projetos.afericao.pivoCentral.relatorio.funcionamentoPivo.funcionamentoPivo');
     }
 

@@ -1,20 +1,18 @@
 @extends('_layouts._layout_site')
 
-@section('head')
-@endsection
-
-@section('titulo')
-@endsection
-
 @section('topo_detalhe')
-<div class="container-fluid topo">
-    <div class="row align-items-start">
-
-</div>
 @endsection
 
 @section('conteudo')
-<div class="b2">
+
+    <div class="container-fluid">
+
+        <body
+            style="background-image: url('{{ asset('img/valleyTeam.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+            <h1 class="text-center">TELA EM PRODUÇÃO</h1>
+        </body>
+    </div>
+    {{-- <div class="b2">
     <div class="b2-1">
         <h1>fazendas atendidas:</h1>
         <h2>5</h2>
@@ -115,5 +113,5 @@
             </div>
         </div>
 
-</div>
+</div> --}}
 @endsection

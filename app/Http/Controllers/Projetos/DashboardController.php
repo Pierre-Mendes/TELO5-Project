@@ -33,6 +33,6 @@ class DashboardController extends Controller
         $fazenda_sessao['nome'] = $dados['nome_fazenda'];
         $fazenda_sessao['id'] = $dados['id_fazenda'];
         session(['fazenda' => $fazenda_sessao]);
-        return redirect()->route('status_afericao', $dados['id_afericao']);
+        return redirect()->route('gauging_status', $dados['id_afericao']);
     }
 }

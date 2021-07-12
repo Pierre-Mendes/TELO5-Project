@@ -11,9 +11,9 @@ return [
     'fabricante'=>'Fabricante',
     'espacamento'=>'Espacamento',
     'nome'=>'Modelo',
-    'cadastrar_pivo'=>'Cadastrar Pivô',
-    'editar_pivo'=>'Editar Pivô',
-    'cadastrar'=>'Cadastrar',
+
+    'lance_inicial' => 'Lance Inicial',
+    'lance_intermediario' => 'Lance Intermediário',
     'selecione_digite'=>'Digite para adicionar',
     'modelo'=>'Modelo',
     'espacamentoLanceInicial' => 'Espaçamento para Lance inicial',

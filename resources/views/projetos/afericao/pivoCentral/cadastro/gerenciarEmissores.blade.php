@@ -25,7 +25,7 @@
 
 @section('conteudo')    
     <div>
-        <form id="formEditarTodos" action="{{route("emissores_editar_todos")}}" method="post">
+        <form id="formEditarTodos" action="{{route("edit_all_emitters")}}" method="post">
             {{csrf_field()}}
             <input type="hidden" name="id_afericao" value="{{$id_afericao}}" />
             <table class="table table-responsive tableFixHead" style="height: 500px">

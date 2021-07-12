@@ -12,13 +12,13 @@ use App\Classes\Sistema\CentroDeCusto;
 use App\Classes\Sistema\UserSuperior;
 use App\Classes\Sistema\CdcUsuario;
 use App\Classes\Constantes\Notificacao;
-use App\Classes\Sistema\FabricanteBocal;
+use App\Classes\Sistema\cad_bocais;
 
 class ProducerController extends Controller
 {
     public function getListProducer()
     {
-        $producers = FabricanteBocal::select('id', 'fabricante')->paginate(30);
+        $producers = cad_bocais::select('id', 'fabricante')->paginate(10);
         return view('sistema.producers.listProducer',  compact('producers'));
     }
 
@@ -30,11 +30,9 @@ class ProducerController extends Controller
     public function saveProducer(Request $req)
     {
         $dados = $req->all();
-        $check = FabricanteBocal::where('fabricante', $dados['fabricante'])->count();
-
-
+        $check = cad_bocais::where('fabricante', $dados['fabricante'])->count();
         if ($check == 0) {
-            FabricanteBocal::create($dados);
+            cad_bocais::create($dados);
             Notificacao::gerarAlert('fabricante.sucesso', 'fabricante.inserido_sucesso', 'success');
             return redirect()->route('producer.list');
         } else {

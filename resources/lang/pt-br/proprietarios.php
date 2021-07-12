@@ -6,8 +6,6 @@ return [
     'documento' => 'Documento',
     'telefone' => 'Telefone',
     'email' => 'E-mail',
-    'cadastrar_proprietario' => 'Cadastrar Proprietário',
-    'editar_proprietario' => 'Editar Proprietário',
     'pessoa_fisica' => 'Pessoa Física',
     'pessoa_juridica' => 'Pessoa Jurídica',
     'cadastrar' => 'Cadastrar',

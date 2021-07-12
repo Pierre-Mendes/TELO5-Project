@@ -14,12 +14,14 @@
 
             {{-- TITULO E SUBTITULO --}}
             <div class="col-6">
-                <h1>@lang('fazendas.fazendas')</h1>
+                <h1>@lang('fazendas.fazendas')</h1><br>
+                <h4 style="margin-top: -20px">@lang('comum.gerenciar')</h4>
             </div>
 
             {{-- BOTAO DE CADASTRO --}}
-            <div class="col-6 text-right position">
-                <a href="{{ route('fazenda.cadastrar') }}">
+            <div class="col-6 text-right mobile">
+                <a href="{{ route('farm_create') }}" data-toggle="tooltip" data-placement="left"
+                    title="Cadastrar Fazenda">
                     <span><i class="fas fa-plus-circle fa-3x"></i></span>
                 </a>
             </div>
@@ -28,7 +30,7 @@
         {{-- FILTRO DE PESQUISA --}}
         <div class="row justify-content-end telo5inputfiltro mt-3">
             <div class="col-3 position">
-                <input class="form-control" id="filtrotabela" type="text" placeholder="Pesquisar..">
+                <input class="form-control" id="filtrotabela" type="text" placeholder="@lang('comum.pesquisar')">
                 <i class="fas fa-search search"></i>
             </div>
         </div>
@@ -36,6 +38,7 @@
 @endsection
 
 @section('conteudo')
+@include('_layouts._includes._alert')
     <div class="col-md-11 m-auto tabela">
         <table class="table table-striped mx-auto" id="filtertable">
             @csrf
@@ -60,15 +63,37 @@
                         <td>{{ $fazenda->nome_prop }}</td>
                         <td>{{ $fazenda->ativa }}</td>
                         <td class="acoes">
-                            <form action="{{ action('Sistema\CentroCustosController@destroy', $fazenda['id']) }}"
-                                method="POST" class="delete_form">
-                                {{ csrf_field() }}
-                                <a href="{{ route('fazenda.editar', $fazenda->id) }}"><button type="button" class="">
-                                        <i class="fas fa-pen"></i></button></a>
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class=""><i class="fas fa-times"
-                                        style="padding-left: 6px;"></i></button>
-                            </form>
+                            <a href="{{ route('farm_edit', $fazenda->id) }}"><button type="button" class="botaoTabela">
+                                    <i class="fas fa-pen"></i></button></a>
+                            <button type="submit" class="botaoTabela" data-toggle="modal" data-target="#modalDeletar-{{ $fazenda['id']}}"><i class="fas fa-times" style="padding-left: 6px;"></i></button>
+
+                            {{-- MODAL PARA CONFIRMAR DELEÇÃO --}}
+                            <div class="modal fade" id="modalDeletar-{{ $fazenda['id'] }}" tabindex="-1"
+                                aria-labelledby="modalDeletar" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4>@lang('comum.fazenda') {{ $fazenda['nome'] }} <br>
+                                                @lang('comum.excluir')
+                                            </h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form
+                                                action="{{ action('Sistema\FazendaController@deleteFarm', $fazenda['id']) }}"
+                                                method="POST" class="delete_form float-right"> {{ csrf_field() }}
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">@lang('comum.nao')</button>
+                                                <button type="submit" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#exampleModal">@lang('comum.sim')</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -90,34 +115,26 @@
         {{ $fazendas->links() }}
     </div>
 
-    @endsection
+@endsection
 
 
 
-    @section('scripts')
-        @include('_layouts._includes._validators_jquery')
-        <script>
-            // SCRIPT DE FILTRO DE BUSCA DA TABELA
-            $(document).ready(function() {
-                $("#filtrotabela").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#filtertable tr").filter(function() {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
+@section('scripts')
+    <script>
+        // SCRIPT DE FILTRO DE BUSCA DA TABELA
+        $(document).ready(function() {
+            $("#filtrotabela").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#filtertable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
+        });
 
-        </script>
+    </script>
 
-        <script>
-            // SCRIPT PARA DELETAR LINHA DA TABELA
-            $('.delete_form').on('submit', function() {
-                if (confirm("Deseja realmente excluir ?")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-
-        </script>
-    @endsection
+    {{-- SCRIPT DE FUNCIONALIDADE DO TOOLTIP --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+    </script>
+@endsection

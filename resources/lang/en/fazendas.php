@@ -35,10 +35,10 @@ return [
     'assistente_ja_cadastrado_fazenda'=>'This assistant is already registered on this farm.',
     'fazenda_nao_encontrada'=>'Farm not found !',
     'aviso'=>'Warning',
-    
-    'fazendas'=>'FARMS',
-    'fazenda'=>'FARM',
 
+    'fazendas'=>'Farms',
+    'fazendasDisponiveis' => 'AVAILABLE FARMS',
+    'pesquisarFazenda' => 'Search a farm',
     'assistente_removido_sucesso'=>'Assistant removed from farm successfully !',
     
     'acoes_fazenda' => 'Farm Actions',

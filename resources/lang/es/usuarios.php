@@ -36,7 +36,7 @@ return [
     'atualizar' => 'Actualizar',
     'fechar' => 'Cerca', 
 
-    'editar_usuario' => 'Editar Usuario',
+    'usuarios' => 'Usuarios',
     'informe_senha_alt' => 'Ingrese una contraseña SOLAMENTE si la cambia',
     'ativo' => 'Activo',
     'inativo' => 'Inactivo',
@@ -48,7 +48,6 @@ return [
     'nao_filtrar' => 'No lo filtres',
     'opcional' => 'Opcional',
 
-    'usuarios' => 'USUARIOS',
     'senhasNaoBatem' => 'Las contraseñas ingresadas son diferentes !',
 
 ];

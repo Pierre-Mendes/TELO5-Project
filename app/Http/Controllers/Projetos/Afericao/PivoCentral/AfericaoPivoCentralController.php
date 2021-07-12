@@ -29,11 +29,12 @@ use App\Classes\Projetos\Afericao\PivoCentral\MapaOriginal;
 
 class AfericaoPivoCentralController extends Controller
 {
-    public function listarAfericoes()
+    public function managerMeasurements()
     {
         if (session()->has('fazenda')) {
             $fazenda = session()->get('fazenda');
-            $afericoes = AfericaoPivoCentral::select('afericoes_pivos_centrais.id', 'afericoes_pivos_centrais.nome_pivo as nome__do_pivo', 'afericoes_pivos_centrais.data_afericao', 'P.nome as nome_pivo', 'afericoes_pivos_centrais.numero_lances', 'afericoes_pivos_centrais.tem_balanco')
+            //$afericoes = AfericaoPivoCentral::select('afericoes_pivos_centrais.id', 'afericoes_pivos_centrais.nome_pivo as nome__do_pivo', 'afericoes_pivos_centrais.data_afericao', 'P.nome as nome_pivo', 'afericoes_pivos_centrais.numero_lances', 'afericoes_pivos_centrais.tem_balanco')
+            $afericoes = AfericaoPivoCentral::select('afericoes_pivos_centrais.id', 'afericoes_pivos_centrais.nome_pivo', 'afericoes_pivos_centrais.data_afericao', 'P.nome as pivo', 'afericoes_pivos_centrais.numero_lances', 'afericoes_pivos_centrais.tem_balanco')
                 ->join('pivos as P', 'P.id', 'afericoes_pivos_centrais.marca_modelo_pivo')
                 ->where('afericoes_pivos_centrais.id_fazenda', $fazenda['id'])
                 ->where('afericoes_pivos_centrais.ativa', 1)
@@ -53,22 +54,18 @@ class AfericaoPivoCentralController extends Controller
         }
     }
 
-    // public function cadastrarAfericao(){
-    //     return view('projetos.afericao.pivoCentral.cadastrar');
-    // }
-
     public function salvarAfericao(Request $req)
     {
         AfericaoPivoCentral::create($req->all());
         Notificacao::gerarAlert("notificacao.sucesso", "notificacao.cadastroSucesso", "success");
-        return redirect()->route('afericoes.pivo.central.salvar');
+        return redirect()->route('gauging_save');
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $delete = AfericaoPivoCentral::find($id);
         $delete->delete();
-        return redirect()->route('afericoes.pivo.central')->with('Sucesso', 'Foi deletado');
+        return redirect()->route('gauging_manager')->with('Sucesso', 'Foi deletado');
     }
 
     public function editarAfericao($id)
@@ -84,8 +81,7 @@ class AfericaoPivoCentralController extends Controller
         return redirect()->back();
     }
 
-
-    public function carregarTelaCadastroInformacoesAfericao()
+    public function createGauging()
     {
         if (session()->has('fazenda')) {
             $id_fazenda = Session::get('fazenda')['id'];
@@ -117,8 +113,7 @@ class AfericaoPivoCentralController extends Controller
         }
     }
 
-
-    public function salvarInformacoesGeraisAfericao(Request $request)
+    public function saveGauging(Request $request)
     {
         $dados = $request->all();
         if (isset($dados['possui_pivo_conjugado'])) {
@@ -210,14 +205,16 @@ class AfericaoPivoCentralController extends Controller
             return $afericao['id'];
         });
         if (!empty($dados['id_afericao'])) {
-            return redirect()->route('status_afericao', $dados['id_afericao']);
+            // session()->put('afericao', $dados['id_afericao']);
+            // session()->put('numero_lance', $dados['numero_lances']);
+            return redirect()->route('add_measurement_the_session', $dados['id_afericao']);
         } else {
             Notificacao::gerarAlert('afericao.erro', 'afericao.falhaGravarBd', 'danger');
             return redirect()->back();
         }
     }
 
-    public function carregarDadosAfericaoSessao($id_afericao)
+    public function loadRegisteredMeasurement($id_afericao)
     {
         $afericao = AfericaoPivoCentral::find($id_afericao);
         if (empty($afericao) || $afericao['tipo_projeto'] != "A") {
@@ -227,11 +224,11 @@ class AfericaoPivoCentralController extends Controller
             $afericao['pivo'] = Pivo::select('espacamento')->where('id', $afericao['marca_modelo_pivo'])->first();
             session()->put('afericao', $afericao);
             session()->put('numero_lance', 1);
-            return redirect()->route('cadastrar_levantamento_centro_pt_2');
+            return redirect()->route('span_create');
         }
     }
 
-    public function carregarTelaRegistroLance()
+    public function createSpan()
     {
         /*Verifica se existe uma aferição e um número de lance na sessão */
         if (session()->has('afericao') && session()->has('numero_lance')) {
@@ -241,33 +238,35 @@ class AfericaoPivoCentralController extends Controller
             return view('projetos.afericao.pivoCentral.cadastro.cadastrarLance', compact('lance'));
         } else {
             Notificacao::gerarAlert('afericao.erro', 'afericao.cadastre_uma_afericao_para_registrar_os_lances', 'danger');
-            return redirect()->route('afericoes.pivo.central');
+            return redirect()->route('gauging_manager');
         }
     }
 
-    public function registrarLance(Request $req)
+    public function saveSpan(Request $req)
     {
         /**
          * Atualiza o lance e faz a chamada para o cadastro de emissores
          */
         $lance = $req->all();
-        if (Lance::find($lance['id'])) Lance::find($lance['id'])->update($lance);
-        else Lance::create($lance);
+        if (Lance::find($lance['id'])) 
+            Lance::find($lance['id'])->update($lance);
+        else 
+            Lance::create($lance);
         session()->put('lance', $lance);
-        return redirect()->route('cadastrar_levantamento_centro_pt_3');
+        return redirect()->route('issuer_create');
     }
 
-    public function voltarLanceAnterior()
+    public function backSpanPrevious()
     {
         $numero_lance_atual = session()->get('numero_lance');
         if ($numero_lance_atual <= 1) {
             return redirect()->back();
         }
         session()->put('numero_lance', $numero_lance_atual - 1);
-        return redirect()->route('cadastrar_levantamento_centro_pt_2');
+        return redirect()->route('span_create');
     }
 
-    public function carregarTelaCadastroEmissores()
+    public function createIssuer()
     {
         if (session()->has('numero_lance') && session()->has('lance')) {
             $emissores = Emissor::select('saida_1', 'saida_2')
@@ -277,11 +276,11 @@ class AfericaoPivoCentralController extends Controller
             return view('projetos.afericao.pivoCentral.cadastro.cadastrarEmissores', compact('emissores'));
         } else {
             Notificacao::gerarModal('afericao.erro', "erro.afericao_nao_encontrada", 'danger');
-            return redirect()->route('cadastrar_levantamento_centro_pt_2');
+            return redirect()->route('span_create');
         }
     }
 
-    public function salvarLanceNoDB(Request $req)
+    public function saveSpanAndIssuer(Request $req)
     {
 
         $dados = $req->all();
@@ -314,8 +313,6 @@ class AfericaoPivoCentralController extends Controller
                 //Editar emissor
 
                 foreach ($emissores as $i => $emissor) {
-                    //dd($dados['numero_emissor']);
-                    //dump($i);
                     $emissor['numero'] = $dados['numero_emissor'][$i];
                     $emissor['saida_1'] = $dados['bocal_1'][$i];
                     if (empty($dados['bocal_2'][$i])) {
@@ -340,18 +337,18 @@ class AfericaoPivoCentralController extends Controller
                     session()->forget('numero_lance');
                     session()->forget('afericao');
                     session()->forget('lance');
-                    return redirect()->route('status_afericao', $lance['id_afericao']);
+                    return redirect()->route('gauging_status', $lance['id_afericao']);
                 }
                 session()->forget('lance');
                 session()->put('numero_lance', ($lance['numero_lance'] + 1));
-                return redirect()->route('cadastrar_levantamento_centro_pt_2');
+                return redirect()->route('span_create');
             } else {
                 session()->forget('numero_lance');
                 session()->forget('afericao');
                 session()->forget('lance');
                 AfericaoPivoCentral::find($lance['id_afericao'])->update(['mapa_bocais_pendente' => 0]);
                 Notificacao::gerarModal("afericao.sucesso", "afericao.cadastroEmissoresSucesso", 'success');
-                return redirect()->route('status_afericao', $lance['id_afericao']);
+                return redirect()->route('originalMap_manager', $lance['id_afericao']);
             }
         } else {
             Notificacao::gerarAlert('afericao.erro', 'afericao.falhaGravarBd', 'danger');
@@ -359,9 +356,7 @@ class AfericaoPivoCentralController extends Controller
         }
     }
 
-
-
-    public function continuarMapaBocais($id_afericao)
+    public function continueNozzleMap($id_afericao)
     {
 
         $afericao = AfericaoPivoCentral::find($id_afericao);
@@ -389,19 +384,18 @@ class AfericaoPivoCentralController extends Controller
             /* Adicionando a aferição e o número do lance atual a sessão do usuário */
             session()->put('afericao', $afericao);
             session()->put('numero_lance', $num_lance);
-
-            return redirect()->route('cadastrar_levantamento_centro_pt_2');
+            return redirect()->route('span_create');
         }
     }
 
-    public function arquivarAfericao($id)
+    public function archiveGauging($id)
     {
         AfericaoPivoCentral::find($id)->update(['ativa' => 0]);
         Notificacao::gerarAlert('afericao.sucesso', 'afericao.remocaoSucesso', 'info');
         return redirect()->back();
     }
 
-    public function carregarTelaEditarAfericao($id_afericao)
+    public function editGauging($id_afericao)
     {
         if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)) {
             Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
@@ -437,7 +431,7 @@ class AfericaoPivoCentralController extends Controller
         return view('projetos.afericao.pivoCentral.cadastro.editarAfericao', compact('pivos', 'lista_nomes', 'entrada', 'id_afericao'));
     }
 
-    public function editaAfericao(Request $req){
+    public function updateGauging(Request $req){
         $dados = $req->all();
         if(isset($dados['possui_pivo_conjugado'])){
             $dados['id_usuario'] = Auth::user()->id;
@@ -513,7 +507,7 @@ class AfericaoPivoCentralController extends Controller
         if($retorno){
             Notificacao::gerarAlert('afericao.sucesso', 'afericao.edicao_sucesso', 'success');
             if($dados['botao'] == "sair"){
-                return redirect()->route('status_afericao',$dados['id_afericao'] );
+                return redirect()->route('gauging_status',$dados['id_afericao'] );
             }
             return redirect()->back();
         }else{
@@ -522,7 +516,7 @@ class AfericaoPivoCentralController extends Controller
         }
     }
 
-    public function carregaEmissores($id_afericao)
+    public function manageIssuer($id_afericao)
     {
         if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)) {
             Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
@@ -558,7 +552,7 @@ class AfericaoPivoCentralController extends Controller
         return redirect()->back();
     }
 
-    public function editaTodosEmissores(Request $req)
+    public function editAllEmitters(Request $req)
     {
         $emissores = $req->all();
         //Update nos emissores
@@ -575,11 +569,11 @@ class AfericaoPivoCentralController extends Controller
         }
 
         // Verificando qual página será retornada
-        if ($emissores['botao'] == 'sair') return redirect()->route('status_afericao', $req['id_afericao']);
+        if ($emissores['botao'] == 'sair') return redirect()->route('gauging_status', $req['id_afericao']);
         else return redirect()->back();
     }
 
-    public function statusAfericao($id_afericao){
+    public function gaugingStatus($id_afericao){
         if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)) {
             Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
             return redirect()->route('dashboard');
@@ -596,15 +590,15 @@ class AfericaoPivoCentralController extends Controller
             if ($afericao_db['tipo_projeto'] == "R") {
                 $afericao['cor'] = "green";
                 $afericao['mensagem'] = "afericao.concluido";
-                $afericao['acao'] = "configurarRedimensionamento";
+                $afericao['acao'] = "resizing_edit";
                 $afericao['parametro'] = $id_afericao;
-                $afericao['botao'] = 'redimensionamento.configurar';
+                $afericao['botao'] = 'unidadesAcoes.editar';
                 $afericao['icone'] = 'fa fa-check';
                 $afericao['condicao'] = "ok";
             } else {
                 $afericao['cor'] = "green";
                 $afericao['mensagem'] = "afericao.concluido";
-                $afericao['acao'] = "afericoes.pivo.central.editar";
+                $afericao['acao'] = "gauging_edit";
                 $afericao['parametro'] = $id_afericao;
                 $afericao['botao'] = 'unidadesAcoes.editar';
                 $afericao['icone'] = 'fa fa-check';
@@ -614,7 +608,7 @@ class AfericaoPivoCentralController extends Controller
             if ($afericao_db['velocidade_pendente'] == 1) {
                 $velocidade['cor'] = "orange";
                 $velocidade['mensagem'] = "afericao.pendente";
-                $velocidade['acao'] = "velocidade_cadastrar";
+                $velocidade['acao'] = "gauging_speed_create";
                 $velocidade['parametro'] = $id_afericao;
                 $velocidade['botao'] = 'afericao.cadastrar';
                 $velocidade['icone'] = 'fa fa-clock-o';
@@ -622,7 +616,7 @@ class AfericaoPivoCentralController extends Controller
 
                 $relVelocidade['cor'] = "red";
                 $relVelocidade['mensagem'] = "afericao.bloqueado";
-                $relVelocidade['acao'] = "status_afericao";
+                $relVelocidade['acao'] = "gauging_status";
                 $relVelocidade['parametro'] = "";
                 $relVelocidade['botao'] = 'afericao.bloqueado';
                 $relVelocidade['icone'] = 'fa fa-lock';
@@ -630,16 +624,16 @@ class AfericaoPivoCentralController extends Controller
             } else {
                 $velocidade['cor'] = "green";
                 $velocidade['mensagem'] = "afericao.concluido";
-                $velocidade['acao'] = "velocidade_editar";
+                $velocidade['acao'] = "gauging_speed_report";
                 $velocidade['parametro'] = $id_afericao;
-                $velocidade['botao'] = 'unidadesAcoes.editar';
+                $velocidade['botao'] = 'afericao.visualizar';
                 $velocidade['icone'] = 'fa fa-check';
                 $velocidade['condicao'] = "ok";
 
                 if (empty($mapa_original_db)) {
                     $relVelocidade['cor'] = "red";
                     $relVelocidade['mensagem'] = "afericao.bloqueado";
-                    $relVelocidade['acao'] = "status_afericao";
+                    $relVelocidade['acao'] = "gauging_status";
                     $relVelocidade['parametro'] = "";
                     $relVelocidade['botao'] = 'afericao.bloqueado';
                     $relVelocidade['icone'] = 'fa fa-lock';
@@ -647,26 +641,62 @@ class AfericaoPivoCentralController extends Controller
                 } else {
                     $relVelocidade['cor'] = "green";
                     $relVelocidade['mensagem'] = "afericao.concluido";
-                    $relVelocidade['acao'] = "velocidade_relatorio";
+                    $relVelocidade['acao'] = "gauging_speed_report";
                     $relVelocidade['parametro'] = $id_afericao;
-                    $relVelocidade['botao'] = 'afericao.visualizar';
+                    $relVelocidade['botao'] = 'unidadesAcoes.editar';
                     $relVelocidade['icone'] = 'fa fa-flag';
                     $relVelocidade['condicao'] = "ok";
                 }
             }
 
+            // BOMBEAMENTO
             $bombeamento['cor'] = "orange";
             $bombeamento['mensagem'] = "afericao.pendente";
-            $bombeamento['acao'] = "cadastrarBombeamento";
+            $bombeamento['acao'] = "pumping_create";
             $bombeamento['parametro'] = "$id_afericao";
             $bombeamento['botao'] = 'afericao.cadastrar';
             $bombeamento['icone'] = 'fas fa-clock';
             $bombeamento['condicao'] = "ok";
 
+            if ($afericao_db['bombeamento_pendente'] == 1) {
+                $bombeamentos_db = 0;
+                $cabecalho_bombeamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();
+                if (!empty($cabecalho_bombeamento)) {
+                    $bombeamentos_db = Bombeamento::where('id_bombeamento', $cabecalho_bombeamento['id'])->count();
+                }
+
+                if ($bombeamentos_db > 0) {
+                    $bombeamento['cor'] = "#ff6400";
+                    $bombeamento['mensagem'] = "afericao.continuar";
+                    $bombeamento['acao'] = "pumping_continue_create";
+                    $bombeamento['parametro'] = $id_afericao;
+                    $bombeamento['botao'] = 'afericao.continuar';
+                    $bombeamento['icone'] = 'fa fa-lock';
+                    $bombeamento['condicao'] = "ok";
+                } else {
+                    $bombeamento['cor'] = "orange";
+                    $bombeamento['mensagem'] = "afericao.pendente";
+                    $bombeamento['acao'] = "pumping_create";
+                    $bombeamento['parametro'] = $id_afericao;
+                    $bombeamento['botao'] = 'afericao.cadastrar';
+                    $bombeamento['icone'] = 'fa fa-lock';
+                    $bombeamento['condicao'] = "ok";
+                }
+            } else {
+                $bombeamento['cor'] = "green";
+                $bombeamento['mensagem'] = "afericao.concluido";
+                $bombeamento['acao'] = "edit_Pumping";
+                $bombeamento['parametro'] = $id_afericao;
+                $bombeamento['botao'] = 'unidadesAcoes.editar';
+                $bombeamento['icone'] = 'fa fa-check';
+                $bombeamento['condicao'] = "ok";
+            }
+
+            // ADUTORA
             if ($afericao_db['adutora_pendente'] == 1) {
                 $adutora['cor'] = "orange";
                 $adutora['mensagem'] = "afericao.pendente";
-                $adutora['acao'] = "cadastrarMotorBomba";
+                $adutora['acao'] = "create_adductor";
                 $adutora['parametro'] = $id_afericao;
                 $adutora['botao'] = 'afericao.cadastrar';
                 $adutora['icone'] = 'fa fa-clock-o';
@@ -675,47 +705,13 @@ class AfericaoPivoCentralController extends Controller
 
                 $adutora['cor'] = "green";
                 $adutora['mensagem'] = "afericao.concluido";
-                $adutora['acao'] = "editarMotorBomba";
+                $adutora['acao'] = "adductor_edit";
                 $adutora['parametro'] = $id_afericao;
                 $adutora['botao'] = 'unidadesAcoes.editar';
                 $adutora['icone'] = 'fa fa-check';
                 $adutora['condicao'] = "ok";
-
-                //$adutora_db = Adutora::where('id_afericao', $id_afericao)->first();
-                if ($afericao_db['bombeamento_pendente'] == 1) {
-                    $bombeamentos_db = 0;
-                    $cabecalho_bombeamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();
-                    if (!empty($cabecalho_bombeamento)) {
-                        $bombeamentos_db = Bombeamento::where('id_bombeamento', $cabecalho_bombeamento['id'])->count();
-                    } 
-
-                    if ($bombeamentos_db > 0) {
-                        $bombeamento['cor'] = "#ff6400";
-                        $bombeamento['mensagem'] = "afericao.continuar";
-                        $bombeamento['acao'] = "continuarBombeamentos";
-                        $bombeamento['parametro'] = $id_afericao;
-                        $bombeamento['botao'] = 'afericao.continuar';
-                        $bombeamento['icone'] = 'fa fa-lock';
-                        $bombeamento['condicao'] = "ok";
-                    } else {
-                        $bombeamento['cor'] = "orange";
-                        $bombeamento['mensagem'] = "afericao.pendente";
-                        $bombeamento['acao'] = "cadastrarBombeamento";
-                        $bombeamento['parametro'] = $id_afericao;
-                        $bombeamento['botao'] = 'afericao.cadastrar';
-                        $bombeamento['icone'] = 'fa fa-lock';
-                        $bombeamento['condicao'] = "ok";
-                    }
-                } else {
-                    $bombeamento['cor'] = "green";
-                    $bombeamento['mensagem'] = "afericao.concluido";
-                    $bombeamento['acao'] = "editarBombeamento";
-                    $bombeamento['parametro'] = $id_afericao;
-                    $bombeamento['botao'] = 'unidadesAcoes.editar';
-                    $bombeamento['icone'] = 'fa fa-check';
-                    $bombeamento['condicao'] = "ok";
-                }
             }
+
             if ($afericao_db['mapa_bocais_pendente'] == 0) {
 
                 $emissores['cor'] = "green";
@@ -729,7 +725,7 @@ class AfericaoPivoCentralController extends Controller
                 if (empty($mapa_original_db)) {
                     $mapaOriginal['cor'] = "blue";
                     $mapaOriginal['mensagem'] = "afericao.disponivel";
-                    $mapaOriginal['acao'] = "visualizar_mapa_original";
+                    $mapaOriginal['acao'] = "originalMap_manager";
                     $mapaOriginal['parametro'] = $id_afericao;
                     $mapaOriginal['botao'] = 'afericao.gerarMapa';
                     $mapaOriginal['icone'] = 'fa fa-flag';
@@ -737,9 +733,9 @@ class AfericaoPivoCentralController extends Controller
                 } else {
                     $mapaOriginal['cor'] = "green";
                     $mapaOriginal['mensagem'] = "afericao.visualizarMapa";
-                    $mapaOriginal['acao'] = "visualizar_mapa_original";
+                    $mapaOriginal['acao'] = "originalMap_manager";
                     $mapaOriginal['parametro'] = $id_afericao;
-                    $mapaOriginal['botao'] = 'afericao.visualizar';
+                    $mapaOriginal['botao'] = 'unidadesAcoes.editar';
                     $mapaOriginal['icone'] = 'fa fa-flag';
                     $mapaOriginal['condicao'] = "ok";
                 }
@@ -747,7 +743,7 @@ class AfericaoPivoCentralController extends Controller
 
                 $mapaOriginal['cor'] = "red";
                 $mapaOriginal['mensagem'] = "afericao.bloqueado";
-                $mapaOriginal['acao'] = "status_afericao";
+                $mapaOriginal['acao'] = "gauging_status";
                 $mapaOriginal['parametro'] = "";
                 $mapaOriginal['botao'] = 'afericao.bloqueado';
                 $mapaOriginal['icone'] = 'fa fa-lock';
@@ -758,7 +754,7 @@ class AfericaoPivoCentralController extends Controller
                 if (($num_lance != null) && ($afericao_db['numero_lances'] > $num_lance)) {
                     $emissores['cor'] = "#ff6400";
                     $emissores['mensagem'] = "afericao.continuar";
-                    $emissores['acao'] = "afericoes.pivo.central.continuar";
+                    $emissores['acao'] = "gauging_continue";
                     $emissores['parametro'] = $id_afericao;
                     $emissores['botao'] = 'afericao.continuar';
                     $emissores['icone'] = 'fa fa-clock-o';
@@ -767,7 +763,7 @@ class AfericaoPivoCentralController extends Controller
                 } else {
                     $emissores['cor'] = "orange";
                     $emissores['mensagem'] = "afericao.pendente";
-                    $emissores['acao'] = "adicionar_afericao_sessao";
+                    $emissores['acao'] = "add_measurement_the_session";
                     $emissores['parametro'] = $id_afericao;
                     $emissores['botao'] = 'afericao.cadastrar';
                     $emissores['icone'] = 'fa fa-clock-o';
@@ -778,7 +774,7 @@ class AfericaoPivoCentralController extends Controller
             if ($afericao_db['mapa_bocais_pendente'] == 1 || $afericao_db['adutora_pendente'] == 1 || $afericao_db['bombeamento_pendente'] == 1 || $afericao_db['velocidade_pendente'] == 1) {
                 $ftDiag['cor'] = "red";
                 $ftDiag['mensagem'] = "afericao.bloqueado";
-                $ftDiag['acao'] = "status_afericao";
+                $ftDiag['acao'] = "gauging_status";
                 $ftDiag['parametro'] = "";
                 $ftDiag['botao'] = 'afericao.bloqueado';
                 $ftDiag['icone'] = 'fa fa-lock';
@@ -786,7 +782,7 @@ class AfericaoPivoCentralController extends Controller
             } else {
                 $ftDiag['cor'] = "green";
                 $ftDiag['mensagem'] = "afericao.visualizar";
-                $ftDiag['acao'] = "gerenciar_ficha_tecnica";
+                $ftDiag['acao'] = "manage_datasheet";
                 $ftDiag['parametro'] = $id_afericao;
                 $ftDiag['botao'] = 'afericao.visualizar';
                 $ftDiag['icone'] = 'fa fa-check';

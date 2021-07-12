@@ -17,12 +17,12 @@
 
         <div class="form-group col-md-3 col-6">
             <input type="number" value="{{$lance['numero_emissores']}}" name="numero_emissores" onchange="alterarQuantidadeDeEmissores()" id="numero_emissores" step=1 min=1   class="form-control ">
-            @component('_layouts._components._inputLabel', ['texto'=>__('afericao.numeroEmissores'), 'id' => 'numero_emissores'])@endcomponent                                                                        
+            @component('_layouts._components._inputLabel', ['texto'=>__('afericao.numeroEmissores'), 'id' => 'numero_emissores'])@endcomponent
         </div>
 
         <div class="form-group col-md-2 col-6">
             <input type="number" value="{{$lance['numero_tubos']}}" step=1 min=1 name="numero_tubos" id="num_tubo" required  class="form-control ">
-            @component('_layouts._components._inputLabel', ['texto'=>__('afericao.numeroTubos'), 'id' => 'num_tubo'])@endcomponent                                                                        
+            @component('_layouts._components._inputLabel', ['texto'=>__('afericao.numeroTubos'), 'id' => 'num_tubo'])@endcomponent
         </div>
 
         <div class="form-group col-md-1  col-6">
@@ -68,7 +68,7 @@
 
         <div class="form-group col-md-2  col-6">
             <input type="number" class="form-control" value="{{$lance['motorredutor']}}" id="motorredutor" step=0.01 name="motorredutor">
-            @component('_layouts._components._inputLabel', ['texto'=>__('afericao.motorredutor'), 'id' => 'motorredutor'])@endcomponent                                                                        
+            @component('_layouts._components._inputLabel', ['texto'=>__('afericao.motorredutor'), 'id' => 'motorredutor'])@endcomponent
         </div>
 
         <hr>
@@ -100,7 +100,7 @@
         var emissor = "{{$dados['emissor']}}";
         var emissores =  @json($emissores);
         var qtEmissoresLance = "{{$lance['numero_emissores']}}";
-        
+
         $("#msgInformeEmissores").remove();
         divEmissores.empty();
         if(qtEmissores == 0 || qtEmissores === "" || qtEmissores === undefined){
@@ -125,19 +125,19 @@
                             <input value='${(emissores[index] != null) ? emissores[index]['saida_1'] : ''}' type="number" step=0.1 min=0  name="bocal_1[]" required class="form-control first_field">
                             <div class="line" ></div>
                         </div>
-                
+
                         <div class="form-group  col-md-2">
                             <label class='float-label' > @lang('afericao.saida2')</label>
                             <input type="number" value="${(emissores[index] != null) ? emissores[index]['saida_2'] : ''}" step=0.1 min=0 name="bocal_2[]"  class="form-control ">
                             <div class="line" ></div>
                         </div>
-                
+
                         <div class="form-group  col-md-2">
                             <label class='float-label' > @lang('afericao.espacamento')</label>
                             <input type="number" name="espacamento[]" value="${(emissores[index] != null) ? (emissores[index]['espacamento']).toFixed(2) : espacamento}" step=0.001 min=0.001 required class="form-control espacamento_field">
                             <div class="line" ></div>
                         </div>
-                
+
                         <div class="form-group col-md-2">
                             <label for=""> @lang('afericao.emissor')</label>
                             <select class='form-control' required='true' required name='emissor[]'>
@@ -153,7 +153,7 @@
                             </select>
                             <div class="line"></div>
                         </div>
-                
+
                         <div class="form-group col-md-2">
                             <label for="val_reg"> @lang('afericao.tipoValvula')</label>
                             <select  class='form-control' required='true' name='tipo_valvula[]'>
@@ -164,7 +164,7 @@
                             </select>
                             <div class="line"></div>
                         </div>
-        
+
                         <div class="form-group col-md-2">
                             <label for="val_reg"> @lang('afericao.psi')</label>
                             <select   class='form-control' required='true' name='valvula_reguladora[]'>

@@ -11,38 +11,42 @@ use DB;
 
 class CentroCustosController extends Controller
 {
-    public function cadastrarCentroCustos()
+    public function createCostCenter()
     {
         return view('sistema.centroDeCustos.cadastrar');
     }
 
-    public function salvarCentroCustos(Request $req)
+    public function saveCostCenter(Request $req)
     {
-        dd($req->all());
+        $validacao = CentroDeCusto::where("codigo", $req->all()['codigo'])->count();
+        if($validacao > 0){
+            Notificacao::gerarAlert("notificacao.erro", "cdc.erroCodigoCdc", "danger");
+            return redirect()->back();
+        }
         CentroDeCusto::create($req->all());
         Notificacao::gerarAlert("notificacao.sucesso", "notificacao.cadastroSucesso", "success");
-        return redirect()->route('centrocusto.gerenciar');
+        return redirect()->route('manage_cost_center');
     }
 
-    public function listarCentroCustos()
+    public function manageCostCenter()
     {
         $nopage = null;
-        $cdcs = CentroDeCusto::select('id', 'nome', 'codigo')->paginate($nopage);
+        $cdcs = CentroDeCusto::select('id', 'nome', 'codigo')->paginate(10);
         return view('sistema.centroDeCustos.gerenciar', compact('cdcs'));
     }
 
-    public function editarCentroCustos($id)
+    public function editCostCenter($id)
     {
         $centroCusto = CentroDeCusto::find($id);
         return view('sistema.centroDeCustos.editar', compact('centroCusto'));
     }
 
-    public function editaCentroCustos(Request $req)
+    public function updateCostCenter(Request $req)
     {
         $dados = $req->all();
         CentroDeCusto::find($dados['id'])->update($dados);
         Notificacao::gerarAlert("notificacao.sucesso", "notificacao.edicaoSucesso", "success");
-        return redirect()->route('centrocusto.gerenciar');
+        return redirect()->route('manage_cost_center');
     }
 
     public function removerCentroCustos($id)
@@ -55,13 +59,13 @@ class CentroCustosController extends Controller
             CentroDeCusto::find($id)->delete();
             Notificacao::gerarAlert("notificacao.sucesso", "notificacao.remocaoSucesso", "success");
         }
-        return redirect()->route('centrocusto.gerenciar');
+        return redirect()->route('manage_cost_center');
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $delete = CentroDeCusto::find($id);
         $delete->delete();
-        return redirect()->route('centrocusto.gerenciar')->with('Sucesso', 'Foi deletado');
+        return redirect()->route('manage_cost_center')->with('Sucesso', 'Foi deletado');
     }
 }

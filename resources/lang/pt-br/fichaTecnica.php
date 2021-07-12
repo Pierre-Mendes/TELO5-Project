@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'mapaBocal' => 'Mapa de Bocal Original',
     'ftPivoCentralDiagnostico' => 'FICHA TÉCNICA PIVÔ CENTRAL - DIAGNÓSTICO',
     'proprietario' => 'Proprietário',
     'propriedade' => 'Propriedade',
@@ -138,4 +139,9 @@ return [
     'conclusao18' => 'Com a realização dos ajustes recomendados o equipamento trabalhará com Unifomidade, Pressurização e Índice de carregamento adequados. Para tanto, todas os ajustes devem seguir rigorosamente a recomendação dos Consultores Irriger. A troca de bocais deve seguir a ordem exata, conforme listagem anexa. Caso haja alguma dúvida neste aspecto, entrar em contato com nossa equipe para instruirmos a equipe da fazenda quanto a este processo. Após a realização dos ajustes, solicitamos que entrem em contato com nosso Consultor responsável para que seja feita uma checagem final do processo.',
     'texto_uniformidade_7' => 'Após os ajustes, a lâmina do pivô central será :lamina mm/ :horas h ',
 
+    'bocais' => 'Bocal',
+    'espacamento' => 'Espac.',
+    'valvula' => 'Valvula',
+    'numTubos' => 'Nº Tubos: ',
+    'numerosEmissores' => 'Nº',
 ];

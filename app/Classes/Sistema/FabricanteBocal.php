@@ -5,9 +5,9 @@ namespace App\Classes\Sistema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class FabricanteBocal extends Model
+class cad_bocais extends Model
 {
-    protected $table = 'fabricante_bocal';
+    protected $table = 'cad_bocais';
 
     use SoftDeletes;
     protected $dates =  ['deleted_at'];

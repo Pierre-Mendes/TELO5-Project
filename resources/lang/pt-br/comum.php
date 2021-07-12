@@ -7,6 +7,9 @@ return [
    'alterar' => 'Alterar',
    'nenhuma_fazenda_selecionada' => 'Nenhuma Fazenda Selecionada',
 
+   'pesquisar' => 'Pesquisar...',
+   'informacoes_navtabs' => 'Informações',
+   'preloader' => 'Carregando...',
    'permissao_negada' => 'Você não tem autorização para acessar este recurso',
    'sair' => 'Sair',
    'idioma' => 'Idioma',
@@ -14,5 +17,21 @@ return [
 
    'erro_carregar_fazendas' => 'Houve um problema ao carregar as fazendas',
    'selecionar_fazenda' => 'Selecionar Fazenda',
+
+   'sim' => 'Sim',
+   'nao' => 'Não',
+   'usuario' => 'Usuário: ',
+   'centrodecusto' => 'Centro de Custo: ',
+   'fazenda' => 'Fazenda: ',
+   'proprietario' => 'Proprietário: ',
+   'bocais' => 'Bocal: ',
+   'pivos' => 'Pivo: ',
+   'afericao' => 'Aferição: ',
+   'redimensionamento' => 'Redimensionamento',
+   'excluir' => 'Deseja realmente excluir?',
+
+   'cadastrar' => 'Cadastrar',
+   'editar' => 'Editar',
+   'gerenciar' => 'Gerenciar',
 
 ];

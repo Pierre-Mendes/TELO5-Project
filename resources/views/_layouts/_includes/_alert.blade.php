@@ -5,7 +5,7 @@
     Session::forget('alert');
     ?>
 
-    <div class='fecharalerta col-12' style="position: absolute">
+    <div class='fecharalerta col-12'>
         <div id="myAlert" class="alert alert-{{ $alert['tipo'] }} alert-dismissible fade show " toggle="myAlert" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

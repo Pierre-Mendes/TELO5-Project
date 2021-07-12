@@ -1,21 +1,20 @@
 @extends('_layouts._layout_site')
 @include('_layouts._includes._head')
 
-@section('head')@endsection
-@section('titulo')@lang('bocais.bocais')@endsection
-
 @section('topo_detalhe')
     <div class="container-fluid topo">
         <div class="row align-items-start">
 
-            {{-- Titlle and Subtitlle --}}
+            {{-- TITULO --}}
             <div class="col-6">
-                <h1>Cadastrar Bocais</h1>
+                <h1>@lang('bocais.bocais')</h1><br>
+                <h4 style="margin-top: -20px">@lang('comum.cadastrar')</h4>
             </div>
 
-            {{-- Save button an return button --}}
-            <div class="col-6 text-right botoes position">
-                <a href="{{ route('fabricantes.gerenciar') }}" style="color: #3c8dbc">
+            {{-- BOTÃO DE VOLTAR E CADASTRAR --}}
+            <div class="col-6 text-right botoes mobile">
+                <a href="{{ route('manager_nozzles') }}" style="color: #3c8dbc" data-toggle="tooltip"
+                    data-placement="bottom" title="Voltar">
                     <button type="button">
                         <span class="fa-stack fa-lg">
                             <i class="fas fa-circle fa-stack-2x"></i>
@@ -23,7 +22,7 @@
                         </span>
                     </button>
                 </a>
-                <button type="button" id="botaosalvar">
+                <button type="button" id="botaosalvar" data-toggle="tooltip" data-placement="bottom" title="Salvar">
                     <span class="fa-stack fa-2x">
                         <i class="fas fa-circle fa-stack-2x"></i>
                         <i class="fas fa-save fa-stack-1x fa-inverse"></i>
@@ -36,140 +35,263 @@
 
 @section('conteudo')
     <div>
+
+        {{-- NAVTAB'S --}}
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="cadastro-tab" data-bs-toggle="tab" role="tab" aria-controls="cadastro"
-                    aria-current="page" aria-selected="true" href="#cadastro">Geral</a>
+                    aria-current="page" aria-selected="true" href="#cadastro">@lang('comum.informacoes_navtabs')</a>
             </li>
         </ul>
 
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="cadastro" role="tabpanel" aria-labelledby="cadastro-tab">
-                <form action="{{ route('bocais.cadastrar') }}" method="POST">
-                    @csrf
-                    <div class="table table-striped mx-auto" id="filtertable">
-                        <div class="form-row justify-content-start ml-3 mt-4 telo5ce">
-                            <div class="col-md-3">
-                                <label for="fabricante">@lang('bocais.fabricante')</label>
-                                <select class="form-control" name="fabricante">
-                                    <option value=""></option>
-                                    <option value="0"></option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="modelo">@lang('bocais.modelo')</label>
-                                <input class="form-control" type="text" name="modelo" id="modelo" required />
-                            </div>
-
-                            <div class="col-md-2">
-                                <label for="tipoBocal">Tipo de Bocal</label>
-                                <div id="alvo">
-                                    <select name="options" class="col-md-11 form-control ">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                           </div>
-                        </div>
-                    </div>
-                    <table class="table table-striped mx-auto" id="tabelaTrechos">
-                        <thead class="headertable">
-                            <tr class="text-center">
-                                <th scope="col-5">@lang('bocais.nome')</th>
-                                <th scope="col-5">@lang('bocais.vazao_10_psi')</th>
-                                <th scope="col-5">@lang('bocais.intervalo_trabalho')</th>
-                                <th scope="col-5">@lang('bocais.plug')</th>
-                                <th scope="col-2">@lang('bocais.acoes')</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                        <tfoot>
-                            <td>
-                                <button onclick="AddTableRow()" type="button" class="addtablerow"
-                                    style="outline: none; cursor: pointer;">
-                                    <span class="fa-stack fa-sm">
-                                        <i class="fas fa-plus-circle fa-stack-2x"></i>
-                                    </span>
-                                </button>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tfoot>
-                    </table>
-                </form>
+        {{-- PRELOADER --}}
+        <div id="coverScreen">
+            <div class="preloader">
+                <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                <div>@lang('comum.preloader')</div>
             </div>
         </div>
+
+        {{-- FORMULARIO DE CADASTRO --}}
+        <form action="{{ route('save_nozzle') }}" method="POST" id="formdados" class="tabelaBocais">
+            <div class="tab-content" id="myTabContent">
+                @include('_layouts._includes._alert')
+                <div class="tab-pane fade show active" id="cadastro" role="tabpanel" aria-labelledby="cadastro-tab">
+                    @csrf
+                    <div id="cssPreloader">
+                        <div class="table table-striped mx-auto">
+                            <div class="form-row justify-content ml-4 mt-4 telo5ce">
+                                <div class="col-md-2">
+                                    <label for="fabricante">@lang('bocais.fabricante')</label>
+                                    <input type="hidden" name="id_fabricante" id="id_fabricante">
+                                    <input type="text" class="form-control telo5ce" id="fabricante" name="fabricante"
+                                        maxlength="50" required autocomplete="off">
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="modelo">@lang('bocais.modelo')</label>
+                                    <input type="text" class="form-control telo5ce" id="modelo" name="modelo"
+                                    maxlength="50" required autocomplete="off">
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="vazao_10_psi">@lang('bocais.vazaoMetroCubico')</label>
+                                    <select class="form-control" name="vazao_10_psi" id="vazao_10_psi">
+                                        <option value=""></option>
+                                        <option value="0">@lang('bocais.vazao-10-psi')</option>
+                                        <option value="1">@lang('bocais.vazao-15-psi')</option>
+                                        <option value="2">@lang('bocais.vazao-20-psi')</option>
+                                        <option value="3">@lang('bocais.vazao-25-psi')</option>
+                                        <option value="4">@lang('bocais.vazao-30-psi')</option>
+                                        <option value="5">@lang('bocais.vazao-40-psi')</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="tipo">@lang('bocais.tipo')</label>
+                                    <select class="form-control telo5ce" name="tipo" id="tipo"  name="tipo">
+                                        <option value=""></option>
+                                        <option value="0">@lang('bocais.estatico')</option>
+                                        <option value="1">@lang('bocais.rotativo')</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="plug">@lang('bocais.plug')</label>
+                                    <select class="form-control" name="plug" id="plug" name="plug">
+                                        <option value=""></option>
+                                        <option value="0">@lang('bocais.nao')</option>
+                                        <option value="1">@lang('bocais.sim')</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 m-auto tabela">
+                        <table class="table table-striped mx-auto text-center" id="tabelaTrechos">
+                            <thead class="headertable">
+                                <tr class="text-center">
+                                    <th scope="col-5">@lang('bocais.nome')</th>
+                                    <th scope="col-5">@lang('bocais.vazao')</th>
+                                    <th scope="col-5">@lang('bocais.intervalo_trabalho')</th>
+                                    <th scope="col-2">@lang('bocais.acoes')</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <td class="col-md-2" style="width: 40%;">
+                                    <input type="number" min=0.1 step=0.1 class="form-control" required name="nome[]"
+                                        id="nome" autocomplete="off">
+                                </td>
+                                <td class="col-md-2" style="width: 40%;">
+                                    <input type="number" min=0.001 step=0.1 class="form-control" required
+                                        name="vazao[]" id="vazao" autocomplete="off">
+                                </td>
+                                <td class="col-md-2" style="width: 40%;">
+                                    <input type="number" min=0.001 step=0.0001 class="form-control" required
+                                        name="intervalo_trabalho[]" id="intervalotrabalho" autocomplete="off">
+                                </td>
+                                <td class="col-md-1">
+                                    <div class="row justify-content-center"></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                                <td>
+                                    <button onclick="AddTableRow()" type="button" class="addtablerow" data-toggle="tooltip"
+                                        data-placement="right" title="Adicionar Linha"
+                                        style="outline: none; cursor: pointer;">
+                                        <span class="fa-stack fa-sm">
+                                            <i class="fas fa-plus-circle fa-stack-2x"></i>
+                                        </span>
+                                    </button>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
     </div>
 @endsection
 
 @section('scripts')
 
-        <script>
-        $(document).ready(function() {
-            AddTableRow();
-        });
+    {{-- FILTRO SELECT --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+    integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+
+    {{-- REMOVER LINHAS DA TABELA --}}
+    <script>
+        $(document).ready(function() {});
 
         (function($) {
-            remove = function(item) {
+            remove = function(item)
+            {
                 var tr = $(item).closest('tr');
-                tr.fadeOut(400, function() {
+                tr.fadeOut(400, function()
+                {
                     tr.remove();
                 });
                 return false;
             }
         })(jQuery);
-        </script>
 
-        <script>
-        (function($) {
-            //function add line/row Table
-                AddTableRow = function() {
-                    var newRow = $("<tr>");
-                    var cols = "";
+    </script>
 
-                    cols += '<td><input type="number" min=0.0001 step=0.0001 class="form-control" required name="numero[]" id="numero"></td>';
-                    cols += '<td><input type="number" min=0.0001 step=0.0001 class="form-control" required name="vazao_10_psi[]" id="vazao10psi"></td>';
-                    cols += '<td><input type="number" min=0.0001 step=0.0001 class="form-control" required name="intervalo_trabalho[]" id="intervalotrabalho"></td>';
-                    cols += '<td><select class="form-control"><option value=""></option><option value="0">@lang('bocais.nao')</option><option value="1">Sim</option></select></td>'
-                    cols += '<td><div class="row justify-content-center"><button type="button" class="removetablerow" onclick="remove(this)" style="outline: none; cursor: pointer; margin-top: 4px; justify-content: center;"><i class="fa fa-fw fa-times fa-lg"></i></button></div></td>';
+  {{-- ADICIONAR LINHAS A TABELA --}}
+  <script>
+    (function($)
+    {
+        //function add line/row Table
+        AddTableRow = function()
+        {
+            var rowCount = $('#tabelaTrechos >tbody >tr').length;
+            var newRow = $("<tr>");
+            var cols = "";
 
-                    newRow.append(cols);
-                    $("#tabelaTrechos").append(newRow);
-                    return false;
-                };
-        })(jQuery);
-        </script>
+            cols +=
+                '<td><input type="number" min=0.1 step=0.1 class="form-control" required name="nome[]" id="nome_' +
+                rowCount + '"></td>';
 
-        <script>
+            cols +=
+                '<td><input type="number" min=0.0001 step=0.1 class="form-control" required name="vazao[]" id="vazao_' +
+                rowCount + '"></td>';
+
+            cols +=
+                '<td><input type="number" min=0.0001 step=0.0001 class="form-control" required name="intervalo_trabalho[]" id="intervalo_trabalho[]_' +
+                rowCount + '"></td>';
+
+            if (rowCount > 0) {
+                cols +=
+                    '<td><div class="row justify-content-center"><button type="button" class="removetablerow" onclick="remove(this)" style="outline: none; cursor: pointer; margin-top: 4px; justify-content: center;"><i class="fa fa-fw fa-times fa-lg"></i></button></div></td>';
+            }
+
+            newRow.append(cols);
+            $("#tabelaTrechos").append(newRow);
+            return false;
+        };
+    })(jQuery);
+
+</script>
+
+
+    {{-- SALVAR E VALIDAR CAMPOS VAZIOS --}}
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
+    <script>
         $(document).ready(function() {
-            $('#botaosalvar').on('click', function() {
+            $('#botaosalvar').on('click', function()
+            {
                 $('#formdados').submit();
             });
+
+            $("#formdados").validate({
+                rules: {
+                    "modelo[]": {
+                        required: true
+                    },
+                    "nome[]": {
+                        required: true
+                    },
+                    "vazao_10_psi[]": {
+                        required: true
+                    },
+                    "intervalo_trabalho[]": {
+                        required: true
+                    },
+                    "tipo[]": {
+                        required: true
+                    },
+                    "plug[]": {
+                        required: true
+                    }
+                },
+                messages:
+                {
+                    "modelo": "Campo <strong>MODELO</strong> é obrigatório",
+
+                    "nome": {
+                        required: "Campo <strong>NOME</strong> é obrigatório"
+                    },
+                    "vazao_10_psi": {
+                        required: "Campo <strong>VAZÃO</strong> é obrigatório"
+                    },
+                    "intervalo_trabalho": {
+                        required: "Campo <strong>INTERVALO TRABALHO</strong> é obrigatório"
+                    },
+                    "tipo": {
+                        required: "Campo <strong>TIPO</strong> é obrigatório"
+                    },
+                    "plug": {
+                        required: "Campo <strong>PLUG</strong> é obrigatório"
+                    },
+                },
+                submitHandler: function(form)
+                {
+                    $("#coverScreen").show();
+                    $("#cssPreloader input").each(function() {
+                        $(this).css('opacity', '0.2');
+                    });
+                    $("#cssPreloader select").each(function() {
+                        $(this).css('opacity', '0.2');
+                    });
+                    form.submit();
+                }
+            });
+
+            $(window).on('load', function()
+            {
+                $("#coverScreen").hide();
+            });
         });
-        </script>
 
-    <script>
-    function criarSelectFabricante(value) {
+    </script>
 
-    var select = $("'<option' name=\"options[]\" /<option>");
-    var optionsValues = [];
-    var optionsTexts = [];
-
-    optionsValues.push(1);
-    optionsTexts.push("@lang('bocais.fabricantes')");
-
-    optionsValues.forEach(function(item, index)
-    {
-    if (item == value)
-    {
-    $("<option />", {value: item, text: optionsTexts[index] }).appendTo(select).attr('selected', 'selected');}
-
-    else{
-    $("<option />", {value: item, text: optionsTexts[index] }).appendTo(select);} });
-
-    return select;
-    }
+    {{-- SCRIPT DE FUNCIONALIDADE DO TOOLTIP --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
     </script>
 @endsection

@@ -1,555 +1,643 @@
 @extends('_layouts._layout_site')
 
 @section('head')
-<style>
-.bg_irr_escuro{
-    background-color: #013856 !important;
-}
-.bg_irr_claro{
-    background-color: #1782b6 !important;
-}
+    <style>
+        table tbody td input {
+            outline: 0px !important;
+            -webkit-appearance: none;
+            box-shadow: none !important;
+            background-color: #26546F !important;
+            border: none;
+            padding: 5px;
+            border-radius: 0px;
+            color: #fff;
+            font-size: 14px;
+        }
 
-.tableFixHead          { overflow-y: auto; width:100% }
-.tableFixHead thead th { position: sticky; top: 0; }
+        table tbody td select {
+            border: none;
+            outline: none;
+            background: #26546F;
+            color: #fff;
+            padding: 5px;
+        }
 
-@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed);
-	*{
-		margin: 0;
-		padding: 0;
-	}
+        @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed);
 
-	body{
-		background-color: #ddd;
-		font-family: 'Roboto Condensed';
-	}
-
-	.nav_tabs{
-		width: 100%;
-		height: 650px;
-		position: relative;
-	}
-
-	.nav_tabs ul{
-		list-style: none;
-	}
-
-	.nav_tabs ul li{
-		float: left;
-	}
-
-	.tab_label{
-		display: block;
-		width: auto;
-		background-color: #363b48;
-		padding: 15px;
-		font-size: 10px;
-		color:#fff;
-		cursor: pointer;
-		text-align: center;
-	}
-
-
-	.nav_tabs .rd_tab { 
-	display:none;
-	position: absolute;
-}
-
-.nav_tabs .rd_tab:checked ~ label { 
-	background-color: #007bff;
-	color:#fff;}
-
-.tab-content{
-	border-top: solid 5px #007bff;
-	background-color: #fff;
-	display: none;
-	position: absolute;
-	height: relative;
-	width: 1250px;
-	left: 0;	
-}
-
-.rd_tab:checked ~ .tab-content{
-	display: block;
-}
-.tab-content h2{
-	padding: 10px;
-	color: #87d3b7;
-}
-.tab-content article{
-	padding: 10px;
-	color: #555;
-}
-</style>
+    </style>
 @endsection
 
 @section('titulo')
-    @lang('afericao.resultadoAfericao')
+
+@endsection
+
+@section('topo_detalhe')
+    <div class="container-fluid topo">
+        <div class="row align-items-start">
+
+            {{-- TITULO E SUBTITULO --}}
+            <div class="col-6">
+                <h1>@lang('afericao.mapaBocais')</h1><br>
+                <h4 style="margin-top: -20px">@lang('afericao.afericao')</h4>
+            </div>
+
+            {{-- BOTOES SALVAR E VOLTAR --}}
+            <div class="col-6 text-right botoes position">
+
+                <a href="{{ route('gauging_status', $id_afericao) }}" style="color: #3c8dbc">
+                    <button type="button" data-toggle="tooltip" data-placement="bottom" title="Voltar">
+                        <span class="fa-stack fa-lg">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-angle-double-left fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </button>
+                </a>
+                <button type="button" class="editarEmissores" data-toggle="tooltip" data-placement="bottom"
+                    title="Editar Emissores">
+                    <span class="fa-stack fa-2x">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fas fa-pen fa-stack-1x fa-inverse"></i>
+                    </span>
+                </button>
+                <button type="button" id="botaosalvar" disabled data-toggle="tooltip" data-placement="bottom"
+                    title="Salvar">
+                    <span class="fa-stack fa-2x">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fas fa-save fa-stack-1x fa-inverse"></i>
+                    </span>
+                </button>
+                <a href="{{ route('newSpan_create', $id_afericao) }}">
+                    <button type="button">
+                        <span class="fa-stack fa-2x" data-toggle="tooltip" data-placement="bottom" title="Adicionar Lance">
+                            <i class="fas fa-plus-circle fa-2x"></i>
+                        </span>
+                    </button>
+                </a>
+            </div>
+
+        </div>
+    </div>
 @endsection
 
 @section('conteudo')
-<nav class="nav_tabs">
-    <ul>
-        <li>
-            <input type="radio" id="tab1" class="rd_tab" name="tabs" checked>
-            <label for="tab1" class="tab_label">@lang('afericao.graicoUniformidade')</label>
-            <div class="tab-content">
-                <article>
-                    <div class="col-12 ">
-                        <div class="text-right" style="padding-bottom: 1rem">
-                            <a href="{{route('calcular_mapa_original', $id_afericao)}}" class="btn btn-outline-dark" data-original-title="@lang('afericao.atualizarMapa')" data-toggle="tooltip" data-placement="left" ><i class="fa fa-refresh fa-fw"></i></a>
-                        </div>
-                    </div>
 
-                    <div class="collapse show" id="grafico_mapa_original">
-                        <div class="col-12 row" >
-                            <div class="col-12">
-                                <div  id="grafico_uniformidade"></div>
+    <div class="formafericao">
+        {{-- NAVTAB'S --}}
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="graficoUniformidade-tab" data-toggle="tab" href="#graficoUniformidade"
+                    role="tab" aria-controls="graficoUniformidade"
+                    aria-selected="true">@lang('afericao.graicoUniformidade')</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="listaEmissores-tab" data-toggle="tab" href="#listaEmissores" role="tab"
+                    aria-controls="listaEmissores" aria-selected="false">@lang('afericao.listaEmissores')</a>
+            </li>
+        </ul>
+
+        {{-- PRELOADER --}}
+        {{-- <div id="coverScreen">
+            <div class="preloader">
+                <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                <div>Carregando...</div>
+            </div>
+        </div> --}}
+
+        {{-- FORMULARIO DE CADASTRO --}}
+        <form id="formdados" method="POST" disabled>
+            <div id="msgAlert" class="alert alert-success alert-dismissible fade show" role="alert"
+                style="display: none; margin: 20px;">
+                <strong>Edição concluida com sucesso</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <input type="hidden" name="id_afericao" value="{{ $id_afericao }}">
+            <input type="hidden" name="numero_lances" value="{{ $afericao['numero_lances'] }}">
+            <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+            <div class="tab-content mt-5" id="myTabContent">
+
+                {{-- GRAFICO DE UNIFORMIDADE --}}
+                <div class="tab-pane fade show active" id="graficoUniformidade" role="tabpanel"
+                    aria-labelledby="graficoUniformidade-tab">
+                    <article>
+                        <div class="collapse show" id="grafico_mapa_original">
+                            <div class="col-12 row">
+                                <div class="col-12">
+                                    <div id="grafico_uniformidade"></div>
+                                </div>
                             </div>
                         </div>
+                    </article>
+                </div>
+
+                {{-- TABELA DE EMISSORES --}}
+                <div class="tab-pane fade" id="listaEmissores" role="tabpanel" aria-labelledby="listaEmissores-tab">
+                    <div class="col-md-12 mt-5">
+                        <article class="mt-5">
+                            <div class="col-12 container">
+                                <div class="col-12 m-auto" id="cssPreloader">
+                                    <table class="table table-striped mx-auto" id="tabelaListaEmissores">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" scope="col">@lang('afericao.lance')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.posLance')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.posPivo')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.saida1')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.saida2')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.espacamento')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.valvulaReguladora')
+                                                </th>
+                                                <th class="text-center" scope="col">@lang('afericao.tipoValvula')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.fabricante')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.vazaoAspersor')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.vazaoLiberada')</th>
+                                                <th class="text-center" scope="col">@lang('afericao.pressaoEntrada')</th>
+                                                {{-- <th class="text-center" scope="col">@lang('afericao.acoes')</th> --}}
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody" style="height:100%; overflow-y: scroll">
+
+                                            @php
+                                                $cont = 0;
+                                            @endphp
+
+                                            @foreach ($mapa as $index => $emissor)
+                                                @php
+                                                    $cont += 1;
+                                                @endphp
+                                                @if ($emissor['numero_lance'] % 2 == 0)
+                                                    <tr data-idline="{{ $cont }}" class="bg_irr_claro rows" id="item_{{ $index }}">
+                                                @else
+                                                    <tr data-idline="{{ $cont }}" class="bg_irr_escuro rows" id="item_{{ $index }}">
+                                                @endif
+
+                                                @if ($afericao['tem_balanco'] == 'sim' && $emissor['numero_lance'] == $afericao['numero_lances'])
+                                                    <td class="text-center">@lang('afericao.balanco')</td>
+                                                @else
+                                                    <td class="text-center">{{ $emissor['numero_lance'] }}</td>
+                                                @endif
+
+                                                <input type="hidden" name="id_emissores_{{ $emissor['numero_lance'] }}"
+                                                    id="id_emissores_{{ $cont }}"
+                                                    value="{{ $emissor['id_emissor'] }}">
+
+                                                <input type="hidden" id="numero_do_lance_{{ $cont }}"
+                                                    name="numero_do_lance_{{ $emissor['numero_lance'] }}"
+                                                    value="{{ $emissor['numero_lance'] }}">
+
+                                                <input type="hidden" name="numero_{{ $emissor['numero_lance'] }}"
+                                                    id="numero_{{ $cont }}" value="{{ $emissor['numero'] }}">
+
+                                                <td class="text-center">{{ $emissor['numero'] }}</td>
+                                                <td class="text-center">{{ $emissor['posicao_emissor'] }}</td>
+                                                <td> <input class="text-center"  id="bocal_1_{{ $cont }}"
+                                                        name="bocal_1_{{ $emissor['numero_lance'] }}" type="number"
+                                                        readonly step="0.01" value="{{ $emissor['saida_1'] }}">
+                                                </td>
+                                                <td>
+                                                    <input name="bocal_2_{{ $emissor['numero_lance'] }}" type="number"  id="bocal_2_{{ $cont }}"
+                                                        step="0.01" class="text-center" readonly
+                                                        value="{{ $emissor['saida_2'] }}">
+                                                </td>
+                                                <td>
+                                                    <input name="espacamento_{{ $emissor['numero_lance'] }}"
+                                                         class="text-center" type="number" step="0.01"  class="text-center" id="espacamento_{{ $cont }}"
+                                                        readonly value="{{ $emissor['espacamento'] }}" />
+                                                </td>
+                                                <td class="text-center">
+                                                    <select disabled  id="valvula_reguladora_{{ $cont }}"
+                                                        name="valvula_reguladora_{{ $emissor['numero_lance'] }}">
+                                                        <option value='10' @if ($emissor['psi'] == 10) selected @endif><b>10 PSI</b></option>
+                                                        <option value='15' @if ($emissor['psi'] == 15) selected @endif><b>15 PSI</b></option>
+                                                        <option value='20' @if ($emissor['psi'] == 20) selected @endif><b>20 PSI</b></option>
+                                                        <option value='25' @if ($emissor['psi'] == 25) selected @endif><b>25 PSI</b></option>
+                                                        <option value='30' @if ($emissor['psi'] == 30) selected @endif><b>30 PSI</b></option>
+                                                        <option value='35' @if ($emissor['psi'] == 35) selected @endif><b>35 PSI</b></option>
+                                                        <option value='40' @if ($emissor['psi'] == 40) selected @endif><b>40 PSI</b></option>
+                                                        <option value='45' @if ($emissor['psi'] == 45) selected @endif><b>45 PSI</b></option>
+                                                        <option value='50' @if ($emissor['psi'] == 50) selected @endif><b>50 PSI</b></option>
+                                                    </select>
+                                                </td>
+                                                <td class="text-center">
+                                                    <select disabled id="tipo_valvula_{{ $cont }}" name="tipo_valvula_{{ $emissor['numero_lance'] }}">
+                                                        <option value='LF' @if ($emissor['tipo_valvula'] == 'LF') selected @endif><b>LF</b></option>
+                                                        <option value='MF' @if ($emissor['tipo_valvula'] == 'MF') selected @endif><b>MF</b></option>
+                                                        <option value='HF' @if ($emissor['tipo_valvula'] == 'HF') selected @endif><b>HF</b></option>
+                                                        <option value='PSR' @if ($emissor['tipo_valvula'] == 'PSR') selected @endif><b>PSR</b></option>
+                                                    </select>
+                                                </td>
+                                                <td class="text-center">
+                                                    <select disabled id="fabricante_{{ $cont }}" name="fabricante_{{ $emissor['numero_lance'] }}">
+                                                        <option @if (strtoupper($emissor['emissor']) == 'I-WOB UP3') selected @endif value='I-WOB UP3'>
+                                                            <b>@lang('afericao.i-wob-up3')</b>
+                                                        </option>
+                                                        <option @if (strtoupper($emissor['emissor']) == 'FABRIMAR') selected @endif value='Fabrimar'>
+                                                            <b>@lang('afericao.fabrimar')</b>
+                                                        </option>
+                                                        <option @if (strtoupper($emissor['emissor']) == 'NELSON') selected @endif value='Nelson'>
+                                                            <b>@lang('afericao.nelson')</b>
+                                                        </option>
+                                                        <option @if (strtoupper($emissor['emissor']) == 'SUPER SPRAY - UP3') selected @endif
+                                                            value='Super Spray - UP3'>
+                                                            <b>@lang('afericao.super-spray-up3')</b>
+                                                        </option>
+                                                        <option @if (strtoupper($emissor['emissor']) == 'SUPER SPRAY') selected @endif value='Super Spray'>
+                                                            <b>@lang('afericao.super-spray')</b>
+                                                        </option>
+                                                        <option @if (strtoupper($emissor['emissor']) == 'I-WOB') selected @endif value='I-WOB'>
+                                                            <b>@lang('afericao.i-wob')</b>
+                                                        </option>
+                                                        <option @if (strtoupper($emissor['emissor']) == 'TRASH BUSTER') selected @endif value='Trash Buster'>
+                                                            <b>@lang('afericao.trash-buster')</b>
+                                                        </option>
+                                                        <option @if (strtoupper($emissor['emissor']) == 'KOMET') selected @endif value='Komet'>
+                                                            <b>@lang('afericao.komet')</b>
+                                                        </option>
+                                                        <option @if (strtoupper($emissor['emissor']) == 'FAN SPRAY') selected @endif value='Fan Spray'>
+                                                            <b>@lang('afericao.fan-spray')</b>
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ number_format($emissor['vazao_aspersor'], 4, ',', '.') }}</td>
+                                                <td class="text-center">
+                                                    {{ number_format($emissor['vazao_liberada'], 4, ',', '.') }}</td>
+                                                <td class="text-center">
+                                                    {{ number_format($emissor['pressao_entrada'], 4, ',', '.') }}</td>
+                                            @endforeach
+
+                                        </tbody>
+                                        <tfoot>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            {{-- <td></td> --}}
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
                     </div>
-                </article>
+                </div>
             </div>
-        </li>
-        <li>
-            <input type="radio" name="tabs" class="rd_tab" id="tab2">
-            <label for="tab2" class="tab_label">@lang('afericao.listaEmissores')</label>
-            <div class="tab-content">
-                <article>
-                    <div class="col-12 container">
-                        <div class="row col-12 justify-content-end" style="padding-bottom: 2%">
-                            <a data-toggle="modal" data-target="#adicionarLance" class="btn btn-dark btn-circle my-auto  text-light" data-original-title="@lang('redimensionamento.adicionarLance')"  data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus fa-fw text-light"></i> @lang('redimensionamento.adicionarLance')</a>
-                        </div>
-                        <div class="table-responsive" style="height: 400px">
-                            <table class="table tableFixHead">
-                                <thead class="thead-dark">
-                                    <tr class="">
-                                        <th class="text-center" scope="col">@lang('afericao.lance')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.posLance')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.posPivo')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.saida1')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.saida2')</th>
-                                        <th class="text-center" scope="col" >@lang('afericao.espacamento')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.valvulaReguladora')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.tipoValvula')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.fabricante')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.vazaoAspersor')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.vazaoLiberada')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.pressaoEntrada')</th>
-                                        <th class="text-center" scope="col">@lang('afericao.acoes')</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="tbody" style="height:100%; overflow-y: scroll">
-                                    @foreach ($mapa as $index => $emissor)
-                                        @if($emissor['numero_lance'] % 2 == 0) 
-                                            <tr class="bg_irr_claro text-light rows" id="item_{{$index}}">
-                                        @else
-                                            <tr class="bg_irr_escuro text-light rows" id="item_{{$index}}">
-                                        @endif
-                                            @if($afericao['tem_balanco'] == "sim" && $emissor['numero_lance'] == $afericao['numero_lances'])
-                                                <td class="text-center" >@lang('afericao.balanco')</td>                        
-                                            @else
-                                                <td class="text-center" >{{$emissor['numero_lance']}}</td>                        
-                                            @endif
-                                            <td class="text-center" >{{$emissor['numero']}}</td>
-                                            <td class="text-center" >{{$emissor['posicao_emissor']}}</td>
-                                            <td class="text-center"  id="bocal_1_{{$emissor['id_emissor']}}">{{ number_format($emissor['saida_1'] ,1,",",".")}} </td>
-                                            <td class="text-center"  id="bocal_2_{{$emissor['id_emissor']}}">{{ number_format($emissor['saida_2'] ,1,",",".")}} </td>
-                                            <td class="text-center"  id="espacamento_{{$emissor['id_emissor']}}" ><input style="width:50%" class="text-center" value="{{ number_format($emissor['espacamento'],2,",",".")}}" /></td>
-                                            <td class="text-center"  id="valvula_reguladora_{{$emissor['id_emissor']}}">
-                                                <select>
-                                                    <option value="{{$emissor['psi'] }}" selected>{{$emissor['psi'] }} PSI</option>
-                                                </select>
-                                            </td>
-                                            <td class="text-center"  id="tipo_valvula_{{$emissor['id_emissor']}}">
-                                                <select>
-                                                    <option value="{{$emissor['tipo_valvula']}}">{{$emissor['tipo_valvula']}}</option>
-                                                </select>
-                                            </td>
-                                            <td class="text-center"  id="fabricante_{{$emissor['id_emissor']}}">
-                                                <select>
-                                                    <option value="{{$emissor['emissor'] }}">{{$emissor['emissor'] }}</option>
-                                                </select>
-                                            </td>
-                                            <td class="text-center" ><input style="width:50%" class="text-center" value="{{ number_format($emissor['vazao_aspersor'],4,",",".")}}" /></td>
-                                            <td class="text-center" ><input style="width:50%" class="text-center" value="{{ number_format($emissor['vazao_liberada'],4,",",".")}}" /></td>
-                                            <td class="text-center" ><input style="width:50%" class="text-center" value="{{ number_format($emissor['pressao_entrada'],4,",",".")}}" /></td>
-                                            <td class="text-center"> <button class="btn btn-outline-light" id="button_{{$emissor['id_emissor']}}"><i class="fa fa-pencil fa-fw"></i></button></td>
-                                        </tr>
-                                    @endforeach
-                                    
-                                </tbody>
-                            </table>
-                        </div>                        
-                        <br />
-                        <div style="display: flex; justify-content: center;">
-                            <span slot="botoes">
-                                <button form='' class="btn btn-lg btn-info text-center text-light" type="submit">@lang('unidadesAcoes.salvar')</button>
-                            </span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </li>
-    </ul>
-</nav>
-<div class="container">
-    <div class="text-center">
-        @if($afericao['tipo_projeto'] == 'R')
-            <a class="btn btn-outline-dark" href="{{route('status_redimensionamento', $id_afericao)}}">@lang('afericao.voltar')</a>
-        @else
-            <a class="btn btn-outline-dark" href="{{route('status_afericao', $id_afericao)}}">@lang('afericao.voltar')</a>
-        @endif
+        </form>
     </div>
-</div>
-
-<modal nome="adicionarLance" titulo="@lang('redimensionamento.adicionarLance')" css="modal-xl">
-    <formulario  id="formAdicionarLance" css="row" action="{{route('adicionarLance')}}" method="post" enctype="" token="{{ csrf_token() }}"  >
-        <input type="hidden" name="id_afericao" value="{{$id_afericao}}">
-        
-        <div class="row col-12">
-            <div class="col-md-12 row justify-content-center">
-                <div class="form-group col-md-3 col-sm-4">
-                    <label>@lang('afericao.posicao')</label>
-                    <select name="posicao_relativa"  class="form-control" required id="">
-                        <option value="0">@lang('redimensionamento.antesDo')</option>
-                        <option value="1">@lang('redimensionamento.depoisDo')</option>
-                    </select>
-                    <div class="line"></div>
-                </div>
-                <div class="form-group  col-md-3 col-sm-4">
-                    <label>@lang('afericao.lance')</label>
-                    <select name="lance_relativo"  class="form-control" required id="">
-                        
-                    </select>
-                    <div class="line"></div>
-                </div>
-                <div class="form-group col-md-3 col-6">
-                    <input type="number" name="numero_emissores" onchange="alterarQuantidadeDeEmissores()" id="numero_emissores" step=1 min=1   class="form-control ">
-                    @component('_layouts._components._inputLabel', ['texto'=>__('afericao.numeroEmissores'), 'id' => 'numero_emissores'])@endcomponent                                                                        
-                </div>
-    
-                <div class="form-group col-md-2 col-6">
-                    <input type="number" step=1 min=1 name="numero_tubos" id="num_tubo" required  class="form-control ">
-                    @component('_layouts._components._inputLabel', ['texto'=>__('afericao.numeroTubos'), 'id' => 'num_tubo'])@endcomponent                                                                        
-                </div>
-            </div>
-
-            <div class="col-md-12 row justify-content-center">
-                <div class="form-group col-md-3 col-sm-4">
-                    <label for=""> @lang('afericao.diametro')</label>
-                    <select name="diametro"  class="form-control" required id="">
-                        <option value="0.127">5"</option>
-                        <option value="0.1413">5.9/16</option>
-                        <option value="0.1524">6"</option>
-                        <option value="0.1683">6.5/8"</option>
-                        <option value="0.2032">8"</option>
-                        <option value="0.219">8.5/8"</option>
-                        <option value="0.254">10"</option>
-                    </select>
-                    <div class="line"></div>
-                </div>
-
-                <div class="form-group  col-md-3 col-sm-4">
-                    <label for="val_reg"> @lang('afericao.valvulaReguladora')</label>
-                    <select id="val_reg" onchange="atualizarValvulaReguladora()" class='form-control' required='true' name='valvula_reguladora_lance'>
-                        <option value='10'><b>10 PSI</b></option>
-                        <option value='15'><b>15 PSI</b></option>
-                        <option value='20'><b>20 PSI</b></option>
-                        <option value='25'><b>25 PSI</b></option>
-                        <option value='30'><b>30 PSI</b></option>
-                        <option value='35'><b>35 PSI</b></option>
-                        <option value='40'><b>40 PSI</b></option>
-                        <option value='45'><b>45 PSI</b></option>
-                        <option value='50'><b>50 PSI</b></option>
-                    </select>
-                    <div class="line"></div>
-                </div>
-
-                <div class="form-group col-md-3 col-6">
-                    <label for="tipo_valvula"> @lang('afericao.tipoValvula')</label>
-                    <select id="tipo_valvula" onchange="atualizarTipoValvulaReguladora()" class='form-control' required='true' name='tipo_valvula'>
-                        <option value='LF'><b>LF</b></option>
-                        <option value='MF'><b>MF</b></option>
-                        <option value='HF'><b>HF</b></option>
-                        <option value='PSR'><b>PSR</b></option>
-                    </select>
-                    <div class="line"></div>
-                </div>
-
-                <div class="form-group col-md-2 col-6">
-                    <input type="number" class="form-control " id="motorredutor" step=0.01 name="motorredutor">
-                    @component('_layouts._components._inputLabel', ['texto'=>__('afericao.motorredutor'), 'id' => 'motorredutor'])@endcomponent                                                                        
-                </div>
-
-                <hr>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="col-12 text-center">
-                <h3>@lang('redimensionamento.emissores')</h3>
-            </div>
-            <div class="row col-12 justify-content-center" id="div_lista_emissores">
-
-            </div>
-        </div>
-        
-    </formulario>
-    <span slot="botoes">
-        <button form='formAdicionarLance' class="btn btn-lg btn-info btn-block text-center text-light" style="margin: 0 auto" type="submit">@lang('unidadesAcoes.salvar')</button>
-    </span>
-</modal>
-
-<modal nome="editar" titulo="@lang('afericao.editarEmissor')" css='modal-md'>
-<formulario id="formEditar" v-bind:action="'{{route("mapa_original_editar")}}'" css='row' method="put" enctype="" token="{{ csrf_token() }}">
-        <input type="text" id="id_emissor" name='id_emissor' hidden >
-        <input type="text" id="id_afericao" name='id_afericao'  value={{$mapa[0]['id_afericao']}} hidden >
-
-        <div class="form-group col-md-6">
-            <label for="espacamento">@lang('afericao.espacamento')@lang('unidadesAcoes.(m)')</label>
-            <input class="form-control"   id="espacamento" name="espacamento" type="number" step=0.01 aria-describedby="" placeholder="@lang('afericao.espacamento')" required>
-            @component('_layouts._components._inputLabel', ['texto'=>'', 'id' => ''])@endcomponent                                                                                                
-
-        </div>
-
-        <div class="form-group col-md-6">
-            <label for="valvula_reguladora">@lang('afericao.valvula_reguladora')</label>
-            <select  id="valvula_reguladora" name="psi"  class='form-control' required='true' >
-                <option value='10'><b>10 PSI</b></option>
-                <option value='15'><b>15 PSI</b></option>
-                <option value='20'><b>20 PSI</b></option>
-                <option value='25'><b>25 PSI</b></option>
-                <option value='30'><b>30 PSI</b></option>
-                <option value='35'><b>35 PSI</b></option>
-                <option value='40'><b>40 PSI</b></option>
-                <option value='45'><b>45 PSI</b></option>
-                <option value='50'><b>50 PSI</b></option>
-            </select>
-            <div class="line"></div>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label for="tipo_valvula">@lang('afericao.tipo_valvula')</label>
-            <select id="tipo_valvula" class='form-control' required='true' name='tipo_valvula'>
-                <option value='LF'  ><b>LF</b></option>
-                <option value='MF'  ><b>MF</b></option>
-                <option value='HF'  ><b>HF</b></option>
-                <option value='PSR' ><b>PSR</b></option>
-            </select>
-            <div class="line"></div>
-        </div>
-
-
-        <div class="form-group col-md-6">
-            <label for="fabricante">@lang('afericao.fabricante')</label>
-            <select class='form-control' required='true'  id="fabricante" required name='emissor'>
-                <option   value='I-WOB UP3'><b>I-WOB UP3</b></option>
-                <option   value='Fabrimar'><b>Fabrimar</b></option>
-                <option   value='Nelson'><b>Nelson</b></option>
-                <option   value='Super Spray - UP3'><b>Super Spray UP3</b></option>
-                <option   value='Super Spray'><b>Super Spray</b></option>
-                <option   value='I-WOB'><b>I-WOB</b></option>
-                <option   value='Trash Buster'><b>Trash Buster</b></option>
-                <option   value='Komet'><b>Komet</b></option>
-                <option   value='Fan Spray'><b>Fan Spray</b></option>
-            </select>
-            <div class="line"></div>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label for="saida_1">@lang('afericao.saida_1')</label>
-            <input class="form-control"   id="saida_1" name="saida_1" type="number" step=0.01 aria-describedby="" placeholder="@lang('afericao.saida_1')" required>
-            @component('_layouts._components._inputLabel', ['texto'=>'', 'id' => ''])@endcomponent                                                                                                
-        </div>
-
-        <div class="form-group col-md-6">
-            <label for="saida_2">@lang('afericao.saida_2')</label>
-            <input class="form-control"   id="saida_2" name="saida_2" type="number" step=0.01  aria-describedby="" placeholder="@lang('afericao.saida_2')" required>
-            @component('_layouts._components._inputLabel', ['texto'=>'', 'id' => ''])@endcomponent                                                                                                
-        </div>
-        
-    </formulario>
-    <span slot="botoes">
-        <button form="formEditar" class="btn btn-info">@lang('unidadesAcoes.salvar')</button>
-    </span>
-</modal>
 
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
-$( document ).ready(function() {
-    var laminas = {{$laminas}};
-    var laminas_medias = {{$laminas_medias}};
-    var emissores = {{$emissores}};
-    gerarGraficoUnidormidade(laminas, laminas_medias, emissores);
-    //gerarGrafico2();
-});
-
-$(document).on("click","tr.rows button", function(e){
-    var id_button = (e.currentTarget.id);
-    id_button = id_button.split('_')[1];
-    
-    var espacamento = $("#espacamento_" + id_button).text();
-    var saida_1 = $("#bocal_1_" + id_button).text();
-    var saida_2 = $("#bocal_2_" + id_button).text();
-    var valvula_reguladora = $("#valvula_reguladora_" + id_button).text();
-    var tipo_valvula = $("#tipo_valvula_" + id_button).text();
-    var fabricante = $("#fabricante_" + id_button).text();
-    $("#espacamento").val(espacamento.replace(",", "."));
-    $("#valvula_reguladora").val(valvula_reguladora.split(" ")[0]);
-    $("#tipo_valvula").val(tipo_valvula);
-    $("#fabricante").val(fabricante);
-    $("#saida_1").val(saida_1.replace(",", ".").replace(" ", ""));
-    $("#saida_2").val(saida_2.replace(",", ".").replace(" ", ""));
-    $("#editar").modal('show');
-    $("#id_emissor").val(id_button);
-});
 
 
-function gerarGraficoUnidormidade(valores_lamina, valores_lamina_media, emissores){
-    var largura_tela = $(window).width()*0.70;
-    
-
-    Highcharts.chart('grafico_uniformidade', {
-        chart: {
-            zoomType: "x",
-            //type: 'spline',
-            scrollablePlotArea: {
-                minWidth: largura_tela
-            },
-            height: '500'
-        },
-        title: {
-            text: '{{__("afericao.graficoUniformidade")}}'
-        },
-        
-        xAxis: {
-            categories: emissores,
-        },
-        
-        yAxis: [{ // Primary yAxis
-            labels: {
-                formatter: function () {
-                    return this.value + "mm";
-                }
-            },
-            title: {
-                text: '@lang("afericao.laminamm")',
-            }
-        }, { // Secondary yAxis
-            title: {
-                text: '',
-                style: {
-                    color: 'white'
-                }
-            },
-            labels: {
-                enabled: false,
-                //format: '{value}',
-                //style: {
-                //    color: Highcharts.getOptions().colors[0]
-                //}
-            },
-            opposite: true
-        }],
-        colors: ['#6CF', '#F55A42', '#2b908f', '#e4d354'],
-        tooltip: {
-            crosshairs: true,
-            shared: true
-        },
-        plotOptions: {
-            spline: {
-                marker: {
-                    radius: 4,
-                    lineColor: '#666666',
-                    lineWidth: 1,
-                }
-            }, 
-        },
-
-        series: [{
-            type: 'spline',
-            yAxis: 0,
-            tooltip: {
-                headerFormat: '<b>@lang("afericao.emissor") {point.x}</b><br/>',
-                pointFormat: '{series.name} {point.y:.2f} @lang("afericao.mm_dia")<br/>'
-            },
-            name: '@lang("afericao.lamina")',
-            marker: {
-                enabled: false
-            },
-            data: valores_lamina,
-        }, {
-            yAxis: 0,
-            type: 'spline',
-            name: '@lang("afericao.laminaMedia")',
-            tooltip: {
-                pointFormat: '{series.name} {point.y:.2f} @lang("afericao.mm_dia")'
-            },
-            marker: {
-                enabled: false
-            },
-            data: valores_lamina_media
-        },
-        @for($i = 1; $i <= $afericao['numero_lances']; $i++)
-            {
-                yAxis: 1,
-                type: 'area',
-                marker: {
-                    enabled: false
-                },      
-                @if($i == $afericao['numero_lances'] && $afericao['tem_balanco'] == "sim")
-                    name: '@lang("afericao.balanco")',
-                @else
-                    name: '@lang("afericao.lance") {{$i}}',
-                @endif
-
-                @if( $i%2 == 0)
-                    color: '#647586',
-                @else
-                    color: '#69f98a',
-                @endif
-                fillOpacity: 0.2,
-                tooltip: {
-                    @if($i == $afericao['numero_lances'] && $afericao['tem_balanco'] == "sim")
-                        pointFormat: '<br>@lang("afericao.balanco")',
-                    @else
-                        pointFormat: '<br>@lang("afericao.lance"): {{$i}}',
-                    @endif
-                    headerFormat: '<b>{series.name}</b><br>',
+    {{-- SALVAR LANCE DO MODAL E VALIDATE DE CAMPOS DO MODAL --}}
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#adicionarLance").validate({
+                rules: {
+                    "posicao_relativa": {
+                        required: true,
+                    },
+                    "lance_relativo": {
+                        required: true,
+                    },
+                    "numero_emissores": {
+                        required: true,
+                    },
+                    "numero_tubos": {
+                        required: true,
+                    },
+                    "diametro": {
+                        required: true,
+                    },
+                    "valvula_reguladora_lance": {
+                        required: true,
+                    },
+                    "tipo_valvula": {
+                        required: true,
+                    },
+                    "motorredutor": {
+                        required: true,
+                    }
                 },
-    
-                data: [
-                    @foreach($mapa as $emissor)
-                        @if($emissor['numero_lance'] == $i)
-                            100,
-                        @else
-                            null,
-                            
-                        @endif
-                    @endforeach
-                ]
-            },
-        @endfor
-    ],
-
-        responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 500
-            },
-            chartOptions: {
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom'
+                messages: {
+                    lance_relativo: "Campo <strong>LANCE</strong> é obrigatório",
+                    numero_emissores: "Campo <strong>NÚMERO DE EMISSORES</strong> é obrigatório",
+                    numero_tubos: "Campo <strong>NÚMERO DE TUBOS</strong> é obrigatório",
+                    motorredutor: "Campo <strong>MOTORREDUTOR</strong> é obrigatório"
                 }
-            }
-        }]
-        }
-    });
-}
+            });
+        });
 
-</script>
+    </script>
+
+    {{-- CARREGAR PRELOADER --}}
+    {{-- <script>
+        $(document).ready(function() {
+            $('#botaosalvar').on('click', function() {
+                $("#coverScreen").show();
+                $("#cssPreloader input").each(function() {
+                    $(this).css('opacity', '0.2');
+                });
+                $("#cssPreloader select").each(function() {
+                    $(this).css('opacity', '0.2');
+                });
+                $("#botoesSalvar a").each(function() {
+                    $(this).css('opacity', '0.2');
+                });
+                $("#botoesSalvar button").each(function() {
+                    $(this).css('opacity', '0.2');
+                });
+            });
+        });
+
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
+        });
+
+    </script> --}}
+
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        $(document).ready(function() {
+            var laminas = {{ $laminas }};
+            var laminas_medias = {{ $laminas_medias }};
+            var emissores = {{ $emissores }};
+            gerarGraficoUnidormidade(laminas, laminas_medias, emissores);
+
+
+            // FUNÇÃO PARA HABILITAR E DESABILITAR CAMPOS
+            $('.editarEmissores').on('click', () => {
+                const $inputs = $('table input');
+                const $selects = $('table select');
+
+                $inputs.each((index, input) => {
+                    const $input = $(input)
+                    const isDisabled = $input.prop('readonly');
+
+                    if (isDisabled) {
+                        $input.prop('readonly', false); // desabilita
+                    } else {
+                        $input.prop('readonly', true); // habilita
+                    }
+                });
+
+                $selects.each((index, select) => {
+                    const $select = $(select);
+                    const isDisabled = $select.prop('disabled');
+
+                    if (isDisabled) {
+                        $select.prop('disabled', false); // desabilita
+                    } else {
+                        $select.prop('disabled', true); // habilita
+                    }
+                });
+
+                if ($('#botaosalvar').prop('disabled')) {
+                    $('#botaosalvar').prop('disabled', false); // desabilita
+                } else {
+                    $('#botaosalvar').prop('disabled', true); // habilita
+                }
+            });
+
+            // FUNÇÃO PARA SALVAR FORMULARIO DA TABELA DE EMISSORES
+            $('#botaosalvar').on('click', function(event) {
+                event.preventDefault();
+
+                $('#tabelaListaEmissores tbody tr').each(function() {
+                    var id = $(this).data('idline')
+
+                    var id_emissores = $('#id_emissores_' + id).val();
+                    var numero_do_lance = $('#numero_do_lance_' + id).val();
+                    var numero = $('#numero_' + id).val();
+                    var bocal_1 = $('#bocal_1_' + id).val();
+                    var bocal_2 = $('#bocal_2_' + id).val();
+                    var espacamento = $('#espacamento_' + id).val();
+                    var valvula_reguladora = $('#valvula_reguladora_' + id).val();
+                    var tipo_valvula = $('#tipo_valvula_' + id).val();
+                    var fabricante = $('#fabricante_' + id).val();
+                    var token = $('#_token').val();
+
+                    var DATA = {
+                        _token: token,
+                        id: id_emissores,
+                        numero_lance: numero_do_lance,
+                        numero: numero,
+                        saida_1: bocal_1,
+                        saida_2: bocal_2,
+                        espacamento: espacamento,
+                        psi: valvula_reguladora,
+                        tipo_valvula: tipo_valvula,
+                        emissor: fabricante
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('originalMap_edit') }}",
+                        data: DATA,
+                        dataType: 'json'
+                    }).done(function(res) {
+
+                        // MENSAGEM DE ALERTA APOS CONCLUSAO DE EDIÇÃO
+                        var formMessages = $('#msgAlert');
+                        formMessages.removeClass('alert-danger');
+                        formMessages.addClass('alert-success');
+                        $(formMessages).text(res.success);
+                        formMessages.show();
+
+                        // FUNÇÃO PARA FECHAR CAMPOS APOS SALVAR EDIÇÃO
+                        const $inputs = $('table input');
+                        const $selects = $('table select');
+                        $inputs.each((index, input) => {
+                            const $input = $(input)
+                            const isDisabled = $input.prop('readonly');
+
+                            if (isDisabled) {
+                                $input.prop('readonly', false); // desabilita
+                            } else {
+                                $input.prop('readonly', true); // habilita
+                            }
+                        });
+
+                        $selects.each((index, select) => {
+                            const $select = $(select);
+                            const isDisabled = $select.prop('disabled');
+
+                            if (isDisabled) {
+                                $select.prop('disabled', false); // desabilita
+                            } else {
+                                $select.prop('disabled', true); // habilita
+                            }
+                        });
+
+                        if ($('#botaosalvar').prop('disabled')) {
+                            $('#botaosalvar').prop('disabled', false); // desabilita
+                        } else {
+                            $('#botaosalvar').prop('disabled', true); // habilita
+                        }
+
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log("Error: " + textStatus);
+                    });
+                });
+            });
+        });
+
+        function gerarGraficoUnidormidade(valores_lamina, valores_lamina_media, emissores) {
+            var largura_tela = $(window).width() * 0.70;
+
+
+            Highcharts.chart('grafico_uniformidade', {
+                chart: {
+                    zoomType: "x",
+                    //type: 'spline',
+                    scrollablePlotArea: {
+                        minWidth: largura_tela
+                    },
+                    height: '500'
+                },
+                title: {
+                    text: '{{ __('afericao.graficoUniformidade') }}'
+                },
+
+                xAxis: {
+                    categories: emissores,
+                },
+
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        formatter: function() {
+                            return this.value + "mm";
+                        }
+                    },
+                    title: {
+                        text: '@lang("afericao.laminamm")',
+                    }
+                }, { // Secondary yAxis
+                    title: {
+                        text: '',
+                        style: {
+                            color: 'white'
+                        }
+                    },
+                    labels: {
+                        enabled: false,
+                        //format: '{value}',
+                        //style: {
+                        //    color: Highcharts.getOptions().colors[0]
+                        //}
+                    },
+                    opposite: true
+                }],
+                colors: ['#6CF', '#F55A42', '#2b908f', '#e4d354'],
+                tooltip: {
+                    crosshairs: true,
+                    shared: true
+                },
+                plotOptions: {
+                    spline: {
+                        marker: {
+                            radius: 4,
+                            lineColor: '#666666',
+                            lineWidth: 1,
+                        }
+                    },
+                },
+
+                series: [{
+                        type: 'spline',
+                        yAxis: 0,
+                        tooltip: {
+                            headerFormat: '<b>@lang("afericao.emissor") {point.x}</b><br/>',
+                            pointFormat: '{series.name} {point.y:.2f} @lang("afericao.mm_dia")<br/>'
+                        },
+                        name: '@lang("afericao.lamina")',
+                        marker: {
+                            enabled: false
+                        },
+                        data: valores_lamina,
+                    }, {
+                        yAxis: 0,
+                        type: 'spline',
+                        name: '@lang("afericao.laminaMedia")',
+                        tooltip: {
+                            pointFormat: '{series.name} {point.y:.2f} @lang("afericao.mm_dia")'
+                        },
+                        marker: {
+                            enabled: false
+                        },
+                        data: valores_lamina_media
+                    },
+                    @for ($i = 1; $i <= $afericao['numero_lances']; $i++)
+                        {
+                        yAxis: 1,
+                        type: 'area',
+                        marker: {
+                        enabled: false
+                        },
+                        @if ($i == $afericao['numero_lances'] && $afericao['tem_balanco'] == 'sim') name:
+                        '@lang("afericao.balanco")',
+                    @else
+                        name: '@lang("afericao.lance") {{ $i }}', @endif
+                    
+                        @if ($i % 2 == 0)
+                            color: '#647586',
+                        @else
+                            color: '#69f98a',
+                        @endif
+                        fillOpacity: 0.2,
+                        tooltip: {
+                        @if ($i == $afericao['numero_lances'] && $afericao['tem_balanco'] == 'sim')
+                            pointFormat: '<br>@lang("afericao.balanco")',
+                        @else
+                            pointFormat: '<br>@lang("afericao.lance"): {{ $i }}',
+                        @endif
+                        headerFormat: '<b>{series.name}</b><br>',
+                        },
+                    
+                        data: [
+                        @foreach ($mapa as $emissor)
+                            @if ($emissor['numero_lance'] == $i)
+                                100,
+                            @else
+                                null,
+                        
+                            @endif
+                        @endforeach
+                        ]
+                        },
+                    @endfor
+                ],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+
+    </script>
 @endsection

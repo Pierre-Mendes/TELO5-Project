@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'mapaBocal' => 'Mapa de Boquillas Original',
     'ftPivoCentralDiagnostico' => 'HOJA DE DATOS PIVOTE CENTRAL - DIAGNÓSTICO',
     'proprietario' => 'Propietario',
     'propriedade' => 'Propiedad',
@@ -138,4 +139,8 @@ return [
     'conclusao18' => 'Con la finalización de los ajustes recomendados, el equipo funcionará con el índice de uniformidad, presurización y carga adecuado. Por lo tanto, todos los ajustes deben seguir estrictamente la recomendación de los Consultores Irriger. El intercambio de boquillas debe seguir el orden exacto, de acuerdo con la lista adjunta. Si hay alguna duda al respecto, comuníquese con nuestro equipo para instruir al equipo de la granja en este proceso. Después de hacer los ajustes, le pedimos que se comunique con nuestro Consultor responsable para tener una verificación final del proceso.',
     'texto_uniformidade_7' => 'Después de los ajustes, la cuchilla de pivote central estará :lamina mm/ :horas h ',
 
+    'bocais' => 'Boqui.',
+    'espacamento' => 'Espa.',
+    'valvula' => 'Valv.',
+    'numTubos' => 'Nº Tubos: '
 ];

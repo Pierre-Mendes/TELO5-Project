@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'redimensionamento' => 'Resizing',
+    'menuRedimensionamento' => 'Resizing',
+    'redimensionamento' => 'MANAGER RESIZING',
     'redim' => 'Resiz.',
     'afericao' => 'Measurement',
     'etapa' => 'Step',

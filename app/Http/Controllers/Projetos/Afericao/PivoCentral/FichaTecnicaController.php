@@ -24,7 +24,7 @@ use App\Classes\Constantes\Notificacao;
 
 class FichaTecnicaController extends Controller
 {
-    public function geraFichaTecnica($id_afericao){
+    public function Datasheet($id_afericao){
 
         //Dados para  aficha técnica
         /*
@@ -77,7 +77,7 @@ class FichaTecnicaController extends Controller
         $afericao = AfericaoPivoCentral::where('id', $id_afericao)->first();
         $trechos_adutora = Adutora::where('id_afericao', $id_afericao)->get();
         
-        $dados_adutora = Adutora::calcularAdutora($cabecalho_bombeamento, $trechos_adutora, $afericao);
+        $dados_adutora = Adutora::adductor_calculate($cabecalho_bombeamento, $trechos_adutora, $afericao);
         
         //Somandos os desníveis da adutora
         $total_desnivel_adutora = 0;
@@ -463,10 +463,20 @@ class FichaTecnicaController extends Controller
 
         //Montagem do texto para COMPOSIÇÃO PARTE AÉREA
         $texto_composicao = "";
+        $dados_lances = Lance::where('id_afericao', $id_afericao)->orderby('numero_lance', 'asc')->get();
+
 
         //Dados dos lances
-        $dados_lances = Lance::where('id_afericao', $id_afericao)->orderby('numero_lance', 'asc')->get();
+        $dados_lances2 = Lance::join('emissores as E', 'E.id_lance', 'lances.id')
+        ->where('id_afericao', $id_afericao)
+        ->orderby('numero_lance', 'asc')
+        ->orderby('E.numero', 'asc')
+        ->get();
         
+        $emissor_max = Lance::where('id_afericao', $id_afericao)->max('numero_emissores');
+        // dd($emissor_max);
+        // $dados_lances = Lance::where('id_afericao', $id_afericao)->orderby('numero_lance', 'asc')->get();
+        //dd($dados_lances);
         //Percorrendo o array para verificar repetições para contagem de lances e verificando o diametro
         $tubos_lp = $tubos_lm = $tubos_ll = $tubos_lel = $qtd_emissores = 0;
         foreach($dados_lances AS $key => $lances){
@@ -550,7 +560,9 @@ class FichaTecnicaController extends Controller
             $emissores = json_encode($emissores);
         }
         //dd( $dados_mapa_original[0]);
-        return view('projetos.afericao.pivoCentral.relatorio.fichaTecnica.fichaTecnica', compact('afericao', 'cabecalho_bombeamento', 'bombeamentos', 'dados_ficha_tecnica', 'dados_estimativa_custo_lamina', 'trechos_adutora', 'dados_adutora', 'dados_mapa_original', 'dados_velocidade', 'dados_velocidade_red', 'dados_altura_manometrica', 'dados_custo_lamina', 'velocidade_pivo',
+        return view('projetos.afericao.pivoCentral.relatorio.fichaTecnica.fichaTecnica', compact('id_afericao', 'afericao', 'cabecalho_bombeamento', 
+        'bombeamentos', 'dados_ficha_tecnica', 'dados_estimativa_custo_lamina', 'trechos_adutora', 'dados_adutora', 'dados_mapa_original', 'dados_velocidade', 'dados_lances', 'emissor_max', 'dados_lances2',
+        'dados_velocidade_red', 'dados_altura_manometrica', 'dados_custo_lamina', 'velocidade_pivo',
         'texto_observacoes', 'texto_velocidade_100','texto_uniformidade', 'projetada', 'aferida', 'texto_conclusao', 'lamina_conjugada', 'texto_composicao', 'laminas', 'laminas_medias', 'emissores'));
     }
 }

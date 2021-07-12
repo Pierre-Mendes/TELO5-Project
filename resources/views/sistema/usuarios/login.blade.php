@@ -7,49 +7,26 @@
 </head>
 
 <body>
-
-    <div class="login-background">
-        <form action="{{ route('login.entrar') }}" method="post">
-            {{ csrf_field() }}
-            <div class="centerlogin">
-                <div>
-                    <img class="imglogin" src="{{ asset('img/telo5.jpg') }}">
-                </div>
-                <div>
-                    <div>
-                        <input name="email" type="email" placeholder="Email" required autocomplete="off" autofocus>
-                    </div>
-                    <br>
-                    <div>
-                        <input name="password" type="password" placeholder="Password" required>
-                    </div>
-    
-                    <div hidden class="form-group">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" name='rememberPassword'
-                                        type="checkbox">@lang('login.lembrar_minha_senha') </label>
-                            </div>
-                        </div>
-                    <div>
-                        <button type="submit">@lang('login.entrar')</button>
-                    </div>
-                    <div>
-                        <p> I forgot my password</p>
-                    </div>
-                </div>
-            </div>
-           
-            <div class="mensagemlogin">
-                <div>
-                    <p> Copyright © Valmont Industries Inc. All Rights reserved.</p>
-                </div>
-            </div>
-            <!--<button class="btn btn-lg btn-info btn-block" type="submit">@lang('login.entrar')</button>-->
-        </form>
+    <form action="{{ route('signin') }}" class="box" method="POST" autocomplete="off">
+        <?php 
+            if (isset($_POST['email']) && $_POST['password'] == 'erro') { 
+        ?>
+            <div class="alert alert-primary" role="alert">
+                This is a primary alert—check it out!
+              </div>
+        <?php 
+            } 
+        ?>
+        @csrf
+        <img src="{{ asset('img/telo5.jpg') }}" alt="">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Senha">
+        <input type="submit" name="enviar" value="Entrar">
+        {{-- <a href="#" name="rememberPassword">Esqueci a minha senha</a> --}}
+    </form>
+    <div class="text">
+        <p>Copyright © Valmont Industries Inc. All Rights reserved.</p>
     </div>
 </body>
-@include('_layouts._includes._scripts')
-@include('_layouts._includes._modal')
 
 </html>

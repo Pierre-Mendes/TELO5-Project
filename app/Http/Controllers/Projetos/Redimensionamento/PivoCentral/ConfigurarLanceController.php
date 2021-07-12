@@ -44,7 +44,6 @@ class ConfigurarLanceController extends Controller
             $dados['lance_anterior']-=1;
         }
         
-        
         for($i = 0; $i < $dados['numero_emissores']; $i++){
             $comprimentoNovoLance+=$dados['espacamento'][$i];
             $emissor = [
@@ -59,6 +58,7 @@ class ConfigurarLanceController extends Controller
             ];
             array_push($emissores, $emissor);
         }
+
 
         $lance = [
             'id_afericao' => $dados['id_afericao'],

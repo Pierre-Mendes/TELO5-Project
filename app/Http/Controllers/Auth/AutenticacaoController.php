@@ -20,10 +20,11 @@ class AutenticacaoController extends Controller
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
+
         return view('sistema.usuarios.login');
     }
 
-    public function entrar(Request $req)
+    public function Signin(Request $req)
     {
         $dados = $req->all();
         if (isset($dados['rememberPassword'])) {
@@ -31,10 +32,15 @@ class AutenticacaoController extends Controller
         } else {
             $remeber = false;
         }
-        if (User::verificarUserAtivo($dados['email']) && Auth::attempt([ 'email' => $dados['email'], 'password' => $dados['password'] ],  $remeber)) {
+
+        if (User::verificarUserAtivo($dados['email']) && Auth::attempt(['email' => $dados['email'], 'password' => $dados['password']],  $remeber)) {
             Session::put('name', Auth::user()->all());
 
+            Session::put('user_logged', Auth::user());
+            $usuario = Session::get('user_logged');
+
             //Alterando o idioma da página
+
             $idiomas =  User::getListaDeIdiomas();
             $index = Auth::user()->configuracao_idioma;
             Session::put('locale',  $idiomas[$index]['valor']);
@@ -54,5 +60,4 @@ class AutenticacaoController extends Controller
         Session::flush();
         return redirect()->route('login');
     }
-
 }

@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'informacoes_gerais' => 'General information',
+    'consideracoes' => 'Considerations',
+    'parte_aerea' => 'Aerial',
     'teste' => 'Test',
     'pivoCentral' => 'Central Pivot',
     'informacoesGerais' => 'General Informations',
@@ -165,7 +168,7 @@ return [
     'voltar' => 'BACK',
     'numLancesSemBalanco' => 'Number of spans (Without Overhang)',
 
-
+    'afericoes' => 'Measurements',
     'afericao' => 'MEASUREMENT',
     'lance' => 'Span ',
     'numeroTubos' => 'Number of Tubes ',
@@ -174,6 +177,7 @@ return [
     'tipoValvula' => 'Type of Valve',
     'motorredutor' => 'Gearbox',
 
+    'cadastrar_emissores' => 'REGISTER ISSUERS',
     'emissores' => 'ISSUERS',
     'balanco' => 'Balance',
     'emissor' => 'Issuer ',
@@ -227,6 +231,7 @@ return [
 
     //Velocidade Aferição
     'velocidadeAfericao' => 'Speed ​​measurement',
+    'velocidade100' => 'Speed 100%',
     'testeVelo100' => 'Speed ​​Test (100%)',
     'distanciaM' => 'Distance',
     'afericao01' => 'Measurement 01',
@@ -295,6 +300,7 @@ return [
     //Cadastro Adutora
     'cadastroAdutora' => 'Register Water Mains',
     'bombeamento' => 'Pumping',
+    'cadastroItemBombeamento' => 'Register Pumping Item',
     'tipoInstalacao' => 'Instalation Type',
     'direta' => 'Direct',
     'afogada' => 'Drowned',
@@ -312,10 +318,10 @@ return [
     'lagoa' => 'Lagoon',
     'poco' => 'Well',
     'trechos' => 'Parts',
-    'tipoCano' => 'Pipe Type',
+    'tipoCano' => 'Tube Type',
     'diametro' => 'Diameter',
     'hw' => 'HW',
-    'numeroCanos' => 'Number of Pipes',
+    'numeroCanos' => 'Tube Quantity',
     'comprimento' => 'Lenght',
     'desnivel' => 'Gap',
     'altitude' => 'Suction height',
@@ -335,7 +341,9 @@ return [
     'numero_canos' => 'Number of Pipes',
 
     //BOMBEAMENTOS
-    'cadastroBombeamento' => 'REGISTER PUMPING',
+    'cadastroItemBombeamento' => 'REGISTER PUMPING ITEM',
+    'editarItemBombeamento' => 'EDIT PUMP ITEM',
+    'editarBomba' => 'EDIT PUMP',
     'materialSuccao' => 'Suction Material',
     'acoSac' => 'AÇO SAC',
     'AZ' => 'AZ',
@@ -389,8 +397,6 @@ return [
     'relatorioVelocidade' => 'Speed Report',
     'fichaTecnica' => 'Datasheet',
 
-
-    'cadastrarAdutora' => 'Register Adductor',
     'ja_existe_adutora' => 'There is already an adductor registration for this measurement!',
     'aviso' => 'Warning',
     'erro_db' => 'There was a problem trying to write the data, please try again later!',
@@ -403,9 +409,8 @@ return [
     'graficoUniformidade' => "Uniformity Chart",
     'atualizarMapa' => 'Refresh Map',
     'editarBombeamento' => 'EDIT PUMPING',
-    'statusAfericao' => 'MEASUREMENT STATUS',
+    'statusAfericao' => 'Measurement Status',
 
-    'statusAfericao' => 'STATUS OF AFFERITION',
     'titulo_alerta_nome_pivo' => 'This pivot already has measurement !',
     'texto_alerta_nome_pivo' => 'If you continue, the previous measurement of this pivot will be archived!',
     //Mensagem para modal dos cards

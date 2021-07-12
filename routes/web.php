@@ -1,117 +1,68 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
- just test
-*/
-
-/*
----------------------------------------------------------------------------
-                    EXEMPLOS DE ROTAS
----------------------------------------------------------------------------
-|
-|   Route::get('teste', ['as'=>'teste', 'uses'=>'TesteController@teste']);
-|   Route::get('/', function () {     return view('app'); });
-*/
-
+if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+}
 
 Auth::routes(['verify' => true]);
 
-/*
- * Rotas Públicas da aplicação
- */
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// ROTAS DE LOGIN ///////////////////////////////////////////////////
+/////////////////////////////////////// LOGIN ROUTE //////////////////////////////////////////////////////
 
-//Rotas de Login
-Route::post('/login/entrar', ['as' => 'login.entrar', 'uses' => 'Auth\AutenticacaoController@entrar']);
-Route::get('/login', ['as' => 'login', 'uses' => 'Auth\AutenticacaoController@login']);
+    Route::post('/login/Signin', ['as' => 'signin', 'uses' => 'Auth\AutenticacaoController@Signin']);
+    Route::get('/login', ['as' => 'login', 'uses' => 'Auth\AutenticacaoController@login']);
 
-//Rota de alteração de idioma
-Route::get('locale/{locale}', function ($locale) {
-    Session::put('locale', $locale);
-    return redirect()->back();
-})->name('alterarIdioma');
+    //Rota de alteração de idioma
+    Route::get('locale/{locale}', function ($locale) {
+        Session::put('locale', $locale);
+        return redirect()->back();
+    })->name('alterarIdioma');
 
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Rotas para apenas usuários cadastrados
  */
-Route::group(['middleware' => 'auth'], function () 
-{
+Route::group(['middleware' => 'auth'], function () {
     //Logout
     Route::get('/sair', ['as' => 'sair', 'uses' => 'Auth\AutenticacaoController@sair']);
 });
-    Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () 
-{
-    /*
-     *  ROTAS PÚBLICAS DE USUÁRIOS LOGADOS
-     */
 
 
-    /*
-     *  Rotas de usuários administradores
-     *  Podem ser acessadas apenas por usuários administradores
-     */
-        Route::group(['middleware' => 'administrador'], function () {
-        //Teste
-        Route::get('/fazendas/teste', ['as' => 'fazenda.teste', 'uses' => 'Sistema\FazendaController@teste']);
-        
+Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
 
-//*****************************************************************************************************************************************//
-        /*
-        * PÁGINA DOS BOCAIS - NOZZLE PAGES
-        ================================================
-        * *this page has the following functions*
-        * - Registration
-        * - Editing
-        * - Deletion
-        * - Management
-        */
-        Route::get('/fabricantes', ['as'=>'fabricantes.gerenciar', 'uses'=>'Sistema\BocalController@getListaDeFabricantes']);
-        Route::get('/fabricantes/cadastrar', ['as' => 'fabricantes.cadastrar', 'uses' => 'Sistema\BocalController@cadastraFabricantte']);
-        Route::get('/fabricantes/salva', ['as' => 'fabricantes.salva', 'uses' => 'Sistema\BocalController@cadastraFabricantte']);
-        Route::get('/fabricantes/editar/{id}', ['as' => 'fabricantes.editar', 'uses' => 'Sistema\BocalController@editaFabricante']);
-        Route::delete('/fabricantes/remover/{id}', ['as' =>  'fabricantes.remover', 'uses' => 'Sistema\BocalController@destroy']);
-        //Route::get('/fabricantes/edita', ['as' => 'fabricantes.edita', 'uses' => 'Sistema\BocalController@editaFabricante']);
-        //Route::post('/fabricantes', ['as' => 'fabricantes.salvar', 'uses' => 'Sistema\BocalController@salvarFabricante']);
+    Route::group(['middleware' => 'administrador'], function () {
 
-        Route::get('/bocais', ['as'=>'bocais.gerenciar', 'uses'=>'Sistema\BocalController@getListaDeBocais']);
-        Route::get('/bocais/cadastrar', ['as' => 'bocais.cadastrar', 'uses' => 'Sistema\BocalController@cadastrarBocal']);
-        Route::post('/bocais/cadastra', ['as' => 'bocais.cadastra', 'uses' => 'Sistema\BocalController@cadastraBocal']);
-        Route::get('/bocais/editar/{id}', ['as' => 'bocais.editar', 'uses' => 'Sistema\BocalController@getListaDeBocais']);
-        Route::put('/bocais/edita', ['as' => 'bocais.edita', 'uses' => 'Sistema\BocalController@editaBocal']);
-        Route::delete('/bocais/remove/{id}', ['as' => 'bocais.remove', 'uses' => 'Sistema\BocalController@removerBocal']);
-        Route::get('/bocais/bocal/{id}', ['as'=>'bocais.bocal', 'uses'=>'Sistema\BocalController@getInfosBocal']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE BOCAIS ///////////////////////////////////////////////////
+        /////////////////////////////////////// NOZZLE ROUTE /////////////////////////////////////////////////////
 
-        Route::get('/producer', ['as' => 'producer.list', 'uses' => 'Sistema\ProducerController@getListProducer']);
-        Route::get('/producer/register', ['as' => 'producer.register', 'uses' => 'Sistema\ProducerController@registerProducer']);
-        Route::post('/producer/save', ['as' => 'producer.save', 'uses' => 'Sistema\ProducerController@saveProducer']);
-        Route::get('/producer/edit/{id}', ['as' => 'producer.edit', 'uses' => 'Sistema\ProducerController@editProducer']);
-        Route::delete('/producer/remove/{id}', ['as' =>  'producer.delete', 'uses' => 'Sistema\ProducerController@destroy']);
+            Route::get('/nozzles', ['as' => 'manager_nozzles', 'uses' => 'Sistema\BocalController@manageNozzles']);
+            Route::get('/nozzles/create', ['as' => 'create_nozzles', 'uses' => 'Sistema\BocalController@createNozzle']);
+            Route::post('/nozzles/save', ['as' => 'save_nozzle', 'uses' => 'Sistema\BocalController@saveNozzle']);
+            Route::get('/nozzles/edit/{id}', ['as' => 'edit_nozzle', 'uses' => 'Sistema\BocalController@editNozzle']);
+            Route::post('/nozzles/update', ['as' => 'update_nozzle', 'uses' => 'Sistema\BocalController@updateNozzle']);
+            Route::delete('/nozzles/delete/{id}', ['as' => 'delete_nozzle', 'uses' => 'Sistema\BocalController@delete']);
 
-        Route::get('/selectlistfabricantes', ['as'=>'selectfabricantes.list', 'uses'=>'Sistema\BocalController@getlistSelectFabricante']);
-//*****************************************************************************************************************************************//
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Gerenciamento de pivos
-        Route::get('/pivos', ['as' => 'pivos.gerenciar', 'uses' => 'Sistema\PivoController@getListaDePivos']);
-        Route::get('/pivos/pivo/{id}', ['as' => 'pivos.pivo', 'uses' => 'Sistema\PivoController@getInfosPivo']);
-        Route::get('/pivos/cadastrar', ['as' => 'pivos.cadastrar', 'uses' => 'Sistema\PivoController@cadastrarPivo']);
-        Route::post('/pivos/salvar', ['as' => 'pivos.salvar', 'uses' => 'Sistema\PivoController@salvarPivo']);
-        Route::get('/pivos/editar/{id}', ['as' => 'pivos.editar', 'uses' => 'Sistema\PivoController@editarPivo']);
-        Route::post('/pivos/edita', ['as' => 'pivos.edita', 'uses' => 'Sistema\PivoController@editaPivo']);
-        Route::delete('/pivos/remover/{id}', ['as' => 'pivos.remover', 'uses' => 'Sistema\PivoController@destroy']);
-        Route::get('/pivos/ajaxRequest/{valor}', ['as' => 'pivos.atualiza', 'uses' => 'Sistema\PivoController@ajaxAtualizaSaidas']);
-        //Route::get('/pivos/ajaxRequest', function(){if(Request::ajax()){return "teste";}});
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE PIVÔ ///////////////////////////////////////////////////
+        /////////////////////////////////////// PIVOT ROUTE /////////////////////////////////////////////////////
 
-        Route::get('/usuarios/{id_usuario}/aprovar_email_usuario', ['as' => 'aprovarUsuario', 'uses' => 'Sistema\UsuarioController@validarEmailUsuario']);
+            Route::get('/pivots', ['as' => 'manager_pivot', 'uses' => 'Sistema\PivoController@managerPivot']);
+            Route::get('/pivots/create', ['as' => 'create_pivot', 'uses' => 'Sistema\PivoController@createPivot']);
+            Route::post('/pivots/save', ['as' => 'save_pivot', 'uses' => 'Sistema\PivoController@savePivot']);
+            Route::get('/pivots/edit/{id}', ['as' => 'edit_pivot', 'uses' => 'Sistema\PivoController@editPivot']);
+            Route::post('/pivots/update', ['as' => 'update_pivot', 'uses' => 'Sistema\PivoController@updatePivot']);
+            Route::delete('/pivots/delete/{id}', ['as' => 'delete_pivot', 'uses' => 'Sistema\PivoController@delete']);
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            Route::get('/usuarios/{id_usuario}/aprovar_email_usuario', ['as' => 'aprovarUsuario', 'uses' => 'Sistema\UsuarioController@validarEmailUsuario']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     });
 
     /*
@@ -119,23 +70,32 @@ Route::group(['middleware' => 'auth'], function ()
      *  Podem ser acessadas apenas por usuários administradores e gerentes
      */
     Route::group(['middleware' => 'gerente'], function () {
-        //Rotas de gerenciamento de usuários
-        Route::get('/usuarios', ['as' => 'usuarios.listar', 'uses' => 'Sistema\UsuarioController@listarUsuarios']);
-        Route::post('/usuarios/salvar', ['as' => 'usuario.salvar', 'uses' => 'Sistema\UsuarioController@salvarUsuario']);
-        Route::get('/usuarios/cadastrar', ['as' => 'usuario.cadastrar', 'uses' => 'Sistema\UsuarioController@cadastrarUsuario']);
-        Route::get('/usuarios/editar/{id}', ['as' => 'usuario.editar', 'uses' => 'Sistema\UsuarioController@editarUsuarios']);
-        Route::post('/usuarios/edita', ['as' => 'usuario.edita', 'uses' => 'Sistema\UsuarioController@editaUsuarios']);
-        // Route::delete('/usuarios/remove/{id}', ['as' => 'usuario.remover', 'uses' => 'Sistema\UsuarioController@removerUsuario']);
-        Route::delete('/usuarios/remover/{id}', ['as' => 'usuario.remover', 'uses' => 'Sistema\UsuarioController@destroy']);
 
-        //Rotas de gerenciamento de centro de custos
-        Route::get('/centros_de_custos', ['as' => 'centrocusto.gerenciar', 'uses' => 'Sistema\CentroCustosController@listarCentroCustos']);
-        Route::post('/centros_de_custos/salvar', ['as' => 'centrocusto.salvar', 'uses' => 'Sistema\CentroCustosController@salvarCentroCustos']);
-        Route::get('/centros_de_custos/cadastrar', ['as' => 'centrocusto.cadastrar', 'uses' => 'Sistema\CentroCustosController@cadastrarCentroCustos']);
-        Route::get('/centros_de_custos/editar/{id}', ['as' => 'centrocusto.editar', 'uses' => 'Sistema\CentroCustosController@editarCentroCustos']);
-        Route::post('/centros_de_custos/edita', ['as' => 'centrocusto.edita', 'uses' => 'Sistema\CentroCustosController@editaCentroCustos']);
-        Route::delete('/centros_de_custos/remover/{id}', ['as' => 'centrocusto.remover', 'uses' => 'Sistema\CentroCustosController@removerCentroCustos']);
-        Route::delete('/centros_de_custos/remover/{id}', ['as' => 'centrocusto.remover', 'uses' => 'Sistema\CentroCustosController@destroy']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE USUÁRIOS ////////////////////////////////////////////////
+        /////////////////////////////////////// USER ROUTE ///////////////////////////////////////////////////////
+            Route::get('/user', ['as' => 'usuarios_manager', 'uses' => 'Sistema\UsuarioController@managerUsuarios']);
+            Route::get('/user/create', ['as' => 'usuario_create', 'uses' => 'Sistema\UsuarioController@createUsuario']);
+            Route::post('/user/save', ['as' => 'usuario_save', 'uses' => 'Sistema\UsuarioController@saveUsuario']);
+            Route::get('/user/edit/{id}', ['as' => 'usuario_edit', 'uses' => 'Sistema\UsuarioController@editUsuarios']);
+            Route::post('/user/update', ['as' => 'usuario_update', 'uses' => 'Sistema\UsuarioController@updateUsuarios']);
+            Route::delete('/user/remover/{id}', ['as' => 'usuario.remover', 'uses' => 'Sistema\UsuarioController@delete']);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE CENTRO DE CUSTO /////////////////////////////////////////
+        /////////////////////////////////////// COST CENTER ROUTES (SUB REGIONS) /////////////////////////////////
+
+            Route::get('/cost_center', ['as' => 'manage_cost_center', 'uses' => 'Sistema\CentroCustosController@manageCostCenter']);
+            Route::get('/cost_center/create', ['as' => 'create_cost_center', 'uses' => 'Sistema\CentroCustosController@createCostCenter']);
+            Route::post('/cost_center/save', ['as' => 'save_cost_center', 'uses' => 'Sistema\CentroCustosController@saveCostCenter']);
+            Route::get('/cost_center/edit/{id}', ['as' => 'edit_cost_center', 'uses' => 'Sistema\CentroCustosController@editCostCenter']);
+            Route::post('/cost_center/update', ['as' => 'update_cost_center', 'uses' => 'Sistema\CentroCustosController@updateCostCenter']);
+            Route::delete('/cost_center/delete/{id}', ['as' => 'delete_center_cost', 'uses' => 'Sistema\CentroCustosController@delete']);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     });
 
     /*
@@ -150,30 +110,38 @@ Route::group(['middleware' => 'auth'], function ()
      *  Podem ser acessadas apenas por usuários administradores, gerentes, supervisores e consultores
      */
     Route::group(['middleware' => 'consultor'], function () {
-        //Rotas de gerenciamento de fazendas
-        Route::get('/fazendas', ['as' => 'fazendas.gerenciar', 'uses' => 'Sistema\FazendaController@listarFazendas']);
-        Route::get('/fazendas/listfazendas', ['as' => 'fazendas.listfazendas', 'uses' => 'Sistema\FazendaController@listFazendas']);
-        Route::post('/fazendas/setfazenda', ['as' => 'fazendas.setfazenda', 'uses' => 'Sistema\FazendaController@setFazenda']);
-        Route::post('/fazendas/salvar', ['as' => 'fazenda.salvar', 'uses' => 'Sistema\FazendaController@salvarFazenda']);
-        Route::get('/fazendas/cadastrar', ['as' => 'fazenda.cadastrar', 'uses' => 'Sistema\FazendaController@cadastrarFazenda']);
-        Route::get('/fazendas/editar/{id}', ['as' => 'fazenda.editar', 'uses' => 'Sistema\FazendaController@editarFazenda']);
-        Route::POST('/fazendas/edita', ['as' => 'fazenda.edita', 'uses' => 'Sistema\FazendaController@editaFazenda']);
-        Route::delete('/fazendas/remove/{id}', ['as' => 'fazenda.remover', 'uses' => 'Sistema\FazendaController@removerFazenda']);
-        Route::get('/fazendas/fazenda', ['as' => 'fazenda.fazenda', 'uses' => 'Sistema\FazendaController@selecionarFazenda']);
 
-        //Rotas de fazenda
-        Route::get('/fazenda/assistentes_usuario', ['as' => 'fazenda.assistentes_usuario', 'uses' => 'Sistema\FazendaController@getAssistentesDoUsuario']);
-        Route::post('/fazenda/assistentes/adicionar', ['as' => 'fazenda.adicionar_assistente', 'uses' => 'Sistema\FazendaController@adicionarAssistente']);
-        Route::delete('/fazenda/assistentes/remover/{id}', ['as' => 'fazenda.remover_assistente', 'uses' => 'Sistema\FazendaController@removerAssistente']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE FAZENDAS ////////////////////////////////////////////////
+        /////////////////////////////////////// FARM ROUTES //////////////////////////////////////////////////////
 
-        //Rotas de gerenciamento de proprietários
-        Route::get('/proprietarios', ['as' => 'proprietarios.gerenciar', 'uses' => 'Sistema\ProprietarioController@listarProprietarios']);
-        Route::get('/proprietarios/cadastrar', ['as' => 'proprietario.cadastrar', 'uses' => 'Sistema\ProprietarioController@cadastrarProprietario']);
-        Route::post('/proprietarios/salvar', ['as' => 'proprietario.salvar', 'uses' => 'Sistema\ProprietarioController@salvarProprietario']);
-        Route::get('/proprietarios/editar/{id}', ['as' => 'proprietario.editar', 'uses' => 'Sistema\ProprietarioController@editarProprietario']);
-        Route::post('/proprietarios/edita', ['as' => 'proprietario.edita', 'uses' => 'Sistema\ProprietarioController@editaProprietario']);
-        Route::delete('/proprietarios/remove/{id}', ['as' => 'proprietario.remover', 'uses' => 'Sistema\ProprietarioController@removerProprietario']);
-        Route::delete('/proprietarios/remover/{id}', ['as' => 'proprietario.remover', 'uses' => 'Sistema\ProprietarioController@destroy']);
+            Route::get('/farm', ['as' => 'farms_manager', 'uses' => 'Sistema\FazendaController@manageFarms']);
+            Route::get('/farm/farmSelect', ['as' => 'farms_select', 'uses' => 'Sistema\FazendaController@selectFarms']);
+            Route::post('/farm/setfarm', ['as' => 'farm_setFarm', 'uses' => 'Sistema\FazendaController@setFarm']);
+            Route::get('/farm/create', ['as' => 'farm_create', 'uses' => 'Sistema\FazendaController@createFarm']);
+            Route::post('/farm/save', ['as' => 'farm_save', 'uses' => 'Sistema\FazendaController@saveFarm']);
+            Route::get('/farm/edit/{id}', ['as' => 'farm_edit', 'uses' => 'Sistema\FazendaController@editFarm']);
+            Route::POST('/farm/update', ['as' => 'farm_update', 'uses' => 'Sistema\FazendaController@updateFarm']);
+            Route::delete('/farm/delete/{id}', ['as' => 'delete_Farm', 'uses' => 'Sistema\FazendaController@deleteFarm']);
+
+            //Rotas de fazenda
+            Route::get('/farm/userAssist', ['as' => 'farm_userAssist', 'uses' => 'Sistema\FazendaController@userAssist']);
+            Route::post('/farm/assist/create', ['as' => 'farm_createUserAssist', 'uses' => 'Sistema\FazendaController@createAssist']);
+            Route::delete('/farm/assist/delete/{id}', ['as' => 'farm_deleteAssist', 'uses' => 'Sistema\FazendaController@deleteAssist']);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /////////////////////////////////////// ROTAS DE PROPRIETÁRIOS ///////////////////////////////////////////
+        /////////////////////////////////////// OWNER ROUTES /////////////////////////////////////////////////////
+            Route::get('/owners', ['as' => 'owner_manager', 'uses' => 'Sistema\ProprietarioController@managerOwners']);
+            Route::get('/owner/createOwner', ['as' => 'owner_create', 'uses' => 'Sistema\ProprietarioController@createOwner']);
+            Route::post('/owner/saveOwner', ['as' => 'owner_save', 'uses' => 'Sistema\ProprietarioController@saveOwner']);
+            Route::get('/owner/editOwner/{id}', ['as' => 'owner_edit', 'uses' => 'Sistema\ProprietarioController@editOwner']);
+            Route::post('/owner/update', ['as' => 'owner_update', 'uses' => 'Sistema\ProprietarioController@updateOwner']);
+            Route::delete('/owner/delete/{id}', ['as' => 'owner_delete', 'uses' => 'Sistema\ProprietarioController@delete']);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     });
 
 
@@ -183,91 +151,144 @@ Route::group(['middleware' => 'auth'], function ()
      */
     Route::group(['middleware' => 'assistente'], function () {
 
-        //Rotas da fazenda
-        Route::get('/fazendas/selecionar', ['as' => 'fazenda.selecionar', 'uses' => 'Sistema\FazendaController@getFazendasParaSelecionar']);
-        Route::put('/fazendas/alterar', ['as' => 'fazenda.alterar', 'uses' => 'Sistema\FazendaController@alterarFazendaSessao']);
-        //Route::get('/fazenda', ['as'=>'fazenda.detalhe', 'uses'=>'Sistema\FazendaController@detalheFazenda']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTA DO DASHBOARD ////////////////////////////////////////////////
+        /////////////////////////////////////// DASHBOARD ROUTE //////////////////////////////////////////////////
 
-        //Rotas da Dashboard
-        Route::get('/', ['as' => 'dashboard', 'uses' => 'Projetos\DashboardController@index']);
+            Route::get('/', ['as' => 'dashboard', 'uses' => 'Projetos\DashboardController@index']);
+            Route::put('afericao/pivo_central/afericao_pendente/ir', ['as' => 'ir_para_afericao_dashboard', 'uses' => 'Projetos\DashboardController@irParaAfericao']);
+        
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        Route::put('afericao/pivo_central/afericao_pendente/ir', ['as' => 'ir_para_afericao_dashboard', 'uses' => 'Projetos\DashboardController@irParaAfericao']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE MAPA ORIGINAL ///////////////////////////////////////////
+        /////////////////////////////////////// ORIGINAL MAP ROUTE ///////////////////////////////////////////////
+           
+            Route::get("/gauging/central_pivot/original_map/calculate/{id}", ['as' => 'originalMap_create', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@createOriginalMap']);
+            Route::get("/gauging/central_pivot/original_map/{id}", ['as' => 'originalMap_manager', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@managerOriginalMap']);
+            Route::post("/gauging/central_pivot/original_map/edit", ['as' => 'originalMap_edit', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@originalMapEdit']);
+            Route::get("/gauging/central_pivot/original_map/createNewSpan/{id}", ['as' => 'newSpan_create', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@createNewSpan']);
+            Route::post("/gauging/central_pivot/original_map/saveNewSpan", ['as' => 'newSpan_save', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@saveNewSpan']);
+            Route::get("/gauging/central_pivot/original_map/createNewIssuer", ['as' => 'cadastrarNovoEmissor', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@cadastrarNovoEmissor']);
+            Route::post("/gauging/central_pivot/original_map/saveNewIssuer", ['as' => 'newIssuer_save', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@saveNewIssuer']);
 
-        //Rota do mapa original
-        Route::get("/afericao/pivo_central/mapa_original/calcular/{id}", ['as' => 'calcular_mapa_original', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@criarMapaOriginal']);
-        Route::get("/afericao/pivo_central/mapa_original/{id}", ['as' => 'visualizar_mapa_original', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@getMapaOriginal']);
-        Route::put("/afericao/pivo_central/mapa_original/editar", ['as' => 'mapa_original_editar', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@editareMapaOriginal']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Rotas de aferição pivo central
-        Route::get("/afericao/pivo_central", ['as' => 'afericoes.pivo.central', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@listarAfericoes']);
-        Route::get('/afericao/pivo_central/cadastrar', ['as' => 'afericoes.pivo.central.cadastrar', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@carregarTelaCadastroInformacoesAfericao']);
-        Route::post('/afericao/pivo_central/salvar', ['as' => 'afericoes.pivo.central.salvar', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@salvarInformacoesGeraisAfericao']);
-        Route::get("/afericao/pivo_central/editar/{id}", ['as' => 'afericoes.pivo.central.editar', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@carregarTelaEditarAfericao']);
-        Route::put('/afericao/pivo_central/editar/', ['as' => 'afericao.pivo_central.edita', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@editaAfericao']);
-        Route::delete('/afericao/pivo_central/remover/{id}', ['as' => 'afericoes.pivo.central.remover', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@destroy']);
-        Route::get("/afericao/pivo_central/continuar_afericao/{id}", ['as' => 'afericoes.pivo.central.continuar', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@continuarMapaBocais']);
-        Route::delete('/afericao/pivo_central/remove/{id}', ['as' => 'afericao.remove', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@arquivarAfericao']);
-        Route::post("/afericao/pivo_central/submit", ['as' => 'submit_levantamento_centro_pt_1', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@salvarInformacoesGeraisAfericao']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE PIVÔ CENTRAL ////////////////////////////////////////////
+        /////////////////////////////////////// CENTRAL PIVOT ROUTE //////////////////////////////////////////////
+            
+            Route::get("/gauging/central_pivot", ['as' => 'gauging_manager', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@managerMeasurements']);
+            Route::get('/gauging/central_pivot/create_gauging', ['as' => 'gauging_create', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@createGauging']);
+            Route::post('/gauging/central_pivot/save_gauging', ['as' => 'gauging_save', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@saveGauging']);
+            Route::get("/gauging/central_pivot/edit_gauging/{id}", ['as' => 'gauging_edit', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@editGauging']);
+            Route::put('/gauging/central_pivot/update_gauging', ['as' => 'gauging_update', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@updateGauging']);
+            Route::delete('/gauging/central_pivot/delete/{id}', ['as' => 'gauging_delete', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@delete']);
+            Route::get("/gauging/central_pivot/continue_gauging/{id}", ['as' => 'gauging_continue', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@continueNozzleMap']);
 
-        /*Rotas de cadastro do mapa de bocais */
-        Route::get("/afericao/pivo_central/mapa_bocais/criar_mapa_bocais/{id_afericao}", ['as' => 'adicionar_afericao_sessao', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@carregarDadosAfericaoSessao']);
-        Route::get("/afericao/pivo_central/mapa_bocais/lance/voltar", ['as' => 'voltar_lance', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@voltarLanceAnterior']);
-        Route::get("/afericao/pivo_central/mapa_bocais/lance/cadastrar", ['as' => 'cadastrar_levantamento_centro_pt_2', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@carregarTelaRegistroLance']);
-        Route::post("/afericao/pivo_central/mapa_bocais/lance/submit", ['as' => 'submit_levantamento_centro_pt_2', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@registrarLance']);
-        Route::get("/afericao/pivo_central/mapa_bocais/emissores/cadastrar", ['as' => 'cadastrar_levantamento_centro_pt_3', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@carregarTelaCadastroEmissores']);
-        Route::post("/afericao/pivo_central/mapa_bocais/emissores/submit", ['as' => 'submit_levantamento_centro_pt_3', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@salvarLanceNoDB']);
-        Route::get('/afericao/pivo_central/mapa_bocais/gerenciar_emissores/{id}', ['as' => 'afericao.pivo_central.emissores.gerencia', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@carregaEmissores']);
-        Route::put("/afericao/pivo_central/mapa_bocais/editar_emissor", ['as' => 'emissores_editar', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@editaEmissores']);
-        Route::post("/afericao/pivo_central/mapa_bocais/editar_todos_emissores", ['as' => 'emissores_editar_todos', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@editaTodosEmissores']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Rotas de adutora
-        Route::get("/afericao/pivo_central/adutora/cadastrar/{id_afericao}", ['as' => 'cadastrarMotorBomba', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@carregarTelaCadastroAdutora']);
-        Route::post("/afericao/pivo_central/adutora/cadastra", ['as' => 'cadastraMotorBomba', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@cadastraMotorBomba']);
-        Route::get("/afericao/pivo_central/adutora/calcular/{id_adutora}", ['as' => 'calcularAdutora', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@calcularAdutora']);
-        Route::get("/afericao/pivo_central/adutora/editar/{id_afericao}", ['as' => 'editarMotorBomba', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@carregarTelaEditarAdutora']);
-        Route::post("/afericao/pivo_central/adutora/edita", ['as' => 'editaMotorBomba', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@editaMotorBomba']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE LANCE E EMISSORES ///////////////////////////////////////
+        /////////////////////////////////////// SPANS ROUTES AND ISSUERS////////////////////////////////////////
+            
+            Route::get("/gauging/central_pivot/nozzle_map/nozzle_map_create/{id_afericao}", ['as' => 'add_measurement_the_session', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@loadRegisteredMeasurement']);
+            Route::get("/gauging/central_pivot/nozzle_map/span/back_span", ['as' => 'span_back', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@backSpanPrevious']);
+            Route::get("/gauging/central_pivot/nozzle_map/span/create_span", ['as' => 'span_create', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@createSpan']);
+            Route::post("/gauging/central_pivot/nozzle_map/span/save_span", ['as' => 'span_save', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@saveSpan']);
+            Route::get("/gauging/central_pivot/nozzle_map/emitters/create_issuer", ['as' => 'issuer_create', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@createIssuer']);
+            Route::post("/gauging/central_pivot/nozzle_map/emitters/save_spanAndIssuer", ['as' => 'spanAndIssuer_save', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@saveSpanAndIssuer']);
+            Route::get('/gauging/central_pivot/nozzle_map/emitters_manage/{id}', ['as' => 'manage_issuer', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@manageIssuer']);
+            Route::put("/gauging/central_pivot/nozzle_map/emitters_edit", ['as' => 'edit_emitters', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@editaEmissores']);
+            Route::post("/gauging/central_pivot/nozzle_map/emitters_All_edit", ['as' => 'edit_all_emitters', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@editAllEmitters']);
 
-        //Rotas de Bombeamento
-        Route::get("/afericao/pivo_central/bombeamento/cadastrar/{id_afericao}", ['as' => 'cadastrarBombeamento', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@carregarTelaCadastroBombeamentos']);
-        Route::get("/afericao/pivo_central/bombeamento/cadastrar/continuar/{id_adutora}", ['as' => 'continuarBombeamentos', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@continuarCadastroBombeamentos']);
-        //Route::get("/afericao/pivo_central/bombeamento/acoes/cadastrar/{id_afericao}", ['as' => 'cadastrarBombeamentoAcoes', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@carregarTelaCadastroBombeamentosAcoes']);
-        Route::post("/afericao/pivo_central/bombeamento/cadastra", ['as' => 'cadastraBombeamento', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@cadastraBombeamento']);
-        Route::post("/afericao/pivo_central/bombeamento/edita", ['as' => 'editaBombeamento', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@editaBombeamento']);
-        Route::get("/afericao/pivo_central/bombeamento/editar/{id}", ['as' => 'editarBombeamento', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@editarBombeamento']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE ADUTORAS ////////////////////////////////////////////////
+        /////////////////////////////////////// ADAPTER ROUTES ///////////////////////////////////////////////////
+            
+            Route::get("/gauging/central_pivot/adductor/create_adductor/{id_afericao}", ['as' => 'create_adductor', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@createAdductor']);
+            Route::post("/gauging/central_pivot/adductor/save_adductor", ['as' => 'adductor_save', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@saveAdductor']);
+            Route::get("/gauging/central_pivot/adductor/calculate/{id_adutora}", ['as' => 'adductor_calculate', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@calculateAdductor']);
+            Route::get("/gauging/central_pivot/adductor/adductor_edit/{id_afericao}", ['as' => 'adductor_edit', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@editAdductor']);
+            Route::post("/gauging/central_pivot/adductor/update", ['as' => 'adductor_update', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@updateAdductor']);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE BOMBEAMENTOS ////////////////////////////////////////////
+        /////////////////////////////////////// PUMPS ROUTES /////////////////////////////////////////////////////
+            
+            Route::get("/gauging/central_pivot/pumping/create_pumping/{id_afericao}", ['as' => 'pumping_create', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@createPumping']);
+            Route::get("/gauging/central_pivot/pumping/create_pumping/continue_pumping_create/{id_adutora}", ['as' => 'pumping_continue_create', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@ContinuePumpingCreate']);
+            Route::post("/gauging/central_pivot/pumping/save_pumping", ['as' => 'pumping_save', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@savePumping']);
+            Route::get("/gauging/central_pivot/pumping/edit_pumping/{id}", ['as' => 'edit_Pumping', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@editPumping']);
+            Route::post("/gauging/central_pivot/pumping/update_pumping", ['as' => 'update_pumping', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@updatePumping']);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Rota de dashboard da afericao
-        Route::get("/afericao/pivo_central/acoes/{id}", ['as' => 'status_afericao', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@statusAfericao']);
+        Route::get("/gauging/central_pivot/actions/{id}", ['as' => 'gauging_status', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@gaugingStatus']);
 
-        //Rotas Velocidades
-        Route::get("/afericao/pivo_central/velocidade/cadastrar/{id_afericao}", ['as' => 'velocidade_cadastrar', 'uses' => 'Projetos\Afericao\PivoCentral\VelocidadeController@carregarTelaCadastroVelocidadeAfe']);
-        Route::post("/afericao/pivo_central/velocidade/cadastra/{id}", ['as' => 'velocidade_cadastra', 'uses' => 'Projetos\Afericao\PivoCentral\VelocidadeController@cadastraVelocidadeAfe']);
-        Route::get("/afericao/pivo_central/velocidade/editar/{id_afericao}", ['as' => 'velocidade_editar', 'uses' => 'Projetos\Afericao\PivoCentral\VelocidadeController@carregarTelaEditarVelocidadeAfe']);
-        Route::post("/afericao/pivo_central/velocidade/edita/{id}", ['as' => 'velocidade_edita', 'uses' => 'Projetos\Afericao\PivoCentral\VelocidadeController@editaVelocidadeAfe']);
-        Route::get("/afericao/pivo_central/velocidade/relatorio/{id}", ['as' => 'velocidade_relatorio', 'uses' => 'Projetos\Afericao\PivoCentral\RelatorioVelocidadeController@getRelatorioVelocidade']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE VELOCIDADE DA AFERIÇÃO //////////////////////////////////
+        /////////////////////////////////////// SPEED ROUTE //////////////////////////////////////////////////////
+           
+            Route::get("/gauging/central_pivot/speed_gauging/create_gauging/{id_afericao}", ['as' => 'gauging_speed_create', 'uses' => 'Projetos\Afericao\PivoCentral\VelocidadeController@createGaugingSpeed']);
+            Route::post("/gauging/central_pivot/speed_gauging/save_gauging/{id}", ['as' => 'gauging_speed_save', 'uses' => 'Projetos\Afericao\PivoCentral\VelocidadeController@saveGaugingSpeed']);
+            Route::get("/gauging/central_pivot/speed_gauging/edit_gauging/{id_afericao}", ['as' => 'gauging_speed_edit', 'uses' => 'Projetos\Afericao\PivoCentral\VelocidadeController@editGaugingSpeed']);
+            Route::post("/gauging/central_pivot/speed_gauging/update_gauging/{id}", ['as' => 'gauging_speed_update', 'uses' => 'Projetos\Afericao\PivoCentral\VelocidadeController@updateGaugingSpeed']);
+            Route::get("/gauging/central_pivot/speed_gauging/report_gauging/{id}", ['as' => 'gauging_speed_report', 'uses' => 'Projetos\Afericao\PivoCentral\RelatorioVelocidadeController@gaugingSpeedReport']);
 
-        //Rota de impressões
-        Route::get("/afericao/pivo_central/impressoes/{id}", ['as' => 'gerenciar_impressao', 'uses' => 'Projetos\Afericao\PivoCentral\ImpressoesController@geranciaImpressoes']);
-        Route::get("/afericao/pivo_central/impressoes_mapa_bocais/{id}", ['as' => 'gerenciar_impressao_mapa_bocal', 'uses' => 'Projetos\Afericao\PivoCentral\ImpressoesController@geranciaImpressaoMapaBocal']);
-        Route::get("/afericao/pivo_central/impressoes_funcionamento_pivo/{id}", ['as' => 'gerenciar_impressao_fncionamento_pivo', 'uses' => 'Projetos\Afericao\PivoCentral\ImpressoesController@geranciaImpressaoFuncionamentoPivo']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Rota ficha técnica
-        Route::get("/afericao/pivo_central/ficha_tecnica/{id}", ['as' => 'gerenciar_ficha_tecnica', 'uses' => 'Projetos\Afericao\PivoCentral\FichaTecnicaController@geraFichaTecnica']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE IMPRESSÕES //////////////////////////////////////////////
+        /////////////////////////////////////// ROUTE OF IMPRESSIONS /////////////////////////////////////////////
+            
+            Route::get("/gauging/central_pivot/impressions/{id}", ['as' => 'manage_impressions', 'uses' => 'Projetos\Afericao\PivoCentral\ImpressoesController@manageImpressions']);
+            Route::get("/gauging/central_pivot/nozzle_map_prints/{id}", ['as' => 'nozzle_map_prints', 'uses' => 'Projetos\Afericao\PivoCentral\ImpressoesController@nozzleMapsPrint']);
+            Route::get("/gauging/central_pivot/pivot_operating_impression/{id}", ['as' => 'manage_pivot_operating_impression', 'uses' => 'Projetos\Afericao\PivoCentral\ImpressoesController@managePivotOperating']);
 
-        Route::get('/redimensionamento/pivo_central/gerenciar', ['as' => 'gerenciarRedimensionamentos', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@index']);
-        Route::get('/redimensionamento/pivo_central/acoes/{id_redimensionamento}', ['as' => 'status_redimensionamento', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@statusAfericao']);
-        Route::post('/redimensionamento/pivo_central/criar_redimensionamento', ['as' => 'criarRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@criarRedimensionamento']);
-        Route::get('/redimensionamento/pivo_central/configurar_redimensionamento/{id_redimensionamento}', ['as' => 'configurarRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@carregarViewConfigurarRedimensionamento']);
-        Route::put('/redimensionamento/pivo_central/atualizar_redimensionamento', ['as' => 'atualizaRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@atualizarInformacoesRedimensionamento']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Estas duas rotas fazem a mesma coisa, a única diferença é a url que vai aparecer para o usuário
-        Route::get('/redimensionamento/pivo_central/{id_redimensionamento}/configurar_pivo', ['as' => 'configurarPivoRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@carregarTelaConfigurarPivo']);
-        Route::get('/afericao/pivo_central/{id_afericao}/configurar_pivo', ['as' => 'configurarPivoAfericao', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@carregarTelaConfigurarPivo']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE FICHA TÉCNICA ///////////////////////////////////////////
+        /////////////////////////////////////// TECHNICAL DATA ROUTE /////////////////////////////////////////////
+            
+            Route::get("/gauging/central_pivot/datasheet/{id}", ['as' => 'manage_datasheet', 'uses' => 'Projetos\Afericao\PivoCentral\FichaTecnicaController@Datasheet']);
+            // Route::get("/gauging/central_pivot/datasheet/{id}", ['as' => 'manage_datasheetBocaisLandScape', 'uses' => 'Projetos\Afericao\PivoCentral\FichaTecnicaController@DatasheetLandScape']);
+            // Route::get("/gauging/central_pivot/datasheet/{id}", ['as' => 'manage_datasheetBocaisPortrait', 'uses' => 'Projetos\Afericao\PivoCentral\FichaTecnicaController@Datasheetportrait']);
 
-        Route::post('/redimensionamento/pivo_central/configurar_pivo/adicionar_lance', ['as' => 'adicionarLance', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@adicionarLance']);
-        Route::delete('/redimensionamento/pivo_central/configurar_pivo/remover_lance', ['as' => 'removerLance', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@removerLance']);
-        Route::put('/redimensionamento/pivo_central/configurar_pivo/informacoes_lance', ['as' => 'getInformacoesLance', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@getInformacoesLance']);
-        Route::put('/redimensionamento/pivo_central/configurar_pivo/informacoes_lance/salvar', ['as' => 'salvarInformacoesLance', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@atualizarLance']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /**yatsgyatsgyagsya derson */
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE REDIMENSIONAMENTO ///////////////////////////////////////
+        /////////////////////////////////////// ROTAS DE LOGIN ///////////////////////////////////////////////////
+
+            Route::get('/resizing/central_pivot/gerenciar', ['as' => 'gerenciarRedimensionamentos', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@index']);
+            // Route::get('/resizing/central_pivot/acoes/{id_redimensionamento}', ['as' => 'status_redimensionamento', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@statusAfericao']);
+            Route::post('/resizing/central_pivot/criar_redimensionamento', ['as' => 'criarRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@criarRedimensionamento']);
+            // Route::get('/resizing/central_pivot/configurar_redimensionamento/{id_redimensionamento}', ['as' => 'configurarRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@carregarViewConfigurarRedimensionamento']);
+            Route::put('/resizing/central_pivot/atualizar_redimensionamento', ['as' => 'atualizaRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@atualizarInformacoesRedimensionamento']);
+            
+            //Estas duas rotas fazem a mesma coisa, a única diferença é a url que vai aparecer para o usuário
+            Route::get('/resizing/central_pivot/{id_redimensionamento}/configurar_pivo', ['as' => 'configurarPivoRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@carregarTelaConfigurarPivo']);
+            Route::get('/afericao/central_pivot/{id_afericao}/configurar_pivo', ['as' => 'configurarPivoAfericao', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@carregarTelaConfigurarPivo']);
+            Route::post('/resizing/central_pivot/configurar_pivo/adicionar_lance', ['as' => 'adicionarLance', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@adicionarLance']);
+            Route::delete('/resizing/central_pivot/configurar_pivo/remover_lance', ['as' => 'removerLance', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@removerLance']);
+            Route::put('/resizing/central_pivot/configurar_pivo/informacoes_lance', ['as' => 'getInformacoesLance', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@getInformacoesLance']);
+            Route::put('/resizing/central_pivot/configurar_pivo/informacoes_lance/salvar', ['as' => 'salvarInformacoesLance', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@atualizarLance']);
+            
+            // NEW ROUTES
+            Route::get('/resizing/central_pivot/acoes/{id_redimensionamento}', ['as' => 'resizing_status', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@gaugingStatus']);
+            Route::get('resizing/central_pivot/manager_resizing', ['as' => 'resizing_manager', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@managerRedimensionamento']);
+            Route::post('resizing/central_pivot/create_resizing', ['as' => 'resizing_create', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@createRedimensionamento']);
+            Route::get('/resizing/central_pivot/configure_resizing/{id_redimensionamento}', ['as' => 'redimensionamento_setup_view', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@setupViewRedimensionamento']);
+            Route::delete('resizing/central_pivot/delete/{id_redimensionamento}', ['as' => 'resizing_edit_delete', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@delete']);
+            Route::get('resizing/central_pivot/edit/{id_redimensionamento}', ['as' => 'resizing_edit', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@setupViewRedimensionamento']);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     });
 });

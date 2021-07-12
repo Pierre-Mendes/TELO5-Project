@@ -1,114 +1,131 @@
 @extends('_layouts._layout_site')
 
-@section('titulo')
-
-@endsection
-
 @section('topo_detalhe')
-<div class="container-fluid topo">
-    <div class="row align-items-start">
-
-        {{-- TITULO E SUBTITULO --}}
-        <div class="col-6">
-            <h1>@lang('afericao.cadastrarAdutora')</h1>
-        </div>
-
-        {{-- BOTOES SALVAR E VOLTAR --}}
-        <div class="col-6 text-right botoes position">
-            {{-- href="{{ route('status_afericao', $id_afericao) }}"> --}}
-            <a href="{{ route('afericoes.pivo.central') }}" style="color: #3c8dbc">
-                <button type="button">
-                    <span class="fa-stack fa-lg">
+    <div class="container-fluid topo">
+        <div class="row align-items-start">
+            {{-- TITULO E SUBTITULO --}}
+            <div class="col-6">
+                <h1>@lang('afericao.adutora')</h1><br>
+                <h4 style="margin-top: -20px">@lang('comum.cadastrar')</h4>
+            </div>
+            {{-- BOTOES SALVAR E VOLTAR --}}
+            <div class="col-6 text-right botoes mobile">
+                <a href="{{ route('gauging_status', $id_afericao) }}" style="color: #3c8dbc" data-toggle="tooltip"
+                    data-placement="bottom" title="Voltar">
+                    <button type="button">
+                        <span class="fa-stack fa-lg">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-angle-double-left fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </button>
+                </a>
+                <button type="button" id="botaosalvar" data-toggle="tooltip" data-placement="bottom" title="Salvar">
+                    <span class="fa-stack fa-2x">
                         <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fas fa-angle-double-left fa-stack-1x fa-inverse"></i>
+                        <i class="fas fa-save fa-stack-1x fa-inverse"></i>
                     </span>
                 </button>
-            </a>
-            <button type="button" id="botaosalvar">
-                <span class="fa-stack fa-2x">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fas fa-save fa-stack-1x fa-inverse"></i>
-                </span>
-            </button>
+            </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('conteudo')
 
-    <div class="">
-        <form action="{{ route('cadastraMotorBomba') }}" method="POST" id="formdados">
-            @csrf
-            <input type="hidden" value="{{ $id_afericao }}" name="id_afericao">
-            <div class="col-12 m-auto tabela">
-                <table class="table table-striped mx-auto" id="tabelaTrechos">
-                    <thead>
-                        <tr>
-                            <th scope="col">@lang('afericao.tipoCano')</th>
-                            <th scope="col">@lang('afericao.diametro')</th>
-                            <th scope="col">@lang('afericao.hw')</th>
-                            <th scope="col">@lang('afericao.numeroCanos')</th>
-                            <th scope="col">@lang('afericao.comprimento')</th>
-                            <th scope="col">@lang('afericao.desnivel')</th>
-                            <th scope="col" hidden>@lang('afericao.altitude')</th>
-                            <th scope="col" hidden>@lang('afericao.latitude')</th>
-                            <th scope="col" hidden>@lang('afericao.longitude')</th>
-                            <th scope="col">@lang('afericao.acoes')</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                    <tfoot>
-                        <td>
-                        <button onclick="AddTableRow()" type="button" class="addtablerow" style="outline: none; cursor: pointer;">
-                            <span class="fa-stack fa-sm">
-                                <i class="fas fa-plus-circle fa-stack-2x"></i>
-                            </span>
-                        </button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tfoot>
-                </table>
+    <div>
+        {{-- PRELOADER --}}
+        <div id="coverScreen">
+            <div class="preloader">
+                <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                <div>@lang('comum.preloader')</div>
             </div>
-    </div>
-    </div>
-    </div>
+        </div>
 
+        {{-- FORMULARIO DE CADASTRO --}}
+        <form action="{{ route('adductor_save') }}" method="POST" id="formdados">
+            <div class="tab-content" id="myTabContent">
+                @include('_layouts._includes._alert')
+                <div class="tab-pane fade show active formcdc" id="cadastro" role="tabpanel" aria-labelledby="cadastro-tab">
+                    @csrf
+                    <input type="hidden" value="{{ $id_afericao }}" name="id_afericao">
+                    <div class="col-12 m-auto tabela" id="cssPreloader">
+                        <table class="table table-striped mx-auto text-center" id="tabelaTrechos">
+                            <thead>
+                                <tr>
+                                    <th scope="col">@lang('afericao.tipoCano')</th>
+                                    <th scope="col">@lang('afericao.diametro')</th>
+                                    <th scope="col">@lang('afericao.hw')</th>
+                                    <th scope="col">@lang('afericao.numeroCanos')</th>
+                                    <th scope="col">@lang('afericao.comprimento')</th>
+                                    <th scope="col">@lang('afericao.desnivel')</th>
+                                    <th scope="col" hidden>@lang('afericao.altitude')</th>
+                                    <th scope="col" hidden>@lang('afericao.latitude')</th>
+                                    <th scope="col" hidden>@lang('afericao.longitude')</th>
+                                    <th scope="col">@lang('afericao.acoes')</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
+                            </tbody>
+                            <tfoot>
+                                <td>
+                                    <button onclick="AddTableRow()" type="button" class="addtablerow"
+                                        style="outline: none; cursor: pointer;">
+                                        <span class="fa-stack fa-sm">
+                                            <i class="fas fa-plus-circle fa-stack-2x"></i>
+                                        </span>
+                                    </button>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 @endsection
 
 @section('scripts')
 
+    {{-- FILTRO SELECT --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+    integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+
+    {{-- FUNÇÃO PARA REMOVER LINHAS DA TABELA --}}
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             AddTableRow();
         });
 
-        	(function($) {
-                remove = function(item) {
-                    var tr = $(item).closest('tr');
-                        tr.fadeOut(400, function() {
-                            tr.remove();
-                        });
-                    return false;
-                }
-            })(jQuery);
-    </script>
-    <script>
+        (function($) {
+            remove = function(item) {
+                var tr = $(item).closest('tr');
+                tr.fadeOut(400, function() {
+                    tr.remove();
+                });
+                return false;
+            }
+        })(jQuery);
 
+    </script>
+
+    {{-- FUNÇÃO PARA ADICIONAR LINHAS A TABELA --}}
+    <script>
         (function($) {
             AddTableRow = function() {
+
+                var rowCount = $('#tabelaTrechos >tbody >tr').length;
                 var newRow = $("<tr>");
                 var cols = "";
                 cols += '<td>';
-                cols += '<select name="tipo_cano[]" required class="form-control" id="tipo_cano">';
+                cols += '<select name="tipo_cano[]" required class="form-control"  id="tipo_cano">';
+                cols += '<option value=""></option>';
                 cols += '<option value="0">@lang('afericao.acoSac')</option>';
                 cols += '<option value="1">@lang('afericao.az')</option>';
                 cols += '<option value="2">@lang('afericao.ferroFundido')</option>';
@@ -122,30 +139,90 @@
                 cols += '</select>';
                 cols += '</td>';
                 
-                cols += '<td><input type="number" min=0.001 step=0.001 class="form-control" required name="diametro[]" id="diametro"></td>';
-                cols += '<td><input type="number" class="form-control" required name="coeficiente_hw[]" id="coeficiente_hw"></td>';
-                cols += '<td><input type="number" min=1 class="form-control" required name="numero_canos[]" id="numero_canos"></td>';
-                cols += '<td><input type="number" step="0.01" class="form-control" required name="comprimento[]" id="comprimento"></td>';
-                cols += '<td><input type="number" step="0.01" class="form-control" required name="desnivel[]" id="desnivel"></td>';
-                cols += '<td><button type="button" class="removetablerow" onclick="remove(this)" style="outline: none; cursor: pointer; margin-top: 4px;"><i class="fa fa-fw fa-times fa-lg"></i></button></td>';
-                cols += '<td hidden><input type="number" class="form-control" value="0" name="altitude[]" id="altitude"></td>';
-                cols += '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="latitude[]" id="latitude"></td>';
-                cols += '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="longitude[]" id="longitude"></td>';
+                cols += '<td><input type="number" min=0.001 step=0.001 class="form-control" required name="diametro[]" id="diametro_' + rowCount + '"></td>';
+                cols += '<td><input type="number" class="form-control" required name="coeficiente_hw[]" id="coeficiente_hw_' + rowCount + '"></td>';
+                cols += '<td><input type="number" min=1 class="form-control" required name="numero_canos[]" id="numero_canos_' + rowCount + '"></td>';
+                cols += '<td><input type="number" step="0.01" class="form-control" required name="comprimento[]" id="comprimento_' + rowCount + '"></td>';
+                cols += '<td><input type="number" step="0.01" class="form-control" required name="desnivel[]" id="desnivel_' + rowCount + '"></td>';
+                if (rowCount > 0){
+                    cols += '<td><button type="button" class="removetablerow" onclick="remove(this)" style="outline: none; cursor: pointer; margin-top: 4px;"><i class="fa fa-fw fa-times fa-lg"></i></button></td>';
+                }
+                
+                cols += '<td hidden><input type="number" class="form-control" value="0" name="altitude[]" id="altitude_' + rowCount + '"></td>';
+                cols += '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="latitude[]" id="latitude_' + rowCount + '"></td>';
+                cols += '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="longitude[]" id="longitude_' + rowCount + '"></td>';
                 newRow.append(cols);
                 $("#tabelaTrechos").append(newRow);
                 return false;
             };
         })(jQuery);
+
     </script>
+    
+    {{-- SALVAR E VALIDAR CAMPOS VAZIOS --}}
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
     <script>
         $(document).ready(function() {
             $('#botaosalvar').on('click', function() {
                 $('#formdados').submit();
             });
+
+            $("#formdados").validate({
+                rules: {
+                    "diametro[]": {
+                        required: true
+                    },
+                    "coeficiente_hw[]": {
+                        required: true
+                    },
+                    "numero_canos[]": {
+                        required: true
+                    },
+                    "comprimento[]": {
+                        required: true
+                    },
+                    "desnivel[]": {
+                        required: true
+                    }
+                },
+                messages: {
+                    diametro: "Campo <strong>DIAMENTRO</strong> é obrigatório",
+
+                    "coeficiente_hw": {
+                        required: "Campo <strong>HW</strong> é obrigatório"
+                    },
+                    "numero_canos": {
+                        required: "Campo <strong>NÚMERO DE CANOS</strong> é obrigatório"
+                    },
+                    "comprimento": {
+                        required: "Campo <strong>COMPRIMENTO</strong> é obrigatório"
+                    },
+                    "desnivel": {
+                        required: "Campo <strong>DESNÍVEL</strong> é obrigatório"
+                    }
+                },
+                submitHandler: function(form) {
+                    $("#coverScreen").show();
+                    $("#cssPreloader input").each(function() {
+                        $(this).css('opacity', '0.2');
+                    });
+                    $("#cssPreloader select").each(function() {
+                        $(this).css('opacity', '0.2');
+                    });
+                    form.submit();
+                }
+            });
+
+            $(window).on('load', function() {
+                $("#coverScreen").hide();
+            });
         });
+
     </script>
+
+    {{-- FUNÇÃO PARA CRIAR SELECT DO TIPO DE CANO --}}
     <script>
-            function criarSelectTipoCano(value) {
+        function criarSelectTipoCano(value) {
             var select = $("<select  class='form-control' name=\"tipo_cano[]\" />");
             var optionsValues = [];
             var optionsTexts = [];
@@ -186,73 +263,6 @@
 
             return select;
         }
+
     </script>
-    {{-- <script>
-        $("#formTrecho").submit(function(e) {
-            e.preventDefault();
-            $("#modalAddTrecho").modal('hide');
-            var formulario = [];
-            formulario['tipo_cano'] = $("#tipo_cano").val();
-            formulario['diametro'] = $("#diametro").val();
-            formulario['coeficiente_hw'] = $("#coeficiente_hw").val();
-            formulario['numero_canos'] = $("#numero_canos").val();
-            formulario['comprimento'] = $("#comprimento").val();
-            formulario['desnivel'] = $("#desnivel").val();
-            formulario['altitude'] = $("#altitude").val();
-            formulario['latitude'] = $("#latitude").val();
-            formulario['longitude'] = $("#longitude").val();
-            addLinhaTabela(formulario);
-            $("#tipo_cano").val(0);
-            $("#diametro").val("");
-            $("#coeficiente_hw").val("");
-            $("#numero_canos").val("");
-            $("#comprimento").val("");
-            $("#desnivel").val("");
-            $("#altitude").val("");
-            $("#latitude").val("");
-            $("#longitude").val("");
-        });
-
-        function addLinhaTabela(formulario) {
-            var rowCount = $('#tabelaTrechos >tbody >tr').length;
-            var newRow = $("<tr>");
-            var cols = "";
-            //        cols += '<td><input type="number" required name="tipo_cano[]" value="'+ formulario["tipo_cano"] +'" readonly class="form-control"></td>';
-            cols += '<td style="width: 150px">' + criarSelectTipoCano(formulario['tipo_cano']).prop('outerHTML') + '</td>';
-            cols += '<td><input type="number" required name="diametro[]" value="' + formulario["diametro"] +
-                '" class="form-control"></td>';
-            cols += '<td><input type="number" required  name="coeficiente_hw[]" value="' + formulario["coeficiente_hw"] +
-                '" class="form-control"></td>';
-            cols += '<td><input type="number" required  name="numero_canos[]" value="' + formulario["numero_canos"] +
-                '" class="form-control"></td>';
-            cols += '<td><input type="number" required  name="comprimento[]" value="' + formulario["comprimento"] +
-                '" class="form-control"></td>';
-            cols += '<td><input type="number" required  name="desnivel[]" value="' + formulario["desnivel"] +
-                '" class="form-control"></td>';
-            cols += '<td hidden><input type="number"  name="altitude_trecho[]" value="0" class="form-control"></td>';
-            cols += '<td hidden><input type="number"  name="latitude_trecho[]" value="0" class="form-control"></td>';
-            cols += '<td hidden><input type="number"  name="longitude_trecho[]" value="0" class="form-control"></td>';
-            cols += '<td>';
-            cols +=
-                '   <button class="btn btn-outline-danger" onclick="deletarLinha(this)" type="button"><i class="fa fa-fw fa-trash"></i></button>';
-            cols += '</td>';
-            newRow.append(cols);
-            $("#tabelaTrechos").append(newRow);
-        }
-
-
-
-        function deletarLinha(item) {
-            var tr = $(item).closest('tr');
-            tr.fadeOut(400, function() {
-                tr.remove();
-            });
-        }
-
-        $("#btnSalvarAfericao").on('click', function() {
-            $("#collapseBombeamento").show();
-            $("#collapseAdutora").show();
-        });
-
-    </script> --}}
 @endsection
