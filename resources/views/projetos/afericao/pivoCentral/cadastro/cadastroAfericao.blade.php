@@ -78,8 +78,7 @@
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-4 telo5ce">
                                 <label for="data_afericao">@lang('afericao.dataAfericao')</label>
-                                <input type="date" id="data_afericao" class="form-control" name="data_afericao"
-                                    maxlength="50" required />
+                                <input type="date" id="data_afericao" class="form-control" name="data_afericao" maxlength="50" required />
                             </div>
                             <div class='form-group col-md-4 telo5ce'>
                                 <label for="marca_modelo_pivo">@lang('afericao.marcaModeloPivo')</label>
@@ -91,9 +90,9 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
-                                <label for="giro_equipamento">@lang('afericao.giroEquipamento')</label>
-                                <input type="number" id="giro_equipamento" class="form-control" name="giro_equipamento"
-                                    maxlength="30" required />
+                                <label for="giro_equipamento">@lang('afericao.giroEquipamento') @lang('unidadesAcoes.(graus)')</label>
+                                <input type="number" id="giro_equipamento" class="form-control" name="giro_equipamento" min="0" max="360"
+                                    maxlength="30" required /> 
                             </div>
                         </div>
 
@@ -124,11 +123,14 @@
                             </div>
                             <div class="form-group col-md-4 telo5ce">
                                 <label for="ano_montagem">@lang('afericao.anoMontagem')</label>
-                                <input type="number" id="ano_montagem" class="form-control" name="ano_montagem"
-                                    maxlength="4" required />
+                                <select name="ano_montagem" id="">
+                                    @for ($i = date("Y"); $i > 2010; $i--)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
-                                <label for="lamina_anual">@lang('afericao.laminaAnual')</label>
+                                <label for="lamina_anual">@lang('afericao.laminaAnual')  @lang('unidadesAcoes.(mm)')</label>
                                 <input type="number" id="lamina_anual" class="form-control" name="lamina_anual"
                                     maxlength="30" required />
                             </div>
@@ -136,7 +138,7 @@
 
                         <div class="form-row justify-content-start">
                             <div class="form-group col-md-4 telo5ce">
-                                <label for="custo_medio">@lang('afericao.custoMedio')</label>
+                                <label for="custo_medio">@lang('afericao.custoMedio') @lang('unidadesAcoes.($/kWh)')/@lang('unidadesAcoes.($/L)')</label>
                                 <input type="number" id="custo_medio" class="form-control" name="custo_medio" maxlength="30"
                                     required />
                             </div>
@@ -144,6 +146,13 @@
                                 <label for="numero_lances">@lang('afericao.numeroLances')</label>
                                 <input type="number" id="numero_lances" class="form-control" name="numero_lances"
                                     maxlength="30" required />
+                            </div>
+                            <div class="form-group col-md-4 telo5ce">
+                                <label for="tem_balanco">@lang('afericao.possuiBalanco') </label>
+                                <select name="tem_balanco" class='form-control'>
+                                    <option value="sim" selected>@lang('comum.sim')</option>
+                                    <option value="nao">@lang('comum.nao')</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -162,6 +171,7 @@
                                     <option value="3">@lang('afericao.problema3')</option>
                                     <option value="4">@lang('afericao.problema4')</option>
                                     <option value="5">@lang('afericao.problema5')</option>
+                                    <option value="66">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
 
@@ -176,6 +186,7 @@
                                     <option value="9">@lang('afericao.problema9')</option>
                                     <option value="10">@lang('afericao.problema10')</option>
                                     <option value="11">@lang('afericao.problema11')</option>
+                                    <option value="67">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
 
@@ -198,6 +209,7 @@
                                     <option value="24">@lang('afericao.problema24')</option>
                                     <option value="25">@lang('afericao.problema25')</option>
                                     <option value="26">@lang('afericao.problema26')</option>
+                                    <option value="68">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                         </div>
@@ -211,6 +223,7 @@
                                     <option value="28">@lang('afericao.problema28')</option>
                                     <option value="29">@lang('afericao.problema29')</option>
                                     <option value="30">@lang('afericao.problema30')</option>
+                                    <option value="69">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
@@ -221,6 +234,7 @@
                                     <option value="32">@lang('afericao.problema31')</option>
                                     <option value="33">@lang('afericao.problema32')</option>
                                     <option value="34">@lang('afericao.problema33')</option>
+                                    <option value="70">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
@@ -230,6 +244,7 @@
                                     <option value="35">@lang('afericao.problema35')</option>
                                     <option value="36">@lang('afericao.problema36')</option>
                                     <option value="37">@lang('afericao.problema37')</option>
+                                    <option value="71">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                         </div>
@@ -244,6 +259,7 @@
                                     <option value="40">@lang('afericao.problema40')</option>
                                     <option value="41">@lang('afericao.problema41')</option>
                                     <option value="42">@lang('afericao.problema42')</option>
+                                    <option value="72">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
@@ -255,6 +271,7 @@
                                     <option value="45">@lang('afericao.problema45')</option>
                                     <option value="46">@lang('afericao.problema46')</option>
                                     <option value="47">@lang('afericao.problema47')</option>
+                                    <option value="73">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
@@ -264,6 +281,7 @@
                                     <option value="48">@lang('afericao.problema48')</option>
                                     <option value="49">@lang('afericao.problema49')</option>
                                     <option value="50">@lang('afericao.problema50')</option>
+                                    <option value="74">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                         </div>
@@ -279,6 +297,7 @@
                                     <option value="54">@lang('afericao.problema54')</option>
                                     <option value="55">@lang('afericao.problema55')</option>
                                     <option value="56">@lang('afericao.problema56')</option>
+                                    <option value="75">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
@@ -288,6 +307,7 @@
                                     <option value="57">@lang('afericao.problema57')</option>
                                     <option value="58">@lang('afericao.problema58')</option>
                                     <option value="59">@lang('afericao.problema59')</option>
+                                    <option value="76">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
@@ -300,6 +320,7 @@
                                     <option value="63">@lang('afericao.problema63')</option>
                                     <option value="64">@lang('afericao.problema64')</option>
                                     <option value="65">@lang('afericao.problema65')</option>
+                                    <option value="77">@lang('afericao.problema66')</option>
                                 </select>
                             </div>
                         </div>
@@ -389,7 +410,7 @@
                                 <input name='defletor' class='form-control' id="defletor" required />
                             </div>
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="altura_emissores">@lang('afericao.alturaEmissores')</label><br>
+                                <label for="altura_emissores">@lang('afericao.alturaEmissores') @lang('unidadesAcoes.(m)')</label><br>
                                 <input name='altura_emissores' step=0.01 id="altura_emissores" type="number"
                                     class='form-control' required />
                             </div>
@@ -397,13 +418,13 @@
 
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="pressao_centro">@lang('afericao.pressaoCentro')</label><br>
+                                <label for="pressao_centro">@lang('afericao.pressaoCentro') @lang('unidadesAcoes.(mca)')</label><br>
                                 <input type="number" step=0.001 min=0.001 class="form-control" name="pressao_centro"
                                     required id="pressao_centro">
                             </div>
 
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="pressao_ponta">@lang('afericao.pressaoPonta')</label><br>
+                                <label for="pressao_ponta">@lang('afericao.pressaoPonta') @lang('unidadesAcoes.(mca)')</label><br>
                                 <input type="number" step=0.001 min=0.001 class="form-control" name="pressao_ponta" required
                                     id="pressao_ponta">
                             </div>
@@ -415,7 +436,7 @@
                             </div class="form-group col-md-3 telo5ce">
 
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="altitude_centro">@lang('afericao.altitudeCentro')</label><br>
+                                <label for="altitude_centro">@lang('afericao.altitudeCentro') @lang('unidadesAcoes.(m)')</label><br>
                                 <input type="number" class="form-control" name="altitude_centro" required
                                     id="altitude_centro">
                             </div>
@@ -423,13 +444,13 @@
 
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="altitude_mais_alto">@lang('afericao.altitudeMaisAlto')</label><br>
+                                <label for="altitude_mais_alto">@lang('afericao.altitudeMaisAlto') @lang('unidadesAcoes.(m)')</label><br>
                                 <input type="number" class="form-control" name="altitude_mais_alto" required
                                     id="altitude_mais_alto">
                             </div>
 
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="altitude_mais_baixo">@lang('afericao.altitudeMaisBaixo')</label><br>
+                                <label for="altitude_mais_baixo">@lang('afericao.altitudeMaisBaixo') @lang('unidadesAcoes.(m)')</label><br>
                                 <input type="number" class="form-control" name="altitude_mais_baixo"
                                     id="altitude_mais_baixo">
                             </div>
@@ -453,107 +474,103 @@
                 <div class="tab-pane fade" id="pivoConjugado" role="tabpanel" aria-labelledby="pivoConjugado-tab">
                     <div class="col-md-12">
                         <div class="form-row justify-content-start">
+                            <div class="form-group col-1 telo5ce">
+                                <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="possui_pivo_conjugado" id="customSwitch1">
+                                <label class="custom-control-label" for="customSwitch1" style="font-size: 1.2rem">@lang('afericao.possuiPivoConjugado')</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-2 telo5ce">
+                                <label for="combinedArea">@lang('afericao.combinedArea')</label><br>
+                                <input class="font-weight-bold" type="number" id="combinedArea" name="combinedArea" step="0.01" min="0.01" disabled style="background: none !important;" />
+                            </div>
+                            <div class="form-group col-2 telo5ce">
+                                <label for="calcDepthArea">@lang('afericao.depthArea')</label><br>
+                                <input class="font-weight-bold" type="number" id="calcDepthArea" name="calcDepthArea" step="0.01" min="0.01" disabled style="background: none !important;" />
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary text-center voltar pr-4" name="conjugatedDepthArea" data-toggle="tooltip" data-placement="bottom" title="@lang('afericao.depthConjugatedArea')" style="font-size: 13;" id="conjugatedDepthArea">
+                                  <i class="fas fa-calculator pr-2"></i>@lang('comum.calc')
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="form-row justify-content-start">
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [
-                                    'texto' =>
-                                    __('afericao.areaPivo') .
-                                    ' 01
-                                    (ha)',
-                                    'id' => 'area1',
-                                ])@endcomponent
+                                @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.areaPivo') . ' 01 (ha)', 'id' => 'area1',])@endcomponent
                                 <input type="number" step=0.0001 name='area_pivo_01' id="area1" class='form-control' />
                             </div>
 
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [
-                                    'texto' =>
-                                    __('afericao.vazaoPivo') .
-                                    ' 01
-                                    (m³/h)',
-                                    'id' => 'vazao1',
-                                ])@endcomponent
-                                <input type="number" step=0.0001 name='vazao_pivo_01' id="vazao1" class='form-control' />
-                            </div>
-
-                            <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [
-                                    'texto' =>
-                                    __('afericao.areaPivo') .
-                                    ' 02
-                                    (ha)',
-                                    'id' => 'area2',
-                                ])@endcomponent
+                                @component('_layouts._components._inputLabel', [  'texto' => __('afericao.areaPivo') . ' 02 (ha)', 'id' => 'area2', ])@endcomponent
                                 <input type="number" step=0.0001 name='area_pivo_02' id="area2" class='form-control' />
                             </div>
 
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [
-                                    'texto' =>
-                                    __('afericao.vazaoPivo') .
-                                    ' 02
-                                    (m³/h)',
-                                    'id' => 'vazao2',
-                                ])@endcomponent
-                                <input type="number" step=0.0001 name='vazao_pivo_02' id="vazao2" class='form-control' />
+                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.areaPivo') . ' 03 (ha)', 'id' => 'area3'])@endcomponent
+                                <input type="number" step=0.0001 name='area_pivo_03' id="area3" class='form-control' />
+                            </div>
+                            <div class="form-group col-md-3 telo5ce">
+                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.areaPivo') . ' 04 (ha)', 'id' => 'area4'])@endcomponent
+                                <input type="number" step=0.0001 name='area_pivo_04' id="area4" class='form-control' />
                             </div>
                         </div>
                     
 
                         <div class="form-row justify-content-start">
+
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.areaPivo') . ' 03 (ha)',
-                                'id' => 'area3'])@endcomponent
-                                <input type="number" step=0.0001 name='area_pivo_03' id="area3" class='form-control' />
+                                @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.vazaoPivo') . ' 01 (m³/h)', 'id' => 'vazao1', ])@endcomponent
+                                <input type="number" step=0.0001 name='vazao_pivo_01' id="vazao1" class='form-control' />
                             </div>
+
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [
-                                    'texto' =>
-                                    __('afericao.vazaoPivo') .
-                                    ' 03
-                                    (m³/h)',
-                                    'id' => 'vazao3',
-                                ])@endcomponent
+                                @component('_layouts._components._inputLabel', [ 'texto' =>  __('afericao.vazaoPivo') . ' 02 (m³/h)', 'id' => 'vazao2', ])@endcomponent
+                                <input type="number" step=0.0001 name='vazao_pivo_02' id="vazao2" class='form-control' />
+                            </div>
+
+                            <div class="form-group col-md-3 telo5ce">
+                                @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.vazaoPivo') . ' 03 (m³/h)', 'id' => 'vazao3', ])@endcomponent
                                 <input type="number" step=0.0001 name='vazao_pivo_03' id="vazao3" class='form-control' />
                             </div>
+
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.areaPivo') . ' 04 (ha)',
-                                'id' => 'area4'])@endcomponent
-                                <input type="number" step=0.0001 name='area_pivo_04' id="area4" class='form-control' />
-                            </div>
-                            <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [
-                                    'texto' =>
-                                    __('afericao.vazaoPivo') .
-                                    ' 04
-                                    (m³/h)',
-                                    'id' => 'vazao4',
-                                ])@endcomponent
+                                @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.vazaoPivo') . ' 04 (m³/h)', 'id' => 'vazao4', ])@endcomponent
                                 <input type="number" step=0.0001 name='vazao_pivo_04' id="vazao4" class='form-control' />
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
                 {{-- CANHÃO FINAL --}}
                 <div class="tab-pane fade" id="canhaoFinal" role="tabpanel" aria-labelledby="canhaoFinal-tab">
                     <div class="col-md-12">
+                        <div class="form-row justify-content-start">
+                            <div class="form-group col-md-3 telo5ce">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" name="possui_canhao_final" id="customSwitch2" onchange="mostraCanhaoFinal()">
+                                <label class="custom-control-label" for="customSwitch2"  style="font-size: 1.2rem">@lang('afericao.possuiCanhaoFinal')</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
                         <div class="form-row justify-content-center">
                             <div class='form-group col-md-4 telo5ce'>
-                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.marca'), 'id' =>
-                                'marca'])@endcomponent
+                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.marca'), 'id' => 'marca'])@endcomponent
                                 <input name='marca_canhao_final' class='form-control' id="marca" />
                             </div>
                             <div class='form-group col-md-4 telo5ce'>
-                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.potencia') .
-                                __('unidadesAcoes.(cv)'), 'id' => 'potencia_final'])@endcomponent
+                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.potencia') .  __('unidadesAcoes.(cv)'), 'id' => 'potencia_final'])@endcomponent
                                 <input type="number" id="potencia_canhao" step=0.01 name='potencia_canhao_final'
                                     id="potencia_final" class='form-control' />
                             </div>
                             <div class='form-group col-md-4 telo5ce'>
-                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.vazao'), 'id' =>
-                                'vazao_canhao_final'])@endcomponent
-                                <input type="number" id="vazao_canhao" step=0.01 name='vazao_canhao_final'
-                                    id="vazao_canhao_final" class='form-control' />
+                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.vazao'), 'id' => 'vazao_canhao_final'])@endcomponent
+                                <input type="number" id="vazao_canhao" step=0.01 name='vazao_canhao_final' id="vazao_canhao_final" class='form-control' />
                             </div>
                         </div>
                         <div class="form-row justify-content-center">
@@ -589,7 +606,7 @@
                             </div>
                             <div class='form-group col-md-4 telo5ce'>
                                 <label for="valv_reguladora_canhao_final">@lang('afericao.valvulaReguladora')</label>
-                                <select class='form-control' required='true' name='valv_reguladora_canhao_final'>
+                                <select class='form-control' name='valv_reguladora_canhao_final'>
                                     <option value=""></option>
                                     <option value='10'><b>10 PSI</b></option>
                                     <option value='15'><b>15 PSI</b></option>
@@ -620,10 +637,14 @@
     <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
     <script>
         $(document).ready(function() {
+            habilitaDesabilitaPivo(true);
+            habilitaDesabilitaCanhao(true);
+
             $('#botaosalvar').on('click', function() {
                 $('#formdados').submit();
             });
 
+            // VALIDATE
             $("#formdados").validate({
                 ignore: "",
                 invalidHandler: function() {
@@ -704,67 +725,67 @@
                     }
                 },
                 messages: {
-                    data_afericao: "Campo <strong>DATA</strong> é obrigatório",
+                    data_afericao: "@lang('validate.validate')",
 
                     "marca_modelo_pivo": {
-                        required: "Campo <strong>MARCA/MODELO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "giro_equipamento": {
-                        required: "Campo <strong>GIRO DO EQUIPAMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "tempo_funcionamento": {
-                        required: "Campo <strong>TEMPO DE FUNCIONAMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "nome_pivo": {
-                        required: "Campo <strong>NOME PIVÔ</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "tipo_painel": {
-                        required: "Campo <strong>TIPO DE PAINEL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "horimetro": {
-                        required: "Campo <strong>HORÍMETRO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "ano_montagem": {
-                        required: "Campo <strong>ANO DE MONTAGEM</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "lamina_anual": {
-                        required: "Campo <strong>LÂMINA ANUAL</strong> é obrigatório",
+                        required: "@lang('validate.validate')",
                     },
                     "custo_medio": {
-                        required: "Campo <strong>CUSTO MÉDIO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "numero_lances": {
-                        required: "Campo <strong>LANCES</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "defletor": {
-                        required: "Campo <strong>DEFELTOR</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altura_emissores": {
-                        required: "Campo <strong>ALTURA DOS EMISSORES</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "pressao_centro": {
-                        required: "Campo <strong>PRESSÃO NO CENTRO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "pressao_ponta": {
-                        required: "Campo <strong>PRESSÃO NA PONTA</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "rugosidade": {
-                        required: "Campo <strong>COEFICIENTE DE RUGOSIDADE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altitude_centro": {
-                        required: "Campo <strong>ALTITUDE CENTRO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altitude_mais_alto": {
-                        required: "Campo <strong>ALTITUDE DO PONTO MAIS ALTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altitude_mais_baixo": {
-                        required: "Campo <strong>ALTITUDE DO PONTO MAIS BAIXO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "latitude": {
-                        required: "Campo <strong>LATITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "longitude": {
-                        required: "Campo <strong>LONGITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {
@@ -779,10 +800,128 @@
                 }
             });
 
+            $('#conjugatedDepthArea').on('click', function(event) {
+                event.preventDefault();
+
+                var area_pivo_1 = $("#area1").val();
+                var area_pivo_2 = $("#area2").val();
+                var area_pivo_3 = $("#area3").val();
+                var area_pivo_4 = $("#area4").val();
+
+                var vazao_pivo_1 = $("#vazao1").val();
+                var vazao_pivo_2 = $("#vazao2").val();
+                var vazao_pivo_3 = $("#vazao3").val();
+                var vazao_pivo_4 = $("#vazao4").val();
+
+                var IsEmpty = false;
+                var vetArea = [area_pivo_1, area_pivo_2, area_pivo_3, area_pivo_4];
+                var vetVazao = [vazao_pivo_1, vazao_pivo_2, vazao_pivo_3, vazao_pivo_4];
+
+                for (let index = 0; index < vetArea.length; index++) {
+                    if ((vetArea[index] == "" || vetArea[index] === "") && (vetVazao[index] == "" || vetVazao[index] === "")) {
+                    IsEmpty = true;
+                    break;
+                    }
+                }
+
+                if (IsEmpty) {
+                    alert("@lang('comum.checkInput')");
+                } else {
+                    var combinedArea = {
+                    _token: "{{ csrf_token() }}"
+                    , area_pivo_1: area_pivo_1
+                    , area_pivo_2: area_pivo_2
+                    , area_pivo_3: area_pivo_3
+                    , area_pivo_4: area_pivo_4
+                    , };
+
+                    var depthArea = {
+                    _token: "{{ csrf_token() }}"
+                    , area_pivo_1: area_pivo_1
+                    , area_pivo_2: area_pivo_2
+                    , area_pivo_3: area_pivo_3
+                    , area_pivo_4: area_pivo_4,
+
+                    vazao_pivo_1: vazao_pivo_1
+                    , vazao_pivo_2: vazao_pivo_2
+                    , vazao_pivo_3: vazao_pivo_3
+                    , vazao_pivo_4: vazao_pivo_4
+                    , };
+
+                    $.ajax({
+                    url: "{{ route('gaugingCalc_totalAreaConjugated') }}"
+                    , type: "post"
+                    , data: combinedArea
+                    , dataType: 'json'
+                    , }).done(function(res) {
+                    console.log(res);
+                    combinedArea = res;
+                    return $('input[name = "combinedArea"]').val(combinedArea);
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error: " + textStatus);
+                    });
+
+                    $.ajax({
+                    url: "{{ route('gaugingCalc_depthArea') }}"
+                    , type: "post"
+                    , data: depthArea
+                    , dataType: 'json'
+                    , }).done(function(res) {
+                    console.log(res);
+                    depthArea = res;
+                    return $('input[name = "calcDepthArea"]').val(depthArea);
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error: " + textStatus);
+                    });
+                }
+            });
+
+            // Enable/Disable Checkbox "Pivo Conjugado"
+            $('#customSwitch1').click(function() {
+                if ($(this).prop("checked") == false) {
+                    habilitaDesabilitaPivo(true);
+                } else if ($(this).prop("checked") == true) {
+                    habilitaDesabilitaPivo(false);
+                }
+                });
+
+                function habilitaDesabilitaPivo(flag) {
+                $("#area1").prop("disabled", flag);
+                $("#area2").prop("disabled", flag);
+                $("#area3").prop("disabled", flag);
+                $("#area4").prop("disabled", flag);
+
+                $("#vazao1").prop("disabled", flag);
+                $("#vazao2").prop("disabled", flag);
+                $("#vazao3").prop("disabled", flag);
+                $("#vazao4").prop("disabled", flag);
+
+                $("#calcCombinedArea").prop("disabled", flag);
+                $("#calcDepthTotalArea").prop("disabled", flag);
+            }
+
+            //Enable/Disable Checkbox "Canhão final"
+            $('#customSwitch2').click(function() {
+              if ($(this).prop("checked") == false) {
+                habilitaDesabilitaCanhao(true);
+              } else if ($(this).prop("checked") == true) {
+                habilitaDesabilitaCanhao(false);
+              }
+            });
+
+            function habilitaDesabilitaCanhao(flag) {
+              $("#marca").prop("disabled", flag);
+              $("#modelo_canhao").prop("disabled", flag);
+              $("#bomba_canhao").prop("disabled", flag);
+              $("#bocais_canhao").prop("disabled", flag);
+              $("#potencia_canhao").prop("disabled", flag);
+              $("#vazao_canhao").prop("disabled", flag);
+              $("#bocais_canhao").prop("disabled", flag);
+            }
+
             $(window).on('load', function() {
                 $("#coverScreen").hide();
             });
         });
-
     </script>
 @endsection

@@ -30,8 +30,11 @@
         {{-- FILTRO DE PESQUISA --}}
         <div class="row justify-content-end telo5inputfiltro mt-3">
             <div class="col-3 position">
-                <input class="form-control" id="filtrotabela" type="text" placeholder="@lang('comum.pesquisar')">
-                <i class="fas fa-search search"></i>
+                <form action="{{route('filter')}}" method="POST" class="form form-inline">
+                    @csrf
+                    <input class="form-control" name="filter" type="text" placeholder="@lang('comum.pesquisar')"/>
+                    <button type="submit" class="btn btn-primary search"><i class="fas fa-search"></i></button>
+                </form>
             </div>
         </div>
     </div>
@@ -45,13 +48,13 @@
             @csrf
             <thead class="headertable">
                 <tr class="text-center">
-                    <th scope="col-5">@lang('usuarios.nome')</th>
-                    <th scope="col-5">@lang('usuarios.telefone')</th>
-                    <th scope="col-5">@lang('usuarios.pais')</th>
-                    <th scope="col-5">@lang('usuarios.tipo_usuario')</th>
-                    <th scope="col-5">@lang('usuarios.email')</th>
-                    <th scope="col-5">@lang('usuarios.situacao')</th>
-                    <th scope="col-2">@lang('sidenav.acoes')</th>
+                    <th style="width: 15%">@lang('usuarios.nome')</th>
+                    <th style="width: 10%">@lang('usuarios.telefone')</th>
+                    <th style="width: 10%">@lang('usuarios.pais')</th>
+                    <th style="width: 10%">@lang('usuarios.tipo_usuario')</th>
+                    <th style="width: 15%">@lang('usuarios.email')</th>
+                    <th style="width: 10%">@lang('usuarios.situacao')</th>
+                    <th style="width: 10%">@lang('sidenav.acoes')</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,24 +67,57 @@
                         <td>{{ $usuarios->email }}</td>
                         <td>{{ $usuarios->situacao }}</td>
                         <td class="acoes">
-                            <a href="{{ route('usuario_edit', $usuarios->id) }}"><button type="button" class="botaoTabela"><i
-                                        class='fa fa-fw fa-pen'></i></button></a>
-                            <button type="submit" class="botaoTabela" data-toggle="modal" data-target="#modalDeletar-{{ $usuarios['id']}}"><i
-                                    class='fa fa-fw fa-times'></i></button>
+                            <button type="submit" class="botaoTabela" data-toggle="modal" data-target="#status-{{ $usuarios['id']}}"><i class="fas fa-user-check"></i></button>
+                            {{-- <a href="{{ route('usuario_status', $usuarios->id) }}"><button type="button" class="botaoTabela"><i class="fas fa-sync"></i></i></button></a> --}}
+                            <a href="{{ route('usuario_edit', $usuarios->id) }}"><button type="button" class="botaoTabela"><i class='fa fa-fw fa-pen'></i></button></a>
+                            <button type="submit" class="botaoTabela" data-toggle="modal" data-target="#modalDeletar-{{ $usuarios['id']}}"><i class='fa fa-fw fa-times'></i></button>
+                            
+                            {{-- MODAL PARA ATIVAR/DESATIVAR --}}
+                            <div class="modal fade" id="status-{{ $usuarios['id']}}" tabindex="-1" aria-labelledby="status"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 style="margin: 0">@lang('comum.usuario') {{ $usuarios['nome'] }}</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 style="padding-bottom: 20px">
+                                                @if ($usuario->situacao == 'ativo')
+                                                    @lang('comum.inativar')
+                                                @else 
+                                                    @lang('comum.ativar')
+                                                @endif
+                                            </h4>
 
+                                            <form action="{{ action('Sistema\UsuarioController@UserChangeStatus', $usuarios['id']) }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="_method" value="post">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">@lang('comum.nao')</button>
+                                                <button type="submit" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#exampleModal">@lang('comum.sim')</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             {{-- MODAL PARA CONFIRMAR DELEÇÃO --}}
                             <div class="modal fade" id="modalDeletar-{{ $usuarios['id']}}" tabindex="-1" aria-labelledby="modalDeletar"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4>@lang('comum.usuario') {{ $usuarios['nome'] }} <br> @lang('comum.excluir')
-                                            </h4>
+                                            <h4 style="margin: 0">@lang('comum.usuario') {{ $usuarios['nome'] }}</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            <h4 style="padding-bottom: 20px">@lang('comum.excluir')</h4>
                                             <form
                                                 action="{{ action('Sistema\UsuarioController@delete', $usuarios['id']) }}"
                                                 method="POST" class="delete_form float-right"> {{ csrf_field() }}

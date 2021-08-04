@@ -280,7 +280,7 @@
 
                                 <div class="col-md-4 form-group telo5ce">
                                     @component('_layouts._components._inputLabel', ['texto'=>__('afericao.fase1') . __('unidadesAcoes.(a)'), 'id' => ''])@endcomponent
-                                    <input type="number" step="0.001" value="{{$bombeamento['corrente_leitura_1_fase_1']}}" class="form-control" required   onchange="calcularCarregamentoExistente({{$key+1}})" id="corrente_leitura_1_fase_1{{$key+1}}"  name="corrente_leitura_1_fase_1[]">
+                                    <input type="number" step="0.001" value="{{$bombeamento['corrente_leitura_1_fase_1']}}" class="form-control" required   onchange="calcularCarregamentoExistente({{$key+1}})" id="corrente_leitura_1_fase_1{{ $key + 1 }}"  name="corrente_leitura_1_fase_1[]">
                                 </div>
 
                                 <div class="col-md-4 form-group telo5ce">
@@ -429,25 +429,199 @@
                     },
                     "numero_bombas": {
                         required: true
+                    },
+                    "comprimento_succao[]": {
+                            required: true
+                    },
+                    "diametro_succao[]": {
+                        required: true
+                    },
+                    "marca[]": {
+                        required: true
+                    },
+                    "modelo[]": {
+                        required: true
+                    },
+                    "numero_rotores[]": {
+                        required: true
+                    },
+                    "diametro_rotor[]": {
+                        required: true
+                    },
+                    "rendimento_bomba[]": {
+                        required: true
+                    },
+                    "shutoff[]": {
+                        required: true
+                    },
+                    "rotacao[]": {
+                        required: true
+                    },
+                    "pressao_bomba[]": {
+                        required: true
+                    },
+                    "modelo_motor[]": {
+                        required: true
+                    },
+                    "potencia[]": {
+                        required: true
+                    },
+                    "numero_motores[]": {
+                        required: true
+                    },
+                    "fator_servico[]": {
+                        required: true
+                    },
+                    "rendimento[]": {
+                        required: true
+                    },
+                    "frequencia[]": {
+                        required: true
+                    },
+                    "corrente_nominal[]": {
+                        required: true
+                    },
+                    "corrente_leitura_1_fase_1[]": {
+                        required: true
+                    },
+                    "corrente_leitura_1_fase_2[]": {
+                        required: true
+                    },
+                    "corrente_leitura_1_fase_3[]": {
+                        required: true
+                    },
+                    "tensao_leitura_1_fase_1[]": {
+                        required: true
+                    },
+                    "tensao_leitura_1_fase_2[]": {
+                        required: true
+                    },
+                    "tensao_leitura_1_fase_3[]": {
+                        required: true
+                    },
+                    "corrente_leitura_2_fase_1[]": {
+                        required: true
+                    },
+                    "corrente_leitura_2_fase_2[]": {
+                        required: true
+                    },
+                    "corrente_leitura_2_fase_3[]": {
+                        required: true
+                    },
+                    "tensao_leitura_2_fase_1[]": {
+                        required: true
+                    },
+                    "tensao_leitura_2_fase_2[]": {
+                        required: true
+                    },
+                    "tensao_leitura_2_fase_3[]": {
+                        required: true
                     }
                 },
                 messages: {
-                    altitude_nivel_agua: "Campo <strong>ALTITUDE NIVEL DE AGUA</strong> é obrigatório",
+                    altitude_nivel_agua: "@lang('validate.validate')",
 
                     "altitude_casa_bomba": {
-                        required: "Campo <strong>ALTITUDE CASA DE BOMBAS</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "tipo_instalacao": {
-                        required: "Campo <strong>TIPO DE INSTALAÇÃO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "posicionamento_bombeamento": {
-                        required: "Campo <strong>POSICIONAMENTO BOMBEAMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "latitude": {
-                        required: "Campo <strong>LATITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "longitude": {
-                        required: "Campo <strong>LONGITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
+                    },
+                    "comprimento_succao": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "diametro_succao": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "marca": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "modelo": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "numero_rotores": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "diametro_rotor": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "rendimento_bomba": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "shutoff": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "rotacao": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "pressao_bomba": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "modelo_motor": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "potencia": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "numero_motores": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "fator_servico": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "rendimento": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "frequencia": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "corrente_nominal": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "corrente_leitura_1_fase_1": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "corrente_leitura_1_fase_2": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "corrente_leitura_1_fase_3": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "tensao_leitura_1_fase_1": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "tensao_leitura_1_fase_2": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "tensao_leitura_1_fase_3": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "corrente_leitura_2_fase_1": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "corrente_leitura_2_fase_2": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "corrente_leitura_2_fase_3": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "tensao_leitura_2_fase_1": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "tensao_leitura_2_fase_2": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "tensao_leitura_2_fase_3": {
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {
@@ -467,5 +641,115 @@
             });
         });
 
+    </script>
+
+    <script>
+        function calcularCarregamentoExistente(num_bombeamento){
+            let correnteNominal = $("#corrente_nominal"+num_bombeamento).val();
+            if(correnteNominal != null && correnteNominal > 0){
+                let leitura = $("#corrente_leitura_1_fase_1"+num_bombeamento).val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    correcao_corrente_eletrica_1_fase_1 = leitura * $('#tensao_leitura_1_fase_1'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
+                    var carregamento = (correcao_corrente_eletrica_1_fase_1/correnteNominal)*100;
+                    $("#indice_carregamento_leitura_1_fase_1"+num_bombeamento).val(carregamento.toFixed(2));
+                }
+                
+                leitura = $("#corrente_leitura_1_fase_2"+num_bombeamento).val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    correcao_corrente_eletrica_1_fase_2 = leitura * $('#tensao_leitura_1_fase_2'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
+                    var carregamento = (correcao_corrente_eletrica_1_fase_2/correnteNominal)*100;
+                    $("#indice_carregamento_leitura_1_fase_2"+num_bombeamento).val(carregamento.toFixed(2));
+                }
+
+                leitura = $("#corrente_leitura_1_fase_3"+num_bombeamento).val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    correcao_corrente_eletrica_1_fase_3 = leitura * $('#tensao_leitura_1_fase_3'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
+                    var carregamento = (correcao_corrente_eletrica_1_fase_3/correnteNominal)*100;
+                    $("#indice_carregamento_leitura_1_fase_3"+num_bombeamento).val(carregamento.toFixed(2));
+                }
+
+                leitura = $("#corrente_leitura_2_fase_1"+num_bombeamento).val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    correcao_corrente_eletrica_2_fase_1 = leitura * $('#tensao_leitura_2_fase_1'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
+                    var carregamento = (correcao_corrente_eletrica_2_fase_1/correnteNominal)*100;
+                    $("#indice_carregamento_leitura_2_fase_1"+num_bombeamento).val(carregamento.toFixed(2));
+                }
+
+                leitura = $("#corrente_leitura_2_fase_2"+num_bombeamento).val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    correcao_corrente_eletrica_2_fase_2 = leitura * $('#tensao_leitura_2_fase_2'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
+                    var carregamento = (correcao_corrente_eletrica_2_fase_2/correnteNominal)*100;
+                    $("#indice_carregamento_leitura_2_fase_2"+num_bombeamento).val(carregamento.toFixed(2));
+                }
+
+                leitura = $("#corrente_leitura_2_fase_3"+num_bombeamento).val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    correcao_corrente_eletrica_2_fase_3 = leitura * $('#tensao_leitura_2_fase_3'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
+                    var carregamento = (correcao_corrente_eletrica_2_fase_3/correnteNominal)*100;
+                    $("#indice_carregamento_leitura_2_fase_3"+num_bombeamento).val(carregamento.toFixed(2));
+                }
+            }
+        }
+
+
+        function calcularCarregamento(id_bomba){
+            let correnteNominal = $("#corrente_nominal_"+id_bomba).val();
+
+            if(correnteNominal != null && correnteNominal > 0){
+                let leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_1").val();            
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    var correcao_corrente_eletrica_1_fase_1 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_1').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
+                    var carregamento = (correcao_corrente_eletrica_1_fase_1/correnteNominal)*100;
+                    $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_1").val(parseFloat(carregamento.toFixed(2)));
+                }
+                
+                leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_2").val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    var correcao_corrente_eletrica_1_fase_2 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_2').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
+                    var carregamento = (correcao_corrente_eletrica_1_fase_2/correnteNominal)*100;
+                    $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_2").val(parseFloat(carregamento.toFixed(2)));
+                }
+
+                leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_3").val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    var correcao_corrente_eletrica_1_fase_3 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_3').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
+                    var carregamento = (correcao_corrente_eletrica_1_fase_3/correnteNominal)*100;
+                    $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_3").val(parseFloat(carregamento.toFixed(2)));
+                }
+
+                leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_1").val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    var correcao_corrente_eletrica_2_fase_1 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_1').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
+                    var carregamento = (correcao_corrente_eletrica_2_fase_1/correnteNominal)*100;
+                    $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_1").val(parseFloat(carregamento.toFixed(2)));
+                }
+
+                leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_2").val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    var correcao_corrente_eletrica_2_fase_2 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_2').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
+                    var carregamento = (correcao_corrente_eletrica_2_fase_2/correnteNominal)*100;
+                    $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_2").val(parseFloat(carregamento.toFixed(2)));
+                }
+
+                leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_3").val(); 
+                if(leitura != null && leitura > 0){
+                    //Calculo de correção
+                    var correcao_corrente_eletrica_2_fase_3 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_3').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
+                    var carregamento = (correcao_corrente_eletrica_2_fase_3/correnteNominal)*100;
+                    $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_3").val(parseFloat(carregamento.toFixed(2)));
+                }
+            }
+        }
     </script>
 @endsection

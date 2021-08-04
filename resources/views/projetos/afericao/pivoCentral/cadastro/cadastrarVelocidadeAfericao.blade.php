@@ -526,75 +526,75 @@
                                 }
                             },
                             messages: {
-                                minuto01: "Campo <strong>OBRIGATÓRIO</strong>",
+                                minuto01: "@lang('validate.validate')",
                                 "segundo01": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "distancia01": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "minuto02": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "segundo02": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "distancia02": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "minuto03": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "segundo03": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "distancia03": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "minuto04": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "segundo04": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "distancia04": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "minuto_perc_01": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "segundo_perc_01": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "distancia_perc_01": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "minuto_perc_02": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "segundo_perc_02": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "distancia_perc_02": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "minuto_perc_03": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "segundo_perc_03": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "distancia_perc_03": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "minuto_perc_04": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "segundo_perc_04": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 },
                                 "distancia_perc_04": {
-                                    required: "Campo <strong>OBRIGATÓRIO</strong>"
+                                    required: "@lang('validate.validate')"
                                 }
                             },
                             submitHandler: function(form) {

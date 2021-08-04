@@ -22,6 +22,33 @@
             padding: 5px;
         }
 
+        .editarEmissores {
+            padding: 5px 10px;
+            font-size: 14;
+            background-color: #26546F !important;
+            border: none;
+            color: #fff;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .editarEmissores > i {
+            padding-right: 5px
+        }
+
+        .editarEmissores2 > i {
+            padding-right: 5px
+        }
+        .editarEmissores2 {
+            padding: 5px 10px;
+            font-size: 14;
+            background-color: #26546F !important;
+            border: none;
+            color: #fff;
+            outline: none;
+            cursor: pointer;
+            margin-right: 45px
+        }
         @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed);
 
     </style>
@@ -52,20 +79,15 @@
                         </span>
                     </button>
                 </a>
-                <button type="button" class="editarEmissores" data-toggle="tooltip" data-placement="bottom"
-                    title="Editar Emissores">
+                <a href="{{ route('originalMap_recalculate', $id_afericao) }}">
+                    <button type="button" data-toggle="tooltip" data-placement="bottom"
+                        title="Re-calcular bocais">
                     <span class="fa-stack fa-2x">
                         <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fas fa-pen fa-stack-1x fa-inverse"></i>
+                        <i class="fas fa-calculator fa-stack-1x fa-inverse"></i>
                     </span>
                 </button>
-                <button type="button" id="botaosalvar" disabled data-toggle="tooltip" data-placement="bottom"
-                    title="Salvar">
-                    <span class="fa-stack fa-2x">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fas fa-save fa-stack-1x fa-inverse"></i>
-                    </span>
-                </button>
+                </a>
                 <a href="{{ route('newSpan_create', $id_afericao) }}">
                     <button type="button">
                         <span class="fa-stack fa-2x" data-toggle="tooltip" data-placement="bottom" title="Adicionar Lance">
@@ -73,6 +95,14 @@
                         </span>
                     </button>
                 </a>
+
+                <a href="{{ route('create_adductor', $id_afericao) }}">
+                    <button type="button">
+                        <span class="fa-stack fa-2x" data-toggle="tooltip" data-placement="bottom" title="Cadastrar Adutora">
+                            <i class="fas fa-arrow-circle-right fa-2x"></i>
+                        </span>
+                    </button>
+                </a>    
             </div>
 
         </div>
@@ -80,7 +110,6 @@
 @endsection
 
 @section('conteudo')
-
     <div class="formafericao">
         {{-- NAVTAB'S --}}
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -96,12 +125,12 @@
         </ul>
 
         {{-- PRELOADER --}}
-        {{-- <div id="coverScreen">
+        <div id="coverScreen">
             <div class="preloader">
                 <i class="fas fa-circle-notch fa-spin fa-2x"></i>
                 <div>Carregando...</div>
             </div>
-        </div> --}}
+        </div>
 
         {{-- FORMULARIO DE CADASTRO --}}
         <form id="formdados" method="POST" disabled>
@@ -117,6 +146,8 @@
             <input type="hidden" name="numero_lances" value="{{ $afericao['numero_lances'] }}">
             <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
             <div class="tab-content mt-5" id="myTabContent">
+                
+                @include('_layouts._includes._alert')
 
                 {{-- GRAFICO DE UNIFORMIDADE --}}
                 <div class="tab-pane fade show active" id="graficoUniformidade" role="tabpanel"
@@ -133,9 +164,26 @@
                 </div>
 
                 {{-- TABELA DE EMISSORES --}}
+
                 <div class="tab-pane fade" id="listaEmissores" role="tabpanel" aria-labelledby="listaEmissores-tab">
-                    <div class="col-md-12 mt-5">
-                        <article class="mt-5">
+
+                    {{-- BOTOES SALVAR E EDITAR DA TABELA --}}
+                    <div class="row ">
+                        <div class="col-6"></div>
+                        <div class="col-6 text-right">
+                            <button type="button" class="editarEmissores" data-toggle="tooltip" data-placement="bottom"
+                                title="Editar Emissores">
+                                <i class="fas fa-pen "></i> @lang('comum.editar')
+                            </button>
+        
+                            <button type="button" class="editarEmissores2" data-toggle="tooltip" data-placement="bottom"  id="botaosalvar" disabled
+                                title="Editar Emissores">
+                                <i class="fas fa-save"></i> @lang('comum.salvar')
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <article class="mt-2">
                             <div class="col-12 container">
                                 <div class="col-12 m-auto" id="cssPreloader">
                                     <table class="table table-striped mx-auto" id="tabelaListaEmissores">
@@ -147,14 +195,12 @@
                                                 <th class="text-center" scope="col">@lang('afericao.saida1')</th>
                                                 <th class="text-center" scope="col">@lang('afericao.saida2')</th>
                                                 <th class="text-center" scope="col">@lang('afericao.espacamento')</th>
-                                                <th class="text-center" scope="col">@lang('afericao.valvulaReguladora')
-                                                </th>
+                                                <th class="text-center" scope="col">@lang('afericao.valvulaReguladora')</th>
                                                 <th class="text-center" scope="col">@lang('afericao.tipoValvula')</th>
                                                 <th class="text-center" scope="col">@lang('afericao.fabricante')</th>
                                                 <th class="text-center" scope="col">@lang('afericao.vazaoAspersor')</th>
                                                 <th class="text-center" scope="col">@lang('afericao.vazaoLiberada')</th>
                                                 <th class="text-center" scope="col">@lang('afericao.pressaoEntrada')</th>
-                                                {{-- <th class="text-center" scope="col">@lang('afericao.acoes')</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody class="tbody" style="height:100%; overflow-y: scroll">
@@ -282,7 +328,6 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            {{-- <td></td> --}}
                                         </tfoot>
                                     </table>
                                 </div>
@@ -341,31 +386,6 @@
 
     </script>
 
-    {{-- CARREGAR PRELOADER --}}
-    {{-- <script>
-        $(document).ready(function() {
-            $('#botaosalvar').on('click', function() {
-                $("#coverScreen").show();
-                $("#cssPreloader input").each(function() {
-                    $(this).css('opacity', '0.2');
-                });
-                $("#cssPreloader select").each(function() {
-                    $(this).css('opacity', '0.2');
-                });
-                $("#botoesSalvar a").each(function() {
-                    $(this).css('opacity', '0.2');
-                });
-                $("#botoesSalvar button").each(function() {
-                    $(this).css('opacity', '0.2');
-                });
-            });
-        });
-
-        $(window).on('load', function() {
-            $("#coverScreen").hide();
-        });
-
-    </script> --}}
 
     <script>
         $(function() {
@@ -443,13 +463,20 @@
                         tipo_valvula: tipo_valvula,
                         emissor: fabricante
                     }
-
                     $.ajax({
                         type: 'POST',
                         url: "{{ route('originalMap_edit') }}",
                         data: DATA,
                         dataType: 'json'
                     }).done(function(res) {
+
+                        $("#coverScreen").show();
+                        $("#cssPreloader input").each(function() {
+                            $(this).css('opacity', '0.2');
+                        });
+                        $("#cssPreloader select").each(function() {
+                            $(this).css('opacity', '0.2');
+                        });
 
                         // MENSAGEM DE ALERTA APOS CONCLUSAO DE EDIÇÃO
                         var formMessages = $('#msgAlert');
@@ -489,17 +516,22 @@
                             $('#botaosalvar').prop('disabled', true); // habilita
                         }
 
+                        location.reload();
+
                     }).fail(function(jqXHR, textStatus, errorThrown) {
                         console.log("Error: " + textStatus);
                     });
                 });
             });
+
+            $(window).on('load', function() {
+                $("#coverScreen").hide();
+            });
         });
 
         function gerarGraficoUnidormidade(valores_lamina, valores_lamina_media, emissores) {
             var largura_tela = $(window).width() * 0.70;
-
-
+            
             Highcharts.chart('grafico_uniformidade', {
                 chart: {
                     zoomType: "x",
@@ -614,7 +646,6 @@
                                 100,
                             @else
                                 null,
-                        
                             @endif
                         @endforeach
                         ]

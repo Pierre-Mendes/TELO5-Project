@@ -176,24 +176,24 @@
                         }
                     },
                     messages: {
-                        nome: "Campo <strong>NOME</strong> é obrigatório",
+                        nome: "@lang('validate.validate')",
                         "cidade": {
-                            required: "Campo <strong>CIDADE</strong> é obrigatório"
+                            required: "@lang('validate.validate')"
                         },
                         "estado": {
-                            required: "Campo <strong>ESTADO</strong> é obrigatório"
+                            required: "@lang('validate.validate')"
                         },
                         "pais": {
-                            required: "Campo <strong>PAIS</strong> é obrigatório"
+                            required: "@lang('validate.validate')"
                         },
                         "latitude": {
-                            required: "Campo <strong>LATITUDE</strong> é obrigatório"
+                            required: "@lang('validate.validate')"
                         },
                         "longitude": {
-                            required: "Campo <strong>LONGITUDE</strong> é obrigatório"
+                            required: "@lang('validate.validate')"
                         },
                         "altitude": {
-                            required: "Campo <strong>ALTITUDE</strong> é obrigatório"
+                            required: "@lang('validate.validate')"
                         }
                     },
                     submitHandler: function(form) {

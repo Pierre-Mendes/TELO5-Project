@@ -67,7 +67,7 @@
                             </div>
                             <div class="form-group col-md-4 telo5ce">
                                 <label for="id_proprietario">@lang('fazendas.proprietario')</label>
-                                <select id="id_proprietario" class="form-control">
+                                <select id="id_proprietario" class="form-control" name="id_proprietario">
                                     @foreach ($proprietarios as $proprietario)
                                         <option value=""></option>
                                         <option value="{{ $proprietario->id }}">{{ $proprietario->nome }}</option>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="form-group col-md-4 telo5ce">
                                 <label for="codigo">@lang('fazendas.consultor')</label>
-                                <select name="id_consultor" class="form-control " id="">
+                                <select name="id_consultor" class="form-control" id="">
                                     <option value=""></option>
                                     @foreach ($consultores as $consultor)
                                         <option value="{{ $consultor->id }}">{{ $consultor->nome }}</option>
@@ -134,27 +134,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
     integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
 
-    {{-- SALVAR E CARREGAR PRELOADER --}}
-    <script>
-        $(document).ready(function() {
-            $('#botaosalvar').on('click', function() {
-                $("#coverScreen").show();
-                $("#cssPreloader input").each(function() {
-                    $(this).css('opacity', '0.2');
-                });
-                $("#cssPreloader select").each(function() {
-                    $(this).css('opacity', '0.2');
-                });
-                $('#formdados').submit();
-            });
-        });
-
-        $(window).on('load', function() {
-            $("#coverScreen").hide();
-        });
-
-    </script>
-
     <!-- VALIDAÇÕES DE CAMPOS-->
     <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
     <script>
@@ -174,6 +153,12 @@
                     "estado": {
                         required: true,
                     },
+                    "id_proprietario": {
+                        required: true,
+                    },
+                    "id_consultor": {
+                        required: true,
+                    },
                     "pais": {
                         required: true,
                     },
@@ -188,24 +173,30 @@
                     }
                 },
                 messages: {
-                    nome: "Campo <strong>NOME</strong> é obrigatório",
+                    nome: "@lang('validate.validate')",
                     "cidade": {
-                        required: "Campo <strong>CIDADE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "estado": {
-                        required: "Campo <strong>ESTADO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "pais": {
-                        required: "Campo <strong>PAIS</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
+                    },
+                    "id_proprietario": {
+                        required: "@lang('validate.validate')"
+                    },
+                    "id_consultor": {
+                        required: "@lang('validate.validate')"
                     },
                     "latitude": {
-                        required: "Campo <strong>LATITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "longitude": {
-                        required: "Campo <strong>LONGITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altitude": {
-                        required: "Campo <strong>ALTITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {
@@ -222,7 +213,7 @@
 
             $(window).on('load', function() {
                 $("#coverScreen").hide();
-            });
+            }); 
         });
 
     </script>

@@ -118,33 +118,41 @@ thead>tr>th:last-child(2) {
     font-size: 14px;
 }
 
-
 .selectize-input {
     border: none !important;
     font-family: 'Roboto', sans-serif;
     outline: 0px !important;
     box-shadow: none !important;
-    background-color: #e2eff773 !important;
     color: #162E3C;
     font-size: 14px !important;
+    min-height: 30px !important;
 }
 /* INPUT DE FILTRO DE BUSCA TOPO DETALHE */
 
-.telo5inputfiltro input {
+.telo5inputfiltro form input {
     outline: 0px !important;
     -webkit-appearance: none;
     box-shadow: none !important;
     border: none;
     border-radius: 0px;
+    width: 100% !important;
 }
 
 .telo5inputfiltro .search {
-    position: relative;
-    padding-right: 15px;
-    margin-top: -20px;
-    float: right;
+    background: none !important;
+    color: #1B6B9A;
+    outline: none !important;
+    margin-top: 4px;
+    border: none;
+    margin-left: -30px;
 }
 
+.telo5inputfiltro .search:active {
+    color: #1B6B9A !important;
+    border: none !important;
+    outline: none !important;
+    background: none !important;
+}
 .subnavbar label a:hover {
     color: rgba(255, 255, 255, 0.7) !important;
 }
@@ -153,6 +161,10 @@ thead>tr>th:last-child(2) {
 /* VALIDAÇÕES DE INPUTS */
 
 input.error {
+    border: 1px solid #EBCCD1;
+}
+
+select.error {
     border: 1px solid #EBCCD1;
 }
 

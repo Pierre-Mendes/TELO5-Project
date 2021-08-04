@@ -93,7 +93,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-4 telo5ce">
-                                <label for="giro_equipamento">@lang('afericao.giroEquipamento')</label>
+                                <label for="giro_equipamento">@lang('afericao.giroEquipamento')  @lang('unidadesAcoes.(graus)')</label>
                                 <input type="number" id="giro_equipamento" class="form-control" name="giro_equipamento"
                                     maxlength="30" required value="{{ $entrada->giro_equipamento }}" />
                             </div>
@@ -131,7 +131,7 @@
                                     maxlength="4" required value="{{ $entrada->ano_montagem }}" />
                             </div>
                             <div class="form-group col-md-4 telo5ce">
-                                <label for="lamina_anual">@lang('afericao.laminaAnual')</label>
+                                <label for="lamina_anual">@lang('afericao.laminaAnual') @lang('unidadesAcoes.(mm)')</label>
                                 <input type="number" id="lamina_anual" class="form-control" name="lamina_anual"
                                     maxlength="30" required value="{{ $entrada->lamina_anual }}" />
                             </div>
@@ -139,14 +139,9 @@
 
                         <div class="form-row justify-content-start">
                             <div class="form-group col-md-4 telo5ce">
-                                <label for="custo_medio">@lang('afericao.custoMedio')</label>
+                                <label for="custo_medio">@lang('afericao.custoMedio') @lang('unidadesAcoes.($/kWh)')/@lang('unidadesAcoes.($/L)')</label>
                                 <input type="number" id="custo_medio" class="form-control" name="custo_medio" maxlength="30"
-                                    required value="{{ $entrada->giro_equipamento }}" />
-                            </div>
-                            <div class="form-group col-md-4 telo5ce">
-                                <label for="numero_lances">@lang('afericao.numeroLances')</label>
-                                <input type="number" id="numero_lances" class="form-control" name="numero_lances"
-                                    maxlength="30" required value="{{ $entrada->giro_equipamento }}" />
+                                    required value="{{$entrada['custo_medio']}}" />
                             </div>
                         </div>
                     </div>
@@ -503,10 +498,10 @@
                             <div class="form-group col-md-3 telo5ce">
                                 <label for="defletor">@lang('afericao.defletor')</label><br>
                                 <input name='defletor' class='form-control' id="defletor" required
-                                    value="{{ $entrada->data_afericao }}" />
+                                    value="{{ $entrada->defletor }}" />
                             </div>
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="altura_emissores">@lang('afericao.alturaEmissores')</label><br>
+                                <label for="altura_emissores">@lang('afericao.alturaEmissores') @lang('unidadesAcoes.(m)')</label><br>
                                 <input name='altura_emissores' step=0.01 id="altura_emissores" type="number"
                                     class='form-control' required value="{{ $entrada->altura_emissores }}" />
                             </div>
@@ -514,13 +509,13 @@
 
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="pressao_centro">@lang('afericao.pressaoCentro')</label><br>
+                                <label for="pressao_centro">@lang('afericao.pressaoCentro') @lang('unidadesAcoes.(mca)')</label><br>
                                 <input type="number" step=0.001 min=0.001 class="form-control" name="pressao_centro"
                                     required id="pressao_centro" value="{{ $entrada->pressao_centro }}">
                             </div>
 
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="pressao_ponta">@lang('afericao.pressaoPonta')</label><br>
+                                <label for="pressao_ponta">@lang('afericao.pressaoPonta') @lang('unidadesAcoes.(mca)')</label><br>
                                 <input type="number" step=0.001 min=0.001 class="form-control" name="pressao_ponta" required
                                     id="pressao_ponta" value="{{ $entrada->pressao_ponta }}">
                             </div>
@@ -532,7 +527,7 @@
                             </div>
 
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="altitude_centro">@lang('afericao.altitudeCentro')</label><br>
+                                <label for="altitude_centro">@lang('afericao.altitudeCentro') @lang('unidadesAcoes.(m)')</label><br>
                                 <input type="number" class="form-control" name="altitude_centro" required
                                     id="altitude_centro" value="{{ $entrada->altitude_centro }}">
                             </div>
@@ -540,13 +535,13 @@
 
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="altitude_mais_alto">@lang('afericao.altitudeMaisAlto')</label><br>
+                                <label for="altitude_mais_alto">@lang('afericao.altitudeMaisAlto') @lang('unidadesAcoes.(m)')</label><br>
                                 <input type="number" class="form-control" name="altitude_mais_alto" required
                                     id="altitude_mais_alto" value="{{ $entrada->altitude_mais_alto }}">
                             </div>
 
                             <div class="form-group col-md-3 telo5ce">
-                                <label for="altitude_mais_baixo">@lang('afericao.altitudeMaisBaixo')</label><br>
+                                <label for="altitude_mais_baixo">@lang('afericao.altitudeMaisBaixo') @lang('unidadesAcoes.(m)')</label><br>
                                 <input type="number" class="form-control" name="altitude_mais_baixo"
                                     id="altitude_mais_baixo" value="{{ $entrada->altitude_mais_baixo }}">
                             </div>
@@ -570,38 +565,61 @@
                 <div class="tab-pane fade" id="pivoConjugado" role="tabpanel" aria-labelledby="pivoConjugado-tab">
                     <div class="col-md-12">
                         <div class="form-row justify-content-start">
+                            <div class="form-group col-md-1 telo5ce">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" @if(!empty($entrada['area_pivo_01'])) checked @endif name="possui_pivo_conjugado" id="customSwitch1">
+                                    <label class="custom-control-label" for="customSwitch1"  style="font-size: 1.2rem">@lang('afericao.possuiPivoConjugado')</label>  
+                                </div>
+                            </div>
+                            <div class="form-group col-2 telo5ce">
+                                <label for="combinedArea">@lang('afericao.combinedArea')</label><br>
+                                <input class="font-weight-bold" type="number" id="combinedArea" name="combinedArea" step="0.01" min="0.01" disabled style="background: none !important;" value=""/>
+                            </div>
+                            <div class="form-group col-2 telo5ce">
+                                <label for="calcDepthArea">@lang('afericao.depthArea')</label><br>
+                                <input class="font-weight-bold" type="number" id="calcDepthArea" name="calcDepthArea" step="0.01" min="0.01" disabled style="background: none !important;" value=""/>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary text-center voltar pr-4" name="conjugatedDepthArea" data-toggle="tooltip" data-placement="bottom" title="@lang('afericao.depthConjugatedArea')" style="font-size: 13;" id="conjugatedDepthArea">
+                                <i class="fas fa-calculator pr-2"></i>@lang('comum.calc')
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-row justify-content-start">
                             <div class="form-group col-md-3 telo5ce">
                                 @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.areaPivo') . ' 01 (ha)', 'id' => 'area1', ])@endcomponent
                                 <input type="number" step=0.0001 name='area_pivo_01' id="area1" class='form-control' value="{{ $entrada->area_pivo_01 }}"/>
-                            </div>
-                            <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [ 'texto' =>  __('afericao.vazaoPivo') . ' 01 (m³/h)', 'id' => 'vazao1', ])@endcomponent
-                                <input type="number" step=0.0001 name='vazao_pivo_01' id="vazao1" class='form-control' value="{{ $entrada->vazao_pivo_01 }}" />
                             </div>
                             <div class="form-group col-md-3 telo5ce">
                                 @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.areaPivo') . ' 02 (ha)', 'id' => 'area2', ])@endcomponent
                                 <input type="number" step=0.0001 name='area_pivo_02' id="area2" class='form-control' value="{{ $entrada->area_pivo_02 }}" />
                             </div>
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.vazaoPivo') . ' 02 (m³/h)', 'id' => 'vazao2', ])@endcomponent
-                                <input type="number" step=0.0001 name='vazao_pivo_02' id="vazao2" class='form-control' value="{{ $entrada->vazao_pivo_02 }}" />
+                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.areaPivo') . ' 03 (ha)', 'id' => 'area3'])@endcomponent
+                                <input type="number" step=0.0001 name='area_pivo_03' id="area3" class='form-control' value="{{ $entrada->area_pivo_03 }}"  />
+                            </div>
+                            <div class="form-group col-md-3 telo5ce">
+                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.areaPivo') . ' 04 (ha)', 'id' => 'area4'])@endcomponent
+                                <input type="number" step=0.0001 name='area_pivo_04' id="area4" class='form-control' value="{{ $entrada->area_pivo_04 }}"  />
                             </div>
                         </div>
 
 
                         <div class="form-row justify-content-start">
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.areaPivo') . ' 03 (ha)', 'id' => 'area3'])@endcomponent
-                                <input type="number" step=0.0001 name='area_pivo_03' id="area3" class='form-control' value="{{ $entrada->area_pivo_03 }}"  />
+                                @component('_layouts._components._inputLabel', [ 'texto' =>  __('afericao.vazaoPivo') . ' 01 (m³/h)', 'id' => 'vazao1', ])@endcomponent
+                                <input type="number" step=0.0001 name='vazao_pivo_01' id="vazao1" class='form-control' value="{{ $entrada->vazao_pivo_01 }}" />
                             </div>
                             <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', [ 'texto' =>  __('afericao.vazaoPivo') . ' 03 (m³/h)', 'id' => 'vazao3',
-                                ])@endcomponent
+                                @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.vazaoPivo') . ' 02 (m³/h)', 'id' => 'vazao2', ])@endcomponent
+                                <input type="number" step=0.0001 name='vazao_pivo_02' id="vazao2" class='form-control' value="{{ $entrada->vazao_pivo_02 }}" />
+                            </div>
+                            <div class="form-group col-md-3 telo5ce">
+                                @component('_layouts._components._inputLabel', [ 'texto' =>  __('afericao.vazaoPivo') . ' 03 (m³/h)', 'id' => 'vazao3',])@endcomponent
                                 <input type="number" step=0.0001 name='vazao_pivo_03' id="vazao3" class='form-control' value="{{ $entrada->vazao_pivo_03 }}"  />
-                            </div>
-                            <div class="form-group col-md-3 telo5ce">
-                                @component('_layouts._components._inputLabel', ['texto' => __('afericao.areaPivo') . ' 04 (ha)', 'id' => 'area4'])@endcomponent
-                                <input type="number" step=0.0001 name='area_pivo_04' id="area4" class='form-control' value="{{ $entrada->area_pivo_04 }}"  />
                             </div>
                             <div class="form-group col-md-3 telo5ce">
                                 @component('_layouts._components._inputLabel', [ 'texto' => __('afericao.vazaoPivo') . ' 04 (m³/h)', 'id' => 'vazao4', ])@endcomponent
@@ -613,6 +631,17 @@
 
                 {{-- CANHÃO FINAL --}}
                 <div class="tab-pane fade" id="canhaoFinal" role="tabpanel" aria-labelledby="canhaoFinal-tab">
+                    <div class="col-md-12">
+                        <div class="form-row justify-content-start">
+                            <div class="form-group col-md-3 telo5ce">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" @if(!empty($entrada['vazao_canhao_final'])) checked @endif name="possui_canhao_final" id="customSwitch2" onchange="mostraCanhaoFinal()">
+                                <label class="custom-control-label" for="customSwitch2"  style="font-size: 1.2rem">@lang('afericao.possuiCanhaoFinal')</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-12">
                         <div class="form-row justify-content-center">
                             <div class='form-group col-md-4 telo5ce'>
@@ -630,7 +659,7 @@
                                 @component('_layouts._components._inputLabel', ['texto' => __('afericao.vazao'), 'id' =>
                                 'vazao_canhao_final'])@endcomponent
                                 <input type="number" id="vazao_canhao" step=0.01 name='vazao_canhao_final'
-                                    id="vazao_canhao_final" class='form-control' value="{{ $entrada->marca_vazao_canhao_finalcanhao_final }}" />
+                                    id="vazao_canhao_final" class='form-control' value="{{ $entrada['vazao_canhao_final'] }}" />
                             </div>
                         </div>
                         <div class="form-row justify-content-center">
@@ -666,16 +695,16 @@
                             </div>
                             <div class='form-group col-md-4 telo5ce'>
                                 <label for="valv_reguladora_canhao_final">@lang('afericao.valvulaReguladora')</label>
-                                <select class='form-control' required='true' name='valv_reguladora_canhao_final'>
-                                    <option value='10'><b>{{ $entrada->valv_reguladora_canhao_final == '10' ? 'selected' : '' }}10 PSI</b></option>
-                                    <option value='15'><b>{{ $entrada->valv_reguladora_canhao_final == '15' ? 'selected' : '' }}15 PSI</b></option>
-                                    <option value='20'><b>{{ $entrada->valv_reguladora_canhao_final == '20' ? 'selected' : '' }}20 PSI</b></option>
-                                    <option value='25'><b>{{ $entrada->valv_reguladora_canhao_final == '25' ? 'selected' : '' }}25 PSI</b></option>
-                                    <option value='30'><b>{{ $entrada->valv_reguladora_canhao_final == '30' ? 'selected' : '' }}30 PSI</b></option>
-                                    <option value='35'><b>{{ $entrada->valv_reguladora_canhao_final == '35' ? 'selected' : '' }}35 PSI</b></option>
-                                    <option value='40'><b>{{ $entrada->valv_reguladora_canhao_final == '40' ? 'selected' : '' }}40 PSI</b></option>
-                                    <option value='45'><b>{{ $entrada->valv_reguladora_canhao_final == '45' ? 'selected' : '' }}45 PSI</b></option>
-                                    <option value='50'><b>{{ $entrada->valv_reguladora_canhao_final == '50' ? 'selected' : '' }}50 PSI</b></option>
+                                <select class='form-control' name='valv_reguladora_canhao_final'>
+                                    <option value='10'><b>{{ $entrada->valv_reguladora_canhao_final == '10' ? '10 PSI' : '' }}</b></option>
+                                    <option value='15'><b>{{ $entrada->valv_reguladora_canhao_final == '15' ? '15 PSI' : '' }}</b></option>
+                                    <option value='20'><b>{{ $entrada->valv_reguladora_canhao_final == '20' ? '20 PSI' : '' }}</b></option>
+                                    <option value='25'><b>{{ $entrada->valv_reguladora_canhao_final == '25' ? '25 PSI' : '' }}</b></option>
+                                    <option value='30'><b>{{ $entrada->valv_reguladora_canhao_final == '30' ? '30 PSI' : '' }}</b></option>
+                                    <option value='35'><b>{{ $entrada->valv_reguladora_canhao_final == '35' ? '35 PSI' : '' }}</b></option>
+                                    <option value='40'><b>{{ $entrada->valv_reguladora_canhao_final == '40' ? '40 PSI' : '' }}</b></option>
+                                    <option value='45'><b>{{ $entrada->valv_reguladora_canhao_final == '45' ? '45 PSI' : '' }}</b></option>
+                                    <option value='50'><b>{{ $entrada->valv_reguladora_canhao_final == '50' ? '50 PSI' : '' }}</b></option>
                                 </select>
                             </div>
                         </div>
@@ -688,10 +717,17 @@
 
 @section('scripts')
 
+    {{-- FILTRO SELECT --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+    integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    
     {{-- SALVAR E VALIDAR CAMPOS VAZIOS --}}
     <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
     <script>
         $(document).ready(function() {
+            habilitaDesabilitaPivo(true);
+            habilitaDesabilitaCanhao(true);
+
             $('#botaosalvar').on('click', function() {
                 $('#formdados').submit();
             });
@@ -763,67 +799,67 @@
                     }
                 },
                 messages: {
-                    data_afericao: "Campo <strong>DATA</strong> é obrigatório",
+                    data_afericao: "@lang('validate.validate')",
 
                     "marca_modelo_pivo": {
-                        required: "Campo <strong>MARCA/MODELO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "giro_equipamento": {
-                        required: "Campo <strong>GIRO DO EQUIPAMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "tempo_funcionamento": {
-                        required: "Campo <strong>TEMPO DE FUNCIONAMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "nome_pivo": {
-                        required: "Campo <strong>NOME PIVÔ</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "tipo_painel": {
-                        required: "Campo <strong>TIPO DE PAINEL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "horimetro": {
-                        required: "Campo <strong>HORÍMETRO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "ano_montagem": {
-                        required: "Campo <strong>ANO DE MONTAGEM</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "lamina_anual": {
-                        required: "Campo <strong>LÂMINA ANUAL</strong> é obrigatório",
+                        required: "@lang('validate.validate')",
                     },
                     "custo_medio": {
-                        required: "Campo <strong>CUSTO MÉDIO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "numero_lances": {
-                        required: "Campo <strong>LANCES</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "defletor": {
-                        required: "Campo <strong>DEFELTOR</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altura_emissores": {
-                        required: "Campo <strong>ALTURA DOS EMISSORES</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "pressao_centro": {
-                        required: "Campo <strong>PRESSÃO NO CENTRO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "pressao_ponta": {
-                        required: "Campo <strong>PRESSÃO NA PONTA</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "rugosidade": {
-                        required: "Campo <strong>COEFICIENTE DE RUGOSIDADE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altitude_centro": {
-                        required: "Campo <strong>ALTITUDE CENTRO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altitude_mais_alto": {
-                        required: "Campo <strong>ALTITUDE DO PONTO MAIS ALTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "altitude_mais_baixo": {
-                        required: "Campo <strong>ALTITUDE DO PONTO MAIS BAIXO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "latitude": {
-                        required: "Campo <strong>LATITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "longitude": {
-                        required: "Campo <strong>LONGITUDE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {
@@ -838,6 +874,136 @@
                 }
             });
 
+            $('#conjugatedDepthArea').on('click', function(event) {
+                event.preventDefault();
+
+                var area_pivo_1 = $("#area1").val();
+                var area_pivo_2 = $("#area2").val();
+                var area_pivo_3 = $("#area3").val();
+                var area_pivo_4 = $("#area4").val();
+
+                var vazao_pivo_1 = $("#vazao1").val();
+                var vazao_pivo_2 = $("#vazao2").val();
+                var vazao_pivo_3 = $("#vazao3").val();
+                var vazao_pivo_4 = $("#vazao4").val();
+
+                var IsEmpty = false;
+                var AllEmpty = 0;
+                var vetArea = [area_pivo_1, area_pivo_2, area_pivo_3, area_pivo_4];
+                var vetVazao = [vazao_pivo_1, vazao_pivo_2, vazao_pivo_3, vazao_pivo_4];
+
+                for (let index = 0; index < vetArea.length; index++) {
+                    if (((vetArea[index] == "0" || vetArea[index] === "") && 
+                         (vetVazao[index] != "0" && vetVazao[index] !== "")) 
+                         ||
+                        ((vetVazao[index] == "0" || vetVazao[index] === "") && 
+                         (vetArea[index] != "0" && vetArea[index] !== "")) 
+                       ){
+                    IsEmpty = true;
+                    break;
+                    } else if ((vetArea[index] == "0" || vetArea[index] === "") && (vetVazao[index] == "0" || vetVazao[index] === ""))  {
+                        AllEmpty += 1;
+                    }
+                }
+
+
+                if (IsEmpty) {
+                    alert('@lang("comum.checkInput")');
+                } else if (AllEmpty == 4) {
+                    alert('Para realizar o cálculo é necessário pelo menos uma área e uma vazão.')
+                }
+                 else {
+                    var combinedArea = {
+                    _token: "{{ csrf_token() }}"
+                    , area_pivo_1: area_pivo_1
+                    , area_pivo_2: area_pivo_2
+                    , area_pivo_3: area_pivo_3
+                    , area_pivo_4: area_pivo_4
+                    , };
+
+                    var depthArea = {
+                    _token: "{{ csrf_token() }}"
+                    , area_pivo_1: area_pivo_1
+                    , area_pivo_2: area_pivo_2
+                    , area_pivo_3: area_pivo_3
+                    , area_pivo_4: area_pivo_4,
+
+                    vazao_pivo_1: vazao_pivo_1
+                    , vazao_pivo_2: vazao_pivo_2
+                    , vazao_pivo_3: vazao_pivo_3
+                    , vazao_pivo_4: vazao_pivo_4
+                    , };
+
+                    $.ajax({
+                        url: "{{ route('gaugingCalc_totalAreaConjugated') }}" ,
+                        type: "post", 
+                        data: combinedArea, 
+                        dataType: 'json', 
+                        }).done(function(res) {
+                        console.log(res);
+                        combinedArea = res;
+                        return $('input[name = "combinedArea"]').val(combinedArea);
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log("Error: " + textStatus);
+                    });
+
+                    $.ajax({
+                        url: "{{ route('gaugingCalc_depthArea') }}"
+                        , type: "post"
+                        , data: depthArea
+                        , dataType: 'json'
+                        , }).done(function(res) {
+                        console.log(res);
+                        depthArea = res;
+                        return $('input[name = "calcDepthArea"]').val(depthArea);
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log("Error: " + textStatus);
+                    });
+                }
+            });
+
+            // Enable/Disable Checkbox "Pivo Conjugado"
+            $('#customSwitch1').click(function() {
+                if ($(this).prop("checked") == false) {
+                    habilitaDesabilitaPivo(true);
+                } else if ($(this).prop("checked") == true) {
+                    habilitaDesabilitaPivo(false);
+                }
+                });
+
+                function habilitaDesabilitaPivo(flag) {
+                $("#area1").prop("disabled", flag);
+                $("#area2").prop("disabled", flag);
+                $("#area3").prop("disabled", flag);
+                $("#area4").prop("disabled", flag);
+
+                $("#vazao1").prop("disabled", flag);
+                $("#vazao2").prop("disabled", flag);
+                $("#vazao3").prop("disabled", flag);
+                $("#vazao4").prop("disabled", flag);
+
+                $("#calcCombinedArea").prop("disabled", flag);
+                $("#calcDepthTotalArea").prop("disabled", flag);
+            }
+
+            //Enable/Disable Checkbox "Canhão final"
+            $('#customSwitch2').click(function() {
+              if ($(this).prop("checked") == false) {
+                habilitaDesabilitaCanhao(true);
+              } else if ($(this).prop("checked") == true) {
+                habilitaDesabilitaCanhao(false);
+              }
+            });
+
+            function habilitaDesabilitaCanhao(flag) {
+              $("#marca").prop("disabled", flag);
+              $("#modelo_canhao").prop("disabled", flag);
+              $("#bomba_canhao").prop("disabled", flag);
+              $("#bocais_canhao").prop("disabled", flag);
+              $("#potencia_canhao").prop("disabled", flag);
+              $("#vazao_canhao").prop("disabled", flag);
+              $("#bocais_canhao").prop("disabled", flag);
+            }
             $(window).on('load', function() {
                 $("#coverScreen").hide();
             });

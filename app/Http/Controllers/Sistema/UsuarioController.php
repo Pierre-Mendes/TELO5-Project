@@ -82,9 +82,11 @@ class UsuarioController extends Controller
                 })
                 ->paginate(10);
             }else{
-                $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')->orderBy('created_at')->paginate(10);
+                $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')
+                ->orderBy('created_at')->paginate(10);
             }
         }
+        
         $cdcs = CentroDeCusto::all();
         foreach($cdcs as $cdc){
             $cdc['nome'] =( $cdc['codigo'] . " - " . $cdc['nome']);
@@ -94,6 +96,48 @@ class UsuarioController extends Controller
         $usuarios_superiores = User::select('nome', 'id', 'tipo_usuario')
             ->where('situacao', '1')->where('tipo_usuario', '!=', '0')->where('tipo_usuario', '!=', '4')
             ->orderBy('nome', 'asc')->get();
+            
+        //Alterando as chaves de idioma e papel para strings
+        foreach($listaUsuarios as $user){
+            $user->tipo_usuario = __($listaPapeis[$user->tipo_usuario]['valor']);
+            if($user->situacao == 0){
+                $user->situacao = __('usuarios.inativo');
+            }else{
+                $user->situacao = __('usuarios.ativo');
+            }
+        }
+
+        Session::put('nome_usuario', $listaUsuarios['nome']);
+        // return view('sistema.usuarios.gerenciar', compact('listaUsuarios', 'idiomas', 'papeis', 'usuarios_superiores', 'cdcs', 'filtro'));
+        return view('sistema.usuarios.gerenciar', compact('listaUsuarios'));
+    }
+
+    public function searchUser(Request $request) 
+    {
+        $listaUsuarios = [];
+        $listaPapeis = User::getListaDePapeis();
+
+        if(Auth::User()->tipo_usuario != 0) {
+            $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')
+            ->where('tipo_usuario', '!=', 0)->where('tipo_usuario', '!=', 1)->orderBy('created_at')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('telefone', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('email', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        } else {
+            // dd($request['filter']);
+            $listaUsuarios = User::select('id','nome', 'telefone', 'pais', 'tipo_usuario', 'email', 'situacao')->orderBy('created_at')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('telefone', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('email', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        }
 
         //Alterando as chaves de idioma e papel para strings
         foreach($listaUsuarios as $user){
@@ -104,8 +148,18 @@ class UsuarioController extends Controller
                 $user->situacao = __('usuarios.ativo');
             }
         }
-        Session::put('nome_usuario', $listaUsuarios['nome']);
-        return view('sistema.usuarios.gerenciar', compact('listaUsuarios', 'idiomas', 'papeis', 'usuarios_superiores', 'cdcs', 'filtro'));
+
+        return view('sistema.usuarios.gerenciar', compact('listaUsuarios'));
+    }
+
+    public function UserChangeStatus($id){
+
+        $usuarios = user::find($id);
+        $situacao = ($usuarios['situacao']) ? 0 : 1;
+
+        User::where('id', $id)->update( array('situacao' => $situacao) );
+
+        return redirect()->back();
     }
 
     public function createUsuario()
@@ -248,19 +302,6 @@ class UsuarioController extends Controller
         }
         $user['cdc_user'] = $cdc_user;
         return $user;
-    }
-
-    public function removerUsuario($id)
-    {
-        $cont = UserSuperior::where('id_superior', $id)->count();
-        if ($cont > 0) {
-            Notificacao::gerarAlert("notificacao.erro", "usuarios.falha_remocao", "danger");
-            return redirect()->back();
-        }
-        UserSuperior::where('id_usuario', $id)->delete();
-        User::find($id)->delete();
-        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.remocaoSucesso", "success");
-        return redirect()->route('usuarios_manager');
     }
 
     public function validarEmailUsuario($id_usuario)

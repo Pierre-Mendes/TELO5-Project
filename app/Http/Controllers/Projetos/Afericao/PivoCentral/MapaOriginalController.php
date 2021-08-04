@@ -54,7 +54,6 @@ class MapaOriginalController extends Controller
             Notificacao::gerarModal('afericao.aviso', 'afericao.naoCompleta', 'warning');
             return redirect()->route('gauging_manager');
         }
-
         $mapa = MapaOriginal::join('emissores as E', 'E.id', 'mapa_originals.id_emissor')
             ->join('lances as L', 'L.id', 'E.id_lance')
             ->where('mapa_originals.id_afericao', $id_afericao)
@@ -62,7 +61,8 @@ class MapaOriginalController extends Controller
             ->whereNull('L.deleted_at')
             ->orderby('L.numero_lance', 'asc')
             ->orderby('E.numero', 'asc')
-            ->paginate(100);
+            ->get();
+
         if ($mapa->count() > 0) {
             
             $afericao = AfericaoPivoCentral::select('tem_balanco', 'numero_lances', 'tipo_projeto')->where('id', $id_afericao)->first();
@@ -95,10 +95,21 @@ class MapaOriginalController extends Controller
 
     public function createNewSpan($id_afericao)
     {
-        $lances = Lance::select('id', 'numero_lance')
+        $afericao = AfericaoPivoCentral::select('numero_lances', 'tem_balanco')->where('id', $id_afericao)->first();
+        
+        if ($afericao['tem_balanco'] == 'sim') {
+            $lances = Lance::select('id', 'numero_lance')
+            ->where('id_afericao', $id_afericao)
+            ->where('numero_lance', '<', $afericao['numero_lances'])
+            ->orderby('numero_lance')
+            ->get();
+        } else {
+            $lances = Lance::select('id', 'numero_lance')
             ->where('id_afericao', $id_afericao)
             ->orderby('numero_lance')
             ->get();
+        }
+        
 
         return view("projetos.afericao.pivoCentral.relatorio.mapaOriginal.cadastrarNovoLance", compact('id_afericao', 'lances'));
     }
@@ -107,17 +118,34 @@ class MapaOriginalController extends Controller
     {
 
         $lance = $req->all();
+
         $id_afericao = $lance['id_afericao'];
+
+        $afericao = AfericaoPivoCentral::select('numero_lances', 'tem_balanco')->where('id', $id_afericao)->first();
+        
+        $numero_lances = $afericao['numero_lances'] + 1;
+
+        if ($afericao['tem_balanco'] == 'sim') {
+            Lance::where('id_afericao', $id_afericao)
+                    ->where('numero_lance', $afericao['numero_lances'])
+                    ->update(['numero_lance' => $numero_lances]);
+        }
+
+        AfericaoPivoCentral::where('id', $id_afericao)->update(['numero_lances' => $numero_lances]);
+
         $inicio = $lance['lance_relativo'] + $lance['posicao_relativa'];
 
         $ultima_pos = Lance::where('id_afericao', $lance['id_afericao'])
                             ->max('numero_lance');
+
+        $ultima_pos -= ($afericao['tem_balanco'] == 'sim') ? 1 : 0;
 
         while ($ultima_pos >= $inicio) {
             Lance::where('numero_lance', $ultima_pos)
                 ->where('id_afericao', $lance['id_afericao'])
                 ->update(['numero_lance' => ($ultima_pos + 1)]);
             $ultima_pos = $ultima_pos - 1;
+
         }
         $lance['numero_lance'] =  $inicio;
         $lance_criado = Lance::create($lance);
@@ -130,13 +158,12 @@ class MapaOriginalController extends Controller
     {
         $dados = $req->all();
         $id_afericao = $dados['id_afericao'];
-        $id_lance['comprimento'] = $dados['comprimento'];
-        $dados['emissores'];
+        Lance::where('id', $dados['id_lance'])->update( array('comprimento' => $dados['comprimento']) );
         $lanceDB = Lance::find($dados['id_lance']);
         $emissores = Emissor::where('id_lance', $dados['id_lance'])->orderBy('numero', 'asc')->get();
         if ($emissores->count() == 0) {
             //Cadastrar emissor
-            for ($i = 0; $i < count($dados['emissores']); $i++) {
+            for ($i = 0; $i < count($dados['numero_emissores']); $i++) {
                 $emissor = [];
                 $emissor['numero'] = $dados['numero_emissores'][$i];
                 $emissor['saida_1'] = $dados['bocal_1'][$i];
@@ -154,6 +181,31 @@ class MapaOriginalController extends Controller
                 Emissor::create($emissor);
             }
         }
-        return redirect()->route('originalMap_manager', $id_afericao);
+        return redirect()->route('originalMap_create', $id_afericao);
+    }
+
+    public function recalculateOriginalMap($id_afericao)
+    {
+        if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)) {
+            Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
+            return redirect()->route('dashboard');
+        }
+        $mapa_array = MapaOriginal::gerarMapaOriginal($id_afericao);
+
+        $mapa = $mapa_array[1];
+        if (!empty($mapa)) {
+
+            $result = false;
+            $result = DB::transaction(function () use ($mapa) {
+                MapaOriginal::where('id_afericao', $mapa[0]['id_afericao'])->delete();
+                foreach ($mapa as $linha_mapa) {
+                    MapaOriginal::create($linha_mapa);
+                }
+                return true;
+            });
+            return redirect()->route('originalMap_manager', $mapa[0]['id_afericao']);
+        } else {
+            return redirect()->route('gauging_manager');
+        }
     }
 }

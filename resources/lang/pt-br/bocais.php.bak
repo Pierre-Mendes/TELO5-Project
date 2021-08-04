@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'sucesso'=>'Sucesso',
+    'inserido_sucesso'=>'Bocal inserido com sucesso !',
+    'editado_sucesso'=>'Informações do bocal alteradas com sucesso !',
+    'remocao_sucesso'=>'Bocal removido com sucesso !',
+    'erro'=>'Ops, pareece que algo deu errado',
+    'remocao_erro'=>'Este bocal não pôde ser removido pois esta sendo utilizado',
+    'bocais'=>'BOCAIS',
+    'fabricante'=>'Fabricante',
+    'vazao_min'=>'Vazão Mínima',
+    'vazao_max'=>'Vazão Máxima',
+    'nome'=>'Número',
+    'intervalo_trabalho'=>'Intervalo de Trabalho',
+    'bocais' => 'Bocais',
+    'vazao'=>'Vazão',
+    'modelo' => 'Modelo',
+    'tipo' => 'Tipo',
+    'rotativo' => 'Rotativo',
+    'estatico' => 'Estatico',
+    'quant' => 'Quantidade',
+    'vazaoMetroCubico' => 'Vazão (ha³)',
+    'cadastrar_fabricante'=>'Cadastrar Fabricante',
+    'acoes' => 'Ações',
+    'plug' => 'Plug',
+    'sim' => 'Sim',
+    'nao' => 'Não',
+    'vazao-10-psi' => 'Vazão 10 PSI',
+    'vazao-15-psi' => 'Vazão 15 PSI',
+    'vazao-20-psi' => 'Vazão 20 PSI',
+    'vazao-25-psi' => 'Vazão 25 PSI',
+    'vazao-30-psi' => 'Vazão 30 PSI',
+    'vazao-40-psi' => 'Vazão 40 PSI'
+];

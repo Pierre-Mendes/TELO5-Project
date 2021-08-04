@@ -20,7 +20,7 @@ return [
     'custoMedio' => 'Energy Cost',
     'parteAerea' => 'Overhead',
     'marcaModeloEmissores' => 'Brand/Pivot Emitters',
-    
+
     'i-wob-up3' => 'I-WOB UP3',
     'fabrimar' => 'Fabrimar',
     'nelson' => 'Nelson',
@@ -51,14 +51,18 @@ return [
     'vazaoPivo' => 'Pivot Flow',
     'consideracoes' => 'Considerations',
     'equipPossuiProblemas' => ' Equipment have problems?',
-    
+    'combinedArea' => 'Total Conjugated Area',
+    'calcCombinedArea' => 'Calculate Conjugate Area',
+    'calcDepthArea' => 'Calculate Conjugate Depth',
+    'depthArea' => 'Depth Total Conjugated',
+
     'torreCentral' => 'Central Tower',
     'problema1' => 'Leakage',
     'problema2' => 'Without gauge',
     'problema3' => 'Defective pressure gauge',
     'problema4' => 'Exposed wiring',
     'problema5' => 'Accumulation of dirt surrounding',
-    
+
     'valvulaPSI' => 'Valve (PSI)',
     'problema6' => 'Without core',
     'problema7' => 'Broked',
@@ -66,7 +70,7 @@ return [
     'problema9' => 'Clogging in pressure regulating valves',
     'problema10' => 'Without pressure regulators in many outlets',
     'problema11' => 'Valves with an exceeded service life',
-    
+
     //'parteAerea' => 'Overhead',
     'problema12' => 'Sleeve leakage',
     'problema13' => 'Clogging of the nozzles along the overhead',
@@ -83,7 +87,7 @@ return [
     'problema24' => 'Inadequate tensioning of overhang cables',
     'problema25' => 'Excessive pivot skating',
     'problema26' => 'Inadequate overhang sheet changes',
-    
+
     'canhaoFinal' => 'End Gun',
     'problema27' => 'Angulation problem',
     'problema28' => 'No pressure regulators on the end gun',
@@ -128,12 +132,12 @@ return [
     'problema55' => 'Defective pressure gauge',
     'problema56' => 'Vibrations and abnormal noise',
 
-    
+
     'motorAuxiliar' => 'Auxiliary Motor',
     'problema57' => 'Disarming motor',
     'problema58' => 'Vibrations and abnormal noise',
     'problema59' => 'Diesel engine oil leak',
-    
+
     'bombaAuxiliar' => 'Auxiliary Pump',
     'problema60' => 'Excessive gasket leakage',
     'problema61' => 'Defective gate valve',
@@ -141,6 +145,7 @@ return [
     'problema63' => 'Without gauge at pump',
     'problema64' => 'Defective pressure gauge',
     'problema65' => 'Vibrations and abnormal noise',
+    'problema66' => 'Proper Operation',
 
     'hidraulica' => 'Hydraulic',
     'pressaoCentro' => 'Pressure in center',
@@ -185,6 +190,7 @@ return [
     'saida2' => 'Exit 2',
     'espacamento' => 'Spacing',
     'psi' => 'PSI',
+    'defaultSpace' => 'Spacing (Default Spacing for Issuers)',
 
 
     'afericoesFazenda' => 'Measurements of Farm  :fazenda',
@@ -269,7 +275,7 @@ return [
     'maiorNegativo' => 'Highest Negative',
     'maiorVariacao' => 'Highest variation',
     'projetada' => 'Projected',
-    'aferida' => 'Measured',    
+    'aferida' => 'Measured',
 
     //Área funcionamento do pivô
     'funcionamentoPivo' => 'Pivot Operation',
@@ -321,7 +327,7 @@ return [
     'tipoCano' => 'Tube Type',
     'diametro' => 'Diameter',
     'hw' => 'HW',
-    'numeroCanos' => 'Tube Quantity',
+    'numeroCanos' => 'Number of Lines',
     'comprimento' => 'Lenght',
     'desnivel' => 'Gap',
     'altitude' => 'Suction height',
@@ -380,6 +386,7 @@ return [
     'fase2' => 'Phase 2',
     'fase3' => 'Phase 3',
     'indice_carregamento' => 'Percent. Load',
+    'bombaInexistente' => 'You need to generate Pump Motor Set!',
 
     'continuar' => 'Continue',
     'concluido' => 'Completed',
@@ -404,7 +411,7 @@ return [
     'erro_processamento' => 'There was an internal error and we were unable to fulfill the request, please try again later!',
     'cadastro_adutora_realizado_sucesso' => 'Adductor registration successfully completed!',
     'edicaoSucesso' => 'Successfully applied changes !',
-    'erroAdutora' => 'We were unable to fulfill your request !',    
+    'erroAdutora' => 'We were unable to fulfill your request !',
     'selecioneFazendaAfericao' => 'This measurement does not belong to the selected farm!',
     'graficoUniformidade' => "Uniformity Chart",
     'atualizarMapa' => 'Refresh Map',
@@ -429,6 +436,6 @@ return [
     'problemaPressaoSaidaNegativa' => 'The calculated pressure returned a negative value, please review the entered data and try again.',
 
     'posPivo' => 'Pos. atr Pivot',
-    'impressoes' => 'impressions',    
+    'impressoes' => 'impressions',
 
 ];

@@ -251,22 +251,22 @@
                 },
                 messages:
                 {
-                    "modelo": "Campo <strong>MODELO</strong> é obrigatório",
+                    "modelo": "@lang('validate.validate')",
 
                     "nome": {
-                        required: "Campo <strong>NOME</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "vazao_10_psi": {
-                        required: "Campo <strong>VAZÃO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "intervalo_trabalho": {
-                        required: "Campo <strong>INTERVALO TRABALHO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "tipo": {
-                        required: "Campo <strong>TIPO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "plug": {
-                        required: "Campo <strong>PLUG</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                 },
                 submitHandler: function(form)

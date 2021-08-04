@@ -15,15 +15,18 @@
 
             {{-- Log/Create Button --}}
             <div class="col-2 text-right mobile botoes">
-                {{-- <a href="{{ route('resizing_create') }}"><span></span></a> --}}
                 <button type="button" data-toggle="modal" data-target="#novoRedimensionamento"><i class="fas fa-plus-circle fa-3x"></i></button>
             </div>
         </div>
 
         {{-- Filter Search --}}
-        <div class="row justify-content-end telo5inputfiltro">
+        <div class="row justify-content-end telo5inputfiltro mt-5">
             <div class="col-3 position">
-                <input class="form-control" id="filtrotabela" style="margin-top: 25px;" type="text" placeholder="@lang('comum.pesquisar')"><i class="fas fa-search search"></i>
+                <form action="{{route('resizing_filter')}}" method="POST" class="form form-inline">
+                    @csrf
+                    <input class="form-control" name="filter" type="text" placeholder="@lang('comum.pesquisar')"/>
+                    <button type="submit" class="btn btn-primary search"><i class="fas fa-search"></i></button>
+                </form>
             </div>
         </div>
     </div>
@@ -57,18 +60,18 @@
 
                             <div class="modal fade" id="modalDeletar-{{ $redimensionamento['id'] }}" tabindex="-1"
                                 aria-labelledby="modalDeletar" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog  modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4>
-                                                @lang('comum.afericao') {{ $redimensionamento['id'] }} <br>
-                                                @lang('comum.excluir')
+                                                @lang('comum.afericao') {{ $redimensionamento['nome_pivo'] }} / {{ $redimensionamento['pivo'] }}
                                             </h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            <h4 style="padding-bottom: 20px">@lang('comum.excluir')</h4>
                                             <form
                                                 action="{{ action('Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@delete', $redimensionamento['id']) }}"
                                                 method="POST" class="delete_form float-right"> {{ csrf_field() }}

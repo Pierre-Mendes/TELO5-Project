@@ -168,10 +168,10 @@
 
             <div class="form-group col-md-3 text-center afericao">
                 <div>
-                    <h3>@lang('afericao.impressoes')
+                    <h3>
+                        @lang('afericao.impressoes')
                         @if ($ftDiag['condicao'] == 'ok')
-                            <i class="{{ $ftDiag['icone'] }}"
-                                style="font-size: 15px; float: right;margin-top: 5px; color:{{ $ftDiag['cor'] }} !important;"></i>
+                            <i class="{{ $ftDiag['icone'] }}" style="font-size: 15px; float: right;margin-top: 5px; color:{{ $ftDiag['cor'] }} !important;"></i>
                         @endif
                     </h3>
                 </div>

@@ -33,7 +33,9 @@
                     @if (!empty($afericao['tem_balanco']) && $num_lance == $afericao['numero_lances'])
                         @lang('afericao.balanco')
                     @else
-                        @lang('afericao.lance') {{ $num_lance }} / {{ $afericao['numero_lances'] }}
+                        @lang('afericao.lance') {{ $num_lance }} / {{ $afericao['numero_lances'] }} 
+                        {{-- @lang('afericao.lance') {{ $num_lance }} / {{ ($afericao['numero_lances'] - ((!empty($afericao['tem_balanco'])) ? 1 : 0)) }}  --}}
+                        {{-- {{ (!empty($afericao['tem_balanco'])) ? (' + '. @lang('afericao.balanco')) : '' }}  --}}
                     @endif
                 </a>
             </li>
@@ -61,9 +63,7 @@
                             <div class="form-group col-md-4 telo5ce">
                                 @component('_layouts._components._inputLabel', ['texto' => __('afericao.numeroTubos'), 'id'
                                 => 'num_tubo'])@endcomponent
-                                <input type="number" step=1 min=1 name="numero_tubos" id="num_tubo" required
-                                    class="form-control ">
-
+                                <input type="number" step=1 min=1 name="numero_tubos" id="num_tubo" required class="form-control ">
                             </div>
                             <div class="form-group col-md-4 telo5ce">
                                 @component('_layouts._components._inputLabel', ['texto' => __('afericao.numeroEmissores'),
@@ -123,20 +123,22 @@
                                 <input type="number" class="form-control " id="motorredutor" step=0.01 name="motorredutor">
                             </div>
                         </div>
+                        <div class="form-row justify-content-start">
+                            <div class="form-group col-md-4 telo5ce">
+                              <label for="espacamento">@lang('afericao.espacamento')</label>
+                              <input type="number" class="form-control" id="espacamento[]" name="espacamento[]" step="0.01" min="0.01" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </form>
 
         {{-- BOTOES PARA SALVAR --}}
         <div class="container">
             <div class="row justify-content-center botaoAfericao align-items-end" id="botoesSalvar">
-                {{-- <a class="voltar" href="{{route('gauging_status', $afericao['id'])}}" >@lang('unidadesAcoes.sair')</a> --}}
                 <a class="voltar ml-3" href="{{ route('span_back') }}">@lang('unidadesAcoes.anterior')</a>
                 <button class="proximo ml-3" name="" type="submit" id="botaosalvar">@lang('unidadesAcoes.salvar')</button>
-                {{-- <button type="submit" class="voltar m-3"><a href="{{route('gauging_status', $afericao['id'])}}">Voltar</a></button> --}}
-                {{-- <button type="submit" class="proximo m-3"><a href="{{route('issuer_create')}}">Proximo</a></button> --}}
             </div>
         </div>
 
@@ -159,67 +161,42 @@
 
             $("#formdados").validate({
                 rules: {
-                    "nome": {
+                    "numero_tubos": {
                         required: true
                     },
-                    "rua": {
+                    "numero_emissores": {
                         required: true
                     },
-                    "cep": {
+                    "diametro": {
                         required: true
                     },
-                    "cidade": {
+                    "valvula_reguladora": {
                         required: true
                     },
-                    "telefone": {
+                    "tipo_valvula": {
                         required: true
                     },
-                    "estado": {
-                        required: true
-                    },
-                    "pais": {
-                        required: true
-                    },
-                    "email": {
-                        required: true,
-                        email: true
-                    },
-                    "password": {
-                        required: true
-                    },
-                    "confirmar_senha": {
+                    "motorredutor": {
                         required: true
                     }
                 },
                 messages: {
-                    nome: "Campo <strong>NOME</strong> é obrigatório",
+                    numero_tubos: "@lang('validate.validate')",
 
-                    "rua": {
-                        required: "Campo <strong>RUA</strong> é obrigatório"
+                    "numero_emissores": {
+                        required: "@lang('validate.validate')"
                     },
-                    "cep": {
-                        required: "Campo <strong>CEP</strong> é obrigatório"
+                    "diametro": {
+                        required: "@lang('validate.validate')"
                     },
-                    "cidade": {
-                        required: "Campo <strong>CIDADE</strong> é obrigatório"
+                    "valvula_reguladora": {
+                        required: "@lang('validate.validate')"
                     },
-                    "telefone": {
-                        required: "Campo <strong>TELEFONE</strong> é obrigatório"
+                    "tipo_valvula": {
+                        required: "@lang('validate.validate')"
                     },
-                    "estado": {
-                        required: "Campo <strong>ESTADO</strong> é obrigatório"
-                    },
-                    "pais": {
-                        required: "Campo <strong>PAIS</strong> é obrigatório"
-                    },
-                    "email": {
-                        required: "Campo <strong>E-MAIL</strong> é obrigatório",
-                    },
-                    "password": {
-                        required: "Campo <strong>SENHA</strong> é obrigatório"
-                    },
-                    "confirmar_senha": {
-                        required: "Campo <strong>CONFRIMAR SENHA</strong> é obrigatório"
+                    "motorredutor": {
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {

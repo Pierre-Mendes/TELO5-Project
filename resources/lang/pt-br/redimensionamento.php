@@ -5,7 +5,8 @@ return [
     'redimensionamento' => 'GERENCIAR REDIMENSIONAMENTO',
     'redim' => 'Redim.',
     'afericao' => 'Afericao',
-    'etapa' => 'Etapa',
+    'parametros' => 'Parâmetros',
+    'curvaBomba' => 'Curva Da Bomba',
     'vazaoFinal' => 'Vazão Final',
     'vazao' => 'Vazão',
     'pressaoBomba' => 'Pressão na bomba',
@@ -69,6 +70,8 @@ return [
     'ftRedimensionamento' => 'FICHA TÉCNICA PIVÔ CENTRAL - REDIMENSIONAMENTO',
     'falha_atualizacao' => 'Não foi possível atualizar as informações. Os dados inseridos geraram valores inválidos',
 
+    'primeiraEtapa' => '1º Etapa',
+    'segundaEtapa' => '2º Etapa',
     'configurarPivo' => 'Configurar Pivô',
     'adicionarLance' => 'Adicionar Lance',
     'infosLance' => 'Informações do lance',

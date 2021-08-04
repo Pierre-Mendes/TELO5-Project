@@ -16,9 +16,10 @@ table {
 
 .table {
     font-size: 12pt !important;
-    font-weight: bold;
     color: #162E3C !important;
 }
+
+
 
 .tabela {
     width: 98% !important;
@@ -38,7 +39,7 @@ tfoot {
 }
 
 tbody>tr>td {
-    border-right: #C1D5DE 1px solid !important;
+    font-size: 13px !important;
 }
 
 tbody>tr>td:nth-last-child(1) {

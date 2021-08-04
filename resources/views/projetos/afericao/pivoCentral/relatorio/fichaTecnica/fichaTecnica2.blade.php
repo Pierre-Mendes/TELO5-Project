@@ -12,9 +12,9 @@
                 <h4><b>@lang('fichaTecnica.bombeamento') {{$key + 1}}</b></h4>
             </div>
             <div class="row">
-                <div class="col-md-2"><b>@lang('fichaTecnica.comprimentoSuccao')</b>@lang('unidadesAcoes.(m)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.comprimentoSuccao')</b>@lang('unidadesAcoes.(m)'):</div>
                 <div class="col-md-2">{{ number_format( $bombeamento['comprimento_succao'] ,2,",",".")}} </div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.diametroSuccao')</b>@lang('unidadesAcoes.(m)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.diametroSuccao')</b>@lang('unidadesAcoes.(m)'):</div>
                 <div class="col-md-2">{{ number_format( $bombeamento['diametro_succao'] ,2,",",".")}} </div>
                 <div class="col-md-2"><b>@lang('fichaTecnica.materialSuccao')</b></div>                
                 <div class="col-md-2">
@@ -25,41 +25,41 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2"><b>@lang('fichaTecnica.alturaSuccao')</b>@lang('unidadesAcoes.(m)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.alturaSuccao')</b>@lang('unidadesAcoes.(m)'):</div>
                 <div class="col-md-2"> <!-- Adicionar a coluna no db ou buscar forma de calcular Lev mB. Adut. -> H35 --></div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.marca')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.marca')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['marca']}}</div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.modelo')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.modelo')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['modelo']}}</div>                
             </div>
             <div class="row">
-                <div class="col-md-2"><b>@lang('fichaTecnica.rendBomba')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.rendBomba')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['rendimento_bomba']}} %</div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.rotacao')</b>@lang('unidadesAcoes.(rpm)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.rotacao')</b>@lang('unidadesAcoes.(rpm)'):</div>
                 <div class="col-md-2">{{$bombeamento['rotacao']}}</div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.numRotores')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.numRotores')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['numero_rotores']}}</div>
             </div>
             <div class="row">
-                <div class="col-md-2"><b>@lang('fichaTecnica.diametroRotor')</b>@lang('unidadesAcoes.(mm)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.diametroRotor')</b>@lang('unidadesAcoes.(mm)'):</div>
                 <div class="col-md-2">{{ number_format( $bombeamento['diametro_rotor'] ,2,",",".")}} </div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.shutOff')</b>@lang('unidadesAcoes.(mca)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.shutOff')</b>@lang('unidadesAcoes.(mca)'):</div>
                 <div class="col-md-2">{{ number_format( $bombeamento['shutoff'] ,2,",",".")}} </div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.pressaoBomba')</b>@lang('unidadesAcoes.(mca)')</div>
+                <div class="col-md-2" style="font-size: 15px;"><b>@lang('fichaTecnica.pressaoBomba')</b>@lang('unidadesAcoes.(mca)')</div>
                 <div class="col-md-2">{{$bombeamento['pressao_bomba']}}</div>
             </div>
             <div class="row">
-                <div class="col-md-2"><b>@lang('fichaTecnica.motor')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.motor')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['tipo_motor']}}</div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.modelo')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.modelo')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['modelo_motor']}}</div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.potencia')</b>@lang('unidadesAcoes.(cv)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.potencia')</b>@lang('unidadesAcoes.(cv)'):</div>
                 <div class="col-md-2">{{$bombeamento['potencia']}}</div>
             </div>
             <div class="row">
-                <div class="col-md-2"><b>@lang('fichaTecnica.numMotores')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.numMotores')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['numero_motores']}}</div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.chavePartida')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.chavePartida')</b>:</div>
         
                 <div class="col-md-2">
                     @switch($bombeamento['chave_partida'])
@@ -79,17 +79,17 @@
                             -
                     @endswitch
                 </div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.fatorServico')</b></div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.fatorServico')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['fator_servico']}}</div>
             </div>
             <div class="row">
-                <div class="col-md-2"><b>@lang('fichaTecnica.amperagemNominal')</b> @lang('unidadesAcoes.(A)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.amperagemNominal')</b> @lang('unidadesAcoes.(A)'):</div>
                 <div class="col-md-2">{{ number_format( $bombeamento['corrente_nominal'] ,2,",",".")}} </div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.tensaoNominal')</b> @lang('unidadesAcoes.(V)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.tensaoNominal')</b> @lang('unidadesAcoes.(V)'):</div>
                 <div class="col-md-2">{{ number_format( $bombeamento['tensao_nominal'] ,2,",",".")}} </div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.rendimento')</b></div>
-                <div class="col-md-2">{{$bombeamento['rendimento']}}@lang('unidadesAcoes.porcentagem')</div>
-                <div class="col-md-2"><b>@lang('fichaTecnica.frequencia')</b>@lang('unidadesAcoes.(hz)')</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.rendimento')</b>:</div>
+                <div class="col-md-2">{{$bombeamento['rendimento']}}@lang('unidadesAcoes.porcentagem'):</div>
+                <div class="col-md-2"><b>@lang('fichaTecnica.frequencia')</b>@lang('unidadesAcoes.(hz)'):</div>
                 <div class="col-md-2">{{$bombeamento['frequencia']}}</div>
             </div>
         </div>
@@ -244,7 +244,7 @@
             <h4><b>@lang('fichaTecnica.observacoes')</b></h4>
         </div>
         <div class="text-center">
-            <textarea name="" class="form-control" onchange="checkIfTextAreaIsEmpty()" id="textoObservacoes" rows="3" cols="100"> {{$texto_observacoes}}</textarea>
+            <textarea name="txt_observacoes" class="form-control" onchange="checkIfTextAreaIsEmpty()" id="textoObservacoes" rows="3" cols="100"> {{$texto_observacoes}}</textarea>
         </div>
     <br>
     </div>
@@ -261,7 +261,7 @@
         <h4><b>@lang('fichaTecnica.uniformidade')</b></h4>
     </div>
     <div class="text-center">
-        <textarea name="" class="form-control" onchange="checkIfTextAreaIsEmpty()" id="textoUniformidade" cols="" rows="5">{{$texto_uniformidade}}</textarea>
+        <textarea name="txt_uniformidade" class="form-control" onchange="checkIfTextAreaIsEmpty()" id="textoUniformidade" cols="" rows="5">{{$texto_uniformidade}}</textarea>
     </div>
     <div class="row" >
 
@@ -279,7 +279,7 @@
         <h4><b>@lang('fichaTecnica.testeVelocidade100')</b></h4>
     </div>
     <div class="form-group">
-        <textarea name="" class="form-control" id="textoVelocidade" style="text-align: justify;" onchange="checkIfTextAreaIsEmpty()" cols="30" rows="5">{{$texto_velocidade_100}}</textarea>
+        <textarea name="txt_teste_velocidade" class="form-control" id="textoVelocidade" style="text-align: justify;" onchange="checkIfTextAreaIsEmpty()" cols="30" rows="5">{{$texto_velocidade_100}}</textarea>
     </div>
 </div>
 
@@ -321,7 +321,7 @@
         <h4><b>@lang('fichaTecnica.conclusao')</b></h4>
     </div>
     <div class="text-center form-group">
-        <textarea name="" id="textoConclusao" onchange="checkIfTextAreaIsEmpty()" class="form-control" cols="30" rows="5">{{$texto_conclusao}}</textarea>
+        <textarea name="txt_conclusao" id="textoConclusao" onchange="checkIfTextAreaIsEmpty()" class="form-control" cols="30" rows="5">{{$texto_conclusao}}</textarea>
     </div>
 </div>
 <!------------------------------------------------------------------------------------------------>

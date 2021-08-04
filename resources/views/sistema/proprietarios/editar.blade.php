@@ -82,7 +82,7 @@
 
                             <div class="form-group col-md-2 telo5ce">
                                 <label for="telefone">@lang('proprietarios.telefone')</label>
-                                <input type="number" class="form-control telo5ce" id="telefone" name="telefone"
+                                <input type="tel" class="form-control telo5ce" id="telefone" name="telefone"
                                     maxlength="15" required value="{{ $proprietarios->telefone }}">
                             </div>
 
@@ -116,6 +116,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
     integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
 
+        {{-- MASCARA DE INPUT --}}
+        <script src="{{ asset('js/jquery.mask.js') }}"></script>
+        <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('#telefone').mask('(00) 00000-0000');
+                $('#cep').mask('00000-000');
+            });
+    
+        </script>
+
     {{-- VALIDAÇÕES DE CAMPOS --}}
     <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
     <script>
@@ -140,16 +151,16 @@
                     }
                 },
                 messages: {
-                    nome: "Campo <strong>NOME</strong> é obrigatório",
+                    nome: "@lang('validate.validate')",
 
                     "email": {
-                        required: "Campo <strong>E-MAIL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "telefone": {
-                        required: "Campo <strong>TELEFONE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "documento": {
-                        required: "Campo <strong>DOCUMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {

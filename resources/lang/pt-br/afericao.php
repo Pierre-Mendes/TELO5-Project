@@ -140,6 +140,7 @@ return [
     'problema63' => 'Sem manômetro na bomba',
     'problema64' => 'Manômetro com defeito',
     'problema65' => 'Vibrações e ruídos anormais',
+    'problema66' => 'Funcionamento Adequado',
 
     'hidraulica' => 'Hidráulica',
     'pressaoCentro' => 'Pressão no Centro',
@@ -185,6 +186,7 @@ return [
     'saida2' => 'Saída 2',
     'espacamento' => 'Espaçamento',
     'psi' => 'PSI',
+    'defaultSpace' => 'Espaçamento (Padrão para Emissores)',
 
 
     'afericoesFazenda' => 'Aferições da fazenda :fazenda',
@@ -295,6 +297,10 @@ return [
     '1/4Volta' => '1/4 Volta',
     'estimativaCusto' => 'Estimativa de custo',
     'velocidade' => 'Velocidade',
+    'combinedArea' => 'Área Total Conjugada',
+    'calcCombinedArea' => 'Calcular Área Conjugada',
+    'calcDepthArea' => 'Calcular Lâmina Conjugada',
+    'depthArea' => 'Lâmina Total Conjugada',
 
     //Área de análise
     'area_analise' => 'Área de análise',
@@ -321,7 +327,7 @@ return [
     'tipoCano' => 'Tipo de Tubo',
     'diametro' => 'Diâmetro',
     'hw' => 'Coef. Rugosidade',
-    'numeroCanos' => 'Quantidade de Tubos',
+    'numeroCanos' => 'Número de linhas',
     'comprimento' => 'Comprimento',
     'desnivel' => 'Desnível',
     'altitude' => 'Altitude',
@@ -340,7 +346,7 @@ return [
     'numero_canos' => 'Número de Canos',
 
     //BOMBEAMENTOS
-    
+
     'bombeamento' => 'Conjunto Motor Bomba',
     'cadastroItemBombeamento' => 'CADASTRAR ITEM DE BOMBEAMENTO',
     'editarItemBombeamento' => 'EDITAR ITEM DE BOMBEAMENTO',
@@ -381,6 +387,8 @@ return [
     'fase2' => 'Fase 2',
     'fase3' => 'Fase 3',
     'indice_carregamento' => 'Índice de Carregamento',
+    'bombaInexistente' => 'Precisa gerar Conjunto Motor Bomba!',
+
 
     'continuar' => 'Continuar',
     'concluido' => 'Concluído',

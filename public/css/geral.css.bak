@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+body {
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+body h1 {
+    color: #003A5D;
+    font-weight: normal;
+    font-size: 2.4em;
+}
+
+body p {
+    font-weight: normal;
+    font-size: 1.5em;
+    color: #003A5D;
+    opacity: 0.8;
+}
+
+form div input {
+    display: inline-flex;
+}

@@ -1,13 +1,6 @@
 @extends('_layouts._layout_site')
 @include('_layouts._includes._head')
 
-@section('head')
-@endsection
-
-@section('titulo')
-
-@endsection
-
 @section('topo_detalhe')
 
     <div class="container-fluid topo">
@@ -15,7 +8,7 @@
 
             {{-- TITULO E SUBTITULO --}}
             <div class="col-6">
-                <h1>@lang('pivos.pivos')</h1><br>
+                <h1>@lang('pivos.pivosModelo')</h1><br>
                 <h4 style="margin-top: -20px">@lang('comum.gerenciar')</h4>
             </div>
 
@@ -30,8 +23,11 @@
         {{-- FILTRO DE PESQUISA --}}
         <div class="row justify-content-end telo5inputfiltro mt-3">
             <div class="col-3 position">
-                <input class="form-control" id="filtrotabela" type="text" placeholder="@lang('comum.pesquisar')">
-                <i class="fas fa-search search"></i>
+                <form action="{{route('filter_pivot')}}" method="POST" class="form form-inline">
+                    @csrf
+                    <input class="form-control" name="filter" type="text" placeholder="@lang('comum.pesquisar')"/>
+                    <button type="submit" class="btn btn-primary search"><i class="fas fa-search"></i></button>
+                </form>
             </div>
         </div>
     </div>
@@ -69,13 +65,13 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4>@lang('comum.pivos') {{ $pivo['fabricante'] }} <br> @lang('comum.excluir')
-                                            </h4>
+                                            <h4 style="margin: 0">@lang('comum.pivos') {{ $pivo['fabricante'] }}</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            <h4 style="padding-bottom: 20px">@lang('comum.excluir')</h4>
                                             <form action="{{ action('Sistema\PivoController@delete' , $pivo['id']) }}"
                                                 method="POST" class="delete_form float-right"> {{ csrf_field() }}
                                                 <input type="hidden" name="_method" value="DELETE">

@@ -11,6 +11,40 @@ use DB;
 
 class CentroCustosController extends Controller
 {
+    
+    public function manageCostCenter()
+    {
+        $nopage = null;
+        $cdcs = CentroDeCusto::select('id', 'nome', 'codigo')->paginate(10);
+        return view('sistema.centroDeCustos.gerenciar', compact('cdcs'));
+    }    
+
+    public function searchCdc(Request $request) 
+    {
+        $cdcs = [];
+        
+        if(empty($request['filter'])) {
+            $cdcs = CentroDeCusto::select('id', 'nome', 'codigo')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('fabricante', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('espacamento', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        } else {
+            $cdcs = CentroDeCusto::select('id', 'nome', 'codigo')->orderBy('created_at')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('codigo', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('codigo', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        }
+        return view('sistema.centroDeCustos.gerenciar', compact('cdcs'));
+    }
+
     public function createCostCenter()
     {
         return view('sistema.centroDeCustos.cadastrar');
@@ -26,13 +60,6 @@ class CentroCustosController extends Controller
         CentroDeCusto::create($req->all());
         Notificacao::gerarAlert("notificacao.sucesso", "notificacao.cadastroSucesso", "success");
         return redirect()->route('manage_cost_center');
-    }
-
-    public function manageCostCenter()
-    {
-        $nopage = null;
-        $cdcs = CentroDeCusto::select('id', 'nome', 'codigo')->paginate(10);
-        return view('sistema.centroDeCustos.gerenciar', compact('cdcs'));
     }
 
     public function editCostCenter($id)

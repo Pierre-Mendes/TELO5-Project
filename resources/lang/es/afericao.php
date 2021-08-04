@@ -20,7 +20,7 @@ return [
     'custoMedio' => 'Costo energético',
     'parteAerea' => 'Gastos generales',
     'marcaModeloEmissores' => 'Emisores de marca / pivote',
-    
+
     'i-wob-up3' => 'I-WOB UP3',
     'fabrimar' => 'Fabrimar',
     'nelson' => 'Nelson',
@@ -51,14 +51,18 @@ return [
     'vazaoPivo' => 'Flujo de pivote',
     'consideracoes' => 'Consideraciones',
     'equipPossuiProblemas' => ' El equipo tiene problemas?',
-    
+    'combinedArea' => 'Área Total Conjugada',
+    'calcCombinedArea' => 'Calcular el Area Conjugada',
+    'calcDepthArea' => 'Calculate el Profundidad Conjugada',
+    'depthArea' => 'El Profundidad Total Conjugada',
+
     'torreCentral' => 'Torre central',
     'problema1' => 'Fuga',
     'problema2' => 'Sin medidor',
     'problema3' => 'Manómetro defectuoso',
     'problema4' => 'Cableado expuesto',
     'problema5' => 'Acumulación de suciedad circundante.',
-    
+
     'valvulaPSI' => 'Válvula (PSI)',
     'problema6' => 'Sin núcleo',
     'problema7' => 'Roto',
@@ -66,7 +70,7 @@ return [
     'problema9' => 'Obstrucción en válvulas reguladoras de presión.',
     'problema10' => 'Sin reguladores de presión en muchos puntos de venta.',
     'problema11' => 'Válvulas con una vida útil excedida',
-    
+
     //'parteAerea' => 'Gastos generales',
     'problema12' => 'Fuga de la manga',
     'problema13' => 'Taponamiento de las boquillas a lo largo del techo',
@@ -83,7 +87,7 @@ return [
     'problema24' => 'Tensión inadecuada de los cables colgantes.',
     'problema25' => 'Patinaje pivote excesivo',
     'problema26' => 'Cambios de hoja de voladizo inadecuados',
-    
+
     'canhaoFinal' => 'Pistola final',
     'problema27' => 'Problema de angulación',
     'problema28' => 'No hay reguladores de presión en la pistola final.',
@@ -128,12 +132,12 @@ return [
     'problema55' => 'Manómetro defectuoso',
     'problema56' => 'Vibraciones y ruidos anormales.',
 
-    
+
     'motorAuxiliar' => 'Motor auxiliar',
     'problema57' => 'Desarmado del motor',
     'problema58' => 'Vibraciones y ruidos anormales.',
     'problema59' => 'Fuga de aceite del motor diesel',
-    
+
     'bombaAuxiliar' => 'Bomba auxiliar',
     'problema60' => 'Fugas excesivas en la junta',
     'problema61' => 'Válvula de compuerta defectuosa',
@@ -141,6 +145,7 @@ return [
     'problema63' => 'Sin medidor en la bomba',
     'problema64' => 'Manómetro defectuoso',
     'problema65' => 'Vibraciones y ruidos anormales.',
+    'problema66' => 'Operación adecuada',
 
     'hidraulica' => 'Hidráulica',
     'pressaoCentro' => 'Presión en el centro',
@@ -185,6 +190,7 @@ return [
     'saida2' => 'Salida 2',
     'espacamento' => 'Espaciado',
     'psi' => 'PSI',
+    'defaultSpace' => 'Espacios (Estándar para los Emisores)',
 
 
     'afericoesFazenda' => 'Afecciones agrícolas :fazenda',
@@ -228,7 +234,7 @@ return [
     'afericaoPendente' => 'Hay una medida pendiente en la granja.',
     'continuarAfericao' => 'Continuar medición',
     'realizadaDia' => ' celebrado el día ',
-    
+
 
 
     //Velocidade Aferição
@@ -323,7 +329,7 @@ return [
     'tipoCano' => 'Tipo de tubería',
     'diametro' => 'Diámetro',
     'hw' => 'HW',
-    'numeroCanos' => 'Cantidad de tubo',
+    'numeroCanos' => 'Número de Líneas',
     'comprimento' => 'Longitud',
     'desnivel' => 'Brecha',
     'altitude' => 'Altitud',
@@ -382,6 +388,7 @@ return [
     'fase2' => 'Fase 2',
     'fase3' => 'Fase 3',
     'indice_carregamento' => 'Carga pencentual',
+    'bombaInexistente' => '¡Necesitas generar un conjunto de motor de bomba!',
 
     'continuar' => 'Continuar',
     'concluido' => 'Hecho',
@@ -431,7 +438,7 @@ return [
     'gerarMapa' => 'Generar Mapa',
     'continuarCadastro' => 'Continuar Registro',
     'problemaPressaoSaidaNegativa' => 'La presión calculada devolvió un valor negativo, revise los datos ingresados e intente nuevamente.',
-    
+
     'posPivo' => 'Pos. de Pivote',
     'impressoes' => 'impresiones',
 

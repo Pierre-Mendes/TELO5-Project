@@ -12,12 +12,11 @@ Auth::routes(['verify' => true]);
 
     Route::post('/login/Signin', ['as' => 'signin', 'uses' => 'Auth\AutenticacaoController@Signin']);
     Route::get('/login', ['as' => 'login', 'uses' => 'Auth\AutenticacaoController@login']);
+    
+    Route::get('/locale/{locale}', ['as' => 'language_update', 'uses' => 'Auth\AutenticacaoController@LanguageUpdate']);
 
-    //Rota de alteração de idioma
-    Route::get('locale/{locale}', function ($locale) {
-        Session::put('locale', $locale);
-        return redirect()->back();
-    })->name('alterarIdioma');
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -44,6 +43,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::get('/nozzles/edit/{id}', ['as' => 'edit_nozzle', 'uses' => 'Sistema\BocalController@editNozzle']);
             Route::post('/nozzles/update', ['as' => 'update_nozzle', 'uses' => 'Sistema\BocalController@updateNozzle']);
             Route::delete('/nozzles/delete/{id}', ['as' => 'delete_nozzle', 'uses' => 'Sistema\BocalController@delete']);
+            Route::post('/nozzles/filter', ['as' => 'filter_nozzle', 'uses' => 'Sistema\BocalController@searchNozzle']);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::get('/pivots/edit/{id}', ['as' => 'edit_pivot', 'uses' => 'Sistema\PivoController@editPivot']);
             Route::post('/pivots/update', ['as' => 'update_pivot', 'uses' => 'Sistema\PivoController@updatePivot']);
             Route::delete('/pivots/delete/{id}', ['as' => 'delete_pivot', 'uses' => 'Sistema\PivoController@delete']);
+            Route::post('/pivots/filter', ['as' => 'filter_pivot', 'uses' => 'Sistema\PivoController@searchPivot']);
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,6 +81,8 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::get('/user/edit/{id}', ['as' => 'usuario_edit', 'uses' => 'Sistema\UsuarioController@editUsuarios']);
             Route::post('/user/update', ['as' => 'usuario_update', 'uses' => 'Sistema\UsuarioController@updateUsuarios']);
             Route::delete('/user/remover/{id}', ['as' => 'usuario.remover', 'uses' => 'Sistema\UsuarioController@delete']);
+            Route::post('/user/status/{id}', ['as' => 'usuario_status', 'uses' => 'Sistema\UsuarioController@UserChangeStatus']);
+            Route::any('filter', ['as' => 'filter', 'uses' => 'Sistema\UsuarioController@searchUser']);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,6 +96,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::get('/cost_center/edit/{id}', ['as' => 'edit_cost_center', 'uses' => 'Sistema\CentroCustosController@editCostCenter']);
             Route::post('/cost_center/update', ['as' => 'update_cost_center', 'uses' => 'Sistema\CentroCustosController@updateCostCenter']);
             Route::delete('/cost_center/delete/{id}', ['as' => 'delete_center_cost', 'uses' => 'Sistema\CentroCustosController@delete']);
+            Route::post('/cost_center/filter', ['as' => 'filter_center_cost', 'uses' => 'Sistema\CentroCustosController@searchCdc']);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -123,6 +127,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::get('/farm/edit/{id}', ['as' => 'farm_edit', 'uses' => 'Sistema\FazendaController@editFarm']);
             Route::POST('/farm/update', ['as' => 'farm_update', 'uses' => 'Sistema\FazendaController@updateFarm']);
             Route::delete('/farm/delete/{id}', ['as' => 'delete_Farm', 'uses' => 'Sistema\FazendaController@deleteFarm']);
+            Route::post('/farm/filter', ['as' => 'filter_farm', 'uses' => 'Sistema\FazendaController@searchFarm']);
 
             //Rotas de fazenda
             Route::get('/farm/userAssist', ['as' => 'farm_userAssist', 'uses' => 'Sistema\FazendaController@userAssist']);
@@ -139,6 +144,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::get('/owner/editOwner/{id}', ['as' => 'owner_edit', 'uses' => 'Sistema\ProprietarioController@editOwner']);
             Route::post('/owner/update', ['as' => 'owner_update', 'uses' => 'Sistema\ProprietarioController@updateOwner']);
             Route::delete('/owner/delete/{id}', ['as' => 'owner_delete', 'uses' => 'Sistema\ProprietarioController@delete']);
+            Route::any('/owner/filter', ['as' => 'owner_filter', 'uses' => 'Sistema\ProprietarioController@searchOwner']);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -171,6 +177,8 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::post("/gauging/central_pivot/original_map/saveNewSpan", ['as' => 'newSpan_save', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@saveNewSpan']);
             Route::get("/gauging/central_pivot/original_map/createNewIssuer", ['as' => 'cadastrarNovoEmissor', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@cadastrarNovoEmissor']);
             Route::post("/gauging/central_pivot/original_map/saveNewIssuer", ['as' => 'newIssuer_save', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@saveNewIssuer']);
+            Route::get("/gauging/central_pivot/original_map/recalculate/{id}", ['as' => 'originalMap_recalculate', 'uses' => 'Projetos\Afericao\PivoCentral\MapaOriginalController@recalculateOriginalMap']);
+
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -185,7 +193,9 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::put('/gauging/central_pivot/update_gauging', ['as' => 'gauging_update', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@updateGauging']);
             Route::delete('/gauging/central_pivot/delete/{id}', ['as' => 'gauging_delete', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@delete']);
             Route::get("/gauging/central_pivot/continue_gauging/{id}", ['as' => 'gauging_continue', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@continueNozzleMap']);
-
+            Route::post('/gauging/filter', ['as' => 'gauging_filter', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@searchGauging']);
+            Route::post("/gauging/ConjugatedTotalArea", ['as' => 'gaugingCalc_totalAreaConjugated', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@calcCombinedArea']);
+            Route::post("/gauging/DepthArea", ['as' => 'gaugingCalc_depthArea', 'uses' => 'Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@calcDepthArea']);
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +216,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////// ROTAS DE ADUTORAS ////////////////////////////////////////////////
-        /////////////////////////////////////// ADAPTER ROUTES ///////////////////////////////////////////////////
+        /////////////////////////////////////// adductor ROUTES ///////////////////////////////////////////////////
             
             Route::get("/gauging/central_pivot/adductor/create_adductor/{id_afericao}", ['as' => 'create_adductor', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@createAdductor']);
             Route::post("/gauging/central_pivot/adductor/save_adductor", ['as' => 'adductor_save', 'uses' => 'Projetos\Afericao\PivoCentral\LevantamentoAdutoraController@saveAdductor']);
@@ -258,8 +268,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
         /////////////////////////////////////// TECHNICAL DATA ROUTE /////////////////////////////////////////////
             
             Route::get("/gauging/central_pivot/datasheet/{id}", ['as' => 'manage_datasheet', 'uses' => 'Projetos\Afericao\PivoCentral\FichaTecnicaController@Datasheet']);
-            // Route::get("/gauging/central_pivot/datasheet/{id}", ['as' => 'manage_datasheetBocaisLandScape', 'uses' => 'Projetos\Afericao\PivoCentral\FichaTecnicaController@DatasheetLandScape']);
-            // Route::get("/gauging/central_pivot/datasheet/{id}", ['as' => 'manage_datasheetBocaisPortrait', 'uses' => 'Projetos\Afericao\PivoCentral\FichaTecnicaController@Datasheetportrait']);
+            Route::post("/gauging/central_pivot/updateDatasheet", ['as' => 'update_datasheet', 'uses' => 'Projetos\Afericao\PivoCentral\FichaTecnicaController@updateDatasheet']);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -272,6 +281,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'verified'], function () {
             Route::post('/resizing/central_pivot/criar_redimensionamento', ['as' => 'criarRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@criarRedimensionamento']);
             // Route::get('/resizing/central_pivot/configurar_redimensionamento/{id_redimensionamento}', ['as' => 'configurarRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@carregarViewConfigurarRedimensionamento']);
             Route::put('/resizing/central_pivot/atualizar_redimensionamento', ['as' => 'atualizaRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@atualizarInformacoesRedimensionamento']);
+            Route::post('/resizing/filter', ['as' => 'resizing_filter', 'uses' => 'Projetos\Redimensionamento\PivoCentral\RedimensionamentoController@searchResizing']);
             
             //Estas duas rotas fazem a mesma coisa, a única diferença é a url que vai aparecer para o usuário
             Route::get('/resizing/central_pivot/{id_redimensionamento}/configurar_pivo', ['as' => 'configurarPivoRedimensionamento', 'uses' => 'Projetos\Redimensionamento\PivoCentral\ConfigurarLanceController@carregarTelaConfigurarPivo']);

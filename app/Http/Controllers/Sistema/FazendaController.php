@@ -18,19 +18,6 @@ use DB;
 
 class FazendaController extends Controller
 {
-    public function createFarm()
-    {
-        $proprietarios = Proprietario::select('nome', 'id')->get();
-        $consultores = User::where('tipo_usuario', 3)->where('situacao', 1)->select('id', 'nome')->get();
-        return view('sistema.fazendas.cadastrar', compact('proprietarios', 'consultores'));
-    }
-
-    public function saveFarm(Request $req)
-    {
-        Fazenda::create($req->all());
-        Notificacao::gerarAlert('fazendas.sucesso', 'fazendas.cadastro_sucesso');
-        return redirect()->route('farms_manager');
-    }
 
     public function manageFarms(Request $req)
     {
@@ -47,6 +34,56 @@ class FazendaController extends Controller
         $consultores = User::where('tipo_usuario', 3)->where('situacao', 1)->select('id', 'nome')->get();
         return view('sistema.fazendas.gerenciar', compact('fazendas', 'proprietarios', 'consultores'));
     }
+    
+    public function searchFarm(Request $request) 
+    {
+        $fazendas = Fazenda::getFazendasUsuario(10);
+        foreach ($fazendas as $fazenda) {
+            if ($fazenda['ativa'] == 1) {
+                $fazenda['ativa'] = __('fazendas.ativa');
+            } else {
+                $fazenda['ativa'] = __('fazendas.inativa');
+            }
+        }
+        if(Auth::User()->tipo_usuario != 0) {
+            $fazendas = Fazenda::select('id', 'nome', 'cidade' ,'estado', 'pais', 'latitude', 'longitude', 'altitude', 'id_proprietario', 'id_consultor','ativa')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                    ->orWhere('cidade', 'like', '%'.$request['filter'].'%')
+                    ->orWhere('id_proprietario', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        } else {
+            $fazendas = Fazenda::select('id', 'nome', 'cidade' ,'estado', 'pais', 'latitude', 'longitude', 'altitude', 'id_proprietario', 'id_consultor','ativa')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('cidade', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('id_proprietario', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        }
+        
+        $proprietarios = Proprietario::select('nome', 'id')->get();
+        return view('sistema.fazendas.gerenciar', compact('fazendas', 'proprietarios'));
+    }
+    
+    public function createFarm()
+    {
+        $proprietarios = Proprietario::select('nome', 'id')->get();
+        $consultores = User::where('tipo_usuario', 3)->where('situacao', 1)->select('id', 'nome')->get();
+        return view('sistema.fazendas.cadastrar', compact('proprietarios', 'consultores'));
+    }
+
+    public function saveFarm(Request $req)
+    {
+        // dd($req->all());
+        Fazenda::create($req->all());
+        Notificacao::gerarAlert('fazendas.sucesso', 'fazendas.cadastro_sucesso');
+        return redirect()->route('farms_manager');
+    }
+
 
     public function selectFarms()
     {

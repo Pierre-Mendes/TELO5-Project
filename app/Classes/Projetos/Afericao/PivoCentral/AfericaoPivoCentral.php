@@ -21,7 +21,9 @@ class AfericaoPivoCentral extends Model
         'tipo_painel', 'lamina_anual', 'custo_medio', 'marca_modelo_emissores', 'rodado', 
         'revestimento', 'pendural',
         'custo_medio', 'modelo_equipamento', 'defletor', 'altura_pivo', 'valv_reguladoras', 
-        'altura_emissores',  'numero_lances', 'nome_pivo', 'id_usuario', 'mapa_bocais_pendente', 'adutora_pendente', 'bombeamento_pendente', 'velocidade_pendente', 'tem_balanco', 'ativa', 'tipo_projeto'
+        'altura_emissores',  'numero_lances', 'nome_pivo', 'id_usuario', 'mapa_bocais_pendente', 
+        'adutora_pendente', 'bombeamento_pendente', 'velocidade_pendente', 'tem_balanco', 
+        'ativa', 'tipo_projeto', 'versoes'
     ];
 
     /**

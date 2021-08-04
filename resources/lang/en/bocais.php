@@ -32,5 +32,6 @@ return [
     'vazao-20-psi' => 'Flow Rate 20 PSI',
     'vazao-25-psi' => 'Flow Rate 25 PSI',
     'vazao-30-psi' => 'Flow Rate 30 PSI',
-    'vazao-40-psi' => 'Flow Rate 40 PSI'
+    'vazao-40-psi' => 'Flow Rate 40 PSI',
+    'excluirBocal' => 'Do you really want to delete all nozzles?'
 ];

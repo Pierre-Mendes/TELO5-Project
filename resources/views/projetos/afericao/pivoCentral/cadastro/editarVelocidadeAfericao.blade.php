@@ -654,125 +654,76 @@
                     }
                 },
                 messages: {
-                    minuto01: "Campo <strong>TEMPO (MIN)</strong> é obrigatório",
-
-                    "segundo01": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "distancia01": {
-                        required: "Campo <strong>DISTÂNCIA</strong> é obrigatório"
-                    },
-                    "minuto02": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo02": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "distancia02": {
-                        required: "Campo <strong>DISTÂNCIA</strong> é obrigatório"
-                    },
-                    "minuto03": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo03": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "distancia03": {
-                        required: "Campo <strong>DISTÂNCIA</strong> é obrigatório",
-                    },
-                    "minuto04": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo04": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "distancia04": {
-                        required: "Campo <strong>DISTÂNCIA</strong> é obrigatório"
-                    },
-                    "minuto_perc_01": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_perc_01": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "distancia_perc_01": {
-                        required: "Campo <strong>DISTÂNCIA</strong> é obrigatório"
-                    },
-                    "minuto_perc_02": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_perc_02": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "distancia_perc_02": {
-                        required: "Campo <strong>DISTÂNCIA</strong> é obrigatório"
-                    },
-                    "minuto_perc_03": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_perc_03": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "distancia_perc_03": {
-                        required: "Campo <strong>DISTÂNCIA</strong> é obrigatório"
-                    },
-                    "minuto_perc_04": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_perc_04": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "distancia_perc_04": {
-                        required: "Campo <strong>DISTÂNCIA</strong> é obrigatório"
-                    },
-                    "minuto_movi_01": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_movi_01": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "minuto_parado_01": {
-                        required: "Campo <strong>PARADO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_parado_01": {
-                        required: "Campo <strong>PARADO (S:MS)</strong> é obrigatório"
-                    },
-                    "minuto_movi_02": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_movi_02": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "minuto_parado_02": {
-                        required: "Campo <strong>PARADO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_parado_02": {
-                        required: "Campo <strong>PARADO (S:MS)</strong> é obrigatório"
-                    },
-                    "minuto_movi_03": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_movi_03": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "minuto_parado_03": {
-                        required: "Campo <strong>PARADO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_parado_03": {
-                        required: "Campo <strong>PARADO (S:MS)</strong> é obrigatório"
-                    },
-                    "minuto_movi_04": {
-                        required: "Campo <strong>TEMPO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_movi_04": {
-                        required: "Campo <strong>TEMPO (S:MS)</strong> é obrigatório"
-                    },
-                    "minuto_parado_04": {
-                        required: "Campo <strong>PARADO (MIN)</strong> é obrigatório"
-                    },
-                    "segundo_parado_04": {
-                        required: "Campo <strong>PARADO (S:MS)</strong> é obrigatório"
-                    },
+                    minuto01: "@lang('validate.validate')",
+                                "segundo01": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "distancia01": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "minuto02": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "segundo02": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "distancia02": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "minuto03": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "segundo03": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "distancia03": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "minuto04": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "segundo04": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "distancia04": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "minuto_perc_01": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "segundo_perc_01": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "distancia_perc_01": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "minuto_perc_02": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "segundo_perc_02": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "distancia_perc_02": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "minuto_perc_03": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "segundo_perc_03": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "distancia_perc_03": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "minuto_perc_04": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "segundo_perc_04": {
+                                    required: "@lang('validate.validate')"
+                                },
+                                "distancia_perc_04": {
+                                    required: "@lang('validate.validate')"
+                                }
                 },
                 submitHandler: function(form) {
                     $("#coverScreen").show();

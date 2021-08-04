@@ -93,8 +93,7 @@
                                 <td>100%</td>
                                 <td>{{ $velocidade_afericao['verificacao_velocidade']['espaco' . $l] }}</td>
                                 <td>{{ $velocidade_afericao['verificacao_velocidade']['tempo' . $l] }}</td>
-                                <td>{{ number_format($velocidade_afericao['verificacao_velocidade']['velocidade_mh_' . $l . ''], 2) }}
-                                </td>
+                                <td>{{ number_format($velocidade_afericao['verificacao_velocidade']['velocidade_mh_' . $l . ''], 2) }}</td>
                             @endif
                         </tr>
                     @endfor

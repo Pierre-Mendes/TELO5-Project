@@ -23,10 +23,13 @@
         </div>
 
         {{-- FILTRO DE PESQUISA --}}
-        <div class="row justify-content-end telo5inputfiltro">
+        <div class="row justify-content-end telo5inputfiltro mt-5">
             <div class="col-3 position">
-                <input class="form-control" id="filtrotabela" type="text" style="margin-top: 25px;" placeholder="@lang('comum.pesquisar')">
-                <i class="fas fa-search search"></i>
+                <form action="{{route('gauging_filter')}}" method="POST" class="form form-inline">
+                    @csrf
+                    <input class="form-control" name="filter" type="text" placeholder="@lang('comum.pesquisar')"/>
+                    <button type="submit" class="btn btn-primary search"><i class="fas fa-search"></i></button>
+                </form>
             </div>
         </div>
     </div>
@@ -63,15 +66,17 @@
 
                             <div class="modal fade" id="modalDeletar-{{ $afericao['id'] }}" tabindex="-1"
                                 aria-labelledby="modalDeletar" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4>@lang('comum.afericao') {{ $afericao['id'] }} <br> @lang('comum.excluir') </h4>
+                                            <h4>@lang('comum.afericao') {{ $afericao['nome_pivo'] }} / {{ $afericao['pivo'] }}</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            <h4 style="padding-bottom: 20px">@lang('comum.excluir')</h4>
+                                            
                                             <form
                                                 action="{{ action('Projetos\Afericao\PivoCentral\AfericaoPivoCentralController@delete', $afericao['id']) }}"
                                                 method="POST" class="delete_form float-right"> {{ csrf_field() }}

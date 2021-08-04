@@ -54,6 +54,7 @@
             <div class="tab-pane fade show active formcdc" id="cadastro" role="tabpanel" aria-labelledby="cadastro-tab">
                 @csrf
                 <input type="hidden" value="{{ $id_afericao }}" name="id_afericao">
+                <input type="hidden" name="dados_adutora[]" value="{{ $dados_adutora }}" />
                 <div class="col-12 m-auto tabela" id="cssPreloader">
                     <table class="table table-striped mx-auto mt-5 text-center" id="tabelaTrechos">
                         <thead>
@@ -63,7 +64,12 @@
                                 <th scope="col">@lang('afericao.hw')</th>
                                 <th scope="col">@lang('afericao.numeroCanos')</th>
                                 <th scope="col">@lang('afericao.comprimento')</th>
-                                <th scope="col">@lang('afericao.desnivel')</th>
+                                <th scope="col">@lang('afericao.desnivel') @lang('unidadesAcoes.(m)')</th>
+                                <th>@lang('fichaTecnica.hf') @lang('unidadesAcoes.(mca)')</th>
+                                <th>@lang('fichaTecnica.pressaoInicial')</th>
+                                <th>@lang('fichaTecnica.perdaPressao')</th>
+                                <th>@lang('fichaTecnica.pressaoFinal')</th>
+                                <th>@lang('fichaTecnica.velocidade') @lang('unidadesAcoes.(m/s)')</th>
                                 <th scope="col" hidden>@lang('afericao.altitude')</th>
                                 <th scope="col" hidden>@lang('afericao.latitude')</th>
                                 <th scope="col" hidden>@lang('afericao.longitude')</th>
@@ -98,14 +104,33 @@
                                         <td><input type="number" name="comprimento[]" value="{{ $dado['comprimento'] }}"
                                                 required class="form-control"></td>
                                         <td><input type="number" step="0.01" name="desnivel[]"
-                                                value="{{ $dado['desnivel'] }}" required class="form-control"></td>
-                                        <td hidden><input type="number" name="altitude_trecho[]" value="0"
+                                                value="{{ $dado['desnivel'] }}" required class="form-control">
+                                        </td>
+                                        <td>
+                                            {{ number_format($dados_adutora['hf'], 2, ',', '.') }}
+                                        </td>
+                                        <td>
+                                            {{ number_format($dados_adutora['pressao_inicial'], 0) }}
+                                        </td>
+                                        <td>
+                                            {{ number_format($dados_adutora['perda_pressao'], 0) }}
+                                        </td>
+                                        <td>
+                                            {{ number_format($dados_adutora['pressao_final'], 0) }}
+                                        </td>
+                                        <td>
+                                            {{ number_format($dados_adutora['velocidade'], 2, ',', '.') }}
+                                        </td>
+                                        <td hidden>
+                                            <input type="number" name="altitude[]" value="0"
                                                 class="form-control">
                                         </td>
-                                        <td hidden><input type="number" name="latitude_trecho[]" value="0"
+                                        <td hidden>
+                                            <input type="number" name="latitude[]" value="0"
                                                 class="form-control">
                                         </td>
-                                        <td hidden><input type="number" name="longitude_trecho[]" value="0"
+                                        <td hidden>
+                                            <input type="number" name="longitude[]" value="0"
                                                 class="form-control">
                                         </td>
                                         <td><button type="button" class="removetablerow" onclick="remove(this)"
@@ -125,6 +150,11 @@
                                     </span>
                                 </button>
                             </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -166,53 +196,33 @@
                 var newRow = $("<tr>");
                 var cols = "";
                 cols += '<td>';
-                cols += '<select name="tipo_cano[]" required class="form-control" id="tipo_cano">';
-                cols += '<option value="0">@lang('
-                afericao.acoSac ')</option>';
-                cols += '<option value="1">@lang('
-                afericao.az ')</option>';
-                cols += '<option value="2">@lang('
-                afericao.ferroFundido ')</option>';
+                cols += '<select name="tipo_cano[]" required class="form-control"  id="tipo_cano">';
+                cols += '<option value=""></option>';
+                cols += '<option value="0">@lang('afericao.acoSac')</option>';
+                cols += '<option value="1">@lang('afericao.az')</option>';
+                cols += '<option value="2">@lang('afericao.ferroFundido')</option>';
                 cols += '<option value="3">PVC PN 125</option>';
                 cols += '<option value="4">PVC PN 140</option>';
                 cols += '<option value="5">PVC PN 180</option>';
                 cols += '<option value="6">PVC PN 60</option>';
                 cols += '<option value="7">PVC PN 80</option>';
                 cols += '<option value="8">RPVC PN 100</option>';
-                cols += '<option value="9">@lang('
-                afericao.aluminio ')</option>';
+                cols += '<option value="9">@lang('afericao.aluminio')</option>';
                 cols += '</select>';
                 cols += '</td>';
-
-                cols +=
-                    '<td><input type="number" min=0.001 step=0.001 class="form-control" required name="diametro[]" id="diametro_' +
-                    rowCount + '"></td>';
-                cols +=
-                    '<td><input type="number" class="form-control" required name="coeficiente_hw[]" id="coeficiente_hw_' +
-                    rowCount + '"></td>';
-                cols +=
-                    '<td><input type="number" min=1 class="form-control" required name="numero_canos[]" id="numero_canos_' +
-                    rowCount + '"></td>';
-                cols +=
-                    '<td><input type="number" step="0.01" class="form-control" required name="comprimento[]" id="comprimento_' +
-                    rowCount + '"></td>';
-                cols +=
-                    '<td><input type="number" step="0.01" class="form-control" required name="desnivel[]" id="desnivel_' +
-                    rowCount + '"></td>';
-                if (rowCount > 0) {
-                    cols +=
-                        '<td><button type="button" class="removetablerow" onclick="remove(this)" style="outline: none; cursor: pointer; margin-top: 4px;"><i class="fa fa-fw fa-times fa-lg"></i></button></td>';
+                
+                cols += '<td><input type="number" min=0.001 step=0.001 class="form-control" required name="diametro[]" id="diametro_' + rowCount + '"></td>';
+                cols += '<td><input type="number" class="form-control" required name="coeficiente_hw[]" id="coeficiente_hw_' + rowCount + '"></td>';
+                cols += '<td><input type="number" min=1 class="form-control" required name="numero_canos[]" id="numero_canos_' + rowCount + '"></td>';
+                cols += '<td><input type="number" step="0.01" class="form-control" required name="comprimento[]" id="comprimento_' + rowCount + '"></td>';
+                cols += '<td><input type="number" step="0.01" class="form-control" required name="desnivel[]" id="desnivel_' + rowCount + '"></td>';
+                if (rowCount > 0){
+                    cols += '<td><button type="button" class="removetablerow" onclick="remove(this)" style="outline: none; cursor: pointer; margin-top: 4px;"><i class="fa fa-fw fa-times fa-lg"></i></button></td>';
                 }
-
-                cols +=
-                    '<td hidden><input type="number" class="form-control" value="0" name="altitude[]" id="altitude_' +
-                    rowCount + '"></td>';
-                cols +=
-                    '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="latitude[]" id="latitude_' +
-                    rowCount + '"></td>';
-                cols +=
-                    '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="longitude[]" id="longitude_' +
-                    rowCount + '"></td>';
+                
+                cols += '<td hidden><input type="number" class="form-control" value="0" name="altitude[]" id="altitude_' + rowCount + '"></td>';
+                cols += '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="latitude[]" id="latitude_' + rowCount + '"></td>';
+                cols += '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="longitude[]" id="longitude_' + rowCount + '"></td>';
                 newRow.append(cols);
                 $("#tabelaTrechos").append(newRow);
                 return false;
@@ -248,19 +258,19 @@
                     }
                 },
                 messages: {
-                    diametro: "Campo <strong>DIAMENTRO</strong> é obrigatório",
+                    diametro: "@lang('validate.validate')",
 
                     "coeficiente_hw": {
-                        required: "Campo <strong>HW</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "numero_canos": {
-                        required: "Campo <strong>NÚMERO DE CANOS</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "comprimento": {
-                        required: "Campo <strong>COMPRIMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "desnivel": {
-                        required: "Campo <strong>DESNÍVEL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {

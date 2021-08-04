@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'sucesso'=>'Éxito',
+    'inserido_sucesso'=>'Boquilla insertada con éxito!',
+    'editado_sucesso'=>'¡La información de los inyectores cambió con éxito!',
+    'remocao_sucesso'=>'Boquilla eliminada con éxito!',
+    'erro'=>'Ops, algo salió mal',
+    'remocao_erro'=>'Esta boquilla no se puede quitar porque ya se está utilizando',
+    'bocais'=>'BOQUILLAS',
+    'fabricante'=>'Fabricante',
+    'vazao_min'=>'Flujo mínimo',
+    'vazao_max'=>'Flujo máximo',
+    'nome'=>'Número',
+    'intervalo_trabalho'=>'Rango de trabajo',
+    'bocais' => 'Boquillas',
+    'vazao'=>'Tasa de flujo',
+    'modelo' => 'Modelo',
+    'tipo' => 'Tipo',
+    'rotativo' => 'Giratorio',
+    'estatico' => 'Estático',
+    'cadastrar_fabricante'=>'Registrar Fabricante',
+    'acoes' => 'Comportamiento',
+    'plug' => 'Enchufe',
+    'sim' => 'Sí',
+    'nao' => 'No',
+    'quant' => 'Quantidade',
+    'vazaoMetroCubico' => 'Tasa de flujo(ha³)',
+    'vazao-10-psi' => 'Tasa de Flujo 10 PSI',
+    'vazao-15-psi' => 'Tasa de Flujo 15 PSI',
+    'vazao-20-psi' => 'Tasa de Flujo 20 PSI',
+    'vazao-25-psi' => 'Tasa de Flujo 25 PSI',
+    'vazao-30-psi' => 'Tasa de Flujo 30 PSI',
+    'vazao-40-psi' => 'Tasa de Flujo 40 PSI'
+];

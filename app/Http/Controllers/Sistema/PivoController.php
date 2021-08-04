@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Classes\Sistema\Pivo;
 use App\Classes\Constantes\Notificacao;
+use Auth;
 
 class PivoController extends Controller
 {
@@ -42,8 +43,34 @@ class PivoController extends Controller
             $Pivo['espacamento'] = number_format($Pivo['espacamento'],2,",",".");
             
         }
-        return view('sistema.pivos.gerenciar', compact('pivos', 'filtro', 'fabricantes'));
+        return view('sistema.pivos.gerenciar', compact('pivos', 'fabricantes'));
     }    
+
+    public function searchPivot(Request $request) 
+    {
+        $pivos = [];
+        
+        if(empty($request['filter'])) {
+            $pivos = Pivo::select('id','fabricante', 'nome', 'espacamento')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('fabricante', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('espacamento', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        } else {
+            $pivos = Pivo::select('id','fabricante', 'nome', 'espacamento')->orderBy('created_at')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('fabricante', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('espacamento', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        }
+        return view('sistema.pivos.gerenciar', compact('pivos'));
+    }
 
     public function createPivot()
     {

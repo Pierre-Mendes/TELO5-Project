@@ -20,7 +20,6 @@ class AutenticacaoController extends Controller
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
-
         return view('sistema.usuarios.login');
     }
 
@@ -38,12 +37,10 @@ class AutenticacaoController extends Controller
 
             Session::put('user_logged', Auth::user());
             $usuario = Session::get('user_logged');
-
             //Alterando o idioma da página
 
             $idiomas =  User::getListaDeIdiomas();
-            $index = Auth::user()->configuracao_idioma;
-            Session::put('locale',  $idiomas[$index]['valor']);
+            Session::put('locale',  Auth::user()->preferencia_idioma);
             //Adicionando a lista de idiomas a sessão
             Session::put('idiomas', $idiomas);
 
@@ -54,6 +51,16 @@ class AutenticacaoController extends Controller
         }
     }
 
+    public function LanguageUpdate($locale){
+        //buscar id do usuario logado
+        $id_usuario = Auth::user()->id;
+
+        //update na tabela usuario
+        User::where('id', $id_usuario)->update( array('preferencia_idioma' => $locale) );
+        Session::put('locale', $locale);
+        return redirect()->back();
+    }
+    
     public function sair()
     {
         Auth::logout();

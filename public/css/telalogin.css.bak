@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+
+body {
+    background-color: #26546F;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.box {
+    width: 300px;
+    padding: 40px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.box input[type="email"],
+.box input[type="password"] {
+    padding: 12px;
+    font-size: 16px;
+    outline: none;
+    width: 200px;
+    border-radius: 5px;
+    border: none;
+    margin: 20px auto;
+    display: block;
+}
+
+.box input[type="submit"] {
+    font-weight: bold;
+    padding: 12px;
+    font-size: 16px;
+    width: 75%;
+    border-radius: 5px;
+    outline: 0;
+    margin-bottom: 10px;
+    border: 0px;
+    cursor: pointer;
+    background-color: #162E3C;
+    color: #fff;
+}
+
+.text {
+    position: absolute;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+
+.box a {
+    text-align: center;
+    margin: 10px auto;
+    width: 200px;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+}
+
+.box a:hover {
+    color: #fff;
+    opacity: 0.8;
+}

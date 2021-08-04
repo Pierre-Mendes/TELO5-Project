@@ -7,9 +7,8 @@
 
     <div class="container-fluid">
 
-        <body
-            style="background-image: url('{{ asset('img/valleyTeam.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
-            <h1 class="text-center">TELA EM PRODUÇÃO</h1>
+        <body>
+        
         </body>
     </div>
     {{-- <div class="b2">

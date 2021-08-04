@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Classes\Sistema\Proprietario;
 use App\Classes\Constantes\Notificacao;
+use Auth;
+
 
 class ProprietarioController extends Controller
 {
@@ -22,6 +24,33 @@ class ProprietarioController extends Controller
             }
         }
         return view('sistema.proprietarios.gerenciar', compact('proprietarios', 'filtro'));
+    }
+
+    public function searchOwner(Request $request) 
+    {
+        $proprietarios = [];
+
+        if(Auth::User()->tipo_usuario != 0) {
+            $proprietarios = Proprietario::select('id', 'nome', 'tipo_pessoa', 'documento', 'telefone', 'email')
+            ->where('tipo_usuario', '!=', 0)->where('tipo_usuario', '!=', 1)->orderBy('created_at')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('telefone', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('email', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        } else {
+            $proprietarios = Proprietario::select('id', 'nome', 'tipo_pessoa', 'documento', 'telefone', 'email')->orderBy('created_at')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('nome', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('telefone', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('email', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        }
+        return view('sistema.proprietarios.gerenciar', compact('proprietarios'));
     }
 
     public function createOwner()

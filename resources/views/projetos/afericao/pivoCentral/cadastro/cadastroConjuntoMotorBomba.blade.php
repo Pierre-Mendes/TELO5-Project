@@ -55,9 +55,9 @@
                                     <th scope="col">@lang('afericao.tipoCano')</th>
                                     <th scope="col">@lang('afericao.diametro')</th>
                                     <th scope="col">@lang('afericao.hw')</th>
-                                    <th scope="col">@lang('afericao.numeroCanos')</th>
+                                    <th scope="col">@lang('afericao.numeroCanos') </th>
                                     <th scope="col">@lang('afericao.comprimento')</th>
-                                    <th scope="col">@lang('afericao.desnivel')</th>
+                                    <th scope="col">@lang('afericao.desnivel') @lang('unidadesAcoes.(m)')</th>
                                     <th scope="col" hidden>@lang('afericao.altitude')</th>
                                     <th scope="col" hidden>@lang('afericao.latitude')</th>
                                     <th scope="col" hidden>@lang('afericao.longitude')</th>
@@ -186,19 +186,19 @@
                     }
                 },
                 messages: {
-                    diametro: "Campo <strong>DIAMENTRO</strong> é obrigatório",
+                    diametro: "@lang('validate.validate')",
 
                     "coeficiente_hw": {
-                        required: "Campo <strong>HW</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "numero_canos": {
-                        required: "Campo <strong>NÚMERO DE CANOS</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "comprimento": {
-                        required: "Campo <strong>COMPRIMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "desnivel": {
-                        required: "Campo <strong>DESNÍVEL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {

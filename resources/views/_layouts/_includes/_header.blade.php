@@ -1,4 +1,9 @@
 
+<style>
+    .ativo {
+        background-color: #1b6b9a !important;
+    }
+</style>
                 {{-- MENU HAMBURGUER --}}
                 <div class="dropdown4">
                     <button onclick="myFunction4()" class="dropbtn4">
@@ -71,7 +76,7 @@
 
                                     {{-- ENTREGA TÉCNICA --}}
 
-                                    <input id="group-4" type="checkbox" hidden />
+                                    {{-- <input id="group-4" type="checkbox" hidden />
                                     <label for="group-4"><span class="fa fa-caret-right"></span>@lang('entregaTecnica.entregaTecnica')</label>
                                     <ul class="group-list">
                                         <li class="subnavbar">
@@ -82,7 +87,7 @@
                                                 </a>
                                             </label>
                                         </li>
-                                        {{-- <li class="subnavbar">
+                                        <li class="subnavbar">
                                             <input id="sub-group-4" type="checkbox" hidden />
                                             <label for="sub-group-4"><span class="fa fa-caret-right"></span> Second
                                                 level</label>
@@ -101,12 +106,12 @@
                                                     </ul>
                                                 </li>
                                             </ul>
-                                        </li> --}}
-                                    </ul>
+                                        </li>
+                                    </ul> --}}
 
                                     {{-- GARANTIAS --}}
 
-                                    <input id="group-3" type="checkbox" hidden />
+                                    {{-- <input id="group-3" type="checkbox" hidden />
                                     <label for="group-3"><span class="fa fa-caret-right"></span>@lang('garantias.garantias')</label>
                                     <ul class="group-list">
                                         <li class="subnavbar">
@@ -116,7 +121,7 @@
                                                     @lang('garantias.garantias')
                                                 </a>
                                             </label>
-                                            {{-- <ul class="sub-group-list-3">
+                                            <ul class="sub-group-list-3">
                                                 <li><a href="#">2nd level nav item</a></li>
                                                 <li><a href="#">2nd level nav item</a></li>
                                                 <li><a href="#">2nd level nav item</a></li>
@@ -130,13 +135,13 @@
                                                         <li><a href="#">3rd level nav item</a></li>
                                                     </ul>
                                                 </li>
-                                            </ul> --}}
+                                            </ul>
                                         </li>
-                                    </ul>
+                                    </ul> --}}
 
                                     {{-- RELATÓRIOS DE FICHA TÉCNICA --}}
 
-                                    <input id="group-5" type="checkbox" hidden />
+                                    {{-- <input id="group-5" type="checkbox" hidden />
                                     <label for="group-5"><span class="fa fa-caret-right"></span>@lang('relatorios.relatorios')</label>
                                     <ul class="group-list">
                                         <li class="subnavbar">
@@ -236,8 +241,7 @@
                     <ul id="menu" class="nav navbar-right header-usuario">
                         <li class="header-logo"></li>
                         <label for="user"></label>
-                        <li id="user"><img src="{{ asset('img/ico_user.png') }}" alt=""
-                                class="icones"><span>{{ session()->get('user_logged')->nome }}</span><i class="fas fa-caret-down"></i>
+                        <li id="user"><img src="{{ asset('img/ico_user.png') }}" alt="" class="icones"><span>{{ session()->get('user_logged')->nome }}</span><i class="fas fa-caret-down"></i>
                             <ul class="menu2">
                                 @can('gerente')
                                     <li class="container"><a
@@ -283,23 +287,22 @@
                                     </li>
                                     <li class="container"><i class='fa fa-fw fa-shower'></i> <a
                                             href="{{ route('manager_nozzles') }}">@lang('sidenav.bocais')</a></li>
-                                    <li class="container"><i class='fa fa-fw fa-tint'></i> <a
+                                    <li class="container"><i class='fa fa-fw fa-tint'></i> <a style="font-size: 12px; padding: 0 12px;"
                                             href="{{ route('manager_pivot') }}">@lang('sidenav.pivos')</a></li>
                                 @endcan
                             </ul>
                         </li>
 
                         <li><img src="{{ asset('img/ico_config.png') }}" class="icones"><i class="fas fa-caret-down "></i>
-                            <ul class="menu3">
+                            <ul class="idioma">
                                 @if (session()->has('idiomas'))
                                     @foreach (Session::get('idiomas') as $idioma)
-                                        <li class="ativo">
-                                            <a href="{{ route('alterarIdioma', $idioma['valor']) }}"> 
+                                        <li class="{{ (Session::get('locale') == $idioma['valor']) ? 'ativo' : '' }}" >
+                                            <a href="{{ route('language_update', $idioma['valor']) }}"> 
                                                 <img class="bandeiras" src="{{ asset('img/flags/' . $idioma['valor'] . '.png') }}" alt=""> 
                                                 @lang('idioma.' . $idioma['valor'])
                                             </a>
                                         </li>
-
                                     @endforeach
                                 @endif
                             </ul>

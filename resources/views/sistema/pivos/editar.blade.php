@@ -182,31 +182,31 @@
                     }
                 },
                 messages: {
-                    fabricante: "Campo <strong>FABRICANTE</strong> é obrigatório",
+                    fabricante: "@lang('validate.validate')",
 
                     "nome": {
-                        required: "Campo <strong>MODELO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "espacamento": {
-                        required: "Campo <strong>ESPAÇAMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "saida_1_inicial": {
-                        required: "Campo <strong>1° SAÍDA INICIAL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "saida_2_inicial": {
-                        required: "Campo <strong>2° SAÍDA INICIAL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "saida_3_inicial": {
-                        required: "Campo <strong>3° SAÍDA INICIAL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "saida_1_intermediario": {
-                        required: "Campo <strong>1° SAÍDA INTERMEDIÁRIA</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "saida_2_intermediario": {
-                        required: "Campo <strong>2° SAÍDA INTERMEDIÁRIA</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "saida_3_intermediario": {
-                        required: "Campo <strong>3° SAÍDA INTERMEDIÁRIA</strong> é obrigatório",
+                        required: "@lang('validate.validate')",
                     }
                 },
                 submitHandler: function(form) {

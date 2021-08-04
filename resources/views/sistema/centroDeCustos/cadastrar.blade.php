@@ -93,9 +93,9 @@
                     }
                 },
                 messages: {
-                    nome: "Campo <strong>NOME</strong> é obrigatório",
+                    nome: "@lang('validate.validate')",
                     "codigo": {
-                        required: "Campo <strong>CÓDIGO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {

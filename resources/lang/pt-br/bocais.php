@@ -32,5 +32,6 @@ return [
     'vazao-20-psi' => 'Vazão 20 PSI',
     'vazao-25-psi' => 'Vazão 25 PSI',
     'vazao-30-psi' => 'Vazão 30 PSI',
-    'vazao-40-psi' => 'Vazão 40 PSI'
+    'vazao-40-psi' => 'Vazão 40 PSI',
+    'excluirBocal' => 'Deseja realmente excluir todos os bocais?'
 ];

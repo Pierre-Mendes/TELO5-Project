@@ -32,5 +32,6 @@ return [
     'vazao-20-psi' => 'Tasa de Flujo 20 PSI',
     'vazao-25-psi' => 'Tasa de Flujo 25 PSI',
     'vazao-30-psi' => 'Tasa de Flujo 30 PSI',
-    'vazao-40-psi' => 'Tasa de Flujo 40 PSI'
+    'vazao-40-psi' => 'Tasa de Flujo 40 PSI',
+    'excluirBocal' => '¿Realmente desea eliminar todas las boquillas?'
 ];

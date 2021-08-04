@@ -77,42 +77,40 @@
                                 <input type="text" class="form-control telo5ce" id="nome" name="nome" maxlength="50">
                             </div>
                             <div class="form-group col-3 telo5ce">
-                                <label for="rua">@lang('usuarios.rua')</label>
-                                <input type="text" class="form-control telo5ce" id="rua" name="rua" maxlength="100">
-                            </div>
-                            <div class="form-group col-3 telo5ce">
-                                <label for="cep">@lang('usuarios.cep')</label>
-                                <input type="tel" class="form-control telo5ce" id="cep" name="cep" maxlength="10">
-                            </div>
-                            <div class="form-group col-3 telo5ce">
-                                <label for="cidade">@lang('usuarios.cidade')</label>
-                                <input type="text" class="form-control telo5ce" id="cidade" name="cidade"
-                                    maxlength="60">
-                            </div>
-                        </div>
-
-                        <div class="form-row justify-content-center">
-                            <div class="form-group col-3 telo5ce">
-                                <label for="telefone">@lang('usuarios.telefone')</label>
-                                <input type="tel" class="form-control" id="telefone" name="telefone" maxlength="15">
-                            </div>
-                            <div class="form-group col-3 telo5ce">
-                                <label for="estado">@lang('usuarios.estado')</label>
-                                <input type="text" class="form-control" id="estado" name="estado" maxlength="60">
-                            </div>
-                            <div class="form-group col-3 telo5ce">
-                                <label for="pais">@lang('usuarios.pais')</label><br>
-                                <input type="text" class="form-control" id="pais" name="pais" maxlength="60">
-                            </div>
-                            <div class="form-group col-3 telo5ce">
                                 <label for="tipo_usuario">@lang('usuarios.tipo_usuario')</label><br>
-                                <select onchange="trocarDivAtivaSuperior()" name="tipo_usuario" id="tipo_usuario"
-                                    class="form-control telo5ce">
+                                <select onchange="trocarDivAtivaSuperior()" name="tipo_usuario" id="tipo_usuario" required class="form-control telo5ce">
                                     @foreach ($papeis as $papel)
                                         <option value=""></option>
                                         <option value="{{ $papel['chave'] }}">@lang($papel['valor'])</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="form-group col-3 telo5ce">
+                                <label for="telefone">@lang('usuarios.telefone')</label>
+                                <input type="tel" class="form-control" id="telefone" name="telefone" maxlength="15">
+                            </div>
+                            <div class="form-group col-3 telo5ce">
+                                <label for="pais">@lang('usuarios.pais')</label><br>
+                                <input type="text" class="form-control" id="pais" name="pais" maxlength="60">
+                            </div>
+                        </div>
+
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-3 telo5ce">
+                                <label for="cep">@lang('usuarios.cep')</label>
+                                <input type="tel" class="form-control telo5ce" id="cep" name="cep" maxlength="10">
+                            </div>
+                            <div class="form-group col-3 telo5ce">
+                                <label for="rua">@lang('usuarios.rua')</label>
+                                <input type="text" class="form-control telo5ce" id="rua" name="rua" maxlength="100">
+                            </div>
+                            <div class="form-group col-3 telo5ce">
+                                <label for="cidade">@lang('usuarios.cidade')</label>
+                                <input type="text" class="form-control telo5ce" id="cidade" name="cidade"  maxlength="60">
+                            </div>
+                            <div class="form-group col-3 telo5ce">
+                                <label for="estado">@lang('usuarios.estado')</label>
+                                <input type="text" class="form-control" id="estado" name="estado" maxlength="60">
                             </div>
                         </div>
 
@@ -236,19 +234,10 @@
                     "nome": {
                         required: true
                     },
-                    "rua": {
-                        required: true
-                    },
-                    "cep": {
-                        required: true
-                    },
-                    "cidade": {
+                    "tipo_usuario": {
                         required: true
                     },
                     "telefone": {
-                        required: true
-                    },
-                    "estado": {
                         required: true
                     },
                     "pais": {
@@ -263,37 +252,34 @@
                     },
                     "confirmar_senha": {
                         required: true
+                    },
+                    "configuracao_idioma": {
+                        required: true
                     }
                 },
                 messages: {
-                    nome: "Campo <strong>NOME</strong> é obrigatório",
+                    nome: "@lang('validate.validate')",
 
-                    "rua": {
-                        required: "Campo <strong>RUA</strong> é obrigatório"
-                    },
-                    "cep": {
-                        required: "Campo <strong>CEP</strong> é obrigatório"
-                    },
-                    "cidade": {
-                        required: "Campo <strong>CIDADE</strong> é obrigatório"
+                    "tipo_usuario": {
+                        required: "@lang('validate.validate')"
                     },
                     "telefone": {
-                        required: "Campo <strong>TELEFONE</strong> é obrigatório"
-                    },
-                    "estado": {
-                        required: "Campo <strong>ESTADO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "pais": {
-                        required: "Campo <strong>PAIS</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "email": {
-                        required: "Campo <strong>E-MAIL</strong> é obrigatório",
+                        required: "@lang('validate.validate')"
                     },
                     "password": {
-                        required: "Campo <strong>SENHA</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "confirmar_senha": {
-                        required: "Campo <strong>CONFRIMAR SENHA</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
+                    },
+                    "configuracao_idioma": {
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {

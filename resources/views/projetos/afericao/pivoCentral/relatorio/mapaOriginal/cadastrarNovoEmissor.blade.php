@@ -47,7 +47,7 @@ $total_emissores = $emissores['numero_emissores'];
             <a class="nav-link active" aria-current="page" href="#">@lang('comum.informacoes_navtabs')</a>
         </li>
     </ul>
-    
+
     {{-- PRELOADER --}}
     <div id="coverScreen">
         <div class="preloader">
@@ -65,12 +65,14 @@ $total_emissores = $emissores['numero_emissores'];
                 <input type="hidden" name="id_lance" id="id_lance" value="{{ $id_lance }}">
                 <input type="hidden" name="emissores" id="emissores" value="{{ $emissores }}">
                 <input type="hidden" name="id_afericao" id="id_afericao" value="{{ $id_afericao }}">
+                <input type="hidden" name="espacamento" id="espacamento" value="{{ $espacamento }}">
                 <input type="hidden" name="comprimento" id="comprimento" value=0>
                 <div class="col-12 m-auto tabela" id="cssPreloader">
                     <table class="table table-striped mx-auto mt-5 text-center" id="tabelaTrechos">
                         <thead>
                             <tr>
                                 <th hidden></th>
+                                <th >@lang('comum.#')</th>
                                 <th scope="col">@lang('afericao.saida1')</th>
                                 <th scope="col">@lang('afericao.saida2')</th>
                                 <th scope="col">@lang('afericao.espacamento')</th>
@@ -83,18 +85,19 @@ $total_emissores = $emissores['numero_emissores'];
                             @for ($i = 1; $i <= $total_emissores; $i++)
 
                                 <tr>
-                                    <td hidden><input type="hidden" name="numero_emissores[]" value="{{ $i }}">
-                                    </td>
+                                    <td hidden><input type="hidden" name="numero_emissores[]" value="{{ $i }}"></td>
+                                    <td name="numero_emissores[]">{{ $i }}</td>
+
                                     <td>
                                         <input type="number" @if (!empty($emissores[$i - 1]['saida_1'])) value="{{ $emissores[$i - 1]['saida_1'] }}" @endif step=0.1 min=0 id="bocal_{{ $i }}" name="bocal_1[]"
-                                            class="form-control first_field telo5ce">
+                                            class="form-control first_field telo5ce ">
                                     </td>
                                     <td>
                                         <input type="number" @if (!empty($emissores[$i - 1]['saida_2'])) value="{{ $emissores[$i - 1]['saida_2'] }}" @endif step=0.1 min=0 name="bocal_2[]" class="form-control telo5ce">
                                     </td>
                                     <td>
                                         <input type="number" name="espacamento[]"
-                                            value="{{ $id_lance['pivo']['espacamento'] }}" step=0.001 min=0.001 required
+                                            value="{{ $espacamento }}" step=0.001 min=0.001 required
                                             class="form-control espacamento_field telo5ce">
                                     </td>
                                     <td>
@@ -161,6 +164,7 @@ $total_emissores = $emissores['numero_emissores'];
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                         </tfoot>
                     </table>
                 </div>
@@ -171,112 +175,207 @@ $total_emissores = $emissores['numero_emissores'];
 
 
 @section('scripts')
-    <script>
-        var emissores = [];
-        var num_emissor = 1;
-        var total_emissor = {{ $total_emissores }};
+<script>
+  var emissores = [];
+  var num_emissor = 1;
+  var total_emissor = {
+    {
+      $total_emissores
+    }
+  };
 
-        $(document).ready(function() {
-            getComprimentoLance();
-            $("#bocal_1").focus();
-        });
+  $(document).ready(function() {
+    getComprimentoLance();
+    $("#bocal_1").focus();
+  });
 
-        $('.first_field').keypress(function(event) {
-            var keycode = (event.keyCode ? event.keyCode : event.which);
-            if (keycode == '13') {
-                console.log('Enter pressed');
-            }
-        });
+  $('.first_field').keypress(function(event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13') {
+      console.log('Enter pressed');
+    }
+  });
 
-        $(".espacamento_field").change(function() {
-            getComprimentoLance();
-        })
+  $(".espacamento_field").change(function() {
+    getComprimentoLance();
+  })
 
-        function getComprimentoLance() {
-            var espacamentos = $(".espacamento_field").toArray();
-            var total = 0;
-            espacamentos.forEach(valor => {
-                total += parseFloat(valor.value);
+  function getComprimentoLance() {
+    var espacamentos = $(".espacamento_field").toArray();
+    var total = 0;
+    espacamentos.forEach(valor => {
+      total += parseFloat(valor.value);
+    });
+    $("#comprimento").val(total);
+  }
+
+  function getValorEspacamento(emissor) {
+    switch (emissor) {
+      case '':
+
+        break;
+      case '':
+
+        break;
+      default:
+        return ''
+        break;
+    }
+  }
+
+</script>
+
+{{-- SALVAR E CARREGAR PRELOADER --}}
+<script>
+  $(document).ready(function() {
+    $('#botaosalvar').on('click', function() {
+      $("#coverScreen").show();
+      $("#cssPreloader input").each(function() {
+        $(this).css('opacity', '0.2');
+      });
+      $("#cssPreloader select").each(function() {
+        $(this).css('opacity', '0.2');
+      });
+      $('#formdados').submit();
+    });
+  });
+
+  $(window).on('load', function() {
+    $("#coverScreen").hide();
+  });
+
+</script>
+{{-- VALIDAÇÕES DE CAMPOS --}}
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#botaosalvar').on('click', function() {
+      $('#formdados').submit();
+    });
+
+    $("#formdados").validate({
+      ignore: ""
+      , invalidHandler: function() {
+        setTimeout(function() {
+          $('.nav-tabs a small.required').remove();
+          var validatePane = $(
+            '.tab-content.tab-validate .tab-pane:has(input.error)').each(
+            function() {
+              var id = $(this).attr('id');
+              $('.nav-tabs').find('a[href^="#' + id + '"]').append(
+                ' <small class="required">&#9888;&#65039;</small>');
             });
-            $("#comprimento").val(total);
+        });
+      }
+      , rules: {
+        "bocal_1[]": {
+          required: true
         }
-
-        function getValorEspacamento(emissor) {
-            switch (emissor) {
-                case '':
-
-                    break;
-                case '':
-
-                    break;
-                default:
-                    return ''
-                    break;
-            }
+        , "espacamento[]": {
+          required: true
         }
-
-    </script>
-
-    {{-- SALVAR E CARREGAR PRELOADER --}}
-    <script>
-        $(document).ready(function() {
-            $('#botaosalvar').on('click', function() {
-                $("#coverScreen").show();
-                $("#cssPreloader input").each(function() {
-                    $(this).css('opacity', '0.2');
-                });
-                $("#cssPreloader select").each(function() {
-                    $(this).css('opacity', '0.2');
-                });
-                $('#formdados').submit();
-            });
+        , "emissor[]": {
+          required: true
+        }
+        , "tipo_valvula[]": {
+          required: true
+        }
+        , "valvula_reguladora[]": {
+          required: true
+        }
+      }
+      , messages: {
+        bocal_1: {
+          required: "@lang('validate.validate')"
+        }
+        , "espacamento[]": {
+          required: "@lang('validate.validate')"
+        }
+        , "emissor[]": {
+          required: "@lang('validate.validate')"
+        }
+        , "tipo_valvula[]": {
+          required: "@lang('validate.validate')"
+        }
+        , "valvula_reguladora[]": {
+          required: "@lang('validate.validate')"
+        }
+      }
+      , submitHandler: function(form) {
+        $("#coverScreen").show();
+        $("#cssPreloader input").each(function() {
+          $(this).css('opacity', '0.2');
         });
-
-        $(window).on('load', function() {
-            $("#coverScreen").hide();
+        $("#cssPreloader select").each(function() {
+          $(this).css('opacity', '0.2');
         });
+        form.submit();
+      }
+    });
 
-    </script>
+    $(window).on('load', function() {
+      $("#coverScreen").hide();
+    });
+  });
 
-    {{-- VALIDAÇÕES DE CAMPOS --}}
-    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#formdados").validate({
-                rules: {
-                    "bocal_1[]": {
-                        required: true
-                    },
-                    "espacamento[]": {
-                        required: true
-                    },
-                    "emissor[]": {
-                        required: true
-                    },
-                    "tipo_valvula[]": {
-                        required: true
-                    },
-                    "valvula_reguladora[]": {
-                        required: true
-                    }
-                },
-                messages: {
-                    bocal_1: "Campo <strong>SAIDA 1</strong> é obrigatório",
-                    "espacamento": {
-                        required: "Campo <strong>ESPAÇAMENTO</strong> é obrigatório"
-                    },
-                    "emissor": {
-                        required: "Campo <strong>EMISSOR</strong> é obrigatório"
-                    },
-                    "tipo_valvula": {
-                        required: "Campo <strong>TIPO DE VALVULA</strong> é obrigatório"
-                    },
-                    "valvula_reguladora": {
-                        required: "Campo <strong>PSI</strong> é obrigatório"
-                    }
-                }
-            });
-        });
+</script>
 
-    </script>
+<script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+<script type="text/javascript">
+  /*
+$(document).ready(function() {
+$("input, select", "form").keypress(function(e) { // evento ao presionar uma tecla válida keypress
+   var key = e.which || e.keyCode; // pega o código do evento
+
+   if(key == 13) { // se for == ENTER
+      e.preventDefault(); // cancela o submit do formulário através da ação da tecla enter(13)
+      $(this).closest('tr') // seleciona a linha atual da tabela
+      .next('td') // seleciona a próxima linha do formulário
+      .find('input, select') // busca por um input ou select no form
+      .first() // seleciona o primeiro input ou select que encontrar no form
+      .focus(); // coloca o elemento em foco (aguardando entrada de dados...)
+   }
+    });
+});*/
+
+</script>
+
+<script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.inputUnico').keypress(function(e) {
+      // verifica se o evento é Keycode (para IE e outros browsers) se não for pega o evento Which
+      var keyEnter = (e.keyCode ? e.keyCode : e.which);
+      //verifica se a keyEnter pressionada é a keyEnter == 'ENTER'
+      // 13 é o valor da tecla enter
+      if (keyEnter == 13) {
+        //guarda o seletor do respectivo input onde foi pressionado o Enter
+        input = $('.inputUnico');
+        //captura o indexElement do elemento
+        indexElement = input.index(this);
+        // verifica se não é null
+        //se não for null existe outro elemento
+        if (input[indexElement + 1] != null) {
+          // adiciona 1 no valor do indexElement para alterar o index/input
+          nextInput = input[indexElement + 1];
+          // passa o foco para o nextInput e o deixa selecionado
+          nextInput.focus();
+        } else {
+          return true;
+        }
+      }
+      if (keyEnter == 13) {
+        // impede o submit do form caso esteja dentro de uma tag form e seja disparada a ação da tecla enter
+        e.preventDefault(e);
+
+        return false;
+
+      } else {
+        /* se tecla != keyEnter deixa escrever */
+        return true;
+      }
+    });
+  });
+</script>
+
 @endsection

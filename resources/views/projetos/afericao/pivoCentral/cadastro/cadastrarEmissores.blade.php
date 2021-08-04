@@ -4,6 +4,7 @@ $afericao = session()->get('afericao');
 $num_lance = session()->get('lance')['numero_lance'];
 $lance = session()->get('lance');
 $total_emissores = $lance['numero_emissores'];
+
 ?>
 
 @section('head')
@@ -52,6 +53,7 @@ $total_emissores = $lance['numero_emissores'];
                 @csrf
                 <input type="hidden" name="lance" value="{{ $num_lance }}">
                 <input type="hidden" name="afericao" value="{{ $afericao['id_afericao'] }}">
+                <input type="hidden" name="espacamento" value="{{ $espacamento['espacamento'] }}">
                 <input type="hidden" name="comprimento" id="comprimento" value=0>
                 <input type="hidden" name="botao" value="sair" id="botao">
                 <div class="col-12 m-auto tabela" id="cssPreloader">
@@ -59,6 +61,7 @@ $total_emissores = $lance['numero_emissores'];
                         <thead>
                             <tr>
                                 <th hidden></th>
+                                <th >@lang('comum.#')</th>
                                 <th scope="col">@lang('afericao.saida1')</th>
                                 <th scope="col">@lang('afericao.saida2')</th>
                                 <th scope="col">@lang('afericao.espacamento')</th>
@@ -70,8 +73,8 @@ $total_emissores = $lance['numero_emissores'];
                         <tbody>
                             @for ($i = 1; $i <= $total_emissores; $i++)
                                 <tr>
-                                    <td hidden><input type="hidden" name="numero_emissor[]" value="{{ $i }}">
-                                    </td>
+                                    <td hidden><input type="hidden" name="numero_emissor[]" value="{{ $i }}"></td>
+                                    <td name="numero_emissores[]">{{ $i }}</td>
                                     <td>
                                         <input type="number" @if (!empty($emissores[$i - 1]['saida_1'])) value="{{ $emissores[$i - 1]['saida_1'] }}" @endif step=0.1 min=0 id="bocal_{{ $i }}" name="bocal_1[]"
                                             class="form-control first_field">
@@ -80,9 +83,8 @@ $total_emissores = $lance['numero_emissores'];
                                         <input type="number" @if (!empty($emissores[$i - 1]['saida_2'])) value="{{ $emissores[$i - 1]['saida_2'] }}" @endif step=0.1 min=0 name="bocal_2[]" class="form-control ">
                                     </td>
                                     <td>
-                                        <input type="number" name="espacamento[]"
-                                            value="{{ $afericao['pivo']['espacamento'] }}" step=0.001 min=0.001 required
-                                            class="form-control espacamento_field">
+                                        <input type="number" name="espacamento[]" value="{{ $espacamento }}" step=0.001 min=0.001 required class="form-control espacamento_field">
+                                        
                                     </td>
                                     <td>
                                         <select class='form-control' required='true' required name='emissor[]'>
@@ -141,6 +143,7 @@ $total_emissores = $lance['numero_emissores'];
                             @endfor
                         </tbody>
                         <tfoot>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -239,18 +242,18 @@ $total_emissores = $lance['numero_emissores'];
                     }
                 },
                 messages: {
-                    bocal_1: "Campo <strong>SAIDA 1</strong> é obrigatório",
+                    bocal_1: "@lang('validate.validate')",
                     "espacamento": {
-                        required: "Campo <strong>ESPAÇAMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "emissor": {
-                        required: "Campo <strong>EMISSOR</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "tipo_valvula": {
-                        required: "Campo <strong>TIPO DE VALVULA</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "valvula_reguladora": {
-                        required: "Campo <strong>PSI</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {

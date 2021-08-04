@@ -78,7 +78,7 @@
                         <div class="form-row justify-content-start">
                             <div class="form-group col-md-3  telo5ce">
                                 <label for="tipo_proprietario">@lang('proprietarios.tipo_pessoa')</label><br>
-                                <select name="tipo_pessoa" id="tipo_pessoa" class="form-control  telo5ce">
+                                <select name="tipo_pessoa" id="tipo_pessoa" class="form-control  telo5ce" required="required">
                                     <option value=""></option>
                                     <option value="fisica">@lang('proprietarios.pessoa_fisica')</option>
                                     <option value="juridica">@lang('proprietarios.pessoa_juridica')</option>
@@ -120,11 +120,15 @@
     <script>
         $(document).ready(function() {
             $('#botaosalvar').on('click', function() {
+                // if ($('#tipo_pessoa').val().trim() === '') {
+                //     alert('Deve selecionar um tipo de pessoa');
+                // }
                 $('#formdados').submit();
             });
 
             $("#formdados").validate({
                 rules: {
+
                     "nome": {
                         required: true
                     },
@@ -134,24 +138,32 @@
                     "telefone": {
                         required: true
                     },
+                    "tipo_pessoa": {
+                        required: true
+                    },
                     "documento": {
                         required: true
                     }
                 },
                 messages: {
-                    nome: "Campo <strong>NOME</strong> é obrigatório",
+                    nome: "@lang('validate.validate')",
 
                     "email": {
-                        required: "Campo <strong>E-MAIL</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     },
                     "telefone": {
-                        required: "Campo <strong>TELEFONE</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
+                    },
+                    "tipo_pessoa[]": {
+                        required: "@lang('validate.validate')"
                     },
                     "documento": {
-                        required: "Campo <strong>DOCUMENTO</strong> é obrigatório"
+                        required: "@lang('validate.validate')"
                     }
                 },
                 submitHandler: function(form) {
+                    
+                    
                     $("#coverScreen").show();
                     $("#cssPreloader input").each(function() {
                         $(this).css('opacity', '0.2');

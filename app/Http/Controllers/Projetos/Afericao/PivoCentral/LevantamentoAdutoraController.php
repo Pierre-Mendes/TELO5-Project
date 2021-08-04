@@ -85,19 +85,32 @@ class LevantamentoAdutoraController extends Controller
             Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
             return redirect()->route('dashboard');
         }
+
+        //Dados específicos que são gerados pela função do cálculo da Adutora
+        $cabecalho_bombeamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();
+        $afericao = AfericaoPivoCentral::where('id', $id_afericao)->first();
         $adutora = Adutora::where('id_afericao', $id_afericao)->get();
+        
+        $dados_adutora = Adutora::adductor_calculate($cabecalho_bombeamento, $adutora, $afericao);
+        $dados_adutora = $dados_adutora[0];
+        //Somandos os desníveis da adutora
+        $total_desnivel_adutora = 0;
+        for($i = 0; $i < count($dados_adutora); $i++){
+            $total_desnivel_adutora += $dados_adutora[$i]['desnivel'];
+        }
+
         if (empty($adutora)) 
             return redirect()->route('gauging_status', 'id_afericao');
         else 
-            return view('projetos.afericao.pivoCentral.cadastro.editarConjuntoMotorBomba', compact('id_afericao', 'adutora'));
+            return view('projetos.afericao.pivoCentral.cadastro.editarConjuntoMotorBomba', compact('id_afericao', 'adutora', 'dados_adutora','cabecalho_bombeamento'));
     }
 
     public function updateAdductor(Request $req)
     {
         //Requisitando os dados
         $dados = $req->all();
+        
         $dados['id_usuario'] = Auth::user()->id;
-
         $listaTrechos = [];
         //Atribuindo a lista de 'trechos'
         if (!empty($dados['tipo_cano'])) {
@@ -110,11 +123,12 @@ class LevantamentoAdutoraController extends Controller
                 $trecho['numero_canos'] = $dados['numero_canos'][$key];
                 $trecho['comprimento'] = $dados['comprimento'][$key];
                 $trecho['desnivel'] = $dados['desnivel'][$key];
-                $trecho['altitude'] = $dados['altitude_trecho'][$key];
-                $trecho['latitude'] = $dados['latitude_trecho'][$key];
-                $trecho['longitude'] = $dados['longitude_trecho'][$key];
+                $trecho['altitude'] = $dados['altitude'][$key];
+                $trecho['latitude'] = $dados['latitude'][$key];
+                $trecho['longitude'] = $dados['longitude'][$key];
                 array_push($listaTrechos, $trecho);
             }
+
             //Atualizando os dados da adutora e os trechos
             $transaction = DB::transaction(function () use ($dados, $listaTrechos) {
                 // Deletando os trechos da adutora.
@@ -144,6 +158,24 @@ class LevantamentoAdutoraController extends Controller
         }
     }
 
+    public function calculateAdductor($id_adutora)
+    {
+        $adutora = Adutora::find($id_adutora);
+        if (!empty($adutora) && $adutora['pendente'] == 0) {
+            if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($adutora['id_afericao'])) {
+                Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
+                return redirect()->route('dashboard');
+            }
+            $afericao = AfericaoPivoCentral::find($adutora['id_afericao']);
+            $trechos_adutora = Adutora::where('id_adutora', $adutora['id'])->get();
+            $bombeamentos = Bombeamento::where('id_adutora', $adutora['id'])->get();
+            $resultado = Adutora::adductor_calculate($adutora, $trechos_adutora, $afericao);
+        } else {
+            Notificacao::gerarAlert('afericao.erro', 'afericao.erroAdutora', 'warning');
+            return redirect()->back();
+        }
+    } 
+
     public function createPumping($id_afericao)
     {
         if (!empty($id_afericao)) {
@@ -163,77 +195,83 @@ class LevantamentoAdutoraController extends Controller
         // Dados do formulário.
         $dados = $req->all();
 
-        $dados['id_usuario'] = Auth::user()->id;
+        if (isset($dados['comprimento_succao'])) {
+            $dados['id_usuario'] = Auth::user()->id;
         
-        // Inserindo os dados de cabeçalho no DB.        
-        $cabecalho = CabecalhoBombeamento::create($dados);
-        
-        $dados['id_bombeamento'] = $cabecalho['id'];
-        
-        $id_afericao  = $dados['id_afericao'];
-        
-        $bombeamentos = [];
-        for ($i = 0; $i < $dados['numero_bombas']; $i++) {
-            $bombeamento = [];
+            // Inserindo os dados de cabeçalho no DB.        
+            $cabecalho = CabecalhoBombeamento::create($dados);
             
-            $bombeamento['id_bombeamento'] = $dados['id_bombeamento'];
-            $bombeamento['comprimento_succao'] = $dados['comprimento_succao'][$i];
-            $bombeamento['diametro_succao'] = $dados['diametro_succao'][$i];
-            $bombeamento['marca'] = $dados['marca'][$i];
-            $bombeamento['modelo'] = $dados['modelo'][$i];
-            $bombeamento['numero_rotores'] = $dados['numero_rotores'][$i];
-            $bombeamento['diametro_rotor'] = $dados['diametro_rotor'][$i];
-            $bombeamento['material_succao'] = $dados['material_succao'][$i];
-            $bombeamento['rendimento_bomba'] = $dados['rendimento_bomba'][$i];
-            $bombeamento['shutoff'] = $dados['shutoff'][$i];
-            $bombeamento['rotacao'] = $dados['rotacao'][$i];
-            $bombeamento['pressao_bomba'] = $dados['pressao_bomba'][$i];
-            $bombeamento['tipo_motor'] = $dados['tipo_motor'][$i];
-            $bombeamento['modelo_motor'] = $dados['modelo_motor'][$i];
-            $bombeamento['potencia'] = $dados['potencia'][$i];
-            $bombeamento['numero_motores'] = $dados['numero_motores'][$i];
-            $bombeamento['chave_partida'] = $dados['chave_partida'][$i];
-            $bombeamento['fator_servico'] = $dados['fator_servico'][$i];
-            $bombeamento['corrente_nominal'] = $dados['corrente_nominal'][$i];
-            $bombeamento['rendimento'] = $dados['rendimento'][$i];
-            $bombeamento['tensao_nominal'] = $dados['tensao_nominal'][$i];
-            $bombeamento['frequencia'] = $dados['frequencia'][$i];
-            $bombeamento['corrente_leitura_1_fase_1'] = $dados['corrente_leitura_1_fase_1'][$i];
-            $bombeamento['corrente_leitura_1_fase_2'] = $dados['corrente_leitura_1_fase_2'][$i];
-            $bombeamento['corrente_leitura_1_fase_3'] = $dados['corrente_leitura_1_fase_3'][$i];
-            $bombeamento['tensao_leitura_1_fase_1'] = $dados['tensao_leitura_1_fase_1'][$i];
-            $bombeamento['tensao_leitura_1_fase_2'] = $dados['tensao_leitura_1_fase_2'][$i];
-            $bombeamento['tensao_leitura_1_fase_3'] = $dados['tensao_leitura_1_fase_3'][$i];
-            $bombeamento['corrente_leitura_2_fase_1'] = $dados['corrente_leitura_2_fase_1'][$i];
-            $bombeamento['corrente_leitura_2_fase_2'] = $dados['corrente_leitura_2_fase_2'][$i];
-            $bombeamento['corrente_leitura_2_fase_3'] = $dados['corrente_leitura_2_fase_3'][$i];
-            $bombeamento['tensao_leitura_2_fase_1'] = $dados['tensao_leitura_2_fase_1'][$i];
-            $bombeamento['tensao_leitura_2_fase_2'] = $dados['tensao_leitura_2_fase_2'][$i];
-            $bombeamento['tensao_leitura_2_fase_3'] = $dados['tensao_leitura_2_fase_3'][$i];
-            array_push($bombeamentos, $bombeamento);
+            $dados['id_bombeamento'] = $cabecalho['id'];
+            
+            $id_afericao  = $dados['id_afericao'];
+            
+            $bombeamentos = [];
+            for ($i = 0; $i < $dados['numero_bombas']; $i++) {
+                $bombeamento = [];
+                
+                $bombeamento['id_bombeamento'] = $dados['id_bombeamento'];
+                $bombeamento['comprimento_succao'] = $dados['comprimento_succao'][$i];
+                $bombeamento['diametro_succao'] = $dados['diametro_succao'][$i];
+                $bombeamento['marca'] = $dados['marca'][$i];
+                $bombeamento['modelo'] = $dados['modelo'][$i];
+                $bombeamento['numero_rotores'] = $dados['numero_rotores'][$i];
+                $bombeamento['diametro_rotor'] = $dados['diametro_rotor'][$i];
+                $bombeamento['material_succao'] = $dados['material_succao'][$i];
+                $bombeamento['rendimento_bomba'] = $dados['rendimento_bomba'][$i];
+                $bombeamento['shutoff'] = $dados['shutoff'][$i];
+                $bombeamento['rotacao'] = $dados['rotacao'][$i];
+                $bombeamento['pressao_bomba'] = $dados['pressao_bomba'][$i];
+                $bombeamento['tipo_motor'] = $dados['tipo_motor'][$i];
+                $bombeamento['modelo_motor'] = $dados['modelo_motor'][$i];
+                $bombeamento['potencia'] = $dados['potencia'][$i];
+                $bombeamento['numero_motores'] = $dados['numero_motores'][$i];
+                $bombeamento['chave_partida'] = $dados['chave_partida'][$i];
+                $bombeamento['fator_servico'] = $dados['fator_servico'][$i];
+                $bombeamento['corrente_nominal'] = $dados['corrente_nominal'][$i];
+                $bombeamento['rendimento'] = $dados['rendimento'][$i];
+                $bombeamento['tensao_nominal'] = $dados['tensao_nominal'][$i];
+                $bombeamento['frequencia'] = $dados['frequencia'][$i];
+                $bombeamento['corrente_leitura_1_fase_1'] = $dados['corrente_leitura_1_fase_1'][$i];
+                $bombeamento['corrente_leitura_1_fase_2'] = $dados['corrente_leitura_1_fase_2'][$i];
+                $bombeamento['corrente_leitura_1_fase_3'] = $dados['corrente_leitura_1_fase_3'][$i];
+                $bombeamento['tensao_leitura_1_fase_1'] = $dados['tensao_leitura_1_fase_1'][$i];
+                $bombeamento['tensao_leitura_1_fase_2'] = $dados['tensao_leitura_1_fase_2'][$i];
+                $bombeamento['tensao_leitura_1_fase_3'] = $dados['tensao_leitura_1_fase_3'][$i];
+                $bombeamento['corrente_leitura_2_fase_1'] = $dados['corrente_leitura_2_fase_1'][$i];
+                $bombeamento['corrente_leitura_2_fase_2'] = $dados['corrente_leitura_2_fase_2'][$i];
+                $bombeamento['corrente_leitura_2_fase_3'] = $dados['corrente_leitura_2_fase_3'][$i];
+                $bombeamento['tensao_leitura_2_fase_1'] = $dados['tensao_leitura_2_fase_1'][$i];
+                $bombeamento['tensao_leitura_2_fase_2'] = $dados['tensao_leitura_2_fase_2'][$i];
+                $bombeamento['tensao_leitura_2_fase_3'] = $dados['tensao_leitura_2_fase_3'][$i];
+                array_push($bombeamentos, $bombeamento);
+            }
+    
+    
+            // Inserindo os dados de bombeamento no DB.
+            $transaction = false;
+            $transaction = DB::transaction(function () use ($bombeamentos, $id_afericao) {
+    
+                foreach ($bombeamentos as $key => $bombeamento) {
+                    Bombeamento::create($bombeamento);
+                }            
+                // Atualizando a flag de pendência na tabela de aferição
+                AfericaoPivoCentral::find($id_afericao)->update(['bombeamento_pendente' => 0]);
+                return true;
+            });
+            
+            // Inserção de dados no DB OK.
+            if($transaction){
+                return redirect()->route('gauging_status', $dados['id_afericao']);
+                Notificacao::gerarAlert('afericao.sucesso', 'afericao.edicaoSucesso', 'info');
+            }
+            // Problema para salvar no DB
+            else{
+                Notificacao::gerarAlert('afericao.erro', 'afericao.erro_processamento', 'warning');
+            }
+        } else {
+            Notificacao::gerarAlert('afericao.erro', 'afericao.bombaInexistente', 'warning');
+            return redirect()->back();
         }
-        // Inserindo os dados de bombeamento no DB.
-        $transaction = false;
-        $transaction = DB::transaction(function () use ($bombeamentos, $id_afericao) {
-
-            foreach ($bombeamentos as $key => $bombeamento) {
-                Bombeamento::create($bombeamento);
-            }            
-            // Atualizando a flag de pendência na tabela de aferição
-            AfericaoPivoCentral::find($id_afericao)->update(['bombeamento_pendente' => 0]);
-            return true;
-        });
-        
-        // Inserção de dados no DB OK.
-        if($transaction){
-            return redirect()->route('gauging_status', $dados['id_afericao']);
-            Notificacao::gerarAlert('afericao.sucesso', 'afericao.edicaoSucesso', 'info');
-        }
-        // Problema para salvar no DB
-        else{
-            Notificacao::gerarAlert('afericao.erro', 'afericao.erro_processamento', 'warning');
-        }
-
     }
 
     public function editPumping($id_afericao)
@@ -241,7 +279,6 @@ class LevantamentoAdutoraController extends Controller
         // Identificando o bombeamento.
         $cabecalho_bombeamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();        
         $bombeamentos = Bombeamento::where('id_bombeamento', $cabecalho_bombeamento['id'])->get();
-        // dd($bombeamentos);
         // Se houver ao menos um bombeamento.
         if($bombeamentos->count() > 0){
             $completo = false;
@@ -250,12 +287,8 @@ class LevantamentoAdutoraController extends Controller
             }
             return view('projetos.afericao.pivoCentral.cadastro.editarBombeamento', compact('cabecalho_bombeamento', 'bombeamentos', 'id_afericao', 'completo'));
         }else{
-            // return view('projetos.afericao.pivoCentral.cadastro.editarBombeamento', compact('cabecalho_bombeamento', 'bombeamentos', 'id_afericao', 'completo'));
             return redirect()->back();
         }
-        // Identificando o bombeamento.
-        // $cabecalho_bombeamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();
-        // return view('projetos.afericao.pivoCentral.cadastro.editarBombeamento', compact('cabecalho_bombeamento', 'id_afericao'));
     }
 
     public function updatePumping(Request $req){
@@ -330,24 +363,6 @@ class LevantamentoAdutoraController extends Controller
             Notificacao::gerarAlert('afericao.sucesso', 'afericao.edicaoSucesso', 'info');
         }else{
             Notificacao::gerarAlert('afericao.erro', 'afericao.erro_processamento', 'warning');
-        }
-    }
-
-    public function calculateAdductor($id_adutora)
-    {
-        $adutora = Adutora::find($id_adutora);
-        if (!empty($adutora) && $adutora['pendente'] == 0) {
-            if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($adutora['id_afericao'])) {
-                Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
-                return redirect()->route('dashboard');
-            }
-            $afericao = AfericaoPivoCentral::find($adutora['id_afericao']);
-            $trechos_adutora = TrechoAdutora::where('id_adutora', $adutora['id'])->get();
-            $bombeamentos = Bombeamento::where('id_adutora', $adutora['id'])->get();
-            $resultado = Adutora::adductor_calculate($adutora, $trechos_adutora, $afericao);
-        } else {
-            Notificacao::gerarAlert('afericao.erro', 'afericao.erroAdutora', 'warning');
-            return redirect()->back();
         }
     }
 

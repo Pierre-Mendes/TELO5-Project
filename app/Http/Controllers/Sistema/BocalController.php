@@ -22,6 +22,38 @@ class BocalController extends Controller
         return view('sistema.bocais.gerenciarBocais', compact('infoBocais'));
     }
 
+    public function searchNozzle(Request $request) 
+    {
+        $infoBocais = [];
+        
+        if(empty($request['filter'])) {
+            $infoBocais = Bocal::select('id', 'fabricante', 'modelo', 'tipo', 'plug', DB::raw('count(*) as qt'))
+            ->groupBy('fabricante', 'modelo')
+            ->orderBy('fabricante', 'ASC')
+            ->orderBy('modelo', 'ASC')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('fabricante', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('modelo', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('tipo', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        } else {
+            $infoBocais = Bocal::select('id', 'fabricante', 'modelo', 'tipo', 'plug', DB::raw('count(*) as qt'))
+            ->groupBy('fabricante', 'modelo')
+            ->orderBy('fabricante', 'ASC')
+            ->orderBy('modelo', 'ASC')
+            ->where(function ($query) use ($request){
+                if (!empty($request['filter'])) {
+                    $query->orWhere('fabricante', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('modelo', 'like', '%'.$request['filter'].'%')
+                        ->orWhere('tipo', 'like', '%'.$request['filter'].'%');
+                }
+            })->paginate(10);
+        }
+        return view('sistema.bocais.gerenciarBocais', compact('infoBocais'));
+    }
+
     public function createNozzle()
     {
         return view('sistema.bocais.cadastrarBocais');
