@@ -1,7 +1,15 @@
 <?php
 
 return [
-    'mapaBocal' => 'Mapa de Bocal Original',
+    'fichaTecnica' => 'Ficha Técnica',
+    'fichaBocais' => 'Lista Bocais',
+    'bocaisComprar' => 'Bocais a comprar',
+    'totalAcomprar' => 'Total para comprar',
+    'bocal_1' => 'Bocal 1',
+    'bocal_2' => 'Bocal 2',
+    'funcionamento_pivo' => 'Funcionamento do Pivô',
+    'editar_ficha_tecnica_sucesso' => 'Alterações na <b>Ficha Técnica</b> salvas com sucesso!',
+    'mapaBocal' => 'Lista de Bocal Original',
     'ftPivoCentralDiagnostico' => 'FICHA TÉCNICA PIVÔ CENTRAL - DIAGNÓSTICO',
     'proprietario' => 'Proprietário',
     'propriedade' => 'Propriedade',
@@ -147,4 +155,12 @@ return [
     'valvula' => 'Valvula',
     'numTubos' => 'Nº Tubos: ',
     'numerosEmissores' => 'Nº',
+
+    'atualizou_fichatecnica' => 'Uma nova Ficha Técnica será gerada.',
+
+    'pivo_central' => 'Pivô Central',
+    'pressao_centro' => 'Pressão no Centro',
+    'area_efetiva' => 'Área Efetiva',
+    'tudo_novo' => 'Tudo Novo?',
+    'total_bocais' => 'Total de Bocais'
 ];

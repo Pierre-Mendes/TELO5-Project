@@ -174,10 +174,10 @@
                     form.submit();
                 }
             });
+        });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
         });
 
     </script>

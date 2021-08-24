@@ -18,14 +18,25 @@
 
             {{-- BOTOES SALVAR E VOLTAR --}}
             <div class="col-6 text-right botoes mobile">
-                <a href="{{ route('gauging_manager') }}" style="color: #3c8dbc">
-                    <button type="button">
-                        <span class="fa-stack fa-lg">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fas fa-angle-double-left fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </button>
-                </a>
+                @if ($tipo_projeto == 'R')
+                    <a href="{{ route('resizing_manager') }}" style="color: #3c8dbc">
+                        <button type="button">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-angle-double-left fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </button>
+                    </a>
+                @else 
+                    <a href="{{ route('gauging_manager') }}" style="color: #3c8dbc">
+                        <button type="button">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-angle-double-left fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </button>
+                    </a>
+                @endif
             </div>
         </div>
     </div>
@@ -34,7 +45,8 @@
 @section('conteudo')
 
     <div class="col-md-12">
-        <div class="form-row mr-5 form-row-statusAfericao justify-content-center mobileStatus">
+        @include('_layouts._includes._alert')
+        <div class="form-row form-row-statusAfericao justify-content-center mobileStatus">
             <div class="form-group col-md-3 text-center afericao">
                 <div>
                     <h3>
@@ -66,8 +78,12 @@
             <div class="form-group col-md-3 text-center afericao">
                 <div>
                     <h3>
-                        @lang('afericao.mapaOriginal')
-
+                        @if ($tipo_projeto == 'R')
+                            @lang('redimensionamento.novo_mapa')
+                        @else
+                            @lang('afericao.mapaOriginal')
+                        @endif
+                        
                         @if ($mapaOriginal['condicao'] == 'ok')
                             <i class="{{ $mapaOriginal['icone'] }}"
                                 style="font-size: 15px; float: right;margin-top: 5px; color:{{ $mapaOriginal['cor'] }} !important;"></i>
@@ -115,7 +131,7 @@
 
         </div>
 
-        <div class="form-row mr-5 form-row-statusAfericao justify-content-center mobileStatus">
+        <div class="form-row form-row-statusAfericao justify-content-center mobileStatus">
             <div class="form-group col-md-3 text-center afericao">
                 <div>
                     <h3>

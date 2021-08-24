@@ -6,6 +6,7 @@ return [
     'nao_selecionar_fazendas' => 'No seleccione granja',
     'alterar' => 'Cambio',
     'nenhuma_fazenda_selecionada' => 'Ninguna granja seleccionada',
+    'addLine' => 'Agregar Línea',
 
     'pesquisar' => 'Buscar...',
     'informacoes_navtabs' => 'Información',
@@ -28,15 +29,19 @@ return [
     'bocais' => 'Boquilla: ',
     'pivos' => 'Pivote: ',
     'afericao' => 'Cambio de tamaño: ',
+    'revendas' => 'Revendedor: ',
     'redimensionamento' => 'Rediemnsionamento',
     'inativar' => '¿Quieres desactivar este usuario?',
     'ativar' => '¿Quieres activar este usuario?',
+    'voltar' => 'Volver',
 
     'cadastrar' => 'Registrar',
     'editar' => 'Editar',
     'gerenciar' => 'Administrar',
     'salvar' => 'Guardar',
+    'excluir' => 'Eliminar',
 
     'calc' => 'Calcular',
     'checkInput' => 'Rellene los campos correctamente para realizar los cálculos.',
+    'checkInput2' => 'Para realizar el cálculo se necesita al menos un área y un caudal.'
 ];

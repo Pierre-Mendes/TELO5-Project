@@ -2,8 +2,8 @@
 
 return [
     'sucesso'=>'Success',
-    'inserido_sucesso'=>'Pivot inserted successfully!',
-    'editado_sucesso'=>'Pivot informations changed successfully !',
+    'cadastro_pivo_sucesso' => '<b>Pivot</b> registration successfully completed!',
+    'editar_pivo_sucesso' => '<b>Pivot</b> changes successfully saved!',
     'remocao_sucesso'=>'Pivot removed successfully !',
     'erro'=>'Ops, something went wrong',
     'remocao_erro'=>'This pivot can not be removed because it is already being used',

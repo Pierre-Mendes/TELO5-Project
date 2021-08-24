@@ -20,8 +20,8 @@ return [
 
     'sucesso'=>'Success',
     'erro'=>'Ops, something went wrong',
-    'cadastro_sucesso'=>'Farm successfully registered!',
-    'atualizada_sucesso'=>'Farm informations changed successfully !',
+    'cadastro_fazenda_sucesso' => '<b>Farm</b> registration successfully completed!',
+    'editar_fazenda_sucesso' => '<b>Farm</b> changes successfully saved!',
     'removida_sucesso'=>'Farm successfully removed !',
     'erro_solicitacao'=>'We were unable to process your request !',
 

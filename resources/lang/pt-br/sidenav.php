@@ -42,4 +42,5 @@ return [
     'pivos' => 'Pivô - Marca/Modelo',
 
     'projetos' => 'Projetos',
+    'revendas' => 'Revendas'
 ];

@@ -5,7 +5,7 @@
         <div class="row align-items-start">
 
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-cdc-mobile">
                 <h1>@lang('cdc.centro_de_custos')</h1><br>
                 <h4 style="margin-top: -20px">@lang('comum.gerenciar')</h4>
             </div>
@@ -21,7 +21,7 @@
 
         {{-- FILTRO DE PESQUISA --}}
         <div class="row justify-content-end telo5inputfiltro mt-3">
-            <div class="col-3 position">
+            <div class="col-md-3 position">
                 <form action="{{route('filter_center_cost')}}" method="POST" class="form form-inline">
                     @csrf
                     <input class="form-control" name="filter" type="text" placeholder="@lang('comum.pesquisar')"/>

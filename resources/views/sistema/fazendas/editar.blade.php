@@ -120,12 +120,12 @@
                             <div class="form-row justify-content-start">
                                 <div class="form-group col-md-3 telo5ce">
                                     <label for="latitude">@lang('fazendas.latitude')</label>
-                                    <input type="text" class="form-control" id="latitude" name="latitude" maxlength="100"
+                                    <input type="number" class="form-control" id="latitude" name="latitude" maxlength="100"
                                         required value="{{ $fazenda->latitude }}">
                                 </div>
                                 <div class="form-group col-md-3 telo5ce">
                                     <label for="longitude">@lang('fazendas.longitude')</label>
-                                    <input type="text" class="form-control" id="longitude" name="longitude" maxlength="100"
+                                    <input type="number" class="form-control" id="longitude" name="longitude" maxlength="100"
                                         required value="{{ $fazenda->longitude }}">
                                 </div>
                                 <div class="form-group col-md-3 telo5ce">
@@ -207,10 +207,10 @@
                         form.submit();
                     }
                 });
+            });
 
-                $(window).on('load', function() {
-                    $("#coverScreen").hide();
-                });
+            $(window).on('load', function() {
+                $("#coverScreen").hide();
             });
 
         </script>

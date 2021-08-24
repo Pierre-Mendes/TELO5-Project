@@ -20,6 +20,10 @@
     color: #fff;
 }
 
+.afericao a:visited {
+    color: #fff !important;
+}
+
 .afericao a .editar {
     font-weight: 500;
     display: inline-block;

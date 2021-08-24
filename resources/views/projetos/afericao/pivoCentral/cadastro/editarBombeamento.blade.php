@@ -7,9 +7,9 @@
     <div class="container-fluid topo">
         <div class="row align-items-start">
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-bombeamento-mobile">
                 <h1>@lang('afericao.bombeamento')</h1><br>
-                <h4 style="margin-top: -20px">@lang('comum.editar')</h4>
+                <h4>@lang('comum.editar')</h4>
             </div>
             {{-- BOTOES SALVAR E VOLTAR --}}
             <div class="col-6 text-right botoes position">
@@ -157,6 +157,11 @@
                             </div>
 
                             <div class="col-md-3 form-group telo5ce">
+                                @component("_layouts._components._inputLabel", ["texto" => __("afericao.alturaSuccao") . __("unidadesAcoes.(m)"), "id" => ""])@endcomponent
+                                <input type="number" min="0" required class="form-control" value="{{$bombeamento['altura_succao']}}" required name="altura_succao">
+                            </div>
+
+                            <div class="col-md-3 form-group telo5ce">
                                 @component('_layouts._components._inputLabel', ['texto'=>__('afericao.numeroRotores'), 'id' => ''])@endcomponent
                                 <input type="number" class="form-control"  value="{{$bombeamento['numero_rotores']}}" required name="numero_rotores[]">
                             </div>
@@ -200,7 +205,6 @@
 
                             <div class="col-12">
                                 <h4>@lang('afericao.motor')</h4>
-
                             </div>
 
                             <div class="col-md-3 form-group telo5ce">
@@ -252,7 +256,7 @@
                             </div>
 
                             <div class="col-md-3 form-group telo5ce">
-                                @component('_layouts._components._inputLabel', ['texto'=>__('afericao.rendimento'), 'id' => ''])@endcomponent
+                                @component('_layouts._components._inputLabel', ['texto'=>__('afericao.rendimento') . __('unidadesAcoes.(%)'), 'id' => ''])@endcomponent
                                 <input type="number"  value="{{$bombeamento['rendimento']}}" class="form-control" required name="rendimento[]">
                             </div>
 
@@ -268,7 +272,7 @@
                             </div>
 
                             <div class="col-md-3 form-group telo5ce" id="div_frequencia{{$key + 1}}">
-                                @component('_layouts._components._inputLabel', ['texto'=>__('afericao.frequencia'), 'id' => ''])@endcomponent
+                                @component('_layouts._components._inputLabel', ['texto'=>__('afericao.frequencia') . __("unidadesAcoes.(hz)"), 'id' => ''])@endcomponent
                                 <input type="number" value="60"  value="{{$bombeamento['frequencia']}}" class="form-control" required name="frequencia[]">
                             </div>
                         </div>
@@ -280,7 +284,7 @@
 
                                 <div class="col-md-4 form-group telo5ce">
                                     @component('_layouts._components._inputLabel', ['texto'=>__('afericao.fase1') . __('unidadesAcoes.(a)'), 'id' => ''])@endcomponent
-                                    <input type="number" step="0.001" value="{{$bombeamento['corrente_leitura_1_fase_1']}}" class="form-control" required   onchange="calcularCarregamentoExistente({{$key+1}})" id="corrente_leitura_1_fase_1{{ $key + 1 }}"  name="corrente_leitura_1_fase_1[]">
+                                    <input type="number" step="0.001" value="{{$bombeamento['corrente_leitura_1_fase_1']}}" class="form-control" required   onchange="calcularCarregamentoExistente({{$key+1}})" id="corrente_leitura_1_fase_1{{$key+1}}"  name="corrente_leitura_1_fase_1[]">
                                 </div>
 
                                 <div class="col-md-4 form-group telo5ce">
@@ -442,6 +446,9 @@
                     "modelo[]": {
                         required: true
                     },
+                    "altura_succao": {
+                        required: true
+                    },
                     "numero_rotores[]": {
                         required: true
                     },
@@ -548,6 +555,9 @@
                     "modelo": {
                         required: "@lang('validate.validate')"
                     },
+                    "altura_succao": {
+                        required: "@lang('validate.validate')"
+                    },
                     "numero_rotores": {
                         required: "@lang('validate.validate')"
                     },
@@ -635,12 +645,11 @@
                     form.submit();
                 }
             });
-
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
         });
 
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
+        });
     </script>
 
     <script>
@@ -649,7 +658,7 @@
             if(correnteNominal != null && correnteNominal > 0){
                 let leitura = $("#corrente_leitura_1_fase_1"+num_bombeamento).val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     correcao_corrente_eletrica_1_fase_1 = leitura * $('#tensao_leitura_1_fase_1'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_1/correnteNominal)*100;
                     $("#indice_carregamento_leitura_1_fase_1"+num_bombeamento).val(carregamento.toFixed(2));
@@ -657,7 +666,7 @@
                 
                 leitura = $("#corrente_leitura_1_fase_2"+num_bombeamento).val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     correcao_corrente_eletrica_1_fase_2 = leitura * $('#tensao_leitura_1_fase_2'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_2/correnteNominal)*100;
                     $("#indice_carregamento_leitura_1_fase_2"+num_bombeamento).val(carregamento.toFixed(2));
@@ -665,7 +674,7 @@
 
                 leitura = $("#corrente_leitura_1_fase_3"+num_bombeamento).val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     correcao_corrente_eletrica_1_fase_3 = leitura * $('#tensao_leitura_1_fase_3'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_3/correnteNominal)*100;
                     $("#indice_carregamento_leitura_1_fase_3"+num_bombeamento).val(carregamento.toFixed(2));
@@ -673,7 +682,7 @@
 
                 leitura = $("#corrente_leitura_2_fase_1"+num_bombeamento).val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     correcao_corrente_eletrica_2_fase_1 = leitura * $('#tensao_leitura_2_fase_1'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_1/correnteNominal)*100;
                     $("#indice_carregamento_leitura_2_fase_1"+num_bombeamento).val(carregamento.toFixed(2));
@@ -681,7 +690,7 @@
 
                 leitura = $("#corrente_leitura_2_fase_2"+num_bombeamento).val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     correcao_corrente_eletrica_2_fase_2 = leitura * $('#tensao_leitura_2_fase_2'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_2/correnteNominal)*100;
                     $("#indice_carregamento_leitura_2_fase_2"+num_bombeamento).val(carregamento.toFixed(2));
@@ -689,7 +698,7 @@
 
                 leitura = $("#corrente_leitura_2_fase_3"+num_bombeamento).val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     correcao_corrente_eletrica_2_fase_3 = leitura * $('#tensao_leitura_2_fase_3'+num_bombeamento).val() * Math.sqrt(3) / $('#tensao_nominal'+num_bombeamento).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_3/correnteNominal)*100;
                     $("#indice_carregamento_leitura_2_fase_3"+num_bombeamento).val(carregamento.toFixed(2));
@@ -704,7 +713,7 @@
             if(correnteNominal != null && correnteNominal > 0){
                 let leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_1").val();            
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_1_fase_1 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_1').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_1/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_1").val(parseFloat(carregamento.toFixed(2)));
@@ -712,7 +721,7 @@
                 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_2").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_1_fase_2 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_2').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_2/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_2").val(parseFloat(carregamento.toFixed(2)));
@@ -720,7 +729,7 @@
 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_3").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_1_fase_3 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_3').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_3/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_3").val(parseFloat(carregamento.toFixed(2)));
@@ -728,7 +737,7 @@
 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_1").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_2_fase_1 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_1').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_1/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_1").val(parseFloat(carregamento.toFixed(2)));
@@ -736,7 +745,7 @@
 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_2").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_2_fase_2 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_2').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_2/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_2").val(parseFloat(carregamento.toFixed(2)));
@@ -744,7 +753,7 @@
 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_3").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_2_fase_3 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_3').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_3/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_3").val(parseFloat(carregamento.toFixed(2)));

@@ -16,14 +16,6 @@ class DashboardController extends Controller
         $user = Auth::user()->nome;    
         $pendente = array();
         $pendente = AfericaoPivoCentral::verificarExistenciaAfericoesPendentes(Auth::user()->id);
-
-        $fazenda = 1;
-        $nome_fazenda = Fazenda::find($fazenda)['nome'];
-        $fazenda_sessao = [];
-        $fazenda_sessao['nome'] = $nome_fazenda;
-        $fazenda_sessao['id'] = $fazenda;
-        session(['fazenda' => $fazenda_sessao]);
-
         return view('sistema.dashboard', compact('user', 'pendente'));
     }
 

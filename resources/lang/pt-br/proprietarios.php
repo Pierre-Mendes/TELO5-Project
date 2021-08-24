@@ -14,8 +14,8 @@ return [
     'sucesso' => 'Sucesso',
     'proprietarios' => 'Proprietários',
     'falha' => 'Ops, parece que algo deu errado !',
-    'inserido_sucesso' => 'Proprietário cadastrado com sucesso !',
-    'editado_sucesso' => 'Informações do proprietário alteradas com sucesso !',
+    'cadastro_proprietario_sucesso' => 'Cadastro de <b>Proprietário</b> realizado com sucesso!',
+    'editar_proprietario_sucesso' => 'Alterações na <b>Proprietário</b> salvas com sucesso!',
     'remocao_sucesso' => 'Proprietário removido com sucesso',
     'remocao_falha' => 'O proprietário não pôde ser removido pois ainda existem fazendas atreladas a ele.',
 

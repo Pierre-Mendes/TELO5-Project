@@ -16,8 +16,8 @@ return [
     'sucesso' => 'Success',
     'proprietarios' => 'Owners',
     'falha' => 'Ops, something went wrong!',
-    'inserido_sucesso' => 'Owner successfully registered!',
-    'editado_sucesso' => 'Owner information changed successfully !',
+    'cadastro_proprietario_sucesso' => '<b>Owner</b> registration successfully completed!',
+    'editar_proprietario_sucesso' => 'Changes to <b>Owner</b> successfully saved!',
     'remocao_sucesso' => 'Owner successfully removed !',
     'remocao_falha' => 'The owner could not be removed because there are still farms attached to him',
 ];

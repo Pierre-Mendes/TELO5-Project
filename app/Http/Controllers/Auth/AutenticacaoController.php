@@ -10,7 +10,7 @@ use DB;
 use Session;
 use Illuminate\Validation\Rule;
 use App\Classes\Constantes\Notificacao;
-
+use App\Http\Controllers\Sistema\FazendaController;
 
 
 class AutenticacaoController extends Controller
@@ -37,16 +37,20 @@ class AutenticacaoController extends Controller
 
             Session::put('user_logged', Auth::user());
             $usuario = Session::get('user_logged');
-            //Alterando o idioma da página
 
+            //Alterando o idioma da página
             $idiomas =  User::getListaDeIdiomas();
             Session::put('locale',  Auth::user()->preferencia_idioma);
             //Adicionando a lista de idiomas a sessão
             Session::put('idiomas', $idiomas);
-
+            
+            // Coloca a lista de fazendas no menu
+            $fazendas = FazendaController::selectFarms();
+            Session::put('Lista_Fazendas', $fazendas);
+            
             return redirect()->route('dashboard');
         } else {
-            Notificacao::gerarModal("notificacao.erro", "auth.failed", "danger");
+            redirect()->back()->with('error', __('login.dados_invalidos'), 'danger');
             return redirect()->route('login');
         }
     }

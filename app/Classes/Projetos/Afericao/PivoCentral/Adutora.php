@@ -50,7 +50,7 @@ class Adutora extends Model
                 $linha_calculo['pressao_final'] = $calculos_adutoras[$key - 1]['pressao_final'] - $linha_calculo['perda_pressao'];
                 $linha_calculo['pressao_inicial'] = $calculos_adutoras[$key-1]['pressao_final'];
             }
-            $linha_calculo['velocidade'] = ($linha_calculo['vazao']/3600)/((PI()*(pow($trecho['diametro'], 2))/4));
+            $linha_calculo['velocidade'] = ($linha_calculo['vazao']/3600)/((PI()*pow($trecho['diametro'], 2))/4);
             array_push($calculos_adutoras, $linha_calculo);
         }
         return $calculos_adutoras;

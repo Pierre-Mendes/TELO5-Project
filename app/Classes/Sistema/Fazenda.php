@@ -30,30 +30,30 @@ class Fazenda extends Model
             switch($tipo_usuario){
                 case 0:{ //Admin
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
-                        join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id');
+                        join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->orderBy('fazendas.nome');
                     break;
                 }case 1:{ //Gerente
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
                         join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->
                         join('usuario_superiores as US', 'fazendas.id_consultor', 'US.id_usuario')->
-                        where('US.id_superior', $id_usuario);
+                        where('US.id_superior', $id_usuario)->orderBy('fazendas.nome');
                     break;
                 }case 2:{ //Supervisor
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
                         join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->
                         join('usuario_superiores as US', 'fazendas.id_consultor', 'US.id_usuario')->
-                        where('US.id_superior', $id_usuario);
+                        where('US.id_superior', $id_usuario)->orderBy('fazendas.nome');
                     break;
                 }case 3:{ //Consultor
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
                         join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->
-                        where('fazendas.id_consultor', $id_usuario);
+                        where('fazendas.id_consultor', $id_usuario)->orderBy('fazendas.nome');
                     break;
                 }case 4:{ //Assistente
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
                     join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->
                     join('usuarios_fazendas as UF', 'fazendas.id', 'UF.id_fazenda')->
-                    where('UF.id_usuario', $id_usuario);
+                    where('UF.id_usuario', $id_usuario)->orderBy('fazendas.nome');
                     break;
                 }default: {
                     break;
@@ -63,33 +63,33 @@ class Fazenda extends Model
             switch($tipo_usuario){
                 case 0:{ //Admin
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
-                        join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->paginate($nopage);
+                        join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->orderBy('fazendas.nome')->paginate($nopage);
                     break;
                 }case 1:{ //Gerente
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
                         join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->
                         join('usuario_superiores as US', 'fazendas.id_consultor', 'US.id_usuario')->
-                        where('US.id_superior', $id_usuario)
+                        where('US.id_superior', $id_usuario)->orderBy('fazendas.nome')
                         ->paginate($nopage);
                     break;
                 }case 2:{ //Supervisor
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
                         join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->
                         join('usuario_superiores as US', 'fazendas.id_consultor', 'US.id_usuario')->
-                        where('US.id_superior', $id_usuario)
+                        where('US.id_superior', $id_usuario)->orderBy('fazendas.nome')
                         ->paginate($nopage);
                     break;
                 }case 3:{ //Consultor
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
                         join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->
-                        where('fazendas.id_consultor', $id_usuario)
+                        where('fazendas.id_consultor', $id_usuario)->orderBy('fazendas.nome')
                         ->paginate($nopage);
                     break;
                 }case 4:{ //Assistente
                     $fazendas = Fazenda::select('fazendas.id','fazendas.nome', 'cidade', 'estado', 'pais', 'P.nome as nome_prop', 'ativa')->
                     join('proprietarios as P', 'fazendas.id_proprietario', '=', 'P.id')->
                     join('usuarios_fazendas as UF', 'fazendas.id', 'UF.id_fazenda')->
-                    where('UF.id_usuario', $id_usuario)
+                    where('UF.id_usuario', $id_usuario)->orderBy('fazendas.nome')
                     ->paginate($nopage);
                     break;
                 }default: {

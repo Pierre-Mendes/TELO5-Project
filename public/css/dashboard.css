@@ -30,12 +30,24 @@ select:invalid {
     color: #9BB4C3;
 }
 
-
-/* CADASTRO E EDITAR CENTRO DE CUSTO */
-
-.position {
-    position: static !important;
+.titulo-afericao-mobile > h4{
+    margin-top: -20px;
 }
+
+.titulo-bombeamento-mobile > h4{
+    margin-top: -20px;
+}
+
+.titulo-pivo-mobile > h4 {
+    margin-top: -20px;
+}
+
+
+.selectize-control.single .selectize-input, .selectize-control.single .selectize-input input {
+    cursor: pointer;
+    background-color: #e2eff773 !important;
+}
+/* CADASTRO E EDITAR CENTRO DE CUSTO */
 
 .nav-tabs {
     margin-top: -74px;
@@ -153,6 +165,7 @@ thead>tr>th:last-child(2) {
     outline: none !important;
     background: none !important;
 }
+
 .subnavbar label a:hover {
     color: rgba(255, 255, 255, 0.7) !important;
 }

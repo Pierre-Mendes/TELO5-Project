@@ -2,8 +2,8 @@
 
 return [
     'sucesso'=>'Éxito',
-    'inserido_sucesso'=>'Pivote insertado con éxito!',
-    'editado_sucesso'=>'¡La información dinámica cambió con éxito!',
+    'cadastro_pivo_sucesso' => '¡Registro de <b> Pivote </b> completado con éxito!',
+    'editar_pivo_sucesso' => '¡<b> Pivo </b> cambios guardados correctamente!',
     'remocao_sucesso'=>'Pivote eliminado con éxito!',
     'erro'=>'Ops, algo salió mal',
     'remocao_erro'=>'Este pivote no se puede quitar porque ya se está utilizando',

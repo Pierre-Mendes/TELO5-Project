@@ -9,6 +9,8 @@ return [
     'supervisor' => 'Supervisor',
     'assistente' => 'Assistente',
 
+    'cadastro_usuario_sucesso' => 'Cadastro de <b>Usuário</b> realizado com sucesso!',
+    'editar_usuario_sucesso' => 'Alterações na <b>Usuário</b> salvas com sucesso!',
     'informacoes_pessoais' => 'Informações Pessoais',
     'nome' => 'Nome',
     'telefone' => 'Telefone',

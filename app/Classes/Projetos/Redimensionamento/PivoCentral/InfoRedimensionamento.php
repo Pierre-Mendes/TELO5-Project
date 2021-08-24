@@ -46,6 +46,7 @@ class InfoRedimensionamento extends Model
         if(empty($mapa_original_afericao)){
             return 0;
         }
+
         $infos_redimensionamento = [];
         $infos_redimensionamento['id_afericao_original'] = $id_afericao;
         $infos_redimensionamento['vazao_total'] = $mapa_original_afericao[0]['somatorio_vazao_ok'];
@@ -69,16 +70,14 @@ class InfoRedimensionamento extends Model
             ->orderby('L.numero_lance', 'asc')
             ->orderby('emissores.numero', 'asc')
             ->get();
-        $adutora_redimensionamento = Adutora::where('id_afericao', $id_afericao)->first();
+
+        $adutora_redimensionamento = Adutora::where('id_afericao', $id_afericao)->get();
         $pivo_conjugado_redimensionamento = PivoConjugado::where('id_afericao', $id_afericao)->first();
         $problema_redimensionamento = ProblemaAfericao::where('id_afericao', $id_afericao)->first();
         $cabecalho_bombeamento_redimensionamento = CabecalhoBombeamento::where('id_afericao', $id_afericao)->first();
-        // $bombeamentos_redimensionamento = Bombeamento::where('id_bombeamento', $adutora_redimensionamento['id'])->get();
         $bombeamentos_redimensionamento = Bombeamento::where('id_bombeamento', $cabecalho_bombeamento_redimensionamento['id'])->get();
         $velocidade_redimensionamento = VelocidadeAfericao_100::where('id_afericao', $id_afericao)->first();
         $velocidade_percentimetro_redimensionamento = VelocidadePercentimetro::where('id_afericao', $id_afericao)->first();
-
-
         $novoId = DB::transaction(function () 
         use (
                 $redimensionamento,
@@ -111,7 +110,6 @@ class InfoRedimensionamento extends Model
 
                 $velocidade_percentimetro_redimensionamento['id_afericao'] = $red_db;
                 VelocidadePercentimetro::create($velocidade_percentimetro_redimensionamento->attributes);
-
                 if(!empty($canhao_final_redimensionamento)){
                     $canhao_final_redimensionamento['id_afericao'] = $red_db;
                     CanhaoFinal::create($canhao_final_redimensionamento->attributes);
@@ -121,10 +119,13 @@ class InfoRedimensionamento extends Model
                     $pivo_conjugado_redimensionamento['id_afericao'] = $red_db;
                     PivoConjugado::create($pivo_conjugado_redimensionamento->attributes);
                 }
+                
 
-                $adutora_redimensionamento['id_afericao'] = $red_db;
-                $adutora = Adutora::create($adutora_redimensionamento->attributes);
-                $id_adutora = $adutora['id'];
+                for ($i = 0; $i < count($adutora_redimensionamento); $i++)
+                {
+                    $adutora_redimensionamento[$i]['id_afericao'] = $red_db;
+                    Adutora::create($adutora_redimensionamento[$i]->attributes);
+                }
                 
                 $cabecalho_bombeamento_redimensionamento['id_afericao'] = $red_db;
                 $cabecalho_bombeamento = CabecalhoBombeamento::create($cabecalho_bombeamento_redimensionamento->attributes);
@@ -135,11 +136,6 @@ class InfoRedimensionamento extends Model
                     $bombeamento['id_bombeamento'] = $id_cabecalho_bombeamento;
                     Bombeamento::create($bombeamento->attributes);
                 }
-
-                // foreach ($trechos_adutora_redimensionamento as $key => $trecho) {
-                //     $trecho['id_adutora'] = $id_adutora;
-                //     Adutora::create($trecho->attributes);
-                // }
 
                 foreach ($lances_redimensionamento as $key => $lance) {
                     $lance['id_afericao'] = $red_db;

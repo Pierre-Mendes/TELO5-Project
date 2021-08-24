@@ -4,7 +4,7 @@
     <div class="container-fluid topo">
         <div class="row align-items-start">
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-velocidade-mobile">
                 <h1>@lang('afericao.velocidadeAfericao')</h1>
                 <h4>@lang('comum.editar')</h4>
             </div>
@@ -530,7 +530,7 @@
                 $('#formdados').submit();
             });
 
-            $("#form_submit").validate({
+            $("#formdados").validate({
                 rules: {
                     "minuto01": {
                         required: true
@@ -655,73 +655,73 @@
                 },
                 messages: {
                     minuto01: "@lang('validate.validate')",
-                                "segundo01": {
+                    "segundo01": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "distancia01": {
+                    },
+                    "distancia01": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "minuto02": {
+                    },
+                    "minuto02": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "segundo02": {
+                    },
+                    "segundo02": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "distancia02": {
+                    },
+                    "distancia02": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "minuto03": {
+                    },
+                    "minuto03": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "segundo03": {
+                    },
+                    "segundo03": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "distancia03": {
+                    },
+                    "distancia03": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "minuto04": {
+                    },
+                    "minuto04": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "segundo04": {
+                    },
+                    "segundo04": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "distancia04": {
+                    },
+                    "distancia04": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "minuto_perc_01": {
+                    },
+                    "minuto_perc_01": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "segundo_perc_01": {
+                    },
+                    "segundo_perc_01": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "distancia_perc_01": {
+                    },
+                    "distancia_perc_01": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "minuto_perc_02": {
+                    },
+                    "minuto_perc_02": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "segundo_perc_02": {
+                    },
+                    "segundo_perc_02": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "distancia_perc_02": {
+                    },
+                    "distancia_perc_02": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "minuto_perc_03": {
+                    },
+                    "minuto_perc_03": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "segundo_perc_03": {
+                    },
+                    "segundo_perc_03": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "distancia_perc_03": {
+                    },
+                    "distancia_perc_03": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "minuto_perc_04": {
+                    },
+                    "minuto_perc_04": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "segundo_perc_04": {
+                    },
+                    "segundo_perc_04": {
                                     required: "@lang('validate.validate')"
-                                },
-                                "distancia_perc_04": {
+                    },
+                    "distancia_perc_04": {
                                     required: "@lang('validate.validate')"
                                 }
                 },
@@ -736,10 +736,10 @@
                     form.submit();
                 }
             });
+        });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
         });
 
     </script>

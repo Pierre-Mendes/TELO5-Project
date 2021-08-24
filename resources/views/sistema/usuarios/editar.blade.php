@@ -95,7 +95,7 @@
                                 <input type="text" class="form-control telo5ce" id="pais" name="pais" maxlength="60"
                                     value="{{ $usuarios->pais }}">
                             </div>
-                        </div>
+                            </div>
 
                         <div class="form-row justify-content-start">
                             
@@ -297,14 +297,11 @@
                     form.submit();
                 }
             });
-
-
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
-
         });
-
+            
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
+        });
     </script>
 
     {{-- SCRIPT PARA FUNCIONALIDADE DO TOOLTIP --}}

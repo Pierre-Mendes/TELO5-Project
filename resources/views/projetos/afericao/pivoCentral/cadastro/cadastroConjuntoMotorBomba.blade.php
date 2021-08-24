@@ -4,7 +4,7 @@
     <div class="container-fluid topo">
         <div class="row align-items-start">
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-adutora-mobile">
                 <h1>@lang('afericao.adutora')</h1><br>
                 <h4 style="margin-top: -20px">@lang('comum.cadastrar')</h4>
             </div>
@@ -48,15 +48,15 @@
                 <div class="tab-pane fade show active formcdc" id="cadastro" role="tabpanel" aria-labelledby="cadastro-tab">
                     @csrf
                     <input type="hidden" value="{{ $id_afericao }}" name="id_afericao">
-                    <div class="col-12 m-auto tabela" id="cssPreloader">
+                    <div class="table-responsive m-auto tabela" id="cssPreloader">
                         <table class="table table-striped mx-auto text-center" id="tabelaTrechos">
                             <thead>
                                 <tr>
                                     <th scope="col">@lang('afericao.tipoCano')</th>
-                                    <th scope="col">@lang('afericao.diametro')</th>
+                                    <th scope="col">@lang('afericao.diametro') @lang('unidadesAcoes.(m)')</th>
                                     <th scope="col">@lang('afericao.hw')</th>
-                                    <th scope="col">@lang('afericao.numeroCanos') </th>
-                                    <th scope="col">@lang('afericao.comprimento')</th>
+                                    <th scope="col">@lang('afericao.numeroCanos')</th>
+                                    <th scope="col">@lang('afericao.comprimento') @lang('unidadesAcoes.(m)')</th>
                                     <th scope="col">@lang('afericao.desnivel') @lang('unidadesAcoes.(m)')</th>
                                     <th scope="col" hidden>@lang('afericao.altitude')</th>
                                     <th scope="col" hidden>@lang('afericao.latitude')</th>
@@ -213,9 +213,10 @@
                 }
             });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
+        });
+        
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
         });
 
     </script>

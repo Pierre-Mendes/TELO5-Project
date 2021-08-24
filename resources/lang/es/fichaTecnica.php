@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'fichaTecnica' => 'Ficha Técnica',
+    'fichaBocais' => 'Lista de boquillas',
+    'bocaisComprar' => 'Bocais a Comprar',
+    'totalAcomprar' => 'Total a Comprar',
+    'bocal_1' => 'Bocal 1',
+    'bocal_2' => 'Bocal 2',
+    'funcionamento_pivo' => 'Operación de pivote',
+    'editar_ficha_tecnica_sucesso' => '¡Los cambios en los <b> Datos Técnicos </b> se guardaron correctamente!',
     'mapaBocal' => 'Mapa de Boquillas Original',
     'ftPivoCentralDiagnostico' => 'HOJA DE DATOS PIVOTE CENTRAL - DIAGNÓSTICO',
     'proprietario' => 'Propietario',
@@ -145,5 +153,14 @@ return [
     'bocais' => 'Boqui.',
     'espacamento' => 'Espa.',
     'valvula' => 'Valv.',
-    'numTubos' => 'Nº Tubos: '
+    'numTubos' => 'Nº Tubos: ',
+    'numerosEmissores' => 'Nº',
+
+    'atualizaou_fichatecnica' => 'Se generará una nueva Ficha Técnica.',
+
+    'pivo_central' => 'Pivote Central',
+    'pressao_centro' => 'Presión en el Centro',
+    'area_efetiva' => 'Area efectiva',
+    'tudo_novo' => '¿Todo nuevo?',
+    'total_bocais' => 'Boquillas totales'
 ];

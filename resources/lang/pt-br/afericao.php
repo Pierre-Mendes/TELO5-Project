@@ -19,6 +19,8 @@ return [
     'custoMedio' => 'Custo Médio',
     'parteAerea' => 'Parte Aérea',
     'marcaModeloEmissores' => 'Marca/Modelo Emissores',
+    'cadastro_afericao_sucesso' => 'Cadastro de <b>Aferição</b> realizado com sucesso!',
+    'editar_afericao_sucesso' => 'Alterações na <b>Aferição</b> salvas com sucesso!',
     
     'i-wob-up3' => 'I-WOB UP3',
     'fabrimar' => 'Fabrimar',
@@ -170,7 +172,7 @@ return [
     'numLancesSemBalanco' => 'N° de lances (Sem o balanço)',
 
     'afericoes' => 'Aferições',
-    'afericao' => 'Aferição',
+    'afericao' => 'Informações do Pivô',
     'cadastrar_lance' => 'REGISTER SPAN',
     'lance' => 'Lance ',
     'numeroTubos' => 'Numero de Tubos ',
@@ -214,7 +216,6 @@ return [
     'laminaMedia' => 'Lamina Média',
 
     'erro' => 'Erro',
-    'aviso' => 'Aviso',
     'sucesso' => 'Sucesso',
     'atencao' => 'Atenção',
     'selecione_fazenda' => 'Selecione uma fazenda para acessar este recurso',
@@ -236,6 +237,8 @@ return [
     'velocidadeAfericao' => 'Aferição da velocidade',
     'velocidade100' => 'Velocidade 100%',
     'testeVelo100' => 'Teste de velocidade (100%)',
+    'cadastro_velocidade_sucesso' => 'Cadastro de <b>Aferição da velocidade</b> realizado com sucesso!',
+    'editar_velocidade_sucesso' => 'Alterações na <b>Aferição da velocidade</b> salvas com sucesso!',
     'distanciaM' => 'Distância',
     'afericao01' => 'Aferição 01',
     'afericao02' => 'Aferição 02',
@@ -306,7 +309,7 @@ return [
     'area_analise' => 'Área de análise',
 
     //Cadastro Adutora
-    'cadastroAdutora' => 'CADASTRO DE ADUTORA',
+    'cadastroAdutora' => 'Cadastro de Adutora',
     'tipoInstalacao' => 'Tipo de Instalação',
     'direta' => 'Direta',
     'afogada' => 'Afogada',
@@ -348,8 +351,8 @@ return [
     //BOMBEAMENTOS
 
     'bombeamento' => 'Conjunto Motor Bomba',
-    'cadastroItemBombeamento' => 'CADASTRAR ITEM DE BOMBEAMENTO',
-    'editarItemBombeamento' => 'EDITAR ITEM DE BOMBEAMENTO',
+    'cadastro_Bombeamento_sucesso' => 'Cadastro de <b>Conjunto Motor Bomba</b> realizado com sucesso!',
+    'editar_Bombeamento_sucesso' => 'Alterações na <b>Conjunto Motor Bomba</b> salvas com sucesso!',
     'editarBomba' => 'Conj. MB',
     'materialSuccao' => 'Material de Sucção',
     'acoSac' => 'AÇO SAC',
@@ -371,6 +374,7 @@ return [
     'tensao' => 'Tensão',
     'comprimentoSuccao' => 'Comprimento de Sucção',
     'diametroSuccao' => 'Diâmetro de Sucção',
+    'alturaSuccao' => 'Altura de Sucção',
     'numeroRotores' => 'Número de Rotores',
     'diametroRotor' => 'Diâmetro do Rotor',
     'rendimentoBomba' => 'Rendimento da Bomba',
@@ -396,6 +400,9 @@ return [
     'bloqueado' => 'Bloqueado',
     'finalizar' => 'Finalizar',
     'visualizarMapa' => 'Ver o Mapa Original',
+    'cadastro_mapaOriginal_sucesso' => 'Cadastro do <b>Mapa Original</b> realizado com sucesso!',
+    'recalculo_mapaOriginal_sucesso' => '<b>Mapa Original</b> recalculado com sucesso !',
+    'editar_emissores_mapaOriginal_sucesso' => 'Alteração de <b>Emissores</b> salvas com sucesso!',
     'completo' => 'Completo',
     'realizeVelocidadeParaAcessar' => 'Realize o Cadastro de Velocidade para acessar este recurso',
     'visualizar' => 'Visualizar',
@@ -411,7 +418,8 @@ return [
     'erro_db' => 'Houve um problema na tentativa de gravar os dados, por favor, tente novamente mais tarde !',
     'adutora_vazia' => 'Adicione ao menos 1 trecho para salvar!',
     'erro_processamento' => 'Houve um erro interno e por isto não foi possível atender a solicitação, por favor, tente novamente mais tarde !',
-    'cadastro_adutora_realizado_sucesso' => 'Cadastro de adutora realizado com sucesso !',
+    'cadastro_adutora_realizado_sucesso' => 'Cadastro de <b>Adutora</b> realizado com sucesso!',
+    'edicao_adutora_realizado_sucesso' => 'Alterações na <b>Adutora</b> salvas com sucesso!',
     'edicaoSucesso' => 'Alterações aplicadas com sucesso !',
     'erroAdutora' => 'Não foi possível atender a sua solicitação !', 
     'selecioneFazendaAfericao' => 'Esta aferição não pertence a fazenda selecionada !',

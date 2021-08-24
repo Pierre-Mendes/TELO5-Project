@@ -58,7 +58,7 @@ class CentroCustosController extends Controller
             return redirect()->back();
         }
         CentroDeCusto::create($req->all());
-        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.cadastroSucesso", "success");
+        Notificacao::gerarAlert('', 'cdc.cadastro_cdc_sucesso', 'success');
         return redirect()->route('manage_cost_center');
     }
 
@@ -72,7 +72,7 @@ class CentroCustosController extends Controller
     {
         $dados = $req->all();
         CentroDeCusto::find($dados['id'])->update($dados);
-        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.edicaoSucesso", "success");
+        Notificacao::gerarAlert('', 'cdc.ditar_cdc_sucesso', 'success');
         return redirect()->route('manage_cost_center');
     }
 

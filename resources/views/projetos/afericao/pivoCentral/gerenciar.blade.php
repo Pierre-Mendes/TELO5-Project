@@ -9,7 +9,7 @@
         <div class="row align-items-start">
 
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-10">
+            <div class="col-10 titulo-afericao-mobile">
                 <h1>@lang('afericao.afericoesFazenda', ['fazenda' => session()->get('fazenda')['nome']])</h1>
             </div>
 
@@ -24,7 +24,7 @@
 
         {{-- FILTRO DE PESQUISA --}}
         <div class="row justify-content-end telo5inputfiltro mt-5">
-            <div class="col-3 position">
+            <div class="col-md-3 position">
                 <form action="{{route('gauging_filter')}}" method="POST" class="form form-inline">
                     @csrf
                     <input class="form-control" name="filter" type="text" placeholder="@lang('comum.pesquisar')"/>
@@ -37,7 +37,7 @@
 
 @section('conteudo')
 @include('_layouts._includes._alert')
-    <div class="col-11 m-auto tabela">
+    <div class="table-responsive m-auto tabela">
         <table class="table table-striped mx-auto" id="filtertable">
             @csrf
             <thead>

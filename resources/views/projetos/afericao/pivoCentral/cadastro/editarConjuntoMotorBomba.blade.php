@@ -4,7 +4,7 @@
     <div class="container-fluid topo">
         <div class="row align-items-start">
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-adutora-mobile">
                 <h1>@lang('afericao.adutora')</h1><br>
                 <h4 style="margin-top: -20px">@lang('comum.editar')</h4>
             </div>
@@ -55,15 +55,15 @@
                 @csrf
                 <input type="hidden" value="{{ $id_afericao }}" name="id_afericao">
                 <input type="hidden" name="dados_adutora[]" value="{{ $dados_adutora }}" />
-                <div class="col-12 m-auto tabela" id="cssPreloader">
+                <div class="table-responsive m-auto tabela" id="cssPreloader">
                     <table class="table table-striped mx-auto mt-5 text-center" id="tabelaTrechos">
                         <thead>
                             <tr>
                                 <th scope="col">@lang('afericao.tipoCano')</th>
-                                <th scope="col">@lang('afericao.diametro')</th>
+                                <th scope="col">@lang('afericao.diametro') @lang('unidadesAcoes.(m)')</th>
                                 <th scope="col">@lang('afericao.hw')</th>
                                 <th scope="col">@lang('afericao.numeroCanos')</th>
-                                <th scope="col">@lang('afericao.comprimento')</th>
+                                <th scope="col">@lang('afericao.comprimento') @lang('unidadesAcoes.(m)')</th>
                                 <th scope="col">@lang('afericao.desnivel') @lang('unidadesAcoes.(m)')</th>
                                 <th>@lang('fichaTecnica.hf') @lang('unidadesAcoes.(mca)')</th>
                                 <th>@lang('fichaTecnica.pressaoInicial')</th>
@@ -95,16 +95,20 @@
                                                 <option @if ($dado['tipo_cano'] == 9) selected @endif value="9">@lang('afericao.aluminio')</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" step="0.001" name="diametro[]"
-                                                value="{{ $dado['diametro'] }}" required class="form-control"></td>
-                                        <td><input type="number" name="coeficiente_hw[]"
-                                                value="{{ $dado['coeficiente_hw'] }}" required class="form-control"></td>
-                                        <td><input type="number" name="numero_canos[]" value="{{ $dado['numero_canos'] }}"
-                                                required class="form-control"></td>
-                                        <td><input type="number" name="comprimento[]" value="{{ $dado['comprimento'] }}"
-                                                required class="form-control"></td>
-                                        <td><input type="number" step="0.01" name="desnivel[]"
-                                                value="{{ $dado['desnivel'] }}" required class="form-control">
+                                        <td>
+                                            <input type="number" step="0.001" name="diametro[]" value="{{ $dado['diametro'] }}" required class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="number" name="coeficiente_hw[]" value="{{ $dado['coeficiente_hw'] }}" required class="form-control">
+                                            </td>
+                                        <td>
+                                            <input type="number" name="numero_canos[]" value="{{ $dado['numero_canos'] }}" required class="form-control">
+                                            </td>
+                                        <td>
+                                            <input type="number" name="comprimento[]" value="{{ $dado['comprimento'] }}" required class="form-control">
+                                            </td>
+                                        <td>
+                                            <input type="number" step="0.01" name="desnivel[]" value="{{ $dado['desnivel'] }}" required class="form-control">
                                         </td>
                                         <td>
                                             {{ number_format($dados_adutora['hf'], 2, ',', '.') }}
@@ -122,20 +126,19 @@
                                             {{ number_format($dados_adutora['velocidade'], 2, ',', '.') }}
                                         </td>
                                         <td hidden>
-                                            <input type="number" name="altitude[]" value="0"
-                                                class="form-control">
+                                            <input type="number" name="altitude[]" value="0" class="form-control">
                                         </td>
                                         <td hidden>
-                                            <input type="number" name="latitude[]" value="0"
-                                                class="form-control">
+                                            <input type="number" name="latitude[]" value="0" class="form-control">
                                         </td>
                                         <td hidden>
-                                            <input type="number" name="longitude[]" value="0"
-                                                class="form-control">
+                                            <input type="number" name="longitude[]" value="0" class="form-control">
                                         </td>
-                                        <td><button type="button" class="removetablerow" onclick="remove(this)"
-                                                style="outline: none; cursor: pointer; margin-top: 4px;"><i
-                                                    class="fa fa-fw fa-times fa-lg"></i></button></td>
+                                        <td>
+                                            <button type="button" class="removetablerow" onclick="remove(this)"
+                                                style="outline: none; cursor: pointer; margin-top: 4px;"><i class="fa fa-fw fa-times fa-lg"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
@@ -196,7 +199,7 @@
                 var newRow = $("<tr>");
                 var cols = "";
                 cols += '<td>';
-                cols += '<select name="tipo_cano[]" required class="form-control"  id="tipo_cano">';
+                cols += '<select name="tipo_cano[]" required class="form-control" id="tipo_cano">';
                 cols += '<option value=""></option>';
                 cols += '<option value="0">@lang('afericao.acoSac')</option>';
                 cols += '<option value="1">@lang('afericao.az')</option>';
@@ -210,16 +213,16 @@
                 cols += '<option value="9">@lang('afericao.aluminio')</option>';
                 cols += '</select>';
                 cols += '</td>';
-                
+
                 cols += '<td><input type="number" min=0.001 step=0.001 class="form-control" required name="diametro[]" id="diametro_' + rowCount + '"></td>';
                 cols += '<td><input type="number" class="form-control" required name="coeficiente_hw[]" id="coeficiente_hw_' + rowCount + '"></td>';
                 cols += '<td><input type="number" min=1 class="form-control" required name="numero_canos[]" id="numero_canos_' + rowCount + '"></td>';
                 cols += '<td><input type="number" step="0.01" class="form-control" required name="comprimento[]" id="comprimento_' + rowCount + '"></td>';
                 cols += '<td><input type="number" step="0.01" class="form-control" required name="desnivel[]" id="desnivel_' + rowCount + '"></td>';
-                if (rowCount > 0){
+                if (rowCount > 0) {
                     cols += '<td><button type="button" class="removetablerow" onclick="remove(this)" style="outline: none; cursor: pointer; margin-top: 4px;"><i class="fa fa-fw fa-times fa-lg"></i></button></td>';
                 }
-                
+
                 cols += '<td hidden><input type="number" class="form-control" value="0" name="altitude[]" id="altitude_' + rowCount + '"></td>';
                 cols += '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="latitude[]" id="latitude_' + rowCount + '"></td>';
                 cols += '<td hidden><input type="number" step=0.000001 class="form-control" value="0" name="longitude[]" id="longitude_' + rowCount + '"></td>';
@@ -285,11 +288,11 @@
                 }
             });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
         });
 
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
+        });
     </script>
 
     {{-- FUNÇÃO PARA CRIAR TIPO DE CANO --}}

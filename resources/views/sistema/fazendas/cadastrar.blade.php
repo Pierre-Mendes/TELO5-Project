@@ -104,19 +104,19 @@
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-4 telo5ce">
                                 <label for="latitude">@lang('fazendas.latitude')</label>
-                                <input type="text" id="latitude" class="form-control  telo5ce" name="latitude"
+                                <input type="number" id="latitude" class="form-control  telo5ce" name="latitude"
                                     maxlength="12" required>
                             </div>
 
                             <div class="form-group col-md-4 telo5ce">
                                 <label for="longitude">@lang('fazendas.longitude')</label>
-                                <input type="text" id="longitude" class="form-control telo5ce" name="longitude"
+                                <input type="number" id="longitude" class="form-control telo5ce" name="longitude"
                                     maxlength="12" required>
                             </div>
 
                             <div class="form-group col-md-4 telo5ce">
                                 <label for="altitude">@lang('fazendas.altitude')</label>
-                                <input type="number" id="altitude" class="form-control telo5ce" name="altitude"
+                                <input type="number" id="altitude"class="form-control telo5ce" name="altitude"
                                     maxlength="15" required>
                             </div>
                         </div>
@@ -138,6 +138,7 @@
     <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
     <script>
         $(document).ready(function() {
+
             $('#botaosalvar').on('click', function() {
                 $('#formdados').submit();
             });
@@ -210,10 +211,10 @@
                     form.submit();
                 }
             });
+        });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            }); 
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
         });
 
     </script>

@@ -20,7 +20,9 @@ return [
     'custoMedio' => 'Energy Cost',
     'parteAerea' => 'Overhead',
     'marcaModeloEmissores' => 'Brand/Pivot Emitters',
-
+    'cadastro_afericao_sucesso' => '<b>Measurement</b> registration completed successfully!',
+    'editar_afericao_sucesso' => '<b>Measurement</b> changes successfully saved!',
+    
     'i-wob-up3' => 'I-WOB UP3',
     'fabrimar' => 'Fabrimar',
     'nelson' => 'Nelson',
@@ -55,14 +57,14 @@ return [
     'calcCombinedArea' => 'Calculate Conjugate Area',
     'calcDepthArea' => 'Calculate Conjugate Depth',
     'depthArea' => 'Depth Total Conjugated',
-
+    
     'torreCentral' => 'Central Tower',
     'problema1' => 'Leakage',
     'problema2' => 'Without gauge',
     'problema3' => 'Defective pressure gauge',
     'problema4' => 'Exposed wiring',
     'problema5' => 'Accumulation of dirt surrounding',
-
+    
     'valvulaPSI' => 'Valve (PSI)',
     'problema6' => 'Without core',
     'problema7' => 'Broked',
@@ -70,7 +72,7 @@ return [
     'problema9' => 'Clogging in pressure regulating valves',
     'problema10' => 'Without pressure regulators in many outlets',
     'problema11' => 'Valves with an exceeded service life',
-
+    
     //'parteAerea' => 'Overhead',
     'problema12' => 'Sleeve leakage',
     'problema13' => 'Clogging of the nozzles along the overhead',
@@ -87,7 +89,7 @@ return [
     'problema24' => 'Inadequate tensioning of overhang cables',
     'problema25' => 'Excessive pivot skating',
     'problema26' => 'Inadequate overhang sheet changes',
-
+    
     'canhaoFinal' => 'End Gun',
     'problema27' => 'Angulation problem',
     'problema28' => 'No pressure regulators on the end gun',
@@ -132,12 +134,12 @@ return [
     'problema55' => 'Defective pressure gauge',
     'problema56' => 'Vibrations and abnormal noise',
 
-
+    
     'motorAuxiliar' => 'Auxiliary Motor',
     'problema57' => 'Disarming motor',
     'problema58' => 'Vibrations and abnormal noise',
     'problema59' => 'Diesel engine oil leak',
-
+    
     'bombaAuxiliar' => 'Auxiliary Pump',
     'problema60' => 'Excessive gasket leakage',
     'problema61' => 'Defective gate valve',
@@ -174,7 +176,7 @@ return [
     'numLancesSemBalanco' => 'Number of spans (Without Overhang)',
 
     'afericoes' => 'Measurements',
-    'afericao' => 'MEASUREMENT',
+    'afericao' => 'Pivot Information',
     'lance' => 'Span ',
     'numeroTubos' => 'Number of Tubes ',
     'numeroEmissores' => 'Outlet numbers',
@@ -182,7 +184,7 @@ return [
     'tipoValvula' => 'Type of Valve',
     'motorredutor' => 'Gearbox',
 
-    'cadastrar_emissores' => 'REGISTER ISSUERS',
+    'cadastrar_emissores' => 'Register Issuers',
     'emissores' => 'ISSUERS',
     'balanco' => 'Balance',
     'emissor' => 'Issuer ',
@@ -239,6 +241,8 @@ return [
     'velocidadeAfericao' => 'Speed ​​measurement',
     'velocidade100' => 'Speed 100%',
     'testeVelo100' => 'Speed ​​Test (100%)',
+    'cadastro_velocidade_sucesso' => '<b>Speed ​​Measurement</b> registration completed successfully!',
+    'editar_velocidade_sucesso' => '<b>Speed Gauge</b> changes successfully saved!',
     'distanciaM' => 'Distance',
     'afericao01' => 'Measurement 01',
     'afericao02' => 'Measurement 02',
@@ -275,7 +279,7 @@ return [
     'maiorNegativo' => 'Highest Negative',
     'maiorVariacao' => 'Highest variation',
     'projetada' => 'Projected',
-    'aferida' => 'Measured',
+    'aferida' => 'Measured',    
 
     //Área funcionamento do pivô
     'funcionamentoPivo' => 'Pivot Operation',
@@ -347,9 +351,10 @@ return [
     'numero_canos' => 'Number of Pipes',
 
     //BOMBEAMENTOS
-    'cadastroItemBombeamento' => 'REGISTER PUMPING ITEM',
-    'editarItemBombeamento' => 'EDIT PUMP ITEM',
-    'editarBomba' => 'EDIT PUMP',
+    'bombeamento' => 'Pump Motor Set',
+    'cadastro_Bombeamento_sucesso' => 'Registration of <b>Motor Pump Set</b> successfully completed!',
+    'editar_Bombeamento_sucesso' => 'Alterações na <b>Conjunto Motor Bomba</b> salvas com sucesso!',
+    'editarBomba' => 'Edit Pump',
     'materialSuccao' => 'Suction Material',
     'acoSac' => 'AÇO SAC',
     'AZ' => 'AZ',
@@ -370,6 +375,7 @@ return [
     'tensao' => 'Voltage',
     'comprimentoSuccao' => 'Suction Lenght',
     'diametroSuccao' => 'Suction Diameter',
+    'alturaSuccao' => 'Suction Height',
     'numeroRotores' => 'Number of Rotors',
     'diametroRotor' => 'Rotor Diameter',
     'rendimentoBomba' => 'Pump Efficiency',
@@ -394,6 +400,9 @@ return [
     'bloqueado' => 'Blocked',
     'finalizar' => 'End',
     'visualizarMapa' => 'Open Original Map',
+    'cadastro_mapaOriginal_sucesso' => 'Registration of the <b>Original Map</b> successfully completed!',
+    'recalculo_mapaOriginal_sucesso' => '<b>Original Map</b> successfully recalculated!',
+    'editar_emissores_mapaOriginal_sucesso' => 'Change <b>Issuers</b> successfully saved!',
     'completo' => 'Completed',
     'realizeVelocidadeParaAcessar' => 'Perform Speed Registration to access this feature',
     'visualizar' => 'View',
@@ -409,13 +418,14 @@ return [
     'erro_db' => 'There was a problem trying to write the data, please try again later!',
     'adutora_vazia' => 'Add at least 1 excerpt to save!',
     'erro_processamento' => 'There was an internal error and we were unable to fulfill the request, please try again later!',
-    'cadastro_adutora_realizado_sucesso' => 'Adductor registration successfully completed!',
+    'cadastro_adutora_realizado_sucesso' => '<b>Adductor</b> registration successfully completed!',
+    'edicao_adutora_realizado_sucesso' => 'Changes to <b>Adductor</b> successfully saved!',
     'edicaoSucesso' => 'Successfully applied changes !',
-    'erroAdutora' => 'We were unable to fulfill your request !',
+    'erroAdutora' => 'We were unable to fulfill your request !',    
     'selecioneFazendaAfericao' => 'This measurement does not belong to the selected farm!',
     'graficoUniformidade' => "Uniformity Chart",
     'atualizarMapa' => 'Refresh Map',
-    'editarBombeamento' => 'EDIT PUMPING',
+    'editarBombeamento' => 'Edit Pumping',
     'statusAfericao' => 'Measurement Status',
 
     'titulo_alerta_nome_pivo' => 'This pivot already has measurement !',
@@ -436,6 +446,6 @@ return [
     'problemaPressaoSaidaNegativa' => 'The calculated pressure returned a negative value, please review the entered data and try again.',
 
     'posPivo' => 'Pos. atr Pivot',
-    'impressoes' => 'impressions',
+    'impressoes' => 'impressions',    
 
 ];

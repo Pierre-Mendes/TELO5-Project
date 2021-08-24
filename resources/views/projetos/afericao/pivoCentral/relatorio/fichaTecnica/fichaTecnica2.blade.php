@@ -26,7 +26,7 @@
             </div>
             <div class="row">
                 <div class="col-md-2"><b>@lang('fichaTecnica.alturaSuccao')</b>@lang('unidadesAcoes.(m)'):</div>
-                <div class="col-md-2"> <!-- Adicionar a coluna no db ou buscar forma de calcular Lev mB. Adut. -> H35 --></div>
+                <div class="col-md-2">{{$bombeamento['altura_succao']}}</div>
                 <div class="col-md-2"><b>@lang('fichaTecnica.marca')</b>:</div>
                 <div class="col-md-2">{{$bombeamento['marca']}}</div>
                 <div class="col-md-2"><b>@lang('fichaTecnica.modelo')</b>:</div>
@@ -93,6 +93,7 @@
                 <div class="col-md-2">{{$bombeamento['frequencia']}}</div>
             </div>
         </div>
+        
         <div class="do-not-break">
         
             <!--Índice de carregamento-->
@@ -113,7 +114,7 @@
                 <div class="col-md-2 text-center">{{ number_format( $bombeamento['corrente_leitura_2_fase_1'] ,2,",",".")}} </div>
                 <div class="col-md-2 text-center">{{ number_format( $bombeamento['tensao_leitura_1_fase_1'] ,2,",",".")}} </div>
                 <div class="col-md-2 text-center">{{ number_format( $bombeamento['tensao_leitura_2_fase_1'] ,2,",",".")}} </div>
-                <div class="col-md-2 text-center">{{number_format($bombeamento['indice_carregamento_1_fase_1_corrigido'], 2,",",".")}}</div>
+                <div class="col-md-2 text-center">{{ number_format($bombeamento['indice_carregamento_1_fase_1_corrigido'], 2,",",".")}}</div>
                 <div class="col-md-2 text-center">@if($bombeamento['indice_carregamento_2_fase_1_corrigido'] != 0){{number_format($bombeamento['indice_carregamento_2_fase_1_corrigido'], 2,",",".")}} @endif</div>
             </div>
             <div class="row">
@@ -170,9 +171,9 @@
                             @for($b=100; $b>=5; $b=$b-5)
                                 <tr>
                                     <td class="text-center">{{$b}}</td>
-                                    <td class="text-center">{{ number_format($velocidade_pivo[$b]['volta'], 2,",",".") }}</td>
-                                    <td class="text-center">{{ number_format($velocidade_pivo[$b]['volta_1_2'], 2,",",".") }}</td>
-                                    <td class="text-center">{{ number_format($velocidade_pivo[$b]['volta_1_4'], 2,",",".") }}</td>
+                                    <td class="text-center">{{ str_replace(",", ":", number_format($velocidade_pivo[$b]['volta'], 2,",",".")) }}</td>
+                                    <td class="text-center">{{ str_replace(",", ":", number_format($velocidade_pivo[$b]['volta_1_2'], 2,",",".")) }}</td>
+                                    <td class="text-center">{{ str_replace(",", ":", number_format($velocidade_pivo[$b]['volta_1_4'], 2,",",".")) }}</td>
                                     <td class="text-center">{{ number_format($velocidade_pivo[$b]['lamina_mm'], 2,",",".") }}</td>
                                     <td class="text-center">{{ number_format($velocidade_pivo[$b]['estimativa_custo_eletrico'], 2,",",".") }}</td>
                                     @if(array_key_exists('estimativa_custo_diesel', $velocidade_pivo[$b]))
@@ -252,9 +253,9 @@
 
 <div class="do-not-break">
     <!--AVALIAÇÕES-->
-    <div class="text-center cor-fundo cor-fundo" >
+    {{-- <div class="text-center cor-fundo cor-fundo" >
         <h4><b>@lang('fichaTecnica.avaliacoes')</b></h4>
-    </div>
+    </div> --}}
     <hr>
     <!--UNIFORMIDADE-->
     <div class="text-center cor-fundo" >

@@ -5,9 +5,9 @@
     <div class="container-fluid topo">
         <div class="row align-items-start">
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-afericao-mobile">
                 <h1>@lang('afericao.afericao')</h1><br>
-                <h4 style="margin-top: -20px">@lang('comum.cadastrar')</h4>
+                <h4 >@lang('comum.cadastrar')</h4>
             </div>
             {{-- BOTOES SALVAR E VOLTAR --}}
             <div class="col-6 text-right botoes mobile">
@@ -472,24 +472,25 @@
 
                 {{-- PIVÔ CONJUGADO --}}
                 <div class="tab-pane fade" id="pivoConjugado" role="tabpanel" aria-labelledby="pivoConjugado-tab">
+                    <div name="alertInput1" id="alertInput1" class="alertInput1 mt-0 pb-5"></div>
                     <div class="col-md-12">
                         <div class="form-row justify-content-start">
-                            <div class="form-group col-1 telo5ce">
+                            <div class="form-group col-md-1 telo5ce">
                                 <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" name="possui_pivo_conjugado" id="customSwitch1">
                                 <label class="custom-control-label" for="customSwitch1" style="font-size: 1.2rem">@lang('afericao.possuiPivoConjugado')</label>
                                 </div>
                             </div>
-                            <div class="form-group col-2 telo5ce">
+                            <div class="form-group col-md-2 telo5ce">
                                 <label for="combinedArea">@lang('afericao.combinedArea')</label><br>
                                 <input class="font-weight-bold" type="number" id="combinedArea" name="combinedArea" step="0.01" min="0.01" disabled style="background: none !important;" />
                             </div>
-                            <div class="form-group col-2 telo5ce">
+                            <div class="form-group col-md-2 telo5ce">
                                 <label for="calcDepthArea">@lang('afericao.depthArea')</label><br>
                                 <input class="font-weight-bold" type="number" id="calcDepthArea" name="calcDepthArea" step="0.01" min="0.01" disabled style="background: none !important;" />
                             </div>
                             <div>
-                                <button type="button" class="btn btn-primary text-center voltar pr-4" name="conjugatedDepthArea" data-toggle="tooltip" data-placement="bottom" title="@lang('afericao.depthConjugatedArea')" style="font-size: 13;" id="conjugatedDepthArea">
+                                <button type="button" class="text-center voltar pr-4" name="conjugatedDepthArea" data-toggle="tooltip" data-placement="bottom" title="@lang('afericao.depthConjugatedArea')" style="font-size: 17px; outline:none; margin-top: -10px;" id="conjugatedDepthArea">
                                   <i class="fas fa-calculator pr-2"></i>@lang('comum.calc')
                                 </button>
                             </div>
@@ -607,7 +608,6 @@
                             <div class='form-group col-md-4 telo5ce'>
                                 <label for="valv_reguladora_canhao_final">@lang('afericao.valvulaReguladora')</label>
                                 <select class='form-control' name='valv_reguladora_canhao_final'>
-                                    <option value=""></option>
                                     <option value='10'><b>10 PSI</b></option>
                                     <option value='15'><b>15 PSI</b></option>
                                     <option value='20'><b>20 PSI</b></option>
@@ -629,13 +629,12 @@
 
 @section('scripts')
 
-    {{-- FILTRO SELECT --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
-    integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+        {{-- FILTRO SELECT --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
 
-    {{-- SALVAR E VALIDAR CAMPOS VAZIOS --}}
-    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
-    <script>
+        {{-- SALVAR E VALIDAR CAMPOS VAZIOS --}}
+        <script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
+        <script>
         $(document).ready(function() {
             habilitaDesabilitaPivo(true);
             habilitaDesabilitaCanhao(true);
@@ -646,155 +645,155 @@
 
             // VALIDATE
             $("#formdados").validate({
-                ignore: "",
-                invalidHandler: function() {
+                ignore: ""
+                , invalidHandler: function() {
                     setTimeout(function() {
-                        $('.nav-tabs a small.required').remove();
-                        var validatePane = $(
-                            '.tab-content.tab-validate .tab-pane:has(input.error)').each(
-                            function() {
-                                var id = $(this).attr('id');
-                                $('.nav-tabs').find('a[href^="#' + id + '"]').append(
-                                    ' <small class="required">&#9888;&#65039;</small>');
-                            });
+                    $('.nav-tabs a small.required').remove();
+                    var validatePane = $(
+                        '.tab-content.tab-validate .tab-pane:has(input.error)').each(
+                        function() {
+                        var id = $(this).attr('id');
+                        $('.nav-tabs').find('a[href^="#' + id + '"]').append(
+                            ' <small class="required">&#9888;&#65039;</small>');
+                        });
                     });
-                },
-                rules: {
+                }
+                , rules: {
                     "data_afericao": {
-                        required: true
-                    },
-                    "marca_modelo_pivo": {
-                        required: true
-                    },
-                    "giro_equipamento": {
-                        required: true
-                    },
-                    "tempo_funcionamento": {
-                        required: true
-                    },
-                    "nome_pivo": {
-                        required: true
-                    },
-                    "tipo_painel": {
-                        required: true
-                    },
-                    "horimetro": {
-                        required: true
-                    },
-                    "ano_montagem": {
-                        required: true
-                    },
-                    "lamina_anual": {
-                        required: true
-                    },
-                    "custo_medio": {
-                        required: true
-                    },
-                    "numero_lances": {
-                        required: true
-                    },
-                    "defletor": {
-                        required: true
-                    },
-                    "altura_emissores": {
-                        required: true
-                    },
-                    "pressao_centro": {
-                        required: true
-                    },
-                    "pressao_ponta": {
-                        required: true
-                    },
-                    "rugosidade": {
-                        required: true
-                    },
-                    "altitude_centro": {
-                        required: true
-                    },
-                    "altitude_mais_alto": {
-                        required: true
-                    },
-                    "altitude_mais_baixo": {
-                        required: true
-                    },
-                    "latitude": {
-                        required: true
-                    },
-                    "longitude": {
-                        required: true
+                    required: true
                     }
-                },
-                messages: {
+                    , "marca_modelo_pivo": {
+                    required: true
+                    }
+                    , "giro_equipamento": {
+                    required: true
+                    }
+                    , "tempo_funcionamento": {
+                    required: true
+                    }
+                    , "nome_pivo": {
+                    required: true
+                    }
+                    , "tipo_painel": {
+                    required: true
+                    }
+                    , "horimetro": {
+                    required: true
+                    }
+                    , "ano_montagem": {
+                    required: true
+                    }
+                    , "lamina_anual": {
+                    required: true
+                    }
+                    , "custo_medio": {
+                    required: true
+                    }
+                    , "numero_lances": {
+                    required: true
+                    }
+                    , "defletor": {
+                    required: true
+                    }
+                    , "altura_emissores": {
+                    required: true
+                    }
+                    , "pressao_centro": {
+                    required: true
+                    }
+                    , "pressao_ponta": {
+                    required: true
+                    }
+                    , "rugosidade": {
+                    required: true
+                    }
+                    , "altitude_centro": {
+                    required: true
+                    }
+                    , "altitude_mais_alto": {
+                    required: true
+                    }
+                    , "altitude_mais_baixo": {
+                    required: true
+                    }
+                    , "latitude": {
+                    required: true
+                    }
+                    , "longitude": {
+                    required: true
+                    }
+                }
+                , messages: {
                     data_afericao: "@lang('validate.validate')",
 
                     "marca_modelo_pivo": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "giro_equipamento": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "tempo_funcionamento": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "nome_pivo": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "tipo_painel": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "horimetro": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "ano_montagem": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "lamina_anual": {
-                        required: "@lang('validate.validate')",
-                    },
-                    "custo_medio": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "numero_lances": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "defletor": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "altura_emissores": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "pressao_centro": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "pressao_ponta": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "rugosidade": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "altitude_centro": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "altitude_mais_alto": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "altitude_mais_baixo": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "latitude": {
-                        required: "@lang('validate.validate')"
-                    },
-                    "longitude": {
-                        required: "@lang('validate.validate')"
+                    required: "@lang('validate.validate')"
                     }
-                },
-                submitHandler: function(form) {
+                    , "giro_equipamento": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "tempo_funcionamento": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "nome_pivo": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "tipo_painel": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "horimetro": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "ano_montagem": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "lamina_anual": {
+                    required: "@lang('validate.validate')"
+                    , }
+                    , "custo_medio": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "numero_lances": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "defletor": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "altura_emissores": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "pressao_centro": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "pressao_ponta": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "rugosidade": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "altitude_centro": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "altitude_mais_alto": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "altitude_mais_baixo": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "latitude": {
+                    required: "@lang('validate.validate')"
+                    }
+                    , "longitude": {
+                    required: "@lang('validate.validate')"
+                    }
+                }
+                , submitHandler: function(form) {
                     $("#coverScreen").show();
                     $("#cssPreloader input").each(function() {
-                        $(this).css('opacity', '0.2');
+                    $(this).css('opacity', '0.2');
                     });
                     $("#cssPreloader select").each(function() {
-                        $(this).css('opacity', '0.2');
+                    $(this).css('opacity', '0.2');
                     });
                     form.submit();
                 }
@@ -814,28 +813,39 @@
                 var vazao_pivo_4 = $("#vazao4").val();
 
                 var IsEmpty = false;
+                var AllEmpty = 0;
                 var vetArea = [area_pivo_1, area_pivo_2, area_pivo_3, area_pivo_4];
                 var vetVazao = [vazao_pivo_1, vazao_pivo_2, vazao_pivo_3, vazao_pivo_4];
 
                 for (let index = 0; index < vetArea.length; index++) {
-                    if ((vetArea[index] == "" || vetArea[index] === "") && (vetVazao[index] == "" || vetVazao[index] === "")) {
+                  if (((vetArea[index] == "0" || vetArea[index] === "") &&
+                      (vetVazao[index] != "0" && vetVazao[index] !== "")) ||
+                    ((vetVazao[index] == "0" || vetVazao[index] === "") &&
+                      (vetArea[index] != "0" && vetArea[index] !== ""))
+                  ) {
                     IsEmpty = true;
                     break;
-                    }
+                  } else if ((vetArea[index] == "0" || vetArea[index] === "") && (vetVazao[index] == "0" || vetVazao[index] === "")) {
+                    AllEmpty += 1;
+                  }
                 }
 
                 if (IsEmpty) {
-                    alert("@lang('comum.checkInput')");
+                  $('.alertInput1').html('<div class="alert alert-danger alert-dismissible fade show pb-2" role="alert"><p>@lang("comum.checkInput")</p></div>');
+                  $(".alert").fadeIn(300).delay(3000).fadeOut(400);
+                } else if (AllEmpty == 4) {
+                  $('.alertInput1').html('<div class="alert alert-danger alert-dismissible fade show pb-2" role="alert"><p>@lang("comum.checkInput2")</p></div>');
+                  $(".alert").fadeIn(300).delay(3000).fadeOut(400);
                 } else {
-                    var combinedArea = {
+                  var combinedArea = {
                     _token: "{{ csrf_token() }}"
                     , area_pivo_1: area_pivo_1
                     , area_pivo_2: area_pivo_2
                     , area_pivo_3: area_pivo_3
                     , area_pivo_4: area_pivo_4
-                    , };
+                  , };
 
-                    var depthArea = {
+                  var depthArea = {
                     _token: "{{ csrf_token() }}"
                     , area_pivo_1: area_pivo_1
                     , area_pivo_2: area_pivo_2
@@ -846,82 +856,83 @@
                     , vazao_pivo_2: vazao_pivo_2
                     , vazao_pivo_3: vazao_pivo_3
                     , vazao_pivo_4: vazao_pivo_4
-                    , };
+                  , };
 
-                    $.ajax({
+                  $.ajax({
                     url: "{{ route('gaugingCalc_totalAreaConjugated') }}"
                     , type: "post"
                     , data: combinedArea
                     , dataType: 'json'
-                    , }).done(function(res) {
+                  , }).done(function(res) {
                     console.log(res);
                     combinedArea = res;
                     return $('input[name = "combinedArea"]').val(combinedArea);
-                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                  }).fail(function(jqXHR, textStatus, errorThrown) {
                     console.log("Error: " + textStatus);
-                    });
+                  });
 
-                    $.ajax({
+                  $.ajax({
                     url: "{{ route('gaugingCalc_depthArea') }}"
                     , type: "post"
                     , data: depthArea
                     , dataType: 'json'
-                    , }).done(function(res) {
+                  , }).done(function(res) {
                     console.log(res);
                     depthArea = res;
                     return $('input[name = "calcDepthArea"]').val(depthArea);
-                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                  }).fail(function(jqXHR, textStatus, errorThrown) {
                     console.log("Error: " + textStatus);
-                    });
+                  });
                 }
             });
 
             // Enable/Disable Checkbox "Pivo Conjugado"
             $('#customSwitch1').click(function() {
-                if ($(this).prop("checked") == false) {
-                    habilitaDesabilitaPivo(true);
-                } else if ($(this).prop("checked") == true) {
-                    habilitaDesabilitaPivo(false);
-                }
-                });
+            if ($(this).prop("checked") == false) {
+                habilitaDesabilitaPivo(true);
+            } else if ($(this).prop("checked") == true) {
+                habilitaDesabilitaPivo(false);
+            }
+            });
 
-                function habilitaDesabilitaPivo(flag) {
-                $("#area1").prop("disabled", flag);
-                $("#area2").prop("disabled", flag);
-                $("#area3").prop("disabled", flag);
-                $("#area4").prop("disabled", flag);
+            function habilitaDesabilitaPivo(flag) {
+            $("#area1").prop("disabled", flag);
+            $("#area2").prop("disabled", flag);
+            $("#area3").prop("disabled", flag);
+            $("#area4").prop("disabled", flag);
 
-                $("#vazao1").prop("disabled", flag);
-                $("#vazao2").prop("disabled", flag);
-                $("#vazao3").prop("disabled", flag);
-                $("#vazao4").prop("disabled", flag);
+            $("#vazao1").prop("disabled", flag);
+            $("#vazao2").prop("disabled", flag);
+            $("#vazao3").prop("disabled", flag);
+            $("#vazao4").prop("disabled", flag);
 
-                $("#calcCombinedArea").prop("disabled", flag);
-                $("#calcDepthTotalArea").prop("disabled", flag);
+            $("#conjugatedDepthArea").prop("disabled", flag);
             }
 
             //Enable/Disable Checkbox "Canhão final"
             $('#customSwitch2').click(function() {
-              if ($(this).prop("checked") == false) {
+            if ($(this).prop("checked") == false) {
                 habilitaDesabilitaCanhao(true);
-              } else if ($(this).prop("checked") == true) {
+            } else if ($(this).prop("checked") == true) {
                 habilitaDesabilitaCanhao(false);
-              }
+            }
             });
 
             function habilitaDesabilitaCanhao(flag) {
-              $("#marca").prop("disabled", flag);
-              $("#modelo_canhao").prop("disabled", flag);
-              $("#bomba_canhao").prop("disabled", flag);
-              $("#bocais_canhao").prop("disabled", flag);
-              $("#potencia_canhao").prop("disabled", flag);
-              $("#vazao_canhao").prop("disabled", flag);
-              $("#bocais_canhao").prop("disabled", flag);
+            $("#marca").prop("disabled", flag);
+            $("#modelo_canhao").prop("disabled", flag);
+            $("#bomba_canhao").prop("disabled", flag);
+            $("#bocais_canhao").prop("disabled", flag);
+            $("#potencia_canhao").prop("disabled", flag);
+            $("#vazao_canhao").prop("disabled", flag);
+            $("#bocais_canhao").prop("disabled", flag);
             }
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
         });
-    </script>
+
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
+        });
+
+        </script>
 @endsection

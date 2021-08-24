@@ -56,7 +56,7 @@ $total_emissores = $lance['numero_emissores'];
                 <input type="hidden" name="espacamento" value="{{ $espacamento['espacamento'] }}">
                 <input type="hidden" name="comprimento" id="comprimento" value=0>
                 <input type="hidden" name="botao" value="sair" id="botao">
-                <div class="col-12 m-auto tabela" id="cssPreloader">
+                <div class="table-responsive m-auto tabela" id="cssPreloader">
                     <table class="table table-striped mx-auto mt-5 text-center" id="tabelaTrechos">
                         <thead>
                             <tr>
@@ -154,8 +154,6 @@ $total_emissores = $lance['numero_emissores'];
                     </table>
                 </div>
                 <div class="row justify-content-center botaoAfericao mb-4" id="botoesSalvar">
-                    <a class="voltar"
-                        href="{{ route('gauging_status', $afericao['id']) }}">@lang('unidadesAcoes.sair')</a>
                     <a class="voltar ml-2" href="{{ URL::previous() }}">@lang('unidadesAcoes.anterior')</a>
                     <button class="proximo ml-2" name="botao" value="proximo" type=""
                         id="botaosalvar">@lang('unidadesAcoes.proximo')</button>
@@ -267,10 +265,10 @@ $total_emissores = $lance['numero_emissores'];
                     form.submit();
                 }
             });
+        });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
         });
 
     </script>

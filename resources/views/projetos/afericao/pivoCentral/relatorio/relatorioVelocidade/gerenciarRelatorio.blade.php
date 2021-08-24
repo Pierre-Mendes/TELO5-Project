@@ -44,7 +44,6 @@
 
             {{-- BOTOES SALVAR E VOLTAR --}}
             <div class="col-6 text-right botoes position">
-                {{-- href="{{ route('gauging_status', $id_afericao) }}"> --}}
                 <a href="{{ route('gauging_status', $id_afericao) }}" style="color: #3c8dbc">
                     <button type="button">
                         <span class="fa-stack fa-lg">
@@ -55,14 +54,11 @@
                 </a>
 
                 <button type="button" id="botaosalvar">
-                    {{-- href="{{ route('velocidade_editar', $id_afericao) }}"> --}}
-
-                    {{-- <a href="{{ route($relVelocidade['acao'], $relVelocidade['parametro']) }}"> --}}
                     <a href="{{ route('gauging_speed_edit', $id_afericao) }}" style="color: #3c8dbc">
-                    <span class="fa-stack fa-2x">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fas fa-pen fa-stack-1x fa-inverse"></i>
-                    </span>
+                        <span class="fa-stack fa-2x">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-pen fa-stack-1x fa-inverse"></i>
+                        </span>
                     </a>
                 </button>
 
@@ -72,12 +68,14 @@
 @endsection
 
 @section('conteudo')
-    <div class="row mb-5 ">
+    <div class="row">
         <div class="col-md-6 table-responsive">
             <div class="text-center"><b>@lang('afericao.verificacaoVelocidade')</b></div>
 
             <!------------Tabela Verificação da Velocidade------------>
             <table class="table table-striped table-hover ">
+                <input type="hidden" value="{{ $id_afericao }}" name="id_afericao">
+
                 <thead>
                     <tr class='text-light'>
                         <th>@lang('unidadesAcoes.porcentagem')</th>
@@ -165,7 +163,7 @@
 
     <!-----------------Tabela Resultante----------------->
     <div class=row>
-        <div class="col-8">
+        <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
                     <tr class='text-light'>
@@ -201,7 +199,7 @@
             </table>
         </div>
 
-        <div class="col-4">
+        <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
                     <tr class='text-light'>
@@ -242,8 +240,6 @@
     <div id="grafico_redimensionamento_percentimetro" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <!----------------------------------------------------------------------------->
 
-    <br />
-    <br />
 
     <!---------------------Funcionamento do Pivô--------------------->
     <div class="row">
@@ -257,7 +253,7 @@
 
     <div id="funcionamento_pivo">
         <div class="row">
-            <div class="col-md-6">
+            <div class="table-responsive">
                 <br />
                 <table class="table table-striped table-hover">
                     <tbody class="">
@@ -318,7 +314,7 @@
                 </table>
             </div>
 
-            <div class="col-md-6">
+            <div class="table-responsive">
                 <br />
                 <table class="table table-striped table-hover">
                     <tbody>
@@ -380,9 +376,7 @@
             </div>
         </div>
 
-        <br />
-
-        <div>
+        <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
                     <tr class='text-light'>

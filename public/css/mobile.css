@@ -1,0 +1,362 @@
+@media screen and (max-width: 360px) {
+    /* BODY */
+    body {
+        overflow-x: clip !important;
+    }
+
+    .topo {
+        margin-top: 50px !important;
+    }
+
+    .footer {
+        display: none !important;
+    }
+
+    /* CABEÇALHO */
+    .dropbtn {
+        width: 300px !important;
+    }
+
+    .imagens {
+        display: none !important;
+    }
+
+    #menu > #user {
+        padding: 0px 13px !important;
+    }
+
+    #menu > #user > i{
+        margin-left: 60px !important;
+    }
+
+    #main {
+        float: left;
+    }
+
+    .header-logo {
+        display: none;
+    }    
+
+    .menu2 {
+        right: -33px !important;
+    }
+
+    .idioma {
+        right: -58px !important;
+    }
+
+    /* TELA DE USUARIOS */
+        /* GERENCIAR */
+    .acoes .botaoTabela {
+        padding-left: 0 !important;
+    }
+    
+        /* CADASTRAR */
+
+    .form-row {
+        flex-wrap: wrap !important;
+    }
+
+    /* TELA CENTRO DE CUSTO */
+        /* GERENCIAR */
+    .titulo-cdc-mobile {
+        font-size: 9px;
+    }
+
+    /* TELA DE BOCAIS */
+        /* CADASTRAR */
+    .formulario-bocais-mobile {
+        margin-left: 0px !important;
+    }
+
+    .addtablerow {
+        margin-left: -60px !important;
+    }
+
+    /* TELA DE PIVOS */
+        /* CADASTRAR */
+    .titulo-pivo-mobile {
+        font-size: 7px;
+    }
+
+    .titulo-pivo-mobile > h1 {
+        margin-bottom: 12.5px !important;
+    }
+    
+    /* TELA DE AFERICAO */
+        /* GERENCIAR */
+    .titulo-afericao-mobile {
+        font-size: 7px !important;
+    }
+
+    .titulo-afericao-mobile > h4{
+        margin-top: -10px;
+    }
+
+    /* CADASTRAR */
+
+    .nav-tabs {
+        margin-left: -11px;
+        margin-top: -59px;
+    }
+
+    .nav-link {
+        font-size: 10px !important;
+    }
+
+    .botoes {
+        font-size: 10px;
+    }
+
+    /* TELA DE MAPA ORIGINAL */
+    .titulo-mapa-mobile > h1{
+        font-size: 14px;
+    }
+
+    .titulo-mapa-mobile > h4{
+        font-size: 12px;
+    }
+
+    .botoes-mobile-mapa {
+        font-size: 7px;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+
+    /* TELA DE BOMBEAMENTO */
+
+    .titulo-bombeamento-mobile {
+        font-size: 8px;
+    }
+
+    .titulo-bombeamento-mobile > h4{
+        margin-top: -10px;
+    }
+
+    /* TELA DE AFERIÇÃO DA VELOCIDADE */
+    .titulo-velocidade-mobile {
+        font-size: 8px;
+    }
+
+    /* TELA DE REDIMENSIONAMENTO */
+        /* GERENCIAR */
+    .titulo-redimensionamento-mobile {
+        font-size: 9px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    /* CABEÇALHO */
+    
+    .dropbtn {
+        width: 308px;
+    }
+
+    .imagens {
+        display: none;
+    }
+    
+    .header-logo {
+        display: none;
+    }
+
+    #main {
+        float: left;
+    }
+
+    .topo {
+        margin-top: 50px;
+    }
+
+    #menu > #user {
+        padding: 0px 13px;
+    }
+
+    #menu > #user > i{
+        margin-left: 69px;
+    }
+
+    #menu ul {
+        right: -23px;
+    }
+
+    .form-row {
+        flex-wrap: wrap;
+    }
+
+    /* CENTRO DE CUSTO */
+
+    .titulo-cdc-mobile {
+        font-size: 9px;
+    }
+
+    /* BOCAIS */
+    .addtablerow {
+        margin-left: -75px;
+    }
+
+    /* PIVOS */
+
+    .titulo-pivo-mobile {
+        font-size: 7px;
+    }
+
+    .titulo-pivo-mobile > h4 {
+        margin-top: -10px;
+    }
+
+    /* HAMBURGUER */
+    .dropdown-content4 {
+        min-width: 369px;
+    }
+
+    /* AFERIÇÃO */
+
+    .titulo-afericao-mobile {
+        font-size: 9px;
+    }
+
+    .nav-tabs {
+        margin-left: -11px;
+        margin-top: -59px;
+    }
+
+    .nav-link {
+        font-size: 10px !important;
+    }
+
+    /* MAPA ORIGINAL */
+    .titulo-mapa-mobile > h1{
+        font-size: 14px;
+    }
+
+    .titulo-mapa-mobile > h4{
+        font-size: 12px;
+    }
+
+    .botoes-mobile-mapa {
+        font-size: 7px;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+
+    /* TELA DE BOMBEAMENTO */
+
+    .titulo-bombeamento-mobile {
+        font-size: 8px;
+    }
+
+    .titulo-bombeamento-mobile > h4{
+        margin-top: -10px;
+    }
+
+    /* TELA DE AFERIÇÃO DA VELOCIDADE */
+    .titulo-velocidade-mobile {
+        font-size: 8px;
+    }
+
+    /* TELA DE REDIMENSIONAMENTO */
+        /* GERENCIAR */
+    .titulo-redimensionamento-mobile {
+        font-size: 9px;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    /* CABEÇALHO */
+    .header-logo {
+        display: none;
+    }
+
+    #main {
+        float: left;
+    }
+
+    .imagens {
+        height: 50px;
+        width: 88px;
+        float: left;
+    }
+
+    .imagens > a {
+        margin-left: -6px;
+    }
+
+    .acoes .botaoTabela {
+        padding-left: 0px;
+    }
+
+    .nav-tabs {
+        margin-left: -11px;
+        margin-top: -59px;
+    }
+
+    .nav-link {
+        font-size: 10px !important;
+    }
+
+    /* STATUS DA AFERIÇÃO */
+    .afericao h3 {
+        font-size: 15px;
+    }
+
+    .afericao a {
+        color: #fff;
+        font-size: 9pt;
+    }
+
+    /* MAPA ORIGINAL */
+    .titulo-mapa-mobile > h1{
+        font-size: 14px;
+    }
+
+    .titulo-mapa-mobile > h4{
+        font-size: 12px;
+    }
+
+    .botoes-mobile-mapa {
+        font-size: 7px;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+
+    /* NOVO LANCE */
+    .titulo-lance-mobile {
+        font-size: 9px;
+    }
+
+    /* ADUTORA */
+    .titulo-adutora-mobile {
+        font-size: 9px;
+    }
+
+    /* TELA DE BOMBEAMENTO */
+
+    .titulo-bombeamento-mobile {
+        font-size: 7px;
+    }
+
+    .titulo-bombeamento-mobile > h4{
+        margin-top: -14px;
+    }
+
+    /* TELA DE AFERIÇÃO DA VELOCIDADE */
+    .titulo-velocidade-mobile {
+        font-size: 8px;
+    }
+
+    /* TELA DE REDIMENSIONAMENTO */
+        /* GERENCIAR */
+    .titulo-redimensionamento-mobile {
+        font-size: 9px;
+    }
+}
+
+

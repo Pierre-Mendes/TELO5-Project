@@ -29,7 +29,7 @@
 
         {{-- FILTRO DE PESQUISA --}}
         <div class="row justify-content-end telo5inputfiltro mt-3">
-            <div class="col-3 position">
+            <div class="col-md-3 position">
                 <form action="{{route('filter_farm')}}" method="POST" class="form form-inline">
                     @csrf
                     <input class="form-control" name="filter" type="text" placeholder="@lang('comum.pesquisar')"/>
@@ -42,7 +42,7 @@
 
 @section('conteudo')
 @include('_layouts._includes._alert')
-    <div class="col-md-11 m-auto tabela">
+    <div class="table-responsive m-auto tabela">
         <table class="table table-striped mx-auto" id="filtertable">
             @csrf
             <thead class="headertable">

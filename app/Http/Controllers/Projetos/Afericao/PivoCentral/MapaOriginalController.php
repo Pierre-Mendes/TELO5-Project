@@ -13,6 +13,7 @@ use App\Classes\Projetos\Afericao\PivoCentral\Lance;
 use App\Classes\Sistema\Pivo;
 use App\Classes\Constantes\Notificacao;
 use Redirect, Response;
+use App\Http\Controllers\Projetos\Afericao\PivoCentral\AfericaoPivoCentralController;
 
 class MapaOriginalController extends Controller
 {
@@ -35,6 +36,10 @@ class MapaOriginalController extends Controller
                 }
                 return true;
             });
+            
+            $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($mapa[0]['id_afericao']);
+            $menssagem_retorno = ($atualizouFichatecnica) ? __('afericao.cadastro_mapaOriginal_sucesso').__('fichaTecnica.atualizaou_fichatecnica') : __('afericao.cadastro_mapaOriginal_sucesso') ;
+            Notificacao::gerarAlert('', $menssagem_retorno, 'success');
             return redirect()->route('originalMap_manager', $mapa[0]['id_afericao']);
         } else {
             return redirect()->route('gauging_manager');
@@ -78,6 +83,7 @@ class MapaOriginalController extends Controller
             $laminas_medias = json_encode($laminas_medias);
             $emissores = json_encode($emissores);
 
+            $vazao_final_redimensionamento = MapaOriginal::select(DB::raw('SUM(vazao_aspersor) as soma'))->where('id_afericao', $id_afericao)->get();
             return view("projetos.afericao.pivoCentral.relatorio.mapaOriginal.mostrarMapaOriginal", compact('mapa', 'lances', 'laminas_medias', 'laminas', 'emissores', 'id_afericao', 'afericao'));
         } else {
             return redirect()->route('originalMap_create', $id_afericao);
@@ -90,6 +96,9 @@ class MapaOriginalController extends Controller
 
         Emissor::find($emissores['id'])->update($emissores);
 
+        $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($emissores['id_afericao']);
+        $menssagem_retorno = ($atualizouFichatecnica) ? __('afericao.editar_emissores_mapaOriginal_sucesso').__('fichaTecnica.atualizaou_fichatecnica') : __('afericao.editar_emissores_mapaOriginal_sucesso') ;
+        Notificacao::gerarAlert($menssagem_retorno, '');
         return response()->json();
     }
 
@@ -98,7 +107,7 @@ class MapaOriginalController extends Controller
         $afericao = AfericaoPivoCentral::select('numero_lances', 'tem_balanco')->where('id', $id_afericao)->first();
         
         if ($afericao['tem_balanco'] == 'sim') {
-            $lances = Lance::select('id', 'numero_lance')
+        $lances = Lance::select('id', 'numero_lance')
             ->where('id_afericao', $id_afericao)
             ->where('numero_lance', '<', $afericao['numero_lances'])
             ->orderby('numero_lance')
@@ -147,6 +156,9 @@ class MapaOriginalController extends Controller
             $ultima_pos = $ultima_pos - 1;
 
         }
+
+        $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($id_afericao);
+
         $lance['numero_lance'] =  $inicio;
         $lance_criado = Lance::create($lance);
         $id_lance = $lance_criado['id'];
@@ -203,6 +215,10 @@ class MapaOriginalController extends Controller
                 }
                 return true;
             });
+
+            $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($mapa[0]['id_afericao']);
+            $menssagem_retorno = ($atualizouFichatecnica) ? __('afericao.recalculo_mapaOriginal_sucesso').__('fichaTecnica.atualizaou_fichatecnica') : __('afericao.recalculo_mapaOriginal_sucesso') ;
+            Notificacao::gerarAlert('', $menssagem_retorno, 'success');
             return redirect()->route('originalMap_manager', $mapa[0]['id_afericao']);
         } else {
             return redirect()->route('gauging_manager');

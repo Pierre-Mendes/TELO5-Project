@@ -96,7 +96,7 @@ class UsuarioController extends Controller
         $usuarios_superiores = User::select('nome', 'id', 'tipo_usuario')
             ->where('situacao', '1')->where('tipo_usuario', '!=', '0')->where('tipo_usuario', '!=', '4')
             ->orderBy('nome', 'asc')->get();
-            
+
         //Alterando as chaves de idioma e papel para strings
         foreach($listaUsuarios as $user){
             $user->tipo_usuario = __($listaPapeis[$user->tipo_usuario]['valor']);
@@ -215,8 +215,9 @@ class UsuarioController extends Controller
         }
         if ($dados['tipo_usuario'] != 0) {
             CdcUsuario::inserirRelacionamentosCdcUsuario($id_user['id'], $dados['cdcs']);
-        }
-        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.cadastroSucesso", "success");
+        }        
+        
+        Notificacao::gerarAlert('', 'usuarios.cadastro_usuario_sucesso', 'success');
         return redirect()->route('usuarios_manager')->with('Notificacao');
     }
 
@@ -278,7 +279,7 @@ class UsuarioController extends Controller
             if ($dados['tipo_usuario'] != 0) {
                 CdcUsuario::alterarCdcUsuario($dados['cdcs'], $dados['id']);
             }
-            Notificacao::gerarAlert("notificacao.sucesso", "notificacao.edicaoSucesso", "success");
+            Notificacao::gerarAlert('', 'editar_usuario_sucesso', 'success');
             return redirect()->route('usuarios_manager');
         } else {
             Notificacao::gerarAlert("notificacao.erro", "notificacao.falhaEmail", "danger");
@@ -286,7 +287,7 @@ class UsuarioController extends Controller
         }
         User::find($dados['id'])->update($dados);
 
-        Notificacao::gerarAlert("notificacao.sucesso", "notificacao.edicaoSucesso", "success");
+        Notificacao::gerarAlert('', 'usuarios.editar_usuario_sucesso', 'success');
         return redirect()->route('usuarios_manager');
     }
 

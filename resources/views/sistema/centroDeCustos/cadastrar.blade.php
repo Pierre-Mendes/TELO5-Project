@@ -5,7 +5,7 @@
         <div class="row align-items-start">
 
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-cdc-mobile">
                 <h1>@lang('cdc.centro_de_custos')</h1><br>
                 <h4 style="margin-top: -20px">@lang('comum.cadastrar')</h4>
             </div>
@@ -50,7 +50,7 @@
         </div>
 
         {{-- FORMULARIO DE CADASTRO --}}
-        <form action="{{ route('save_cost_center') }}" method="post" class="mt-3" id="formdados">
+        <form action="{{ route('save_technical_delivery') }}" method="post" class="mt-3" id="formdados">
             <div class="tab-content" id="myTabContent">
                 @include('_layouts._includes._alert')
                 <div class="tab-pane fade show active formcdc" id="cadastro" role="tabpanel" aria-labelledby="cadastro-tab">
@@ -109,12 +109,11 @@
                     form.submit();
                 }
             });
-
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
         });
 
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
+        });
     </script>
 
     {{-- SCRIPT PARA FUNCIONALIDADE DO TOOLTIP --}}

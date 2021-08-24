@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'fichaTecnica' => 'Datasheet',
+    'fichaBocais' => 'Nozzles List',
+    'bocaisComprar' => 'Nozzles to buy',
+    'totalAcomprar' => 'Total to buy',
+    'bocal_1' => 'Bocal 1',
+    'bocal_2' => 'Bocal 2',
+    'funcionamento_pivo' => 'Pivot Operation',
+    'editar_ficha_tecnica_sucesso' => 'Changes to <b>Technical Data</b> successfully saved!',
     'mapaBocal' => 'Original Nozzle Map',
     'ftPivoCentralDiagnostico' => 'CENTRAL PIVOT DATA SHEET - DIAGNOSTIC',
     'proprietario' => 'Owner',
@@ -145,5 +153,14 @@ return [
     'bocais' => 'Nozz.',
     'espacamento' => 'Spac.',
     'valvula' => 'Valv.',
-    'numTubos' => 'Nº Tubes: '
+    'numTubos' => 'Nº Tubes: ',
+    'numerosEmissores' => 'Nº',
+
+    'atualizaou_fichatecnica' => 'A new Technical Sheet will be generated.',
+
+    'pivo_central' => 'Center Pivot',
+    'pressao_centro' => 'Pressure at the Center',
+    'area_efetiva' => 'Effective Area',
+    'tudo_novo' => 'All new?',
+    'total_bocais' => 'Total Nozzles'
 ];

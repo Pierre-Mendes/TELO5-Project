@@ -88,7 +88,7 @@
 
                         <div class="form-row justify-content-start">
                             <div class="telo5ce">
-                                <label for="">@lang('pivos.lance_inicial')</label>
+                                <h3 for="">@lang('pivos.lance_inicial')</h3>
                             </div>
                         </div>
 
@@ -112,7 +112,7 @@
 
                         <div class="form-row justify-content-start">
                             <div class="telo5ce">
-                                <label for="">@lang('pivos.lance_intermediario')</label>
+                                <h3 for="">@lang('pivos.lance_intermediario')</h3>
                             </div>
                         </div>
 
@@ -219,10 +219,10 @@
                     form.submit();
                 }
             });
+        });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
         });
 
     </script>

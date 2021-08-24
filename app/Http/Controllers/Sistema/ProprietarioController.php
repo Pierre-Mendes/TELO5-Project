@@ -62,7 +62,7 @@ class ProprietarioController extends Controller
     {
         // $dados = $req->all();
         Proprietario::create($req->all());
-        Notificacao::gerarAlert('proprietarios.sucesso', 'proprietarios.inserido_sucesso', 'success');
+        Notificacao::gerarAlert('', 'proprietarios.cadastro_proprietario_sucesso', 'success');
         return redirect()->route('owner_manager');
     }
 
@@ -74,7 +74,7 @@ class ProprietarioController extends Controller
     public function updateOwner(Request $req){
         $dados = $req->all();
         Proprietario::find($dados['id'])->update($dados);
-        Notificacao::gerarAlert('proprietarios.sucesso', 'proprietarios.editado_sucesso', 'info');
+        Notificacao::gerarAlert('', 'proprietarios.editar_proprietario_sucesso', 'success');
         return redirect()->route('owner_manager');
     }
 

@@ -21,27 +21,37 @@ use App\Classes\Projetos\Afericao\PivoCentral\ProblemaAfericao;
 use App\Classes\Projetos\Afericao\PivoCentral\Lance;
 use App\Classes\Projetos\Afericao\PivoCentral\Emissor;
 use App\Classes\Projetos\Afericao\PivoCentral\fichaTecnica;
+use App\Classes\Projetos\Afericao\PivoCentral\FichaTecnicaAdutora;
+use App\Classes\Projetos\Afericao\PivoCentral\FichaTecnicaFuncioPivo;
+use App\Classes\Projetos\Afericao\PivoCentral\FichaTecnicaRedimenPerc;
 use App\Classes\Constantes\Notificacao;
+use App\Classes\Projetos\Redimensionamento\PivoCentral\InfoRedimensionamento;
 
 class FichaTecnicaController extends Controller
 {
     public function Datasheet($id_afericao)
     {
 
-        //Dados para  aficha técnica
-        /*
-        $dados_ficha_tecnica = DB::table('users AS U')
-        ->select('U.nome AS nome_usuario', 'U.cidade AS cidade_usuario', 'U.estado AS estado_usuario', 'U.pais AS pais_usuario', 'U.rua AS rua_usuario', 'U.cep AS cep_usuario', 'U.telefone AS telefone_usuario',
-        'F.nome AS nome_fazenda', 'F.cidade AS cidade_fazenda', 'F.estado AS estado_fazenda', 'F.pais AS pais_fazenda', 'F.latitude AS latitude_fazenda', 'F.longitude AS longitude_fazenda',
-        'APC.data_afericao', 'APC.tempo_funcionamento', 'APC.horimetro', 'APC.marca_modelo_pivo', 'APC.ano_montagem', 'APC.giro_equipamento', 'APC.tipo_painel', 'APC.lamina_anual', 'APC.custo_medio', 'APC.marca_modelo_emissores',
-        'APC.rodado', 'APC.revestimento', 'APC.pendural', 'APC.modelo_equipamento', 'APC.defletor', 'APC.altura_pivo', 'APC.valv_reguladoras', 'APC.altura_emissores', 'APC.numero_lances', 'APC.nome_pivo', 'APC.tem_balanco',
-        'P.fabricante AS fabricante_pivo', 'P.nome AS nome_pivo')
-        ->join('fazendas AS F', 'U.id', 'F.id_proprietario')
-        ->join('afericoes_pivos_centrais AS APC', 'F.id', 'APC.id_fazenda')
-        ->join('pivos AS P', 'P.id', 'APC.marca_modelo_pivo')
-        ->where('APC.id', $id_afericao)
-        ->first();
-        */
+        $tipo_projeto = '';
+        $id_afericao_original = 0;
+        $id_afericao_redimensionamento = 0;
+
+        $infoR = InfoRedimensionamento::select('id_afericao_original')->where('id_afericao_redimensionamento', $id_afericao)->get();
+        if (count($infoR) > 0) {
+            $tipo_projeto = 'R';
+            // id da aferição original = $infoR[0]['id_afericao_original'];
+            $id_afericao_original = $infoR[0]['id_afericao_original'];
+            $id_afericao_redimensionamento = (int)$id_afericao;
+        } else {
+            $infoR = InfoRedimensionamento::select('id_afericao_redimensionamento')->where('id_afericao_original', $id_afericao)->get();
+            if (count($infoR) > 0) {
+                $tipo_projeto = 'A';
+                // id do redimensionamento = $infoR[0]['id_afericao_redimensionamento'];
+                $id_afericao_redimensionamento = $infoR[0]['id_afericao_redimensionamento'];
+                $id_afericao_original = $id_afericao;
+            }
+        }
+
         if(!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($id_afericao)){
             Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
             return redirect()->route('dashboard');
@@ -68,6 +78,7 @@ class FichaTecnicaController extends Controller
 
         //Obtendo o valor do motorreduotor
         $somatorio_motorredutor = Lance::select(DB::raw('SUM(motorredutor) as soma'))->where('id_afericao', $id_afericao)->first()['soma'];
+        
         if(empty($somatorio_motorredutor)){
             $somatorio_motorredutor = 0;
         }
@@ -82,7 +93,7 @@ class FichaTecnicaController extends Controller
         $trechos_adutora = Adutora::where('id_afericao', $id_afericao)->get();
         
         $dados_adutora = Adutora::adductor_calculate($cabecalho_bombeamento, $trechos_adutora, $afericao);
-        
+
         //Somandos os desníveis da adutora
         $total_desnivel_adutora = 0;
         for($i = 0; $i < count($dados_adutora); $i++){
@@ -135,39 +146,39 @@ class FichaTecnicaController extends Controller
 
         // Montagem do texto de uniformidade
         if ($status_ft != 'noChange') {
-            if($dados_ficha_tecnica['tipo_projeto'] == "A"){
-                $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_1', [
-                    'lamina' => number_format($dados_mapa_original[0]['lamina'], 2), 
-                    'horas' => $dados_mapa_original[0]['tempo'] 
-                ]);
-            }else{
-                $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_7', [
-                    'lamina' => number_format($dados_mapa_original[0]['lamina'], 2), 
-                    'horas' => $dados_mapa_original[0]['tempo'] 
-                ]);
-            }
-            
-            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_2', [
-                'vazao' => number_format($dados_mapa_original[0]['somatorio_vazao_ok'], 2), 
-                'area' => number_format($dados_mapa_original[0]['area_total_com_canhao'],2), 
-                'raio_irrigado' => number_format($dados_mapa_original[0]['raio_irrigado'],2) 
+        if($dados_ficha_tecnica['tipo_projeto'] == "A"){
+            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_1', [
+                'lamina' => number_format($dados_mapa_original[0]['lamina'], 2), 
+                'horas' => $dados_mapa_original[0]['tempo'] 
             ]);
-            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_3', [
-                'uniformidade_potencial' => number_format($dados_mapa_original[0]['uniformidade_aplicacao'],2)
+        }else{
+            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_7', [
+                'lamina' => number_format($dados_mapa_original[0]['lamina'], 2), 
+                'horas' => $dados_mapa_original[0]['tempo'] 
             ]);
-    
-            if($dados_mapa_original[0]['uniformidade_aplicacao'] > 90){
-                $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.otimo');
-            }else if($dados_mapa_original[0]['uniformidade_aplicacao'] <=90 && $dados_mapa_original[0]['uniformidade_aplicacao'] >85){
-                $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.bom');
-            }else if($dados_mapa_original[0]['uniformidade_aplicacao'] <=85 && $dados_mapa_original[0]['uniformidade_aplicacao'] >80){
-                $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.regular');
-            }else{
-                $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.ruim');
-            }
-            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_4') . __('fichaTecnica.texto_uniformidade_5') . __('fichaTecnica.texto_uniformidade_6');    
         }
         
+        $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_2', [
+            'vazao' => number_format($dados_mapa_original[0]['somatorio_vazao_ok'], 2), 
+            'area' => number_format($dados_mapa_original[0]['area_total_com_canhao'],2), 
+            'raio_irrigado' => number_format($dados_mapa_original[0]['raio_irrigado'],2) 
+        ]);
+        $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_3', [
+            'uniformidade_potencial' => number_format($dados_mapa_original[0]['uniformidade_aplicacao'],2)
+        ]);
+
+        if($dados_mapa_original[0]['uniformidade_aplicacao'] > 90){
+            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.otimo');
+        }else if($dados_mapa_original[0]['uniformidade_aplicacao'] <=90 && $dados_mapa_original[0]['uniformidade_aplicacao'] >85){
+            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.bom');
+        }else if($dados_mapa_original[0]['uniformidade_aplicacao'] <=85 && $dados_mapa_original[0]['uniformidade_aplicacao'] >80){
+            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.regular');
+        }else{
+            $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.ruim');
+        }
+        $texto_uniformidade = $texto_uniformidade . __('fichaTecnica.texto_uniformidade_4') . __('fichaTecnica.texto_uniformidade_5') . __('fichaTecnica.texto_uniformidade_6');
+        }
+
         //Função de truncar
         function truncar($val, $f="0")
         {
@@ -176,10 +187,9 @@ class FichaTecnicaController extends Controller
             }
             return $val;
         }
-        /** PAREI AQUI  O custo de lâmina deve ser calculado para cada bombeamento, o jeito atual calcula apenas do primeiro*/
+        
         //Custo de lâmina
         $dados_custo_lamina = CustoLaminaAfericao::calculaCustoLamina($id_afericao, $afericao, $cabecalho_bombeamento,  $somatorio_motorredutor);
-
         //Dados de velocidade
         $dados_velocidade = $dados_mapa_original[0];
         //Dados velocidade do pivô
@@ -303,7 +313,7 @@ class FichaTecnicaController extends Controller
             if ($bombeamento['tipo_motor'] == 'eletrico'){
                 $somatorio_potencia += ($bombeamento['potencia'] * $bombeamento['numero_motores'] * ($bombeamento->calcularMediaCorrentes())/$bombeamento['corrente_nominal']);
                 $dados_estimativa_custo_lamina['consumo_eletrico_anual'] = number_format($dados_custo_lamina['eletrico']['consumo_anual'],2,",",".");
-                $dados_estimativa_custo_lamina['custo_eletrico'] = $dados_custo_lamina['eletrico']['custo_mm_ha'];
+                $dados_estimativa_custo_lamina['custo_eletrico'] = round($dados_custo_lamina['eletrico']['custo_mm_ha'], 2);
                 $dados_estimativa_custo_lamina['custo_medio'] = $dados_custo_lamina['eletrico']['custo_medio_kwh'];        
             }else{
                 /** Verificar chaves da matriz */
@@ -325,9 +335,7 @@ class FichaTecnicaController extends Controller
         $dados_altura_manometrica['desnivel_motobomba_centro'] = $total_desnivel_adutora;
         $dados_altura_manometrica['perda_carga_total_adutora'] = $total_hf;
         $dados_altura_manometrica['altura_manometrica_total_requerida'] = $total_hf + $total_desnivel_adutora + $dados_altura_manometrica['desnivel_centro_ponto_mais_alto'] +  $dados_altura_manometrica['perda_carga_parte_aerea'] + $dados_altura_manometrica['altura_emissores'] + $dados_altura_manometrica['pressao_ponta'];
-        //$dados_altura_manometrica['pressao_saida_bomba'] = $bombeamento; //Verificar o modo pois dependendo será uma somatória
-        //$dados_altura_manometrica['shut_off'] = ; //Ficará sem
-        
+
         $lamina_conjugada = 0;
         if (!empty($dados_pivo_conjugado)){
             //Cálculo  da área total do sistema
@@ -346,66 +354,66 @@ class FichaTecnicaController extends Controller
             if ($status_ft != 'noChange') {
                 $texto_observacoes = __('fichaTecnica.areaTotalSistema').__('unidadesAcoes.(ha)').": ".number_format($area_total_sistema, 2)."; "
                 .__('fichaTecnica.laminaConjugada').__('unidadesAcoes.(mm)').": ".number_format($lamina_conjugada, 2).". ";
-            }
+             }
         }
         
         if ($status_ft != 'noChange') {
-            //Problemas que possui
-            $problemas_afericao = ProblemaAfericao::where('id_afericao', $id_afericao)->first();
+        //Problemas que possui
+        $problemas_afericao = ProblemaAfericao::where('id_afericao', $id_afericao)->first();
 
-            //Atribuindo quais são os problemas para o vetor
-            $problemas = [];
-            if ($problemas_afericao['problema_torre_central'] != null) array_push($problemas,  explode(',', $problemas_afericao['problema_torre_central']));
+        //Atribuindo quais são os problemas para o vetor
+        $problemas = [];
+        if ($problemas_afericao['problema_torre_central'] != null) array_push($problemas,  explode(',', $problemas_afericao['problema_torre_central']));
 
-            if ($problemas_afericao['problema_valvula_psi'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_valvula_psi']));
-            
-            if ($problemas_afericao['problema_parte_aerea'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_parte_aerea']));
+        if ($problemas_afericao['problema_valvula_psi'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_valvula_psi']));
+        
+        if ($problemas_afericao['problema_parte_aerea'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_parte_aerea']));
 
-            if ($problemas_afericao['problema_canhao_final'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_canhao_final']));
+        if ($problemas_afericao['problema_canhao_final'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_canhao_final']));
 
-            if ($problemas_afericao['problema_casa_bomba'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_casa_bomba']));
+        if ($problemas_afericao['problema_casa_bomba'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_casa_bomba']));
 
-            if ($problemas_afericao['problema_adutora'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_adutora']));
+        if ($problemas_afericao['problema_adutora'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_adutora']));
 
-            if ($problemas_afericao['problema_chave_partida'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_chave_partida']));
+        if ($problemas_afericao['problema_chave_partida'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_chave_partida']));
 
-            if ($problemas_afericao['problema_succao'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_succao']));
+        if ($problemas_afericao['problema_succao'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_succao']));
 
-            if ($problemas_afericao['problema_motor_principal'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_motor_principal']));
+        if ($problemas_afericao['problema_motor_principal'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_motor_principal']));
 
-            if ($problemas_afericao['problema_bomba_principal'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_bomba_principal']));
+        if ($problemas_afericao['problema_bomba_principal'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_bomba_principal']));
 
-            if ($problemas_afericao['problema_motor_auxiliar'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_motor_auxiliar']));
+        if ($problemas_afericao['problema_motor_auxiliar'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_motor_auxiliar']));
 
-            if ($problemas_afericao['problema_bomba_auxiliar'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_bomba_auxiliar']));
+        if ($problemas_afericao['problema_bomba_auxiliar'] != null) array_push($problemas, explode(',', $problemas_afericao['problema_bomba_auxiliar']));
 
-            //Percorrendo todos os problemas e adicionando ao texto de observação
-            foreach($problemas AS $problema){
-                for ($i=0; $i<count($problema); $i++){
-                    $texto_observacoes = $texto_observacoes.__('afericao.problema'.$problema[$i])."; ";
-                }
-            }
-
-            //Texto para velocidade a 100%
-            if(isset($dados_velocidade_red['tabela_resultante']['maior_variacao']))
-                $texto_velocidade_100 = __('fichaTecnica.textoVelocidade100_1', ['media_velocidade' => number_format($dados_velocidade_red['verificacao_velocidade']['media_velocidade'], 2), 'lamina' => number_format($velocidade_pivo[100]['lamina_mm'], 2), 'maior_variacao' => number_format(($dados_velocidade_red['tabela_resultante']['maior_variacao'] * 100), 2)]);
-            else
-                $texto_velocidade_100 = __('fichaTecnica.textoVelocidade100_1', ['media_velocidade' => number_format($dados_velocidade_red['verificacao_velocidade']['media_velocidade'], 2), 'lamina' => number_format($velocidade_pivo[100]['lamina_mm'], 2)]);
-            
-            if (isset($dados_velocidade_red['tabela_resultante']['maior_positivo'])){
-                if(($dados_velocidade_red['tabela_resultante']['maior_positivo'] > 0.05) || ($dados_velocidade_red['tabela_resultante']['maior_negativo'] < -0.005)){
-                    $texto_velocidade_100 = $texto_velocidade_100.__('fichaTecnica.textoVelocidade100_2');
-                }else{
-                    $texto_velocidade_100 = $texto_velocidade_100.__('fichaTecnica.textoVelocidade100_3');
-                }
-                if(($dados_velocidade_red['tabela_resultante']['maior_positivo'] > 0.05) || ($dados_velocidade_red['tabela_resultante']['maior_negativo'] < -0.005)){
-                    $texto_velocidade_100 = $texto_velocidade_100.__('fichaTecnica.textoVelocidade100_4');
-                }else{
-                    $texto_velocidade_100 = $texto_velocidade_100.__('fichaTecnica.textoVelocidade100_5');
-                }
+        //Percorrendo todos os problemas e adicionando ao texto de observação
+        foreach($problemas AS $problema){
+            for ($i=0; $i<count($problema); $i++){
+                $texto_observacoes = $texto_observacoes.__('afericao.problema'.$problema[$i])."; ";
             }
         }
 
+        //Texto para velocidade a 100%
+        if(isset($dados_velocidade_red['tabela_resultante']['maior_variacao']))
+            $texto_velocidade_100 = __('fichaTecnica.textoVelocidade100_1', ['media_velocidade' => number_format($dados_velocidade_red['verificacao_velocidade']['media_velocidade'], 2), 'lamina' => number_format($velocidade_pivo[100]['lamina_mm'], 2), 'maior_variacao' => number_format(($dados_velocidade_red['tabela_resultante']['maior_variacao'] * 100), 2)]);
+        else
+            $texto_velocidade_100 = __('fichaTecnica.textoVelocidade100_1', ['media_velocidade' => number_format($dados_velocidade_red['verificacao_velocidade']['media_velocidade'], 2), 'lamina' => number_format($velocidade_pivo[100]['lamina_mm'], 2)]);
+        
+        if (isset($dados_velocidade_red['tabela_resultante']['maior_positivo'])){
+            if(($dados_velocidade_red['tabela_resultante']['maior_positivo'] > 0.05) || ($dados_velocidade_red['tabela_resultante']['maior_negativo'] < -0.005)){
+                $texto_velocidade_100 = $texto_velocidade_100.__('fichaTecnica.textoVelocidade100_2');
+            }else{
+                $texto_velocidade_100 = $texto_velocidade_100.__('fichaTecnica.textoVelocidade100_3');
+            }
+            if(($dados_velocidade_red['tabela_resultante']['maior_positivo'] > 0.05) || ($dados_velocidade_red['tabela_resultante']['maior_negativo'] < -0.005)){
+                $texto_velocidade_100 = $texto_velocidade_100.__('fichaTecnica.textoVelocidade100_4');
+            }else{
+                $texto_velocidade_100 = $texto_velocidade_100.__('fichaTecnica.textoVelocidade100_5');
+            }
+        }
+        }
+        
         //Arrays para o gráfico de velocidade
         $projetada = [];
         $aferida   = [];
@@ -434,60 +442,60 @@ class FichaTecnicaController extends Controller
         if ($dados_ficha_tecnica->valv_reguladoras == 50) $valor_pressao = 35.145;
         
         if ($status_ft != 'noChange') {
-            //add uniformidade no texto da conclusão
-            if($dados_ficha_tecnica['tipo_projeto'] == "A"){
-                $texto_conclusao = __('fichaTecnica.conclusao17');
+        //add uniformidade no texto da conclusão
+        if($dados_ficha_tecnica['tipo_projeto'] == "A"){
+            $texto_conclusao = __('fichaTecnica.conclusao17');
 
-                if($dados_mapa_original[0]['uniformidade_aplicacao'] > 90){
-                    $texto_conclusao = $texto_conclusao .  __('fichaTecnica.conclusao14');
-                }else if ($dados_mapa_original[0]['uniformidade_aplicacao'] < 90 && $dados_mapa_original[0]['uniformidade_aplicacao'] > 85){
-                    $texto_conclusao = $texto_conclusao .  __('fichaTecnica.conclusao15');
-                }else{
-                    $texto_conclusao = $texto_conclusao .  __('fichaTecnica.conclusao16');
-                }
-
-                //Validação quanto a pressão da válvula
-                if ($dados_altura_manometrica['pressao_ponta'] < $valor_pressao){
-                    $texto_conclusao = $texto_conclusao . __('fichaTecnica.conclusao1');
-                }
-                else if ($dados_altura_manometrica['pressao_ponta'] < $valor_pressao*1.4 ){
-                    $texto_conclusao = $texto_conclusao . __('fichaTecnica.conclusao2');
-                }
-                else if($dados_altura_manometrica['pressao_ponta'] >= $valor_pressao*1.4 && $dados_altura_manometrica['pressao_ponta'] <= $valor_pressao*3.5){
-                    $texto_conclusao = $texto_conclusao . __('fichaTecnica.conclusao13');
-                }
-                else{
-                    $texto_conclusao = $texto_conclusao . __('fichaTecnica.conclusao3');
-                }
-
-                $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao4', ['x' => count($bombeamentos)]);
-
-                foreach($bombeamentos AS $key => $bombemanto){
-                    $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao5', ['a' => $key+1, 'y' => $bombeamento['numero_motores']]);
-                }
-                foreach($bombeamentos AS $key => $bombemanto){
-                    $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao6', ['x' => $key+1, 'n' => number_format($bombeamento['indice_carregamento_1_final_corrigido'] * 100, 2)]);
-                    if ($bombeamento['indice_carregamento_1_final_corrigido'] < 0.7) $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao7');
-                    if ($bombeamento['indice_carregamento_1_final_corrigido'] > 0.7) $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao8');
-                    if ($bombeamento['indice_carregamento_1_final_corrigido'] > 1) $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao9');
-                }
-
-                $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao10');
-
-                //Montando parte da condição para a parte final do texto
-                if (isset($dados_velocidade_red['tabela_resultante']['variacao_100'])){
-                    if (max($dados_velocidade_red['tabela_resultante']['variacao_100'], $dados_velocidade_red['tabela_resultante']['variacao_90'], $dados_velocidade_red['tabela_resultante']['variacao_80'], $dados_velocidade_red['tabela_resultante']['variacao_70'], $dados_velocidade_red['tabela_resultante']['variacao_60'], $dados_velocidade_red['tabela_resultante']['variacao_50'], $dados_velocidade_red['tabela_resultante']['variacao_40']) == 0){
-                        $condicao1 = min($dados_velocidade_red['tabela_resultante']['variacao_100'], $dados_velocidade_red['tabela_resultante']['variacao_90'], $dados_velocidade_red['tabela_resultante']['variacao_80'], $dados_velocidade_red['tabela_resultante']['variacao_70'], $dados_velocidade_red['tabela_resultante']['variacao_60'], $dados_velocidade_red['tabela_resultante']['variacao_50'], $dados_velocidade_red['tabela_resultante']['variacao_40']);
-                    }else{
-                        $condicao1 = max($dados_velocidade_red['tabela_resultante']['variacao_100'], $dados_velocidade_red['tabela_resultante']['variacao_90'], $dados_velocidade_red['tabela_resultante']['variacao_80'], $dados_velocidade_red['tabela_resultante']['variacao_70'], $dados_velocidade_red['tabela_resultante']['variacao_60'], $dados_velocidade_red['tabela_resultante']['variacao_50'], $dados_velocidade_red['tabela_resultante']['variacao_40']);
-                    }            
-
-                    if ($condicao1 > 0.05 || $condicao1 < -0.05) $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao11');
-                    else $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao12');
-                }
+            if($dados_mapa_original[0]['uniformidade_aplicacao'] > 90){
+                $texto_conclusao = $texto_conclusao .  __('fichaTecnica.conclusao14');
+            }else if ($dados_mapa_original[0]['uniformidade_aplicacao'] < 90 && $dados_mapa_original[0]['uniformidade_aplicacao'] > 85){
+                $texto_conclusao = $texto_conclusao .  __('fichaTecnica.conclusao15');
             }else{
-                $texto_conclusao = __('fichaTecnica.conclusao18');
+                $texto_conclusao = $texto_conclusao .  __('fichaTecnica.conclusao16');
             }
+
+            //Validação quanto a pressão da válvula
+            if ($dados_altura_manometrica['pressao_ponta'] < $valor_pressao){
+                $texto_conclusao = $texto_conclusao . __('fichaTecnica.conclusao1');
+            }
+            else if ($dados_altura_manometrica['pressao_ponta'] < $valor_pressao*1.4 ){
+                $texto_conclusao = $texto_conclusao . __('fichaTecnica.conclusao2');
+            }
+            else if($dados_altura_manometrica['pressao_ponta'] >= $valor_pressao*1.4 && $dados_altura_manometrica['pressao_ponta'] <= $valor_pressao*3.5){
+                $texto_conclusao = $texto_conclusao . __('fichaTecnica.conclusao13');
+            }
+            else{
+                $texto_conclusao = $texto_conclusao . __('fichaTecnica.conclusao3');
+            }
+
+            $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao4', ['x' => count($bombeamentos)]);
+
+            foreach($bombeamentos AS $key => $bombemanto){
+                $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao5', ['a' => $key+1, 'y' => $bombeamento['numero_motores']]);
+            }
+            foreach($bombeamentos AS $key => $bombemanto){
+                $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao6', ['x' => $key+1, 'n' => number_format($bombeamento['indice_carregamento_1_final_corrigido'] * 100, 2)]);
+                if ($bombeamento['indice_carregamento_1_final_corrigido'] < 0.7) $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao7');
+                if ($bombeamento['indice_carregamento_1_final_corrigido'] > 0.7) $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao8');
+                if ($bombeamento['indice_carregamento_1_final_corrigido'] > 1) $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao9');
+            }
+
+            $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao10');
+
+            //Montando parte da condição para a parte final do texto
+            if (isset($dados_velocidade_red['tabela_resultante']['variacao_100'])){
+                if (max($dados_velocidade_red['tabela_resultante']['variacao_100'], $dados_velocidade_red['tabela_resultante']['variacao_90'], $dados_velocidade_red['tabela_resultante']['variacao_80'], $dados_velocidade_red['tabela_resultante']['variacao_70'], $dados_velocidade_red['tabela_resultante']['variacao_60'], $dados_velocidade_red['tabela_resultante']['variacao_50'], $dados_velocidade_red['tabela_resultante']['variacao_40']) == 0){
+                    $condicao1 = min($dados_velocidade_red['tabela_resultante']['variacao_100'], $dados_velocidade_red['tabela_resultante']['variacao_90'], $dados_velocidade_red['tabela_resultante']['variacao_80'], $dados_velocidade_red['tabela_resultante']['variacao_70'], $dados_velocidade_red['tabela_resultante']['variacao_60'], $dados_velocidade_red['tabela_resultante']['variacao_50'], $dados_velocidade_red['tabela_resultante']['variacao_40']);
+                }else{
+                    $condicao1 = max($dados_velocidade_red['tabela_resultante']['variacao_100'], $dados_velocidade_red['tabela_resultante']['variacao_90'], $dados_velocidade_red['tabela_resultante']['variacao_80'], $dados_velocidade_red['tabela_resultante']['variacao_70'], $dados_velocidade_red['tabela_resultante']['variacao_60'], $dados_velocidade_red['tabela_resultante']['variacao_50'], $dados_velocidade_red['tabela_resultante']['variacao_40']);
+                }            
+
+                if ($condicao1 > 0.05 || $condicao1 < -0.05) $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao11');
+                else $texto_conclusao = $texto_conclusao.__('fichaTecnica.conclusao12');
+            }
+        }else{
+            $texto_conclusao = __('fichaTecnica.conclusao18');
+        }
         }
 
         //Montagem do texto para COMPOSIÇÃO PARTE AÉREA
@@ -501,11 +509,81 @@ class FichaTecnicaController extends Controller
         ->orderby('numero_lance', 'asc')
         ->orderby('E.numero', 'asc')
         ->get();
+
+        $total_bocais = count($dados_lances2);
+
+        if ( $tipo_projeto == 'R') {
+            // Query para listar as saidas dentro de cada lance e suas quantidades do redimensionamento SAIDA 1
+            $range_id_lance = Lance::select(DB::raw('group_concat(id) as lances'))->where('id_afericao', $id_afericao_redimensionamento)->get();
+            $range = $range_id_lance[0]['lances'];
+            $lista_bocais_compra = Emissor::select('saida_1', DB::raw('count(*) as quantidade'))
+            ->where(\DB::raw("FIND_IN_SET(id_lance, '".$range."')"),">",\DB::raw("'0'"))
+            ->groupby('saida_1')->orderby('saida_1')->get();
+
+            // Query para listar as saidas dentro de cada lance e suas quantidades do redimensionamento SAIDA 2
+            $range_id_lance = Lance::select(DB::raw('group_concat(id) as lances'))->where('id_afericao', $id_afericao_redimensionamento)->get();
+            $range = $range_id_lance[0]['lances'];
+            $lista_bocais_compra2 = Emissor::select('saida_2', DB::raw('count(*) as quantidade'))
+            ->where(\DB::raw("FIND_IN_SET(id_lance, '".$range."')"),">",\DB::raw("'0'"))
+            ->groupby('saida_2')->orderby('saida_2')->get();
+
+            foreach ($lista_bocais_compra as $total) {
+                foreach ($lista_bocais_compra2 as $total_2){
+                    if ($total['saida_1'] == $total_2['saida_2']) {
+                        $total['quantidade'] = $total['quantidade'] + $total_2['quantidade'];
+                    }
+                }
+            }
+
+            // Query para listar as saidas dentro de cada lance e suas quantidades da afericao SAIDA 1
+            $range_id_lance_afericao = Lance::select(DB::raw('group_concat(id) as lances'))->where('id_afericao', $id_afericao_original)->get();
+            $range_afericao = $range_id_lance_afericao[0]['lances'];
+            $lista_bocais_afericao = Emissor::select('saida_1', DB::raw('count(*) as quantidade'))
+            ->where(\DB::raw("FIND_IN_SET(id_lance, '".$range_afericao."')"),">",\DB::raw("'0'"))
+            ->groupby('saida_1')->orderby('saida_1')->get();
+
+            
+            // Query para listar as saidas dentro de cada lance e suas quantidades da afericao SAIDA 2
+            $range_id_lance_afericao = Lance::select(DB::raw('group_concat(id) as lances'))->where('id_afericao', $id_afericao_original)->get();
+            $range_afericao = $range_id_lance_afericao[0]['lances'];
+            $lista_bocais_afericao_2 = Emissor::select('saida_2', DB::raw('count(*) as quantidade'))
+            ->where(\DB::raw("FIND_IN_SET(id_lance, '".$range_afericao."')"),">",\DB::raw("'0'"))
+            ->groupby('saida_2')->orderby('saida_2')->get();
+            
+            foreach ($lista_bocais_afericao as $total_afericao) {
+                foreach ($lista_bocais_afericao_2 as $total_2_afericao){
+                    if ($total_afericao['saida_1'] == $total_2_afericao['saida_2']) {
+                        $total_afericao['quantidade'] = $total_afericao['quantidade'] + $total_2_afericao['quantidade'];
+                    }
+                }
+            }
+
+            $lista_saldo = array();
+            foreach ($lista_bocais_compra as $compras) {
+                $contador = 0;
+                if ($compras['saida_1'] == 0) continue;
+
+                foreach ($lista_bocais_afericao as $lista){
+                    if ($compras['saida_1'] == $lista['saida_1']) {
+                        if ($compras['quantidade'] > $lista['quantidade']) {
+                            $lista_saldo[] = array('saida_1' => $lista['saida_1'], 
+                                                   'quantidade' => ($compras['quantidade'] - $lista['quantidade']));
+                        }
+                        break;
+                    }
+                    $contador += 1;
+
+                    if ($contador == count($lista_bocais_afericao)) {
+                        $lista_saldo[] = array('saida_1' => $compras['saida_1'], 
+                                                'quantidade' => ($compras['quantidade']));
+                    }
+                }
+            }
+        }
+
+
         
-        $emissor_max = Lance::where('id_afericao', $id_afericao)->max('numero_emissores');
-        // dd($emissor_max);
-        // $dados_lances = Lance::where('id_afericao', $id_afericao)->orderby('numero_lance', 'asc')->get();
-        //dd($dados_lances);
+        $emissor_max = Lance::where('id_afericao', $id_afericao)->max('numero_emissores');  
         //Percorrendo o array para verificar repetições para contagem de lances e verificando o diametro
         $tubos_lp = $tubos_lm = $tubos_ll = $tubos_lel = $qtd_emissores = 0;
         foreach($dados_lances AS $key => $lances){
@@ -590,31 +668,122 @@ class FichaTecnicaController extends Controller
         }
 
         if ($status_ft != 'noChange') {
-            $textos_ficha_tecnica = [];
+            $vt_ficha_tecnica = [];
 
-            $textos_ficha_tecnica['id_afericao'] = $id_afericao;
-            $textos_ficha_tecnica['txt_observacoes'] = $texto_observacoes;
-            $textos_ficha_tecnica['txt_teste_velocidade'] = $texto_velocidade_100;
-            $textos_ficha_tecnica['txt_uniformidade'] = $texto_uniformidade;
-            $textos_ficha_tecnica['txt_conclusao'] = $texto_conclusao;
-            $textos_ficha_tecnica['versoes'] = $dados_ficha_tecnica['versoes'];
+            $vt_ficha_tecnica['id_afericao'] = $id_afericao;
+            $vt_ficha_tecnica['txt_observacoes'] = $texto_observacoes;
+            $vt_ficha_tecnica['txt_teste_velocidade'] = $texto_velocidade_100;
+            $vt_ficha_tecnica['txt_uniformidade'] = $texto_uniformidade;
+            $vt_ficha_tecnica['txt_conclusao'] = $texto_conclusao;
+            $vt_ficha_tecnica['versoes'] = $dados_ficha_tecnica['versoes'];
 
-            $id_ficha_tecnica = $this->saveDatasheet($textos_ficha_tecnica, $status_ft);
+            // dados da ficha técnica
+            $vt_ficha_tecnica['composicao_parte_aerea'] = $texto_composicao;
+            $vt_ficha_tecnica['area_total'] = $dados_velocidade['area_total_com_canhao'];
+            $vt_ficha_tecnica['lamina_diaria'] = $dados_mapa_original[0]['lamina'];
+            $vt_ficha_tecnica['raio_irrigado'] = $dados_velocidade['raio_irrigado'];
+            $vt_ficha_tecnica['vazao_total'] = $dados_mapa_original[0]['vazao_sistema'];
+            $vt_ficha_tecnica['uniformidade_aplicacao'] = $dados_mapa_original[0]['uniformidade_aplicacao'];
+            $vt_ficha_tecnica['raio_ultima_torre'] = $dados_mapa_original[0]['raio_ultima_torre'];
+            $vt_ficha_tecnica['balanco'] = $dados_mapa_original[0]['balanco'];
+            $vt_ficha_tecnica['velocidade_a_100'] = $dados_velocidade_red['verificacao_velocidade']['media_velocidade'];
+            $vt_ficha_tecnica['alcance_canhao'] = $dados_mapa_original[0]['alcance_canhao_final'];
+            $vt_ficha_tecnica['tempo_a_100'] = $dados_mapa_original[0]['tempo_a_100'];
+            $vt_ficha_tecnica['altura_emissores'] = $dados_velocidade['altura_emissores'];
+            $vt_ficha_tecnica['lamina_conjugada'] = $lamina_conjugada;
+            $vt_ficha_tecnica['desnivel_centro_ao_ponto_mais_alto'] = $dados_altura_manometrica['desnivel_centro_ponto_mais_alto'];
+            $vt_ficha_tecnica['perda_carga_parte_aerea'] = $dados_altura_manometrica['pressao_entrada_centro_pivo'];
+            $vt_ficha_tecnica['desnivel_motobomba'] = $dados_altura_manometrica['desnivel_motobomba_centro'];
+            $vt_ficha_tecnica['perda_carga_total_adutora'] = $dados_altura_manometrica['perda_carga_total_adutora'];
+            $vt_ficha_tecnica['pressao_ponta'] = $dados_altura_manometrica['pressao_ponta'];
+            $vt_ficha_tecnica['altura_manometrica'] = $dados_altura_manometrica['altura_manometrica_total_requerida'];
+            $vt_ficha_tecnica['potencia_total_sistema'] = (float)$dados_estimativa_custo_lamina['potencia_total_sistema'];
+            $vt_ficha_tecnica['lamina_anual'] = $dados_estimativa_custo_lamina['lamina_anual'];
+            $vt_ficha_tecnica['consumo_eletrico_anual'] = (float)$dados_estimativa_custo_lamina['consumo_eletrico_anual'];
+            $vt_ficha_tecnica['custo_eletrico'] = $dados_estimativa_custo_lamina['custo_eletrico'];
+
+
+            // dados da adutora
+            $vt_ft_adutora = array();
+            foreach ($trechos_adutora as $key => $trecho) {
+
+                switch ($trecho['material']) {
+                    case 0:
+                        $material = __('afericao.acoSac'); break;
+                    case 1:
+                        $material = __('afericao.az'); break;
+                    case 2:
+                        $material = "__('afericao.ferroFundido')"; break;
+                    case 3:
+                        $material = "PVC PN 125"; break;
+                    case 4:
+                        $material = "PVC PN 140"; break;
+                    case 5:
+                        $material = "PVC PN 180"; break;
+                    case 6:
+                        $material = "PVC PN 60"; break;
+                    case 7:
+                        $material = "PVC PN 80"; break;
+                    case 8:
+                        $material = "RPVC PN 100"; break;
+                    case 9:
+                        $material = __('afericao.aluminio'); break;
+                }
+
+                $vt_ft_adutora[] = array(
+                    'trecho_adutora' => ($key + 1),
+                    'coeficiente_hf' => $dados_adutora[$key]['hf'],
+                    'velocidade' => $dados_adutora[$key]['velocidade'],
+                    'pressao_inicial' => $dados_adutora[$key]['pressao_inicial'],
+                    'pressao_final' => $dados_adutora[$key]['pressao_final'],
+                    'diametro' => $trecho['diametro'],
+                    'comprimento' => $trecho['comprimento'],
+                    'material' => $material
+                );                 
+            }
+
+            // dados funcionamento pivo
+            $vt_ft_funcio_pivo = array();
+            for ($i = 100; $i >= 5; $i-=5) {
+                $vt_ft_funcio_pivo[] = array( 
+                    'velocidade' => $i,
+                    'volta' => $velocidade_pivo[$i]['volta'],
+                    'volta_1_meio' => $velocidade_pivo[$i]['volta_1_2'],
+                    'volta_1_quarto' => $velocidade_pivo[$i]['volta_1_4'],
+                    'lamina' => $velocidade_pivo[$i]['lamina_mm']
+                );
+            }
+
+            // dados redimensionamento percentimetro
+            $vt_ft_redimen_perc = array();
+            for ($j=100; $j>=10; $j-=10) {
+                $vt_ft_redimen_perc[] = array(
+                    'percentimetro' => $j,
+                    'projeto' => $dados_velocidade_red['tabela_resultante']['projeto_'.$j.''],
+                    'medida' => $dados_velocidade_red['tabela_resultante']['medido_'.$j.''],
+                    'variacao' => $dados_velocidade_red['tabela_resultante']['variacao_'.$j.'']
+                );
+            }
+
+            $id_ficha_tecnica = $this->saveDatasheet($vt_ficha_tecnica, $vt_ft_adutora, $vt_ft_funcio_pivo, $vt_ft_redimen_perc, $status_ft);
+        } else {
+            $ficha_tecnica = fichaTecnica::where('id_afericao', $id_afericao)->get();
+            $id_ficha_tecnica = $ficha_tecnica[0]['id'];
         }
-
-        return view('projetos.afericao.pivoCentral.relatorio.fichaTecnica.fichaTecnica', compact('id_afericao', 'id_ficha_tecnica', 'afericao', 'cabecalho_bombeamento', 'dados_coordenadas',
+        
+        return view('projetos.afericao.pivoCentral.relatorio.fichaTecnica.fichaTecnica', compact('id_afericao', 'id_ficha_tecnica', 'afericao', 'cabecalho_bombeamento', 'dados_coordenadas', 'lista_bocais_compra',
         'bombeamentos', 'dados_ficha_tecnica', 'dados_estimativa_custo_lamina', 'trechos_adutora', 'dados_adutora', 'dados_mapa_original', 'dados_velocidade', 'dados_lances', 'emissor_max', 'dados_lances2',
-        'dados_velocidade_red', 'dados_altura_manometrica', 'dados_custo_lamina', 'velocidade_pivo', 'textos_ficha_tecnica',
+        'dados_velocidade_red', 'dados_altura_manometrica', 'dados_custo_lamina', 'velocidade_pivo', 'dados_bocais_redimensionamento', 'dados_bocais_afericao', 'total_bocais', 'lista_saldo',
         'texto_observacoes', 'texto_velocidade_100','texto_uniformidade', 'projetada', 'aferida', 'texto_conclusao', 'lamina_conjugada', 'texto_composicao', 'laminas', 'laminas_medias', 'emissores'));
     }
 
-    public function saveDatasheet($textos_ficha_tecnica, $modo)
+    public function saveDatasheet($vt_ficha_tecnica, $vt_ft_adutora, $vt_ft_funcio_pivo, $vt_ft_redimen_perc, $modo)
     {
-        $dados = $textos_ficha_tecnica;
-        
+        $dados = $vt_ficha_tecnica;
         $id_ficha_tecnica = 0;
-
+        
         if ($modo == 'insert') {
+            // gravando dados da ficha técnica
             fichaTecnica::create($dados);
 
             $ficha_tecnica = fichaTecnica::where('id_afericao', $dados['id_afericao'])->get();
@@ -624,16 +793,76 @@ class FichaTecnicaController extends Controller
             $id_ficha_tecnica = $ficha_tecnica[0]['id'];
             fichaTecnica::where('id_afericao', $dados['id_afericao'])->update($dados);
         }
+
+        if ($modo != 'insert'){
+            //Sucesso!
+            //Removendo as tabelas ligadas a ficha técnica
+            FichaTecnicaAdutora::where('id_ficha_tecnica', $id_ficha_tecnica)->delete();
+            FichaTecnicaFuncioPivo::where('id_ficha_tecnica', $id_ficha_tecnica)->delete();
+            FichaTecnicaRedimenPerc::where('id_ficha_tecnica', $id_ficha_tecnica)->delete();
+        }
         
+        // gravando ficha tecnica da adutora
+        if (count($vt_ft_adutora) > 0) {
+            foreach ($vt_ft_adutora['trecho_adutora'] as $ft_adutora) {
+                $trecho_adutora = [];
+                $trecho_adutora['id_ficha_tecnica'] = $id_ficha_tecnica;
+                $trecho_adutora['trecho_adutora'] = $ft_adutora['trecho_adutora'];
+                $trecho_adutora['coeficiente_hf'] = $ft_adutora['coeficiente_hf'];
+                $trecho_adutora['velocidade'] = $ft_adutora['velocidade'];
+                $trecho_adutora['pressao_inicial'] = $ft_adutora['pressao_inicial'];
+                $trecho_adutora['pressao_final'] = $ft_adutora['pressao_final'];
+                $trecho_adutora['diametro'] = $ft_adutora['diametro'];
+                $trecho_adutora['comprimento'] = $ft_adutora['comprimento'];
+                $trecho_adutora['material'] = $ft_adutora['material'];
+                FichaTecnicaAdutora::create($trecho_adutora);
+                unset($trecho_adutora);
+            }
+        }
+
+        // gravando ficha tecnica de funcionamento do pivo
+        if (count($vt_ft_funcio_pivo) > 0) {
+            foreach ($vt_ft_funcio_pivo['velocidade'] as $ft_funcio_pivo) {
+                $trecho_funcio_pivo = [];
+                $trecho_funcio_pivo['id_ficha_tecnica'] = $id_ficha_tecnica;
+                $trecho_funcio_pivo['velocidade'] = $ft_funcio_pivo['velocidade'];
+                $trecho_funcio_pivo['volta'] = $ft_funcio_pivo['volta'];
+                $trecho_funcio_pivo['volta_1_meio'] = $ft_funcio_pivo['volta_1_meio'];
+                $trecho_funcio_pivo['volta_1_quarto'] = $ft_funcio_pivo['volta_1_quarto'];
+                $trecho_funcio_pivo['volta_1_quarto'] = $ft_funcio_pivo['coeficiente_hw_total'];
+                FichaTecnicaFuncioPivo::create($trecho_funcio_pivo);
+                unset($trecho_funcio_pivo);
+            }
+        }
+
+        // gravando ficha tecnica do redimensionamento percentimetro
+        if (count($vt_ft_redimen_perc) > 0) {
+            foreach ($vt_ft_redimen_perc['percentimetro'] as $ft_redimen_perc) {
+                $trecho_redimen_perc = [];
+                $trecho_redimen_perc['id_ficha_tecnica'] = $id_ficha_tecnica;
+                $trecho_redimen_perc['percentimetro'] = $ft_redimen_perc['percentimetro'];
+                $trecho_redimen_perc['projeto'] = $ft_redimen_perc['projeto'];
+                $trecho_redimen_perc['medida'] = $ft_redimen_perc['medida'];
+                $trecho_redimen_perc['variacao'] = $ft_redimen_perc['variacao'];
+                FichaTecnicaRedimenPerc::create($trecho_redimen_perc);
+                unset($trecho_redimen_perc);
+            }
+        }
+
         return $id_ficha_tecnica;
     }
     
     public function updateDatasheet(Request $req)
     {
         $dados = $req->all();
-        dd($dados);
         fichaTecnica::find($dados['id'])->update($dados);
 
-        return redirect()->back();
+        $ficha_tecnica = fichaTecnica::where('id', $dados['id'])->get();
+        $id_afericao = $ficha_tecnica[0]['id_afericao'];
+        
+        $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($dados['id_afericao']);
+        $menssagem_retorno = ($atualizouFichatecnica) ? __('fichaTecnica.editar_ficha_tecnica_sucesso').__('fichaTecnica.atualizaou_fichatecnica') : __('fichaTecnica.editar_ficha_tecnica_sucesso') ;
+        Notificacao::gerarAlert('',$menssagem_retorno, 'success');
+        return redirect()->route('gauging_status', $id_afericao);
     }
 }

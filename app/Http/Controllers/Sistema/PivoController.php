@@ -10,7 +10,8 @@ use Auth;
 
 class PivoController extends Controller
 {
-    public function managerPivot(Request $req){
+    public function managerPivot(Request $req)
+    {
         $filtro = $req->all();
         $pivos = array();
         // Busca distinta dos fabricantes.
@@ -70,7 +71,7 @@ class PivoController extends Controller
             })->paginate(10);
         }
         return view('sistema.pivos.gerenciar', compact('pivos'));
-    }
+    }    
 
     public function createPivot()
     {
@@ -79,7 +80,7 @@ class PivoController extends Controller
 
     public function savePivot(Request $req){
         Pivo::create($req->all());
-        Notificacao::gerarAlert('pivos.sucesso', 'pivos.inserido_sucesso', 'success');
+        Notificacao::gerarAlert('', 'pivos.cadastro_pivo_sucesso', 'success');
         return redirect()->route('manager_pivot');
     }
     public function editPivot($id){
@@ -90,7 +91,7 @@ class PivoController extends Controller
     public function updatePivot(Request $req){
         $dados = $req->all();
         Pivo::find($dados['id'])->update($dados);
-        Notificacao::gerarAlert('pivos.sucesso', 'pivos.editado_sucesso', 'info');
+        Notificacao::gerarAlert('', 'pivos.editar_pivo_sucesso', 'success');
         return redirect()->route('manager_pivot');
     }
     

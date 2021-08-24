@@ -12,7 +12,7 @@
         <div class="row align-items-start">
 
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-cdc-mobile">
                 <h1>@lang('cdc.centro_de_custos')</h1><br>
                 <h4 style="margin-top: -20px">@lang('comum.editar')</h4>
             </div>
@@ -117,10 +117,10 @@
                     form.submit();
                 }
             });
+        });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
         });
 
         </script>

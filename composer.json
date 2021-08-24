@@ -12,8 +12,7 @@
         "doctrine/dbal": "v2.9.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
-        "laravel/tinker": "^1.0",
-        "wemersonrv/input-mask": "^0.1.2"
+        "laravel/tinker": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

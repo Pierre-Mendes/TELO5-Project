@@ -9,7 +9,7 @@
     <div class="container-fluid topo">
         <div class="row align-items-start">
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-velocidade-mobile">
                 <h1>@lang('afericao.velocidadeAfericao')</h1>
                 <h4>@lang('comum.cadastrar')</h4>
             </div>
@@ -808,11 +808,9 @@
                     }
                     
                 });
-                $(window).on('load', function() {
-                    $("#coverScreen").hide();
-                });
-
-        });
-    
+            });
+            $(window).on('load', function() {
+                $("#coverScreen").hide();
+            });
         </script>
 @endsection

@@ -6,7 +6,7 @@
 <div class="container-fluid topo">
   <div class="row align-items-start">
     {{-- TITULO E SUBTITULO --}}
-    <div class="col-6">
+    <div class="col-6 titulo-lance-mobile">
       <h1>@lang('afericao.lance')</h1><br>
       <h4 style="margin-top: -20px">@lang('comum.cadastrar')</h4>
     </div>
@@ -63,7 +63,7 @@ $num_lance = session()->get('numero_lance');
     <input type="hidden" name="id_afericao" value="{{ $id_afericao }}">
     <div class="row col-12" id="cssPreloader">
       <div class="col-md-12 row justify-content-center">
-        <div class="form-group col-md-3 col-sm-4 telo5ce">
+        <div class="form-group col-md-3 telo5ce">
           <label>@lang('afericao.posicao')</label>
           <select name="posicao_relativa" class="form-control" required>
             <option value=""></option>
@@ -72,7 +72,7 @@ $num_lance = session()->get('numero_lance');
           </select>
           <div class="line"></div>
         </div>
-        <div class="form-group col-md-3 col-sm-4 telo5ce">
+        <div class="form-group col-md-3 telo5ce">
           <label>@lang('afericao.lance')</label>
           <select name="lance_relativo" class="form-control" required>
             @foreach ($lances as $lance)
@@ -81,13 +81,13 @@ $num_lance = session()->get('numero_lance');
             @endforeach
           </select>
         </div>
-        <div class="form-group col-md-3 col-6 telo5ce">
+        <div class="form-group col-md-3 telo5ce">
           @component('_layouts._components._inputLabel', ['texto' => __('afericao.numeroEmissores'), 'id' =>
           'numero_emissores'])@endcomponent
           <input type="number" name="numero_emissores" onchange="alterarQuantidadeDeEmissores()" id="numero_emissores" step=1 min=1 class="form-control ">
         </div>
 
-        <div class="form-group col-md-3 col-6 telo5ce">
+        <div class="form-group col-md-3 telo5ce">
           @component('_layouts._components._inputLabel', ['texto' => __('afericao.numeroTubos'), 'id' =>
           'num_tubo'])@endcomponent
           <input type="number" step=1 min=1 name="numero_tubos" id="num_tubo" required class="form-control ">
@@ -95,7 +95,7 @@ $num_lance = session()->get('numero_lance');
       </div>
 
       <div class="col-md-12 row justify-content-center">
-        <div class="form-group col-md-3 col-sm-4 telo5ce">
+        <div class="form-group col-md-3 telo5ce">
           <label for=""> @lang('afericao.diametro')</label>
           <select name="diametro" class="form-control" required id="">
             <option value=""></option>
@@ -110,7 +110,7 @@ $num_lance = session()->get('numero_lance');
           <div class="line"></div>
         </div>
 
-        <div class="form-group  col-md-3 col-sm-4 telo5ce">
+        <div class="form-group col-md-3 telo5ce">
           <label for="val_reg"> @lang('afericao.valvulaReguladora')</label>
           <select id="val_reg" onchange="atualizarValvulaReguladora()" class='form-control' required='true' name='valvula_reguladora'>
             <option value=""></option>
@@ -127,7 +127,7 @@ $num_lance = session()->get('numero_lance');
           <div class="line"></div>
         </div>
 
-        <div class="form-group col-md-3 col-6 telo5ce">
+        <div class="form-group col-md-3 telo5ce">
           <label for="tipo_valvula"> @lang('afericao.tipoValvula')</label>
           <select id="tipo_valvula" onchange="atualizarTipoValvulaReguladora()" class='form-control' required='true' name='tipo_valvula'>
             <option value=""></option>
@@ -139,15 +139,15 @@ $num_lance = session()->get('numero_lance');
           <div class="line"></div>
         </div>
 
-        <div class="form-group col-md-3 col-6 telo5ce">
+        <div class="form-group col-md-3 telo5ce">
           @component('_layouts._components._inputLabel', ['texto' => __('afericao.motorredutor'), 'id' =>
           'motorredutor'])@endcomponent
           <input type="number" class="form-control " id="motorredutor" step=0.01 name="motorredutor">
         </div>
         <hr>
       </div>
-      <div class="form-row justify-content-start">
-        <div class="form-group col-md-4 telo5ce">
+      <div class="col-md-12 row justify-content-start">
+        <div class="form-group col-md-3 telo5ce">
           <label for="espacamento">@lang('afericao.espacamento')</label>
           <input type="number" class="form-control" id="espacamento[]" name="espacamento[]" step="0.01" min="0.01" />
         </div>

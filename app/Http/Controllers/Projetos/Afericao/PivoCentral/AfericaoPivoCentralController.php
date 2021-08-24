@@ -50,9 +50,11 @@ class AfericaoPivoCentralController extends Controller
             }
             return view('projetos.afericao.pivoCentral.gerenciar', compact('afericoes'));
         } else {
-            Notificacao::gerarModal('afericao.atencao', 'afericao.selecione_fazenda', 'warning');
-            return redirect()->back();
+            // Notificacao::gerarModal('error', 'afericao.selecione_fazenda', 'warning');
+            redirect()->back()->with('error', __('afericao.selecione_fazenda'), 'warning');
+            return redirect()->route('dashboard');
         }
+
     }
 
     public function searchGauging(Request $request) 
@@ -150,7 +152,7 @@ class AfericaoPivoCentralController extends Controller
         }
         
         /*Adicionando o balanco a quantidade de lances se ele existir */
-        if(isset($dados['tem_balanco'])){
+        if (isset($dados['tem_balanco'])) {
             $dados['numero_lances'] = $dados['numero_lances'] + 1;
         }
 
@@ -174,10 +176,10 @@ class AfericaoPivoCentralController extends Controller
             // dd($dados);
             $afericao = AfericaoPivoCentral::create($dados);
             $dados['id_afericao'] = $afericao['id'];
-            if(isset($dados['possui_pivo_conjugado'])){
+            if (isset($dados['possui_pivo_conjugado'])) {
                 PivoConjugado::create($dados);
             }
-            if(isset($dados['possui_canhao_final'])){
+            if (isset($dados['possui_canhao_final'])) {
                 CanhaoFinal::create($dados);
             }
             ProblemaAfericao::create($dados);
@@ -198,8 +200,9 @@ class AfericaoPivoCentralController extends Controller
             return $afericao['id'];
         });
         if (!empty($dados['id_afericao'])) {
-            // session()->put('afericao', $dados['id_afericao']);
-            // session()->put('numero_lance', $dados['numero_lances']);
+            $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($dados['id_afericao']);
+            $menssagem_retorno = ($atualizouFichatecnica) ? __('afericao.cadastro_afericao_sucesso').__('fichaTecnica.atualizaou_fichatecnica') : __('afericao.cadastro_afericao_sucesso') ;
+            Notificacao::gerarAlert('', $menssagem_retorno, 'success');
             return redirect()->route('add_measurement_the_session', $dados['id_afericao']);
         } else {
             Notificacao::gerarAlert('afericao.erro', 'afericao.falhaGravarBd', 'danger');
@@ -279,19 +282,7 @@ class AfericaoPivoCentralController extends Controller
         if(isset($dados['problema_motor_auxiliar'] )){  $dados['problema_motor_auxiliar'] = implode(",", $dados['problema_motor_auxiliar']); }
         if(isset($dados['problema_bomba_auxiliar'] )){ $dados['problema_bomba_auxiliar'] = implode(",", $dados['problema_bomba_auxiliar']);  }
 
-        
-        $versoes = AfericaoPivoCentral::select('versoes')->where('id', $dados['id_afericao'])->get();
-        $somaVersoes = $versoes + 0;
-        $updateVersoes = AfericaoPivoCentral::where('id', $dados['id_afericao'])->increment('versoes', $somaVersoes)->update(['versoes' => $somaVersoes]);
-        // AfericaoPivoCentral::where('id', $dados['id_afericao'])->update(['versoes' => $updateVersoes]);
-        // $updateVersoes = AfericaoPivoCentral::where('id', $dados['id_afericao'])->update(['versoes' => $updateVersoes]);
-        // dd($updateVersoes);
-        
-        // $lastNumber = AfericaoPivoCentral::where('id', $dados['id_afericao'])->where('versoes')->get() + 1;
-        // dd($lastNumber);
-        // AfericaoPivoCentral::find($dados['id_afericao'])->update(['versoes' => $lastNumber]);
-        // $versao->update(['versoes' => $lastNumber]);
-
+        $atualizouFichaTecnica = false;
         $retorno = false;
         $retorno = DB::transaction(function () use ($dados){
             AfericaoPivoCentral::find($dados['id_afericao'])->update($dados);
@@ -326,11 +317,17 @@ class AfericaoPivoCentralController extends Controller
             AfericaoHidraulica::find($id_hidraulica)->update($dados);
             //Removendo o mapa original cadastrado
             MapaOriginal::where('id_afericao', $dados['id_afericao'])->delete();
+
             return true;
         });
 
         if($retorno){
-            Notificacao::gerarAlert('afericao.sucesso', 'afericao.edicao_sucesso', 'success');
+            // Verificar ficha técnica
+            $atualizouFichaTecnica = $this->updateVersion($dados['id_afericao']);
+
+            $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($dados['id_afericao']);
+            $menssagem_retorno = ($atualizouFichatecnica) ? __('afericao.editar_afericao_sucesso').__('fichaTecnica.atualizaou_fichatecnica') : __('afericao.editar_afericao_sucesso') ;
+            Notificacao::gerarAlert('', $menssagem_retorno, '');
             if($dados['botao'] == "sair"){
                 return redirect()->route('gauging_status',$dados['id_afericao'] );
             }
@@ -384,9 +381,9 @@ class AfericaoPivoCentralController extends Controller
     public function loadRegisteredMeasurement($id_afericao)
     {
         $afericao = AfericaoPivoCentral::find($id_afericao);
-        if(empty($afericao) || $afericao['tipo_projeto'] != "A"){
+        if (empty($afericao) || $afericao['tipo_projeto'] != "A") {
             return redirect()->route('dashboard');
-        }else{
+        } else {
             /* Adicionando a aferição e o número do lance atual a sessão do usuário */
             $afericao['pivo'] = Pivo::select('espacamento')->where('id', $afericao['marca_modelo_pivo'])->first();
             session()->put('afericao', $afericao);
@@ -398,13 +395,13 @@ class AfericaoPivoCentralController extends Controller
     public function createSpan()
     {
         /*Verifica se existe uma aferição e um número de lance na sessão */
-        if(session()->has('afericao') && session()->has('numero_lance')){
+        if (session()->has('afericao') && session()->has('numero_lance')) {
             $lance = Lance::
                 where('id_afericao', session()->get('afericao')['id'])
                 ->where('numero_lance', session()->get('numero_lance'))
                 ->first();
             return view('projetos.afericao.pivoCentral.cadastro.cadastrarLance', compact('lance'));
-        }else{
+        } else {
             Notificacao::gerarAlert('afericao.erro', 'afericao.cadastre_uma_afericao_para_registrar_os_lances', 'danger');
             return redirect()->route('gauging_manager');
         }
@@ -430,7 +427,7 @@ class AfericaoPivoCentralController extends Controller
     public function backSpanPrevious()
     {
         $numero_lance_atual = session()->get('numero_lance');
-        if($numero_lance_atual <= 1){
+        if ($numero_lance_atual <= 1) {
             return redirect()->back();
         }
         session()->put('numero_lance', $numero_lance_atual - 1);
@@ -455,7 +452,7 @@ class AfericaoPivoCentralController extends Controller
 
     public function saveSpanAndIssuer(Request $req)
     {
-        
+
         $dados = $req->all();
         $lance = session()->get('lance');
         // $lance['comprimento'] = $dados['comprimento'];
@@ -463,15 +460,15 @@ class AfericaoPivoCentralController extends Controller
         $resultado = DB::transaction(function () use ($dados, $lance) {
             $lanceDB = Lance::find($lance['id']);
             $emissores = Emissor::where('id_lance', $lanceDB['id'])->orderBy('numero', 'asc')->get();
-            if($emissores->count() == 0){
+            if ($emissores->count() == 0) {
                 //Cadastrar emissor
-                for($i = 0; $i < count($dados['numero_emissor']); $i++){
+                for ($i = 0; $i < count($dados['numero_emissor']); $i++) {
                     $emissor = [];
                     $emissor['numero'] = $dados['numero_emissor'][$i];
                     $emissor['saida_1'] = $dados['bocal_1'][$i];
-                    if(empty($dados['bocal_2'][$i])){
+                    if (empty($dados['bocal_2'][$i])) {
                         $emissor['saida_2'] = 0;
-                    }else{
+                    } else {
                         $emissor['saida_2'] = $dados['bocal_2'][$i];
                     }
                     $emissor['espacamento'] = $dados['espacamento'][$i];
@@ -482,15 +479,15 @@ class AfericaoPivoCentralController extends Controller
                     $emissor['id_lance'] = $lanceDB['id'];
                     Emissor::create($emissor);
                 }
-            }else{
+            } else {
                 //Editar emissor
-                
+
                 foreach ($emissores as $i => $emissor) {
                     $emissor['numero'] = $dados['numero_emissor'][$i];
                     $emissor['saida_1'] = $dados['bocal_1'][$i];
-                    if(empty($dados['bocal_2'][$i])){
+                    if (empty($dados['bocal_2'][$i])) {
                         $emissor['saida_2'] = 0;
-                    }else{
+                    } else {
                         $emissor['saida_2'] = $dados['bocal_2'][$i];
                     }
                     $emissor['espacamento'] = $dados['espacamento'][$i];
@@ -504,9 +501,9 @@ class AfericaoPivoCentralController extends Controller
             return "sucesso";
         });
 
-        if($resultado == "sucesso"){
-            if( ($lance['numero_lance'] + 1) <= session()->get('afericao')['numero_lances'] ){
-                if($dados['botao'] == "sair"){
+        if ($resultado == "sucesso") {
+            if (($lance['numero_lance'] + 1) <= session()->get('afericao')['numero_lances']) {
+                if ($dados['botao'] == "sair") {
                     session()->forget('numero_lance');
                     session()->forget('afericao');
                     session()->forget('lance');
@@ -519,7 +516,7 @@ class AfericaoPivoCentralController extends Controller
                 session()->forget('numero_lance');
                 session()->forget('afericao');
                 session()->forget('lance');
-                AfericaoPivoCentral::find($lance['id_afericao'])->update(['mapa_bocais_pendente'=> 0]);
+                AfericaoPivoCentral::find($lance['id_afericao'])->update(['mapa_bocais_pendente' => 0]);
                 Notificacao::gerarModal("afericao.sucesso", "afericao.cadastroEmissoresSucesso", 'success');
                 return redirect()->route('originalMap_manager', $lance['id_afericao']);
             }
@@ -534,12 +531,12 @@ class AfericaoPivoCentralController extends Controller
 
         $afericao = AfericaoPivoCentral::find($id_afericao);
         $afericao['id_afericao'] = $afericao['id'];
-        if(!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($afericao['id_afericao'])){
+        if (!AfericaoPivoCentral::verificarSeAfericaoPertenceFazendaSelecionada($afericao['id_afericao'])) {
             Notificacao::gerarAlert('afericao.aviso', 'afericao.selecioneFazendaAfericao', 'warning');
             return redirect()->route('dashboard');
         }
 
-        if($afericao['mapa_bocais_pendente'] == 0){
+        if ($afericao['mapa_bocais_pendente'] == 0) {
             Notificacao::gerarAlert('afericao.aviso', 'afericao.afericaoJaCompleta', 'warning');
             return redirect()->route('dashboard');
         }
@@ -553,7 +550,7 @@ class AfericaoPivoCentralController extends Controller
         if ($emissores_lance > 0) $num_lance = $num_lance + 1;
 
         if ($num_lance > $afericao['numero_lances']) return redirect()->back();
-        else{
+        else {
             /* Adicionando a aferição e o número do lance atual a sessão do usuário */
             session()->put('afericao', $afericao);
             session()->put('numero_lance', $num_lance);
@@ -841,11 +838,44 @@ class AfericaoPivoCentralController extends Controller
                 $ftDiag['icone'] = 'fas fa-file-alt';
                 $ftDiag['condicao'] = 'visualizar';
 
-                AfericaoPivoCentral::where('id', $id_afericao)
-                ->update(['versoes' => 1]);
-            }            
+                $ficha_tecnica = fichaTecnica::where('id_afericao', $id_afericao)->get();
+                if (count($ficha_tecnica) == 0) {
+                    AfericaoPivoCentral::where('id', $id_afericao)
+                    ->update(['versoes' => 1]);
+                }
+            }
             
             return view('projetos.afericao.pivoCentral.statusAfericao', compact('velocidade', 'bombeamento', 'adutora', 'emissores', 'mapaOriginal', 'afericao', 'relVelocidade', 'ftDiag', 'tipo_projeto'));
         }
+    }
+
+    public static function updateVersion($id_afericao) 
+    {
+        // Variável de retorno
+        // Se False, não houve atualização
+        // Se True, houve atualização
+        $retorno = false;
+
+        // Verificar se existe ficha técnica para esta aferição
+        $ficha_tecnica = fichaTecnica::where('id_afericao', $id_afericao)->get();
+        // Se existe uma ficha técnica, buscar número da versão dela
+        // para ser usado com incremento do valor de 1 na versão 
+        // da aferição
+        if (count($ficha_tecnica) > 0) {
+
+            // Buscar o valor de "versoes" em afericao para verificar
+            // Se é diferente da "versoes" da ficha técnica
+            $afericao = AfericaoPivoCentral::find($id_afericao);
+            
+            if ($afericao['versoes'] == $ficha_tecnica[0]['versoes']) {
+                $versao = $ficha_tecnica[0]['versoes'] + 1;
+
+                AfericaoPivoCentral::where('id', $id_afericao)->update(['versoes' => $versao]);
+
+                $retorno = true;
+            }
+        }
+
+        return $retorno;
     }
 }

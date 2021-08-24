@@ -9,7 +9,7 @@ $id_afericao = session()->get('id_afericao'); ?>
     <div class="container-fluid topo">
         <div class="row align-items-start">
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
+            <div class="col-6 titulo-bombeamento-mobile">
                 <h1>@lang('afericao.bombeamento')</h1><br>
                 <h4 style="margin-top: -20px">@lang('comum.cadastrar')</h4>
             </div>
@@ -393,10 +393,6 @@ $id_afericao = session()->get('id_afericao'); ?>
                 }
             });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
-
             $('#criarTab').on('click', function() {
                 var quantidade = $("#numero_bombas").val();
                 var CabTab = "";
@@ -436,6 +432,10 @@ $id_afericao = session()->get('id_afericao'); ?>
 
                         HTML +=         '<div class="form-row justify-content-start">';
                         HTML +=             '<div class="col-md-3 form-group telo5ce">';
+                        HTML +=                 '@component("_layouts._components._inputLabel", ["texto" => __("afericao.alturaSuccao") . __("unidadesAcoes.(m)"), "id" => ""])@endcomponent';
+                        HTML +=                 '<input type="number" required class="form-control" name="altura_succao[]" id="altura_succao'+i+'" onchange="validaCampo(this.value, this.id)">';
+                        HTML +=             '</div>';
+                        HTML +=             '<div class="col-md-3 form-group telo5ce">';
                         HTML +=                 '@component("_layouts._components._inputLabel", ["texto" => __("afericao.numeroRotores"), "id" => ""])@endcomponent';
                         HTML +=                 '<input type="number" class="form-control" required name="numero_rotores[]" id="numero_rotores_'+i+'" onchange="validaCampo(this.value, this.id)">';
                         HTML +=             '</div>';
@@ -452,12 +452,12 @@ $id_afericao = session()->get('id_afericao'); ?>
                         HTML +=                     '<option value="3">@lang("afericao.RPVC")</option>';
                         HTML +=                 '</select>';
                         HTML +=             '</div>';
+                        HTML +=         '</div>';
+                        HTML +=         '<div class="form-row justify-content-start">';
                         HTML +=             '<div class="col-md-3 form-group telo5ce">';
                         HTML +=                 '@component("_layouts._components._inputLabel", ["texto" => __("afericao.rendimentoBomba") . __("unidadesAcoes.(%)"), "id" => ""])@endcomponent';
                         HTML +=                 '<input type="number" step="0.01" class="form-control" required name="rendimento_bomba[]" id="rendimento_bomba_'+i+'" onchange="validaCampo(this.value, this.id)">';
                         HTML +=             '</div>';
-                        HTML +=         '</div>';
-                        HTML +=         '<div class="form-row justify-content-start">';
                         HTML +=             '<div class="col-md-3 form-group telo5ce">';
                         HTML +=                 '@component("_layouts._components._inputLabel", ["texto" => __("afericao.shutoff") . __("unidadesAcoes.(mca)"), "id" => ""])@endcomponent';
                         HTML +=                 '<input type="number" step="0.01" class="form-control" required name="shutoff[]" id="shutoff_'+i+'" onchange="validaCampo(this.value, this.id)">';
@@ -525,7 +525,7 @@ $id_afericao = session()->get('id_afericao'); ?>
                         HTML +=                     '</select>';
                         HTML +=                 '</div>';
                         HTML +=                 '<div class="col-md-3 form-group telo5ce">';
-                        HTML +=                     '@component("_layouts._components._inputLabel", ["texto" => __("afericao.frequencia"), "id" => ""])@endcomponent';
+                        HTML +=                     '@component("_layouts._components._inputLabel", ["texto" => __("afericao.frequencia") . __("unidadesAcoes.(hz)"), "id" => ""])@endcomponent';
                         HTML +=                     '<input type="number" value="60" class="form-control has-value" required name="frequencia[]" id="frequencia_'+i+'" onchange="validaCampo(this.value, this.id)">';
                         HTML +=                 '</div>';
                         HTML +=                 '<div class="col-md-3 form-group telo5ce" id="divChavePartida_'+i+'">';
@@ -689,6 +689,10 @@ $id_afericao = session()->get('id_afericao'); ?>
                     motorEletrico.style.display = 'none';
                 }
             }
+
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
+        });
     </script>
 
     <script>
@@ -698,7 +702,7 @@ $id_afericao = session()->get('id_afericao'); ?>
             if(correnteNominal != null && correnteNominal > 0){
                 let leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_1").val();            
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_1_fase_1 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_1').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_1/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_1").val(parseFloat(carregamento.toFixed(2)));
@@ -706,7 +710,7 @@ $id_afericao = session()->get('id_afericao'); ?>
                 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_2").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_1_fase_2 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_2').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_2/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_2").val(parseFloat(carregamento.toFixed(2)));
@@ -714,7 +718,7 @@ $id_afericao = session()->get('id_afericao'); ?>
 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_1_fase_3").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_1_fase_3 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_1_fase_3').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_1_fase_3/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_1_fase_3").val(parseFloat(carregamento.toFixed(2)));
@@ -722,7 +726,7 @@ $id_afericao = session()->get('id_afericao'); ?>
 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_1").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_2_fase_1 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_1').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_1/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_1").val(parseFloat(carregamento.toFixed(2)));
@@ -730,7 +734,7 @@ $id_afericao = session()->get('id_afericao'); ?>
 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_2").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_2_fase_2 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_2').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_2/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_2").val(parseFloat(carregamento.toFixed(2)));
@@ -738,7 +742,7 @@ $id_afericao = session()->get('id_afericao'); ?>
 
                 leitura = $("#bomba_"+id_bomba+"_corrente_leitura_2_fase_3").val(); 
                 if(leitura != null && leitura > 0){
-                    //Calculo de correção
+                    //Calculo de corre��o
                     var correcao_corrente_eletrica_2_fase_3 = leitura * $('#bomba_'+id_bomba+'_tensao_leitura_2_fase_3').val() * Math.sqrt(3) / $('#tensao_nominal_'+id_bomba).val();
                     var carregamento = (correcao_corrente_eletrica_2_fase_3/correnteNominal)*100;
                     $("#bomba_"+id_bomba+"_indice_carregamento_leitura_2_fase_3").val(parseFloat(carregamento.toFixed(2)));

@@ -2,12 +2,12 @@
 
 return [
     'sucesso'=>'Sucesso',
-    'inserido_sucesso'=>'Pivô inserido com sucesso !',
-    'editado_sucesso'=>'Informações do pivô alteradas com sucesso !',
+    'cadastro_pivo_sucesso' => 'Cadastro de <b>Pivô</b> realizado com sucesso!',
+    'editar_pivo_sucesso' => 'Alterações de <b>Pivô</b> salvo com sucesso!',
     'remocao_sucesso'=>'Pivô removido com sucesso !',
     'erro'=>'Ops, pareece que algo deu errado',
     'remocao_erro'=>'Este pivô não pôde ser removido pois esta sendo utilizado',
-    'pivos'=>'Pivôs ',
+    'pivos'=>'Pivôs',
     'pivosModelo' => 'Pivô - Marca/Modelo',
     'fabricante'=>'Fabricante',
     'espacamento'=>'Espacamento',

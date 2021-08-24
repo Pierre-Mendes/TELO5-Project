@@ -78,12 +78,12 @@
                                     <label for="vazao_10_psi">@lang('bocais.vazaoMetroCubico')</label>
                                     <select class="form-control" name="vazao_10_psi" id="vazao_10_psi">
                                         <option value=""></option>
-                                        <option value="0">@lang('bocais.vazao-10-psi')</option>
-                                        <option value="1">@lang('bocais.vazao-15-psi')</option>
-                                        <option value="2">@lang('bocais.vazao-20-psi')</option>
-                                        <option value="3">@lang('bocais.vazao-25-psi')</option>
-                                        <option value="4">@lang('bocais.vazao-30-psi')</option>
-                                        <option value="5">@lang('bocais.vazao-40-psi')</option>
+                                        <option value="10">@lang('bocais.vazao-10-psi')</option>
+                                        <option value="15">@lang('bocais.vazao-15-psi')</option>
+                                        <option value="20">@lang('bocais.vazao-20-psi')</option>
+                                        <option value="25">@lang('bocais.vazao-25-psi')</option>
+                                        <option value="30">@lang('bocais.vazao-30-psi')</option>
+                                        <option value="40">@lang('bocais.vazao-40-psi')</option>
                                     </select>
                                 </div>
 
@@ -119,15 +119,15 @@
                             <tbody>
                                 <tr>
                                 <td class="col-md-2" style="width: 40%;">
-                                    <input type="number" min=0.1 step=0.1 class="form-control" required name="nome[]"
+                                    <input type="number" min=0.0001 class="form-control" required name="nome[]"
                                         id="nome" autocomplete="off">
                                 </td>
                                 <td class="col-md-2" style="width: 40%;">
-                                    <input type="number" min=0.001 step=0.1 class="form-control" required
+                                    <input type="number" min=0.0001 class="form-control" required
                                         name="vazao[]" id="vazao" autocomplete="off">
                                 </td>
                                 <td class="col-md-2" style="width: 40%;">
-                                    <input type="number" min=0.001 step=0.0001 class="form-control" required
+                                    <input type="number" min=0.0001 class="form-control" required
                                         name="intervalo_trabalho[]" id="intervalotrabalho" autocomplete="off">
                                 </td>
                                 <td class="col-md-1">
@@ -141,7 +141,7 @@
                                         data-placement="right" title="Adicionar Linha"
                                         style="outline: none; cursor: pointer;">
                                         <span class="fa-stack fa-sm">
-                                            <i class="fas fa-plus-circle fa-stack-2x"></i>
+                                            <i class="fas fa-plus-circle fa-stack-2x" style="margin-left: -70px !important;"></i>
                                         </span>
                                     </button>
                                 </td>
@@ -281,11 +281,10 @@
                     form.submit();
                 }
             });
+        });
 
-            $(window).on('load', function()
-            {
-                $("#coverScreen").hide();
-            });
+        $(window).on('load', function(){
+            $("#coverScreen").hide();
         });
 
     </script>

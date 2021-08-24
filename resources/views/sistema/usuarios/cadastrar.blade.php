@@ -72,11 +72,11 @@
                     <div class="col-12" id="cssPreloader">
 
                         <div class="form-row justify-content-center">
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="nome">@lang('usuarios.nome')</label>
                                 <input type="text" class="form-control telo5ce" id="nome" name="nome" maxlength="50">
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="tipo_usuario">@lang('usuarios.tipo_usuario')</label><br>
                                 <select onchange="trocarDivAtivaSuperior()" name="tipo_usuario" id="tipo_usuario" required class="form-control telo5ce">
                                     @foreach ($papeis as $papel)
@@ -85,50 +85,50 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="telefone">@lang('usuarios.telefone')</label>
                                 <input type="tel" class="form-control" id="telefone" name="telefone" maxlength="15">
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="pais">@lang('usuarios.pais')</label><br>
                                 <input type="text" class="form-control" id="pais" name="pais" maxlength="60">
                             </div>
                         </div>
 
                         <div class="form-row justify-content-center">
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="cep">@lang('usuarios.cep')</label>
                                 <input type="tel" class="form-control telo5ce" id="cep" name="cep" maxlength="10">
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="rua">@lang('usuarios.rua')</label>
                                 <input type="text" class="form-control telo5ce" id="rua" name="rua" maxlength="100">
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="cidade">@lang('usuarios.cidade')</label>
                                 <input type="text" class="form-control telo5ce" id="cidade" name="cidade"  maxlength="60">
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="estado">@lang('usuarios.estado')</label>
                                 <input type="text" class="form-control" id="estado" name="estado" maxlength="60">
                             </div>
                         </div>
 
                         <div class="form-row justify-content-center">
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="email">@lang('usuarios.email')</label>
                                 <input type="email" class="form-control" id="email" name="email" maxlength="100">
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="password">@lang('usuarios.senha')</label>
                                 <input type="password" class="form-control" id="password" name="password" maxlength="20">
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="confirmar_senha">@lang('usuarios.confirmar_senha')</label>
                                 <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha"
                                     maxlength="20">
                             </div>
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="configuracao_idioma">@lang('usuarios.idioma')</label><br>
                                 <select required name="configuracao_idioma" id="configuracao_idioma"
                                     class="form-control telo5ce">
@@ -141,7 +141,7 @@
                         </div>
 
                         <div class="form-row justify-content-start">
-                            <div class="form-group col-3 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <div id='divSupervisor' style="display: none;">
                                     <label for="tipo_usuario">@lang('usuarios.superior')</label>
                                     <select name="superior_s" id="superior_s" class='form-control' required>
@@ -184,7 +184,7 @@
                         </div>
                         
                         <div class="form-row justify-content-start">
-                            <div class='form-group col-3'>
+                            <div class='form-group col-md-3'>
                                 <div class='form-group telo5ce' id="divCentroCusto">
                                     <label for="cdcs">@lang('usuarios.centrodecustos')</label>
                                     <select class="form-control" name="cdcs[]" id="cdcs">
@@ -293,14 +293,11 @@
                     form.submit();
                 }
             });
-            
-
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
-
         });
 
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
+        });
     </script>
 
     {{-- SCRIPT DE FUNCIONALIDADE DO TOOLTIP --}}

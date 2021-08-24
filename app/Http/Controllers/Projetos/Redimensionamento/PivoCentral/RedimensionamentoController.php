@@ -37,18 +37,17 @@ class RedimensionamentoController extends Controller
                 ->where('afericoes_pivos_centrais.tipo_projeto', 'R')
                 ->orderBy('afericoes_pivos_centrais.data_afericao', 'desc')
                 ->paginate(20);
-                // dd($redimensionamentos);
             $pivos = AfericaoPivoCentral::
-                select('afericoes_pivos_centrais.id', 'nome_pivo', 'P.nome as marca_modelo_pivo')->
-                join('pivos as P', 'afericoes_pivos_centrais.marca_modelo_pivo', 'P.id')->
-                where('afericoes_pivos_centrais.id_fazenda', $fazenda['id'])->
-                where('afericoes_pivos_centrais.ativa', 1)->
-                where('mapa_bocais_pendente', 0)->
-                where('adutora_pendente', 0)->
-                where('bombeamento_pendente', 0)->
-                where('velocidade_pendente', 0)->
-                where('afericoes_pivos_centrais.tipo_projeto', 'A')->
-                get(); 
+                select('afericoes_pivos_centrais.id', 'nome_pivo', 'P.nome as marca_modelo_pivo')
+                ->join('pivos as P', 'afericoes_pivos_centrais.marca_modelo_pivo', 'P.id')
+                ->where('afericoes_pivos_centrais.id_fazenda', $fazenda['id'])
+                ->where('afericoes_pivos_centrais.ativa', 1)
+                ->where('mapa_bocais_pendente', 0)
+                ->where('adutora_pendente', 0)
+                ->where('bombeamento_pendente', 0)
+                ->where('velocidade_pendente', 0)
+                ->where('afericoes_pivos_centrais.tipo_projeto', 'A')
+                ->get(); 
             foreach($redimensionamentos as $redimensionamento){
                 if($redimensionamento['tem_balanco'] == "sim"){
                     $redimensionamento['numero_lances'] = ($redimensionamento['numero_lances'] - 1) . " + " . __('afericao.balanco');  
@@ -131,22 +130,21 @@ class RedimensionamentoController extends Controller
         }
         RedimensionamentoController::atualizarBocais($redimensionamento[1], $id_redimensionamento);
         $afericao = MapaOriginal::gerarMapaOriginal($redimensionamento[0]['id_afericao_original'], true);
-        
+
         $adutora_red = Adutora::where('id_afericao', $redimensionamento[0]['id_afericao'])->first();
         $cabecalho_bombeamento_red = CabecalhoBombeamento::where('id_afericao', $redimensionamento[0]['id_afericao'])->first();
         $bombeamentos_red = Bombeamento::where('id_bombeamento', $cabecalho_bombeamento_red['id'])->get();
-        
+
         $adutora_afe = Adutora::where('id_afericao', $redimensionamento[0]['id_afericao_original'])->first();
         $cabecalho_bombeamento_afe = CabecalhoBombeamento::where('id_afericao', $redimensionamento[0]['id_afericao_original'])->first();
         $bombeamentos_afe = Bombeamento::where('id_bombeamento', $cabecalho_bombeamento_afe['id'])->get();
 
         $trechos_afe = Adutora::where('id_afericao', $redimensionamento[0]['id_afericao_original'])->get();
         $trechos_red = Adutora::where('id_afericao', $redimensionamento[0]['id_afericao'])->get();
-        // dd($trechos_red);
-        
+
         $afericao[0]['pressao_na_bomba'] = RedimensionamentoController::getPressaoNaBomba($adutora_afe, $bombeamentos_afe);
         $redimensionamento[0]['pressao_na_bomba'] = RedimensionamentoController::getPressaoNaBomba($adutora_red, $bombeamentos_red);
-        
+
         $infosTrechos = RedimensionamentoController::getinfosTrechosAdutora($adutora_afe, $trechos_afe, $afericao[0]['somatorio_vazao_ok'], $afericao[0]['vazao_canhao_final']);
         $afericao[0]['hf_adutora'] = $infosTrechos['hf'];
         $afericao[0]['desnivel_motobomba'] = $infosTrechos['desnivel'];
@@ -163,11 +161,14 @@ class RedimensionamentoController extends Controller
         $redimensionamento[0]['pressao_requerida'] = $redimensionamento[0]['hf_adutora'] + $redimensionamento[0]['desnivel_motobomba'] + $redimensionamento[0]['somatorio_perda_carga_real']*1.1 + $redimensionamento[0]['desnivel_total'] + $redimensionamento[0]['pressao_ponta'] + $redimensionamento[0]['altura_emissores'];
         $redimensionamento[0]['pressao_5_4_2'] = RedimensionamentoController::calcularPessao542($bombeamentos_red, $redimensionamento[0], $adutora_red);
         $redimensionamento[0]['id_adutora'] = $adutora_red['id'];
+        
+        $vazao_final_redimensionamento = MapaOriginal::select(DB::raw('SUM(vazao_liberada) as soma'))->where('id_afericao', $redimensionamento[0]['id_afericao'])->get();
+        $vazao_final_redimensionamento = $vazao_final_redimensionamento[0];
         // $imagens = [];
         // if(Storage::exists('public/projetos/redimensionamento/' . $redimensionamento[0]['id_afericao'])){
         //     $imagens = File::allFiles(public_path('storage/projetos/redimensionamento/'. $redimensionamento[0]['id_afericao']));
         // }
-        return view('projetos.redimensionamento.cadastro.cadastroRedimensionamento', compact('redimensionamento', 'afericao', 'imagens'));
+        return view('projetos.redimensionamento.cadastro.cadastroRedimensionamento', compact('redimensionamento', 'afericao', 'imagens', 'vazao_final_redimensionamento'));
     }
 
     public function atualizarInformacoesRedimensionamento(Request $req)
@@ -276,13 +277,14 @@ class RedimensionamentoController extends Controller
             MapaOriginal::where('id_afericao', $dados['id_redimensionamento'])->delete();
             //Confirmando as alterações no banco de dados
             DB::commit();
-            Notificacao::gerarAlert('redimensionamento.atualizadoSucesso', 'redimensionamento.mapaDeBocaisAtualizado', 'success');
+            Notificacao::gerarAlert('', 'redimensionamento.editar_afericao_sucesso', 'success');
+            
         } else {
             //Fail, desfaz as alterações no banco de dados
             DB::rollBack();
             Notificacao::gerarAlert('redimensionamento.erro', 'redimensionamento.falha_atualizacao', 'danger');
         }
-        return redirect()->back();
+        return redirect()->route('resizing_status', $redimensionamento[0]['id_afericao']);
     }
 
     public function delete($id)

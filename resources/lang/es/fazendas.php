@@ -20,8 +20,8 @@ return [
 
     'sucesso'=>'Éxito',
     'erro'=>'Ops, algo salió mal',
-    'cadastro_sucesso'=>'¡Granja registrada con éxito!',
-    'atualizada_sucesso'=>'¡La información de la granja cambió con éxito!',
+    'cadastro_fazenda_sucesso' => '¡Registro de <b> Granja </b> completado con éxito!',
+    'editar_fazenda_sucesso' => '¡Los cambios de <b> Granja </b> se guardaron correctamente!',
     'removida_sucesso'=>'¡Granja eliminada con éxito!',
     'erro_solicitacao'=>'¡No pudimos procesar su solicitud!',
 

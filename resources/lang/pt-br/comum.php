@@ -6,6 +6,7 @@ return [
     'nao_selecionar_fazendas' => 'Não Selecionar Fazendas',
     'alterar' => 'Alterar',
     'nenhuma_fazenda_selecionada' => 'Nenhuma Fazenda Selecionada',
+    'addLine' => 'Adicionar Linha',
 
     'pesquisar' => 'Pesquisar...',
     'informacoes_navtabs' => 'Informações',
@@ -28,16 +29,20 @@ return [
     'bocais' => 'Bocal: ',
     'pivos' => 'Pivo: ',
     'afericao' => 'Aferição: ',
+    'revendas' => 'Revenda: ',
     'redimensionamento' => 'Redimensionamento',
     'excluir' => 'Deseja realmente excluir?',
     'inativar' => 'Deseja inativar este usuário?',
     'ativar' => 'Deseja ativar este usuário?',
+    'voltar' => 'Voltar',
 
     'cadastrar' => 'Cadastrar',
     'editar' => 'Editar',
     'gerenciar' => 'Gerenciar',
     'salvar' => 'Salvar',
+    'excluir' => 'Excluir',
 
     'calc' => 'Calculate',
     'checkInput' => 'Preencha os Campos Corretamente para Realização dos Cálculos!',
+    'checkInput2' => 'Para realizar o cálculo é necessário pelo menos uma área e uma vazão.'
 ];

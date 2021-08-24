@@ -15,7 +15,7 @@
 
             {{-- Save and Return Buttons --}}
             <div class="col-6 text-right botoes position">
-                <a href="{{ route('resizing_manager') }}" style="color: #3c8dbc" data-toggle="tooltip"
+                <a href="{{ route('resizing_manager', $redimensionamento[0]['id_afericao']) }}" style="color: #3c8dbc" data-toggle="tooltip"
                     data-placement="bottom" title="Voltar">
                     <button type="button"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i
                                 class="fas fa-angle-double-left fa-stack-1x fa-inverse"></i></span></button>

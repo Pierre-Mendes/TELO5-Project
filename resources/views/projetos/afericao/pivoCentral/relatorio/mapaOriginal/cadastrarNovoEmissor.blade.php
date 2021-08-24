@@ -67,7 +67,7 @@ $total_emissores = $emissores['numero_emissores'];
                 <input type="hidden" name="id_afericao" id="id_afericao" value="{{ $id_afericao }}">
                 <input type="hidden" name="espacamento" id="espacamento" value="{{ $espacamento }}">
                 <input type="hidden" name="comprimento" id="comprimento" value=0>
-                <div class="col-12 m-auto tabela" id="cssPreloader">
+                <div class="table-responsive m-auto tabela" id="cssPreloader">
                     <table class="table table-striped mx-auto mt-5 text-center" id="tabelaTrechos">
                         <thead>
                             <tr>

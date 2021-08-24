@@ -46,7 +46,6 @@ class CustoLaminaAfericao extends Model
         }
         
         $dados_eletricos['potencia_total_sistema_cv'] = $dados_diesel['potencia_total_sistema_cv'] = 0;
-               
         foreach($bombeamentos as $key => $bombeamento){
             ///////Potência total do sistema (cv)
             //Calculo para corrente elétrica de BOMBEAMENTO
@@ -56,13 +55,14 @@ class CustoLaminaAfericao extends Model
                 $corrente_eletrica_2 = ($bombeamento['corrente_leitura_1_fase_2'] * $bombeamento['tensao_leitura_1_fase_2'] * sqrt(3)) / $bombeamento['tensao_nominal'];
                 $corrente_eletrica_3 = ($bombeamento['corrente_leitura_1_fase_3'] * $bombeamento['tensao_leitura_1_fase_3'] * sqrt(3)) / $bombeamento['tensao_nominal'];
                 $media_corrente_eletrica = ($corrente_eletrica_1 + $corrente_eletrica_2 + $corrente_eletrica_3) / (3);
-                
                 //Indice de carregamento
                 if (!empty($media_corrente_eletrica)) $indice_carregamento = ($media_corrente_eletrica / $bombeamento['corrente_nominal']) * 100;
                 else $indice_carregamento = 0;
 
                 //Dado final da potencia total do sistema (cv)
-                if($motorredutor == 0) $dados_eletricos['potencia_total_sistema_cv'] += $motorredutor + $bombeamento['potencia'] * $bombeamento['numero_motores'] * ($indice_carregamento / 100);
+
+                $dados_eletricos['potencia_total_sistema_cv'] += $motorredutor + $bombeamento['potencia'] * 
+                $bombeamento['numero_motores'] * ($indice_carregamento / 100);
 
                 //Potência total do sistema (kw)
                 $dados_eletricos['potencia_total_sistema_kw'] = $dados_eletricos['potencia_total_sistema_cv'] * 0.736;

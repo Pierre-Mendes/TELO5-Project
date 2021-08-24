@@ -82,21 +82,20 @@ class NovoMapa extends Model
                 'AH.pressao_centro as pressao_centro','AH.pressao_ponta as pressao_ponta', 'CF.vazao_canhao_final as vazao_canhao' , 'CF.vazao_canhao_final as vazao_canhao_final',
                 'CF.alcance_canhao_final as alcance_canhao_final', 'afericoes_pivos_centrais.tem_balanco',
                 'afericoes_pivos_centrais.numero_lances'
-            )->
-            leftjoin('pivos_conjugados as PC', function($join)
+            )->leftjoin('pivos_conjugados as PC', function($join)
             {
                 $join->on('afericoes_pivos_centrais.id', '=', 'PC.id_afericao')
                 ->whereNull('PC.deleted_at');
-            })->
-            leftjoin('canhoes_finais as CF', function($join)
+            })
+            ->leftjoin('canhoes_finais as CF', function($join)
             {
                 $join->on('afericoes_pivos_centrais.id', '=', 'CF.id_afericao')
                 ->whereNull('CF.deleted_at');
-            })->
-            leftjoin('afericao_hidraulicas as AH', 'afericoes_pivos_centrais.id', 'AH.id_afericao')->
-            where('afericoes_pivos_centrais.id', $id_afericao)->
-            where('afericoes_pivos_centrais.tipo_projeto', 'R')->
-            first();
+            })
+            ->leftjoin('afericao_hidraulicas as AH', 'afericoes_pivos_centrais.id', 'AH.id_afericao')
+            ->where('afericoes_pivos_centrais.id', $id_afericao)
+            ->where('afericoes_pivos_centrais.tipo_projeto', 'R')
+            ->first();
 
         /* Recuperando dados dos emissores */
         $aspersores = Emissor::select(
@@ -155,7 +154,6 @@ class NovoMapa extends Model
                 $comprimento_ultimo_lance += $aspersor['espacamento'];
             }
         }
-        //dd($entrada['somatorio_vazao_ok']);
 
         //$entrada['somatorio_espacamentos_sem_canhao'] = $entrada['somatorio_vazao_ok'];
         $entrada['raio'] = $entrada['somatorio_espacamentos'];
@@ -340,8 +338,6 @@ class NovoMapa extends Model
             $mapa_original['area_aspersor'] =
                 ((pi() * pow((($mapa_original['comprimento'] + $proximo['comprimento_proximo']) / 2), 2)) - (pi() * pow((($mapa_original['comprimento'] + $anterior['comprimento_anterior']) / 2), 2))) * ($entrada['angulo_pivo'] / 360);
         }
-
-    
 
         $mapa_original['area_acumulada'] = (pi() * pow($mapa_original['comprimento'], 2) * ($entrada['angulo_pivo'] / 360)) / 10000;
 

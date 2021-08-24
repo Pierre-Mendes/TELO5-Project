@@ -66,21 +66,10 @@
 </script>
 
 <script>
-    // Função para abrir dropdown de selecionar fazenda
     function myFunction() {
-        $.post('/getFazendas/', function(fazendas) {
-
-            var aux = "";
-
-            $('#farm-active').html("");
-            $.each(fazendas, function(key, value) {
-                aux += '<a href="#">' + value.nome + ' </a>';
-            })
-            $('#farm-active').html(aux);
-        })
         document.getElementById("myDropdown1").classList.toggle("show");
     }
-
+    
     // Função para abrir dropdown do configuracao
     function myFunction2() {
         document.getElementById("myDropdown2").classList.toggle("show");
@@ -132,40 +121,6 @@
         }
     }
 
-    // LISTAR FAZENDAS
-
-    $('.dropbtn').on('click dblclick', function(e) {
-
-        /*  Prevents default behaviour  */
-        e.preventDefault();
-
-        /*  Prevents event bubbling  */
-        e.stopPropagation();
-
-        return;
-
-    });
-
-    $(".dropbtn").on("click", function(e) {
-
-        const horas = new Date();
-        console.log(horas);
-        $(".listafazendas").empty();
-        $.ajax({
-            type: "GET",
-            url: "{{ route('farms_select') }}",
-            dataType: "json",
-            success: function(data) {
-                const horas1 = new Date();
-                console.log(horas1);
-                $.each(data, function(key, value) {
-                    $('.listafazendas').append('<a href="javascript:setFazenda(' +
-                        value + ')">' + key + '</a>');
-                });
-            },
-        });
-    });
-
     // SETAR ROTAS PARA REDIRECIONAMENTO DAS FAZENDAS LISTADAS
     function setFazenda(IdFazenda) {
         $.ajax({
@@ -190,9 +145,7 @@
 
     // FILTRO DE BUSCA DAS FAZENDAS LISTADAS
 
-    function myFunction() {
-        document.getElementById("myDropdown1").classList.toggle("show");
-    }
+
 
     function filterFunction() {
         var input, filter, ul, li, a, i;

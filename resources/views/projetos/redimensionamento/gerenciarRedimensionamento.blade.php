@@ -9,7 +9,7 @@
         <div class="row align-items-start">
 
             {{-- Titlle / Subtitlle --}}
-            <div class="col-10">
+            <div class="col-10 titulo-redimensionamento-mobile">
                 <h1>@lang('redimensionamento.redimensionamento', ['fazenda' => session()->get('fazenda')['nome']])</h1>
             </div>
 
@@ -21,7 +21,7 @@
 
         {{-- Filter Search --}}
         <div class="row justify-content-end telo5inputfiltro mt-5">
-            <div class="col-3 position">
+            <div class="col-md-3 position">
                 <form action="{{route('resizing_filter')}}" method="POST" class="form form-inline">
                     @csrf
                     <input class="form-control" name="filter" type="text" placeholder="@lang('comum.pesquisar')"/>
@@ -33,7 +33,7 @@
 @endsection
 
 @section('conteudo')
-    <div class="col-md-11 m-auto tabela">
+    <div class="table-responsive m-auto tabela">
         <table class="table table-striped mx-auto tabelaRedimensionamento" id="filtertable">
             @csrf
             <thead class="headertable">

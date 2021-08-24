@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bocal extends Model
 {
-    protected $table = 'bocais';
+    protected $table = 'bocal';
 
     use SoftDeletes;
     protected $dates =  ['deleted_at'];
     protected $fillable = [
-        'id_fabricante', 'fabricante', 'modelo',  'nome', 'vazao', 'intervalo_trabalho', 'vazao_10_psi', 'plug', 'tipo'
+        'marca', 'modelo', 'plug', 'tipo', 'pressao_psi'
     ];
+
 }

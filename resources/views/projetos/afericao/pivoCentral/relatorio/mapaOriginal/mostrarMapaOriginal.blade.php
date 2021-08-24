@@ -54,22 +54,22 @@
     </style>
 @endsection
 
-@section('titulo')
-
-@endsection
-
 @section('topo_detalhe')
     <div class="container-fluid topo">
         <div class="row align-items-start">
 
             {{-- TITULO E SUBTITULO --}}
-            <div class="col-6">
-                <h1>@lang('afericao.mapaBocais')</h1><br>
-                <h4 style="margin-top: -20px">@lang('afericao.afericao')</h4>
+            <div class="col-6 titulo-mapa-mobile">
+                @if ($tipo_projeto == 'R')
+                    @lang('redimensionamento.statusRedimensionamento')
+                @else 
+                    <h1>@lang('afericao.mapaBocais')</h1><br>
+                    <h4 style="margin-top: -20px">@lang('afericao.afericao')</h4>
+                @endif
             </div>
 
             {{-- BOTOES SALVAR E VOLTAR --}}
-            <div class="col-6 text-right botoes position">
+            <div class="col-6 text-right botoes-mobile-mapa botoes position">
 
                 <a href="{{ route('gauging_status', $id_afericao) }}" style="color: #3c8dbc">
                     <button type="button" data-toggle="tooltip" data-placement="bottom" title="Voltar">
@@ -134,21 +134,20 @@
 
         {{-- FORMULARIO DE CADASTRO --}}
         <form id="formdados" method="POST" disabled>
+            @include('_layouts._includes._alert')
+
             <div id="msgAlert" class="alert alert-success alert-dismissible fade show" role="alert"
                 style="display: none; margin: 20px;">
-                <strong>Edição concluida com sucesso</strong>
+                <strong>@lang('afericoes.editar_emissores_mapaOriginal_sucesso')</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <input type="hidden" name="id_afericao" value="{{ $id_afericao }}">
+            <input type="hidden" id="id_afericao" name="id_afericao" value="{{ $id_afericao }}">
             <input type="hidden" name="numero_lances" value="{{ $afericao['numero_lances'] }}">
             <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
             <div class="tab-content mt-5" id="myTabContent">
-                
-                @include('_layouts._includes._alert')
-
                 {{-- GRAFICO DE UNIFORMIDADE --}}
                 <div class="tab-pane fade show active" id="graficoUniformidade" role="tabpanel"
                     aria-labelledby="graficoUniformidade-tab">
@@ -169,8 +168,8 @@
 
                     {{-- BOTOES SALVAR E EDITAR DA TABELA --}}
                     <div class="row ">
-                        <div class="col-6"></div>
-                        <div class="col-6 text-right">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6 text-right">
                             <button type="button" class="editarEmissores" data-toggle="tooltip" data-placement="bottom"
                                 title="Editar Emissores">
                                 <i class="fas fa-pen "></i> @lang('comum.editar')
@@ -185,7 +184,7 @@
                     <div class="col-md-12">
                         <article class="mt-2">
                             <div class="col-12 container">
-                                <div class="col-12 m-auto" id="cssPreloader">
+                                <div class="table-responsive m-auto" id="cssPreloader">
                                     <table class="table table-striped mx-auto" id="tabelaListaEmissores">
                                         <thead>
                                             <tr>
@@ -238,7 +237,7 @@
 
                                                 <td class="text-center">{{ $emissor['numero'] }}</td>
                                                 <td class="text-center">{{ $emissor['posicao_emissor'] }}</td>
-                                                <td> <input class="text-center"  id="bocal_1_{{ $cont }}"
+                                                <td> <input class="text-center" id="bocal_1_{{ $cont }}"
                                                         name="bocal_1_{{ $emissor['numero_lance'] }}" type="number"
                                                         readonly step="0.01" value="{{ $emissor['saida_1'] }}">
                                                 </td>
@@ -450,6 +449,7 @@
                     var tipo_valvula = $('#tipo_valvula_' + id).val();
                     var fabricante = $('#fabricante_' + id).val();
                     var token = $('#_token').val();
+                    var id_afericao = $('id_afericao').val();
 
                     var DATA = {
                         _token: token,
@@ -461,7 +461,8 @@
                         espacamento: espacamento,
                         psi: valvula_reguladora,
                         tipo_valvula: tipo_valvula,
-                        emissor: fabricante
+                        emissor: fabricante,
+                        id_afericao: id_afericao
                     }
                     $.ajax({
                         type: 'POST',
@@ -469,7 +470,7 @@
                         data: DATA,
                         dataType: 'json'
                     }).done(function(res) {
-
+                        
                         $("#coverScreen").show();
                         $("#cssPreloader input").each(function() {
                             $(this).css('opacity', '0.2');
@@ -531,7 +532,7 @@
 
         function gerarGraficoUnidormidade(valores_lamina, valores_lamina_media, emissores) {
             var largura_tela = $(window).width() * 0.70;
-            
+
             Highcharts.chart('grafico_uniformidade', {
                 chart: {
                     zoomType: "x",

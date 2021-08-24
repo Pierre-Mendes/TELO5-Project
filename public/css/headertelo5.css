@@ -8,19 +8,8 @@
 body {
     overflow-x: hidden;
 }
-/* 
-@media only screen and (max-width: 900px) {
-    body {
-        overflow-x: scroll;
-    }
-} */
-
 
 /* ICONES GERAIS */
-
-.dropbtn>i {
-    float: right;
-}
 
 .teste {
     background-color: #1B6B9A;
@@ -71,22 +60,14 @@ body {
 .bandeiras {
     width: 20px;
     margin-right: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.596);
 }
 
-@media (max-width: 1500px) {
-    .header-usuario .header-logo {
-        background: transparent url("../img/logo_header.png") no-repeat !important;
-    }
-}
-
-@media (max-width: 1200px) {}
 
 .header-usuario .header-logo {
     background-size: 55% !important;
     background-position: right !important;
 }
-
-@media (max-width: 1300px) {}
 
 .header-usuario .header-logo {
     background-size: 60% !important;
@@ -126,13 +107,18 @@ body {
     text-indent: 15%;
     background-color: #26546F;
     color: white !important;
-    padding: 16px;
+    padding: 5px;
     font-size: 16px;
     border: none;
     cursor: pointer;
     height: 50px;
     width: 300px;
     outline: none !important;
+}
+
+.dropbtn>i {
+    float: right;
+    padding: 4px;
 }
 
 .dropdown {
@@ -194,7 +180,7 @@ body {
     padding: 1px;
     text-decoration: none;
     display: block;
-    font-size: 10pt;
+    /*font-size: 10pt;*/
     font-weight: lighter;
     margin-left: 15px;
     color: rgba(255, 255, 255, 0.801);
@@ -330,7 +316,7 @@ body {
 }
 
 .dropdown-content4 a {
-    color: #fff !important;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -461,322 +447,14 @@ label>span {
     margin: 0px 20px 0px 20px;
 }
 
-.selectize-input {
-
+.entrega-tecnica-link {
+    color: #0088CE !important; 
 }
 
-
-@media screen and (max-width: 768px) {
-
-    .dropdown {
-        width: 200px;
-        height: 48px;
-    }
-
-    .dropbtn {
-        width: 200px;
-        height: 49px;
-    }
-
-    #menu li {
-        height: 49px;
-    }
-
-    .dropbtn4 {
-        height: 49px;
-    }
-
-    .table {
-        font-size: 1rem !important;
-    }
-
-    .mobileStatus {
-        margin-right: -50px !important;
-        margin-left: -70px !important;
-    }
-
-    .mobileStatus h3 {
-        font-size: 1rem;
-    }
-    .mobileStatus h3 i{
-        display: none;
-    }
-
-    .afericao div a {
-        font-size: 1rem;
-    }
-    
-}
-
-@media screen and (max-width: 411px) {
-    .header-logo {
-        display: none;
-    }
-
-    .mobile {
-        margin-top: 5px;
-    }
-
-    body h1 {
-        margin-top: 5px;
-        font-size: 1.4em;
-        overflow: hidden !important;
-    }
-
-    #menu li i {
-        margin-left: 19px;
-    }
-
-    #menu li {
-        padding: 0 26px;
-    }
-
-    .dropbtn {
-        height: 50px;
-    }
-
-    .dropbtn4 {
-        height: 50px;
-    }
-
-    .position {
-        margin-right: 150px;
-        margin-top: -30px;
-    }
-
-    .telo5inputfiltro input {
-        width: 160px;
-    }
-    
-    .telo5inputfiltro .search {
-        position: absolute !important;
-        margin-top: -20px !important;
-        margin-left: 140px !important;
-    }
-    
-}
-
-@media screen and (max-width: 375px) {
-    body {
-        overflow-x: auto;
-    }
-    
-    body h1 {
-        margin-top: 5px;
-        font-size: 1.4em;
-        overflow: hidden !important;
-    }
-
-    #menu li {
-        padding: 0px 11px;
-    }
-
-    .position {
-        margin-right: 150px;
-        margin-top: -30px;
-    }
-
-    .telo5inputfiltro input {
-        width: 160px;
-    }
-    
-    .telo5inputfiltro .search {
-        position: absolute !important;
-        margin-top: -20px !important;
-        margin-left: 140px !important;
-    }
-
-    .mobile {
-        margin-top: 5px;
-    }
-
-    .dropbtn4 {
-        height: 50px;
-    }
-
-    .dropdown-content4 {
-        min-width: 375px !important;
-    }
-
-    .dropdown-content1 {
-        min-width: 315px;
-    }
-    
-    .dropdown {
-        height: 50px;
-    }
-
-    .dropbtn {
-        height: 50px;
-    }
-
-    .header-logo {
-        display: none;
-    }
-
-    #main {
-        width: 100%;
-    }
-
-    #menu li i {
-        margin-left: 49px;
-    }
-
-    #menu ul {
-        position: absolute;
-        top: 49px;
-        right: -50px;
-        background: #fff;
-        z-index: 2;
-    }
-    
-    #menu ul li {
-        width: 285px;
-    }
-
-    .menu2 {
-        width: 300px;
-    }
-
-    .conteudo {
-        display: inline-block !important;
-        justify-content: center !important;
-        align-content: center !important;
-        padding-top: 30px !important;
-    }
-
-    .table {
-        font-size: 0.6rem !important;
-    }
-
-    .table td, .table th {
-        padding: 0.50rem;
-    }
-    
-    .fa-fw {
-        width: unset;
-    }
-
-    .acoes .botaoTabela {
-        padding-left: 10px;
-    }
-
-    .mobileStatus {
-        margin-right: 0 !important;
-    }
-
-    .mobileStatus h3 {
-        font-size: 1rem;
-    }
-    .mobileStatus h3 i{
-        display: none;
-    }
-
-    .afericao div a {
-        font-size: 1rem;
-    }
-    
-    .form-row-statusAfericao {
-        margin-left: -25px !important;
-    }
-    
-        .nav-tabs {
-            margin-top: -30px !important;
-            margin-left: -11px !important;
-            font-size: 0.5rem;
-        }
-
-
-}
-
-@media screen and (max-width: 360px) {
-
-    body h1 {
-        margin-top: 5px;
-        font-size: 1rem;
-        overflow: hidden !important;
-    }
-    
-    b, strong {
-        font-weight: bolder;
-        font-size: 1rem;
-    }
-
-    .telo5ce select {
-        font-size: 10px !important;
-    }
-    
-    .telo5ce input {
-        font-size: 10px !important;
-    }
-
-    .telo5ce label {
-        font-size: 10px !important;
-    }
-
-    .table input{
-        font-size: 10px !important;
-    }
-
-    #menu ul {
-        right: -93px;
-    }
-
-    #menu li i {
-        margin-left: 14px;
-    }
-
-    #menu li {
-        padding: 0 19px;
-    }
-
-    form {
-        margin-top: -25px;
-    }
-    
-    .tabelaBocais {
-        margin-top: 0px !important;
-    }
-    
-    .table {
-        margin-top: -8px !important;
-        font-size: 0.5rem !important;
-    }
-
-    .table td, .table th {
-        font-size: 0.7rem;
-        vertical-align: middle;
-    }
-    .conteudo {
-        padding: 0;
-    }
-
-    .acoes .botaoTabela {
-        padding-left: 6px;
-    }
-
-    .afericao div a {
-        font-size: 0.9rem;
-    }
-
-    .nav-tabs a{
-        font-size: 1rem !important;
-    }
-
-    .pagination {
-        font-size: 1rem !important;
-    }
-
-    .addtablerow {
-        height: 15px !important;
-    }
-
-    .addtablerow i {
-        margin-left: 50px;
-    }
-
-    .fa-sm {
-        font-size: 1.2em;
-    }
+.entrega-tecnica-link>span {
+    float: right;
+    -webkit-transition: .45s ease;
+    transition: .45s ease;
+    border: none;
 }
 

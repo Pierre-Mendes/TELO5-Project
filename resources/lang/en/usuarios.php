@@ -8,6 +8,8 @@ return [
     'supervisor' => 'Supervisor',
     'assistente' => 'Assistant',
     
+    'cadastro_usuario_sucesso' => '<b>User</b> registration successfully completed!',
+    'editar_usuario_sucesso' => '<b>User</b> changes successfully saved!',
     'informacoes_pessoais' => 'Personal Informations',
     'cadastro_usuario' => 'REGISTER USER',
     'nome' => 'Name',

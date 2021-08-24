@@ -33,9 +33,17 @@
                     @if (!empty($afericao['tem_balanco']) && $num_lance == $afericao['numero_lances'])
                         @lang('afericao.balanco')
                     @else
-                        @lang('afericao.lance') {{ $num_lance }} / {{ $afericao['numero_lances'] }} 
-                        {{-- @lang('afericao.lance') {{ $num_lance }} / {{ ($afericao['numero_lances'] - ((!empty($afericao['tem_balanco'])) ? 1 : 0)) }}  --}}
-                        {{-- {{ (!empty($afericao['tem_balanco'])) ? (' + '. @lang('afericao.balanco')) : '' }}  --}}
+                        @php
+                            if (!empty($afericao['tem_balanco'])) {
+                                $numero_lances_sb = $afericao['numero_lances'] - 1;
+                                $numero_lances_sb = $numero_lances_sb.' + '.__('afericao.balanco');
+                            } else {
+                                $numero_lances_sb = $afericao['numero_lances'];
+                            }
+                        @endphp
+
+                        @lang('afericao.lance') {{ $num_lance }} / {{ $numero_lances_sb }}
+                        
                     @endif
                 </a>
             </li>
@@ -59,19 +67,19 @@
                     <input type="hidden" name="id_afericao" value="{{ $afericao['id'] }}">
                     <input type="hidden" name="id" value="{{ $lance['id'] }}">
                     <div class="col-md-12 formpivocentral" id="cssPreloader">
-                        <div class="form-row justify-content-center">
-                            <div class="form-group col-md-4 telo5ce">
+                        <div class="form-row justify-content-start">
+                            <div class="form-group col-md-3 telo5ce">
                                 @component('_layouts._components._inputLabel', ['texto' => __('afericao.numeroTubos'), 'id'
                                 => 'num_tubo'])@endcomponent
                                 <input type="number" step=1 min=1 name="numero_tubos" id="num_tubo" required class="form-control ">
                             </div>
-                            <div class="form-group col-md-4 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 @component('_layouts._components._inputLabel', ['texto' => __('afericao.numeroEmissores'),
                                 'id' => 'numero_emissores'])@endcomponent
                                 <input type="number" @if (empty($lance->numero_emissores)) id="numero_emissores" required @else   value="{{ $lance->numero_emissores }}" readonly @endif name="numero_emissores" step=1 min=1 class="form-control ">
                             </div>
 
-                            <div class="form-group col-md-4 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for=""> @lang('afericao.diametro')</label>
                                 <select name="diametro" class="form-control" required id="">
                                     <option value=""></option>
@@ -87,8 +95,8 @@
                             </div>
                         </div>
 
-                        <div class="form-row justify-content-center">
-                            <div class="form-group col-md-4 telo5ce">
+                        <div class="form-row justify-content-start">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="val_reg"> @lang('afericao.valvulaReguladora')</label>
                                 <select id="val_reg" class='form-control' required='true' name='valvula_reguladora'>
                                     <option value=""></option>
@@ -105,7 +113,7 @@
                                 <div class="line"></div>
                             </div>
 
-                            <div class="form-group col-md-4 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 <label for="val_reg"> @lang('afericao.tipoValvula')</label>
                                 <select id="val_reg" class='form-control' required='true' name='tipo_valvula'>
                                     <option value=""></option>
@@ -117,14 +125,14 @@
                                 <div class="line"></div>
                             </div>
 
-                            <div class="form-group col-md-4 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                                 @component('_layouts._components._inputLabel', ['texto' => __('afericao.motorredutor'), 'id'
                                 => 'motorredutor'])@endcomponent
                                 <input type="number" class="form-control " id="motorredutor" step=0.01 name="motorredutor">
                             </div>
                         </div>
                         <div class="form-row justify-content-start">
-                            <div class="form-group col-md-4 telo5ce">
+                            <div class="form-group col-md-3 telo5ce">
                               <label for="espacamento">@lang('afericao.espacamento')</label>
                               <input type="number" class="form-control" id="espacamento[]" name="espacamento[]" step="0.01" min="0.01" />
                             </div>
@@ -137,7 +145,9 @@
         {{-- BOTOES PARA SALVAR --}}
         <div class="container">
             <div class="row justify-content-center botaoAfericao align-items-end" id="botoesSalvar">
-                <a class="voltar ml-3" href="{{ route('span_back') }}">@lang('unidadesAcoes.anterior')</a>
+                @if ($num_lance >= 2)
+                    <a class="voltar ml-3" href="{{ route('span_back') }}">@lang('unidadesAcoes.anterior')</a>
+                @endif
                 <button class="proximo ml-3" name="" type="submit" id="botaosalvar">@lang('unidadesAcoes.salvar')</button>
             </div>
         </div>
@@ -210,10 +220,10 @@
                     form.submit();
                 }
             });
+        });
 
-            $(window).on('load', function() {
-                $("#coverScreen").hide();
-            });
+        $(window).on('load', function() {
+            $("#coverScreen").hide();
         });
 
     </script>

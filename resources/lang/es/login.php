@@ -7,4 +7,5 @@ return [
     'usuario_ou_senha_invalidos' => 'Nombre de usuario o contraseña inválidos',
     'lembrar_minha_senha' => 'Recuerda mi contraseña',
     'entrar' => 'Iniciar sesión',
+    'dados_invalidos' => 'Usuario / contraseña invalida'
 ];

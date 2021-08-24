@@ -3,8 +3,8 @@
 return [
 
     'sucesso'=>'Success',
-    'inserido_sucesso'=>'Nozzle inserted successfully!',
-    'editado_sucesso'=>'Nozzle informations changed successfully !',
+    'cadastro_bocal_sucesso' => 'Registration of <b>Nozzles</b> successful!',
+    'editar_bocal_sucesso' => 'Changes to <b>Nozzles</b> successfully saved!',
     'remocao_sucesso'=>'Nozzle removed successfully !',
     'erro'=>'Ops, something went wrong',
     'remocao_erro'=>'This nozzle can not be removed because it is already being used',
@@ -32,5 +32,6 @@ return [
     'vazao-20-psi' => 'Flow Rate 20 PSI',
     'vazao-25-psi' => 'Flow Rate 25 PSI',
     'vazao-30-psi' => 'Flow Rate 30 PSI',
-    'vazao-40-psi' => 'Flow Rate 40 PSI'
+    'vazao-40-psi' => 'Flow Rate 40 PSI',
+    'excluirBocal' => 'Do you really want to delete all nozzles?'
 ];

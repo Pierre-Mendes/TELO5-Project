@@ -42,5 +42,6 @@ return [
     'pivos' => 'Pivotes',
 
     'projetos' => 'Proyectos',
+    'revendas' => 'Revendedores'
 
 ];

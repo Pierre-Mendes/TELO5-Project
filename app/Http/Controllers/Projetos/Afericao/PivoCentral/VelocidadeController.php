@@ -9,6 +9,7 @@ use App\Classes\Constantes\Notificacao;
 use App\Classes\Projetos\Afericao\PivoCentral\AfericaoPivoCentral;
 use App\Classes\Sistema\VelocidadeAfericao_100;
 use App\Classes\Sistema\VelocidadePercentimetro;
+use App\Http\Controllers\Projetos\Afericao\PivoCentral\AfericaoPivoCentralController;
 
 class VelocidadeController extends Controller
 {
@@ -35,6 +36,10 @@ class VelocidadeController extends Controller
         if(!$retorno){
             Notificacao::gerarAlert('afericao.erro', 'afericao.erro_db', 'danger');
         }
+        
+        $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($velocidade['id_afericao']);
+        $menssagem_retorno = ($atualizouFichatecnica) ? __('afericao.cadastro_velocidade_sucesso').__('fichaTecnica.atualizaou_fichatecnica') : __('afericao.cadastro_velocidade_sucesso') ;
+        Notificacao::gerarAlert('', $menssagem_retorno, '');
         return redirect()->route('gauging_status', $velocidade['id_afericao']);
     }
 
@@ -86,11 +91,10 @@ class VelocidadeController extends Controller
         }
         VelocidadeAfericao_100::where("id_afericao", $velocidade['id_afericao'])->first()->update($velocidade);
 
-        // if($velocidade['botao'] == "sair"){
-        //     return redirect()->route('gauging_status', $velocidade['id_afericao']);
-        // }else{
-        //     return redirect()->back();
-        // }
+        // Verificar ficha técnica
+            $atualizouFichatecnica = AfericaoPivoCentralController::updateVersion($dados['id_afericao']);
+            $menssagem_retorno = ($atualizouFichatecnica) ? __('afericao.editar_velocidade_sucesso').__('fichaTecnica.atualizaou_fichatecnica') : __('afericao.editar_velocidade_sucesso') ;
+            Notificacao::gerarAlert($menssagem_retorno, '');
         return redirect()->route('gauging_status', $velocidade['id_afericao']);
     }
 }

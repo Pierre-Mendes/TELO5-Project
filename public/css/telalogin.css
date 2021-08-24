@@ -62,3 +62,18 @@ body {
     color: #fff;
     opacity: 0.8;
 }
+
+.alert-error {
+    padding: 12px;
+    font-size: 16px;
+    outline: none;
+    width: 250px;
+    border-radius: 5px;
+    border: none;
+    margin: 20px auto;
+    display: block;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    font-weight: bold;
+}

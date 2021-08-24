@@ -1,0 +1,27 @@
+/* TELA INICIAL */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.entregaTecnica-botoes {
+    background-color: green;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.entregaTecnica-botoes > button{
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: green;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1.2em;
+}
+
+.entregaTecnica-botoes > button:hover{
+    background-color: rgba(0, 128, 0, 0.733) !important;
+}
+
+.entregaTecnica-botoes:hover{
+    background-color: rgba(0, 128, 0, 0.897);
+}

@@ -11,7 +11,7 @@ class Bombeamento extends Model
     protected $dates =  ['deleted_at'];
     protected $fillable = [
         'id_bombeamento' , 'id_usuario', 'comprimento_succao', 'diametro_succao', 'marca', 'modelo', 'numero_rotores',
-        'diametro_rotor', 'material_succao', 'rendimento_bomba', 'shutoff', 'rotacao', 'pressao_bomba',
+        'diametro_rotor', 'material_succao', 'rendimento_bomba', 'shutoff', 'rotacao', 'pressao_bomba', 'altura_succao',
         'tipo_motor', 'modelo_motor', 'potencia', 'numero_motores', 'chave_partida', 'fator_servico', 'corrente_nominal', 
         'rendimento', 'tensao_nominal', 'frequencia',
 

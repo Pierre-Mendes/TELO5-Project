@@ -152,11 +152,7 @@ class MapaOriginal extends Model
             if($aspersor['lance'] == $entrada['numero_lances']){
                 $comprimento_ultimo_lance += $aspersor['espacamento'];
             }
-
-            
-
         }
-        //dd($entrada['somatorio_vazao_ok']);
 
         $entrada['somatorio_espacamentos_sem_canhao'] = $entrada['somatorio_vazao_ok'];
         $entrada['raio'] = $entrada['somatorio_espacamentos'];
